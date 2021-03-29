@@ -1,0 +1,4 @@
+[2021-03-16 15:49:55] local.ERROR: Allowed memory size of 33554432 bytes exhausted (tried to allocate 8192 bytes) {"userId":1,"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Allowed memory size of 33554432 bytes exhausted (tried to allocate 8192 bytes) at /home/borapedi/public_html/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php:77)
+[stacktrace]
+#0 {main}
+"} 
