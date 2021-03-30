@@ -1,5 +1,0 @@
----
-deployment:
- tasks:
- - export DEPLOYPATH=/home/borapedi/public_html/public/sandbox
- - /bin/cp * $DEPLOYPATH
