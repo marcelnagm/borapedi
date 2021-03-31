@@ -787,5 +787,9 @@
    "closed":"Closed",
    "rejected_by_driver":"Reject",
    "accepted_by_driver":"Accept",
-   "prepared_order":"Order prepared"
+   "prepared_order":"Order prepared",
+    
+    "Delivery tax" : "Delivery Tax",
+    "Delivery tax list" : "Delivery Tax List"
+    
 }

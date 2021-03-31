@@ -11,6 +11,11 @@
                 <i class="ni ni-basket text-success"></i> {{ __('Live Orders') }}<div class="blob red"></div>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/deliverytax">
+                <i class="ni ni-basket text-success"></i> {{ __('Delivery tax') }}
+            </a>
+        </li>
 
 
         <li class="nav-item">

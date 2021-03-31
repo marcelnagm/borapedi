@@ -140,6 +140,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('restaurantslocations', 'RestorantController@restaurantslocations');
 
     Route::get('live', 'OrderController@live');
+    Route::get('deliverytax', 'DevileryTaxController@index');
     Route::get('/updatestatus/{alias}/{order}', ['as' => 'update.status', 'uses'=>'OrderController@updateStatus']);
 
     Route::resource('settings', 'SettingsController');

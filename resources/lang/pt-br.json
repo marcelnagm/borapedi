@@ -701,5 +701,8 @@
     "Driver now online": "Motorista online agora",
     "Order not on this driver": "O pedido não aceito pelo motorista",
     "Driver accepts order": "O pedido aceito pelo motorista",
-    "Driver reject order": "O pedido rejeitado pelo motorista"
+    "Driver reject order": "O pedido rejeitado pelo motorista",
+    
+    "Delivery tax" : "Taxa de Entrega",
+    "Delivery tax list" : "Lista de Taxas de Entrega"
 }
