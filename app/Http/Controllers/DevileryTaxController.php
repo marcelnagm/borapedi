@@ -75,7 +75,10 @@ class DevileryTaxController extends Controller
             $requestData = $request->all();
 //        dd($requestData);
         DeliveryTax::create($requestData);
-            return redirect('/deliverytax/index');
+         return view('deliverytax.list',
+                    [
+                    'taxes' => DeliveryTax::where('restaurant_id',auth()->user()->restorant->id)->orderBy('distance', 'ASC')->get()
+                    ]);
         } else {
             return redirect()->route('orders.index')->withStatus(__('No Access'));
         }

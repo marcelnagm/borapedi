@@ -25,11 +25,13 @@
                 <div class="card-body">
                     <h6 class="heading-small text-muted mb-4">{{ __('Delivery tax list') }}</h6>
                     <hr />
+                    
                     <div class="table-responsive">
-                        <table class="table align-items-center">                           
+                        <table class="table align-items-center" id='result'>                           
                             @include('deliverytax.list')                            
                         </table>
                     </div>'
+                    
                 </div>
             </div>
         </div>
@@ -47,45 +49,47 @@
 
 @section('js')
 
-<!-- CKEditor -->
-<script src="{{ asset('ckeditor') }}/ckeditor.js"></script>
-<script>
-"use strict";
-CKEDITOR.replace('custom[impressum_value]', {
-    removePlugins: 'sourcearea',
-    filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
-    filebrowserUploadMethod: 'form',
-    //allowedContent: 'p h1{text-align}; a[!href]; strong em; p(tip)'
-});
-</script>
 
 
 <!-- Google Map -->
 <script async defer src= "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=<?php echo config('settings.google_maps_api_key'); ?>"></script>
 
 <script type="text/javascript">
-    "use strict";
-    var defaultHourFrom = "09:00";
-    var defaultHourTo = "17:00";
-
-    var timeFormat = '{{ config('settings.time_format') }}';
-
-    function formatAMPM(date) {
-        //var hours = date.getHours();
-        //var minutes = date.getMinutes();
-        var hours = date.split(':')[0];
-        var minutes = date.split(':')[1];
-
-        var ampm = hours >= 12 ? 'pm' : 'am';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        //minutes = minutes < 10 ? '0'+minutes : minutes;
-        var strTime = hours + ':' + minutes + ' ' + ampm;
-        return strTime;
-    }
-
+  
     //console.log(formatAMPM("19:05"));
+    var form = document.getElementById('restorant-form');
+    form.addEventListener('submit', async function (event) {
+//        event.preventDefault();
+//        alert('exectuado');
+        var distance = $('#distance').val();
+        var cost = $('#cost').val();
+        var restaurant_id = $('#rid').val();
 
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/deliverytax/post',
+//            dataType: 'json',
+            data: {distance: distance,
+                cost: cost,
+                restaurant_id: restaurant_id 
+            },
+            success: function (response) { 
+//                alert('sucess');
+                console.log(response.text);
+                    $("#result").html(response); 
+                    $('#distance').val('');
+                    $('#cost').val('');        
+            }, error: function (response) {
+                //alert(response.responseJSON.errMsg);
+            }
+        })
+    });
     var config = {
         enableTime: true,
         dateFormat: timeFormat == "AM/PM" ? "h:i K" : "H:i",
@@ -108,27 +112,6 @@ CKEDITOR.replace('custom[impressum_value]', {
             }
         ]
     };
-
-    $("input[type='checkbox'][name='days']").change(function () {
-        var hourFrom = flatpickr($('#' + this.value + '_from'), config);
-        var hourTo = flatpickr($('#' + this.value + '_to'), config);
-
-        if (this.checked) {
-            hourFrom.setDate(timeFormat == "AP/PM" ? formatAMPM(defaultHourFrom) : defaultHourFrom, false);
-            hourTo.setDate(timeFormat == "AP/PM" ? formatAMPM(defaultHourTo) : defaultHourTo, false);
-        } else {
-            hourFrom.clear();
-            hourTo.clear();
-        }
-    });
-
-    $('input:radio[name="primer"]').change(function () {
-        if ($(this).val() == 'map') {
-            $("#clear_area").hide();
-        } else if ($(this).val() == 'area' && isClosed) {
-            $("#clear_area").show();
-        }
-    });
 
     $("#clear_area").on("click", function () {
         //remove markers
@@ -429,44 +412,7 @@ CKEDITOR.replace('custom[impressum_value]', {
         infoWindow.open(map);
     }
 
-    var form = document.getElementById('restorant-form');
-    form.addEventListener('submit', async function (event) {
-        event.preventDefault();
-
-        var address = $('#address').val();
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $.ajax({
-            type: 'POST',
-            url: '/restaurant/address',
-            dataType: 'json',
-            data: {address: address},
-            success: function (response) {
-                if (response.status) {
-                    if (response.results.lat && response.results.lng) {
-                        initializeMap(response.results.lat, response.results.lng);
-                        initializeMarker(response.results.lat, response.results.lng);
-                        changeLocation(response.results.lat, response.results.lng);
-
-                        map_location.addListener('click', function (event) {
-                            marker.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
-
-                            changeLocation(event.latLng.lat(), event.latLng.lng());
-                        });
-                    }
-                }
-            }, error: function (response) {
-                //alert(response.responseJSON.errMsg);
-            }
-        })
-
-        form.submit();
-    });
+    
 </script>
 @endsection
 
