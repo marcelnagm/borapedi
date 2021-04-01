@@ -12,7 +12,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/deliverytax">
+            <a class="nav-link" href="{{ route('deliverytax.index') }}">
                 <i class="ni ni-basket text-success"></i> {{ __('Delivery tax') }}
             </a>
         </li>

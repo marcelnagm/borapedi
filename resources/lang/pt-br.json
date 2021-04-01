@@ -704,5 +704,7 @@
     "Driver reject order": "O pedido rejeitado pelo motorista",
     
     "Delivery tax" : "Taxa de Entrega",
-    "Delivery tax list" : "Lista de Taxas de Entrega"
+    "Delivery tax list" : "Lista de Taxas de Entrega",
+    "Distance" : "Distância",
+    "Tax" : "Taxa de Entrega"
 }

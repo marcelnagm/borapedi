@@ -17,6 +17,7 @@ use App\Plans;
 use App\Restorant;
 use App\Tables;
 use App\User;
+use App\Models\DeliveryTax;
 use App\Traits\Fields;
 use App\Traits\Modules;
 use Artisan;
@@ -58,8 +59,23 @@ class DevileryTaxController extends Controller
     public function index()
     {
         if (auth()->user()->hasRole('owner')) {
-            //return view('restorants.index', ['restorants' => $restaurants->where(['active'=>1])->paginate(10)]);
-            return view('deliverytax.index');
+//            return view('restorants.index', ['restorants' => $restaurants->where(['active'=>1])->paginate(10)]);
+            return view('deliverytax.index',
+                    ['restorant' => Restorant::find(auth()->user()->restorant->id),
+                    'taxes' => DeliveryTax::where('restaurant_id',auth()->user()->restorant->id)->orderBy('distance', 'ASC')->get()
+                    ]);
+        } else {
+            return redirect()->route('orders.index')->withStatus(__('No Access'));
+        }
+    }
+    
+    public function post(Request $request)
+    {
+        if (auth()->user()->hasRole('owner')) {
+            $requestData = $request->all();
+//        dd($requestData);
+        DeliveryTax::create($requestData);
+            return redirect('/deliverytax/index');
         } else {
             return redirect()->route('orders.index')->withStatus(__('No Access'));
         }

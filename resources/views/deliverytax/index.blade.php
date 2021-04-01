@@ -1,44 +1,48 @@
 @extends('layouts.app', ['title' => __('Orders')])
 @section('admin_title')
-    {{ config('settings.url_route')." ".__('Management')}}
+{{ config('settings.url_route')." ".__('Management')}}
 @endsection
 @section('content')
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-    </div>
-    <div class="container-fluid mt--7">
-        <div class="row">
-            <div class="col-xl-6">
-                <br/>
-                <div class="card bg-secondary shadow">
-                    <div class="card-header bg-white border-0">
-                        <div class="row align-items-center">
-                            <div class="col-8">
-                                <h3 class="mb-0">{{ __('Delivery tax') }}</h3>
-                                
-                            </div>
-                            <div class="col-4 text-right">
-                                        
-                            </div>
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+</div>
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col-xl-6">
+            <br/>
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">{{ __('Delivery tax')." - ".$restorant->name}}</h3>
+                            @include('deliverytax.form')    
+                        </div>
+                        <div class="col-4 text-right">
 
                         </div>
-                    </div>
-                    <div class="card-body">
-                       <h6 class="heading-small text-muted mb-4">{{ __('Delivery tax list') }}</h6>
-                            <hr />
-                    
-                        </div>
+
                     </div>
                 </div>
-                <div class="col-xl-6 mb-5 mb-xl-0">
-                    <br/>
-                    
-                    <br/>
-                    
-
+                <div class="card-body">
+                    <h6 class="heading-small text-muted mb-4">{{ __('Delivery tax list') }}</h6>
+                    <hr />
+                    <div class="table-responsive">
+                        <table class="table align-items-center">                           
+                            @include('deliverytax.list')                            
+                        </table>
+                    </div>'
+                </div>
             </div>
         </div>
-        @include('layouts.footers.auth')
+        <div class="col-xl-6 mb-5 mb-xl-0">
+            <br/>
+
+            <br/>
+
+
+        </div>
     </div>
+    @include('layouts.footers.auth')
+</div>
 @endsection
 
 @section('js')
@@ -46,421 +50,423 @@
 <!-- CKEditor -->
 <script src="{{ asset('ckeditor') }}/ckeditor.js"></script>
 <script>
-    "use strict";
-    CKEDITOR.replace('custom[impressum_value]', {
-        removePlugins: 'sourcearea',
-        filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
-        filebrowserUploadMethod: 'form',
-        //allowedContent: 'p h1{text-align}; a[!href]; strong em; p(tip)'
-    });
+"use strict";
+CKEDITOR.replace('custom[impressum_value]', {
+    removePlugins: 'sourcearea',
+    filebrowserUploadUrl: "{{route('upload', ['_token' => csrf_token() ])}}",
+    filebrowserUploadMethod: 'form',
+    //allowedContent: 'p h1{text-align}; a[!href]; strong em; p(tip)'
+});
 </script>
 
 
 <!-- Google Map -->
-<script async defer src= "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=<?php echo config('settings.google_maps_api_key'); ?>"> </script>
+<script async defer src= "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=<?php echo config('settings.google_maps_api_key'); ?>"></script>
 
-    <script type="text/javascript">
-        "use strict";
-        var defaultHourFrom = "09:00";
-        var defaultHourTo = "17:00";
+<script type="text/javascript">
+    "use strict";
+    var defaultHourFrom = "09:00";
+    var defaultHourTo = "17:00";
 
-        var timeFormat = '{{ config('settings.time_format') }}';
+    var timeFormat = '{{ config('settings.time_format') }}';
 
-        function formatAMPM(date) {
-            //var hours = date.getHours();
-            //var minutes = date.getMinutes();
-            var hours = date.split(':')[0];
-            var minutes = date.split(':')[1];
+    function formatAMPM(date) {
+        //var hours = date.getHours();
+        //var minutes = date.getMinutes();
+        var hours = date.split(':')[0];
+        var minutes = date.split(':')[1];
 
-            var ampm = hours >= 12 ? 'pm' : 'am';
-            hours = hours % 12;
-            hours = hours ? hours : 12; // the hour '0' should be '12'
-            //minutes = minutes < 10 ? '0'+minutes : minutes;
-            var strTime = hours + ':' + minutes + ' ' + ampm;
-            return strTime;
-        }
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        //minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
 
-        //console.log(formatAMPM("19:05"));
+    //console.log(formatAMPM("19:05"));
 
-        var config = {
-            enableTime: true,
-            dateFormat: timeFormat == "AM/PM" ? "h:i K": "H:i",
-            noCalendar: true,
-            altFormat: timeFormat == "AM/PM" ? "h:i K" : "H:i",
-            altInput: true,
-            allowInput: true,
-            time_24hr: timeFormat == "AM/PM" ? false : true,
-            onChange: [
-                function(selectedDates, dateStr, instance){
-                    //...
-                    this._selDateStr = dateStr;
-                },
-            ],
-            onClose: [
-                function(selDates, dateStr, instance){
-                    if (this.config.allowInput && this._input.value && this._input.value !== this._selDateStr) {
-                        this.setDate(this.altInput.value, false);
-                    }
+    var config = {
+        enableTime: true,
+        dateFormat: timeFormat == "AM/PM" ? "h:i K" : "H:i",
+        noCalendar: true,
+        altFormat: timeFormat == "AM/PM" ? "h:i K" : "H:i",
+        altInput: true,
+        allowInput: true,
+        time_24hr: timeFormat == "AM/PM" ? false : true,
+        onChange: [
+            function (selectedDates, dateStr, instance) {
+                //...
+                this._selDateStr = dateStr;
+            },
+        ],
+        onClose: [
+            function (selDates, dateStr, instance) {
+                if (this.config.allowInput && this._input.value && this._input.value !== this._selDateStr) {
+                    this.setDate(this.altInput.value, false);
                 }
-            ]
-        };
-
-        $("input[type='checkbox'][name='days']").change(function() {
-            var hourFrom = flatpickr($('#'+ this.value + '_from'), config);
-            var hourTo = flatpickr($('#'+ this.value + '_to'), config);
-
-            if(this.checked){
-                hourFrom.setDate(timeFormat == "AP/PM" ? formatAMPM(defaultHourFrom) : defaultHourFrom, false);
-                hourTo.setDate(timeFormat == "AP/PM" ? formatAMPM(defaultHourTo) : defaultHourTo, false);
-            }else{
-                hourFrom.clear();
-                hourTo.clear();
             }
-        });
+        ]
+    };
 
-        $('input:radio[name="primer"]').change(function(){
-            if($(this).val() == 'map') {
-                $("#clear_area").hide();
-            }else if($(this).val() == 'area' && isClosed){
-                $("#clear_area").show();
-            }
-        });
+    $("input[type='checkbox'][name='days']").change(function () {
+        var hourFrom = flatpickr($('#' + this.value + '_from'), config);
+        var hourTo = flatpickr($('#' + this.value + '_to'), config);
 
-        $("#clear_area").on("click",function() {
-            //remove markers
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(null);
-            }
+        if (this.checked) {
+            hourFrom.setDate(timeFormat == "AP/PM" ? formatAMPM(defaultHourFrom) : defaultHourFrom, false);
+            hourTo.setDate(timeFormat == "AP/PM" ? formatAMPM(defaultHourTo) : defaultHourTo, false);
+        } else {
+            hourFrom.clear();
+            hourTo.clear();
+        }
+    });
 
-            //remove polygon
-            poly.setMap(null);
-            poly.setPath([]);
-
-            poly = new google.maps.Polyline({ map: map_area, path: [], strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
-
-            path = poly.getPath();
-
-            //update delivery path
-            changeDeliveryArea(getLatLngFromPoly(path))
-
-            isClosed = false;
+    $('input:radio[name="primer"]').change(function () {
+        if ($(this).val() == 'map') {
             $("#clear_area").hide();
+        } else if ($(this).val() == 'area' && isClosed) {
+            $("#clear_area").show();
+        }
+    });
+
+    $("#clear_area").on("click", function () {
+        //remove markers
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+
+        //remove polygon
+        poly.setMap(null);
+        poly.setPath([]);
+
+        poly = new google.maps.Polyline({map: map_area, path: [], strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2});
+
+        path = poly.getPath();
+
+        //update delivery path
+        changeDeliveryArea(getLatLngFromPoly(path))
+
+        isClosed = false;
+        $("#clear_area").hide();
+    });
+
+
+    function getLocation(callback) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
 
-
-        function getLocation(callback){
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        $.ajax({
+            type: 'GET',
+            url: '/get/rlocation/' + $('#rid').val(),
+            success: function (response) {
+                if (response.status) {
+                    return callback(true, response.data)
                 }
-            });
-
-            $.ajax({
-                type:'GET',
-                url: '/get/rlocation/'+$('#rid').val(),
-                success:function(response){
-                    if(response.status){
-                        return callback(true, response.data)
-                    }
-                }, error: function (response) {
+            }, error: function (response) {
                 return callback(false, response.responseJSON.errMsg);
-                }
-            })
-        }
-
-        function changeLocation(lat, lng){
-            //var latConv = parseFloat(lat.toString().substr(0, 5));
-            //var lngConv = parseFloat(lng.toString().substr(0, 5));
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                type:'POST',
-                url: '/updateres/location/'+$('#rid').val(),
-                dataType: 'json',
-                data: {
-                    lat: lat,
-                    lng: lng
-                },
-                success:function(response){
-                    if(response.status){
-                        console.log(response.status)
-                    }
-                }, error: function (response) {
-                //alert(response.responseJSON.errMsg);
-                }
-            })
-        }
-
-        function changeDeliveryArea(path){
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                type:'POST',
-                url: '/updateres/delivery/'+$('#rid').val(),
-                dataType: 'json',
-                data: {
-                    //path: JSON.stringify(path.i)
-                    path: JSON.stringify(path)
-                },
-                success:function(response){
-                    if(response.status){
-                        console.log(response.status)
-                    }
-                }, error: function (response) {
-                //alert(response.responseJSON.errMsg);
-                }
-            })
-        }
-
-        function initializeMap(lat, lng){
-            var map_options = {
-                zoom: 13,
-                center: new google.maps.LatLng(lat, lng),
-                mapTypeId: "terrain",
-                scaleControl: true
             }
+        })
+    }
 
-            map_location = new google.maps.Map( document.getElementById("map_location"), map_options );
-            map_area = new google.maps.Map( document.getElementById("map_area"), map_options );
+    function changeLocation(lat, lng) {
+        //var latConv = parseFloat(lat.toString().substr(0, 5));
+        //var lngConv = parseFloat(lng.toString().substr(0, 5));
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/updateres/location/' + $('#rid').val(),
+            dataType: 'json',
+            data: {
+                lat: lat,
+                lng: lng
+            },
+            success: function (response) {
+                if (response.status) {
+                    console.log(response.status)
+                }
+            }, error: function (response) {
+                //alert(response.responseJSON.errMsg);
+            }
+        })
+    }
+
+    function changeDeliveryArea(path) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/updateres/delivery/' + $('#rid').val(),
+            dataType: 'json',
+            data: {
+                //path: JSON.stringify(path.i)
+                path: JSON.stringify(path)
+            },
+            success: function (response) {
+                if (response.status) {
+                    console.log(response.status)
+                }
+            }, error: function (response) {
+                //alert(response.responseJSON.errMsg);
+            }
+        })
+    }
+
+    function initializeMap(lat, lng) {
+        var map_options = {
+            zoom: 13,
+            center: new google.maps.LatLng(lat, lng),
+            mapTypeId: "terrain",
+            scaleControl: true
         }
 
-        function initializeMarker(lat, lng){
-            var markerData = new google.maps.LatLng(lat, lng);
-            marker = new google.maps.Marker({
-                position: markerData,
-                map: map_location,
-                icon: start
+        map_location = new google.maps.Map(document.getElementById("map_location"), map_options);
+        map_area = new google.maps.Map(document.getElementById("map_area"), map_options);
+    }
+
+    function initializeMarker(lat, lng) {
+        var markerData = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker({
+            position: markerData,
+            map: map_location,
+            icon: start
+        });
+    }
+
+    function getLatLngFromPoly(path) {
+        //get lat long from polygon
+        var polygonBounds = path;
+        var bounds = [];
+        for (var i = 0; i < polygonBounds.length; i++) {
+            var point = {
+                lat: polygonBounds.getAt(i).lat(),
+                lng: polygonBounds.getAt(i).lng()
+            };
+
+            bounds.push(point);
+        }
+
+        return bounds;
+    }
+
+    function new_delivery_area(latLng) {
+        if (isClosed)
+            return;
+        markerIndex = poly.getPath().length;
+        var isFirstMarker = markerIndex === 0;
+        markerArea = new google.maps.Marker({map: map_area, position: latLng, draggable: false, icon: area});
+
+        //push markers
+        markers.push(markerArea);
+
+        if (isFirstMarker) {
+            google.maps.event.addListener(markerArea, 'click', function () {
+                if (isClosed)
+                    return;
+                path = poly.getPath();
+                poly.setMap(null);
+                poly = new google.maps.Polygon({map: map_area, path: path, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35, editable: false});
+                isClosed = true;
+
+                //update delivery path
+                changeDeliveryArea(getLatLngFromPoly(path));
+                //show button clear
+                //$("#clear_area").show();
             });
         }
+        //show button clear
+        $("#clear_area").show();
 
-        function getLatLngFromPoly(path){
-            //get lat long from polygon
-            var polygonBounds = path;
-            var bounds = [];
-            for (var i = 0; i < polygonBounds.length; i++) {
-                var point = {
-                    lat: polygonBounds.getAt(i).lat(),
-                    lng: polygonBounds.getAt(i).lng()
-                };
+        google.maps.event.addListener(markerArea, 'drag', function (dragEvent) {
+            poly.getPath().setAt(markerIndex, dragEvent.latLng);
+        });
+        poly.getPath().push(latLng);
+    }
 
-                bounds.push(point);
-            }
-
-            return bounds;
-        }
-
-        function new_delivery_area(latLng){
-            if (isClosed) return;
-            markerIndex = poly.getPath().length;
-            var isFirstMarker = markerIndex === 0;
-            markerArea = new google.maps.Marker({ map: map_area, position: latLng, draggable: false, icon: area });
+    function initialize_existing_area(area_positions) {
+        for (var i = 0; i < area_positions.length; i++) {
+            var markerAreaData = new google.maps.LatLng(area_positions[i].lat, area_positions[i].lng);
+            markerArea = new google.maps.Marker({map: map_area, position: markerAreaData, draggable: false, icon: area});
 
             //push markers
             markers.push(markerArea);
 
-            if(isFirstMarker) {
-                google.maps.event.addListener(markerArea, 'click', function () {
-                    if (isClosed) return;
-                    path = poly.getPath();
-                    poly.setMap(null);
-                    poly = new google.maps.Polygon({ map: map_area, path: path, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35, editable: false });
-                    isClosed = true;
+            //var path = poly.getPath();
+            path = poly.getPath();
 
-                    //update delivery path
-                    changeDeliveryArea(getLatLngFromPoly(path));
-                    //show button clear
-                    //$("#clear_area").show();
-                });
-            }
-            //show button clear
+            poly.setMap(null);
+            poly = new google.maps.Polygon({map: map_area, path: path, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35, editable: false});
+
+            //show clear area
+            isClosed = true;
             $("#clear_area").show();
-
-            google.maps.event.addListener(markerArea, 'drag', function (dragEvent) {
-                poly.getPath().setAt(markerIndex, dragEvent.latLng);
-            });
-            poly.getPath().push(latLng);
+            //google.maps.event.addListener(markerArea, "drag", update_polygon_closure(poly, i));
         }
 
-        function initialize_existing_area(area_positions){
-            for(var i=0; i<area_positions.length; i++){
-                var markerAreaData = new google.maps.LatLng(area_positions[i].lat, area_positions[i].lng);
-                markerArea = new google.maps.Marker({ map: map_area, position: markerAreaData, draggable: false, icon: area });
 
-                //push markers
-                markers.push(markerArea);
+    }
 
-                //var path = poly.getPath();
-                path = poly.getPath();
+    var start = "https://cdn1.iconfinder.com/data/icons/Map-Markers-Icons-Demo-PNG/48/Map-Marker-Ball-Pink.png"
+    var area = "https://cdn1.iconfinder.com/data/icons/Map-Markers-Icons-Demo-PNG/48/Map-Marker-Ball-Chartreuse.png"
+    var map_location = null;
+    var map_area = null;
+    var marker = null;
+    var infoWindow = null;
+    var lat = null;
+    var lng = null;
+    var circle = null;
+    var isClosed = false;
+    var poly = null;
+    var markers = [];
+    var markerArea = null;
+    var markerIndex = null;
+    var path = null;
 
-                poly.setMap(null);
-                poly = new google.maps.Polygon({ map: map_area, path: path, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35, editable: false });
+    window.onload = function () {
+        //var map, infoWindow, marker, lng, lat;
 
-                //show clear area
-                isClosed = true;
-                $("#clear_area").show();
-                //google.maps.event.addListener(markerArea, "drag", update_polygon_closure(poly, i));
-            }
+        //Working hours
+        initializeWorkingHours();
 
+        getLocation(function (isFetched, currPost) {
+            if (isFetched) {
+                infoWindow = new google.maps.InfoWindow;
 
-        }
+                if (currPost.lat != 0 && currPost.lng != 0) {
+                    //initialize map
+                    initializeMap(currPost.lat, currPost.lng)
 
-        var start = "https://cdn1.iconfinder.com/data/icons/Map-Markers-Icons-Demo-PNG/48/Map-Marker-Ball-Pink.png"
-        var area = "https://cdn1.iconfinder.com/data/icons/Map-Markers-Icons-Demo-PNG/48/Map-Marker-Ball-Chartreuse.png"
-        var map_location = null;
-        var map_area = null;
-        var marker = null;
-        var infoWindow = null;
-        var lat = null;
-        var lng = null;
-        var circle = null;
-        var isClosed = false;
-        var poly = null;
-        var markers = [];
-        var markerArea = null;
-        var markerIndex = null;
-        var path = null;
+                    //initialize marker
+                    initializeMarker(currPost.lat, currPost.lng)
 
-        window.onload = function () {
-            //var map, infoWindow, marker, lng, lat;
+                    //var isClosed = false;
 
-            //Working hours
-            initializeWorkingHours();
+                    poly = new google.maps.Polyline({map: map_area, path: currPost.area ? currPost.area : [], strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2});
 
-            getLocation(function(isFetched, currPost){
-                if(isFetched){
-                    infoWindow = new google.maps.InfoWindow;
-
-                    if(currPost.lat != 0 && currPost.lng != 0){
-                        //initialize map
-                        initializeMap(currPost.lat, currPost.lng)
-
-                        //initialize marker
-                        initializeMarker(currPost.lat, currPost.lng)
-
-                        //var isClosed = false;
-
-                        poly = new google.maps.Polyline({ map: map_area, path: currPost.area ? currPost.area : [], strokeColor: "#FF0000", strokeOpacity: 1.0, strokeWeight: 2 });
-
-                        if(currPost.area != null){
-                            initialize_existing_area(currPost.area)
-                        }
-
-                        map_location.addListener('click', function(event) {
-                            marker.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
-
-                            changeLocation(event.latLng.lat(), event.latLng.lng());
-                        });
-
-                        map_area.addListener('click', function(event) {
-                            new_delivery_area(event.latLng)
-                        });
-                    }else{
-                        if (navigator.geolocation) {
-                            navigator.geolocation.getCurrentPosition(function(position) {
-                                var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
-
-                                //infoWindow.setPosition(pos);
-                                //infoWindow.setContent('Location found.');
-                                //infoWindow.open(map);
-
-                                //initialize map
-                                initializeMap(position.coords.latitude, position.coords.longitude)
-
-                                //initialize marker
-                                initializeMarker(position.coords.latitude, position.coords.longitude)
-
-                                //change location in database
-                                changeLocation(pos.lat, pos.lng);
-
-                                map_location.addListener('click', function(event) {
-                                    marker.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
-
-                                    changeLocation(event.latLng.lat(), event.latLng.lng());
-                                });
-
-                                map_area.addListener('click', function(event) {
-                                    new_delivery_area(event.latLng)
-                                });
-                            }, function() {
-                                // handleLocationError(true, infoWindow, map.getCenter());
-
-                                //initialize map
-                                initializeMap(54.5260, 15.2551)
-
-                                //initialize marker
-                                initializeMarker(54.5260, 15.2551)
-
-                                map_location.addListener('click', function(event) {
-                                    marker.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
-
-                                    changeLocation(event.latLng.lat(), event.latLng.lng());
-                                });
-
-                                map_area.addListener('click', function(event) {
-                                    new_delivery_area(event.latLng)
-                                });
-                            });
-                        } else {
-                            // Browser doesn't support Geolocation
-                            //handleLocationError(false, infoWindow, map.getCenter());
-                        }
+                    if (currPost.area != null) {
+                        initialize_existing_area(currPost.area)
                     }
-                }
-            });
-        }
 
-        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-            infoWindow.setPosition(pos);
-            infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
-            infoWindow.open(map);
-        }
+                    map_location.addListener('click', function (event) {
+                        marker.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
 
-        var form = document.getElementById('restorant-form');
-        form.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            
-            var address = $('#address').val();
+                        changeLocation(event.latLng.lat(), event.latLng.lng());
+                    });
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+                    map_area.addListener('click', function (event) {
+                        new_delivery_area(event.latLng)
+                    });
+                } else {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            var pos = {lat: position.coords.latitude, lng: position.coords.longitude};
 
-            $.ajax({
-                type: 'POST',
-                url: '/restaurant/address',
-                dataType: 'json',
-                data: { address: address},
-                success:function(response){
-                    if(response.status){
-                        if(response.results.lat && response.results.lng){
-                            initializeMap(response.results.lat, response.results.lng);
-                            initializeMarker(response.results.lat, response.results.lng);
-                            changeLocation(response.results.lat, response.results.lng);
+                            //infoWindow.setPosition(pos);
+                            //infoWindow.setContent('Location found.');
+                            //infoWindow.open(map);
 
-                            map_location.addListener('click', function(event) {
+                            //initialize map
+                            initializeMap(position.coords.latitude, position.coords.longitude)
+
+                            //initialize marker
+                            initializeMarker(position.coords.latitude, position.coords.longitude)
+
+                            //change location in database
+                            changeLocation(pos.lat, pos.lng);
+
+                            map_location.addListener('click', function (event) {
                                 marker.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
 
                                 changeLocation(event.latLng.lat(), event.latLng.lng());
                             });
-                        }
-                    }
-                }, error: function (response) {
-                //alert(response.responseJSON.errMsg);
-                }
-            })
 
-            form.submit();
+                            map_area.addListener('click', function (event) {
+                                new_delivery_area(event.latLng)
+                            });
+                        }, function () {
+                            // handleLocationError(true, infoWindow, map.getCenter());
+
+                            //initialize map
+                            initializeMap(54.5260, 15.2551)
+
+                            //initialize marker
+                            initializeMarker(54.5260, 15.2551)
+
+                            map_location.addListener('click', function (event) {
+                                marker.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
+
+                                changeLocation(event.latLng.lat(), event.latLng.lng());
+                            });
+
+                            map_area.addListener('click', function (event) {
+                                new_delivery_area(event.latLng)
+                            });
+                        });
+                    } else {
+                        // Browser doesn't support Geolocation
+                        //handleLocationError(false, infoWindow, map.getCenter());
+                    }
+                }
+            }
         });
-    </script>
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
+
+    var form = document.getElementById('restorant-form');
+    form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        var address = $('#address').val();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/restaurant/address',
+            dataType: 'json',
+            data: {address: address},
+            success: function (response) {
+                if (response.status) {
+                    if (response.results.lat && response.results.lng) {
+                        initializeMap(response.results.lat, response.results.lng);
+                        initializeMarker(response.results.lat, response.results.lng);
+                        changeLocation(response.results.lat, response.results.lng);
+
+                        map_location.addListener('click', function (event) {
+                            marker.setPosition(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
+
+                            changeLocation(event.latLng.lat(), event.latLng.lng());
+                        });
+                    }
+                }
+            }, error: function (response) {
+                //alert(response.responseJSON.errMsg);
+            }
+        })
+
+        form.submit();
+    });
+</script>
 @endsection
 
