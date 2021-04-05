@@ -144,6 +144,7 @@ Route::group(['middleware' => ['auth']], function () {
      Route::prefix('deliverytax')->name('deliverytax.')->group(function () {
          Route::get('index', 'DevileryTaxController@index')->name('index');
          Route::post('post', 'DevileryTaxController@post')->name('post');
+         Route::post('delete', 'DevileryTaxController@delete')->name('delete');
         
     });
     

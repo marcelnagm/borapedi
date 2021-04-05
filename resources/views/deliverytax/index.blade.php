@@ -59,7 +59,7 @@
     //console.log(formatAMPM("19:05"));
     var form = document.getElementById('restorant-form');
     form.addEventListener('submit', async function (event) {
-//        event.preventDefault();
+        event.preventDefault();
 //        alert('exectuado');
         var distance = $('#distance').val();
         var cost = $('#cost').val();

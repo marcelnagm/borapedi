@@ -69,12 +69,27 @@ class DevileryTaxController extends Controller
         }
     }
     
+    public function delete(Request $request)
+    {
+        if (auth()->user()->hasRole('owner')) {
+            $requestData = $request->all();
+            DeliveryTax::find($requestData['id'])->delete();
+            
+         return view('deliverytax.list',
+                    [
+                    'taxes' => DeliveryTax::where('restaurant_id',auth()->user()->restorant->id)->orderBy('distance', 'ASC')->get()
+                    ]);
+        } else {
+            return redirect()->route('orders.index')->withStatus(__('No Access'));
+        }
+    }
+    
     public function post(Request $request)
     {
         if (auth()->user()->hasRole('owner')) {
             $requestData = $request->all();
 //        dd($requestData);
-        DeliveryTax::create($requestData);
+          DeliveryTax::create($requestData);
          return view('deliverytax.list',
                     [
                     'taxes' => DeliveryTax::where('restaurant_id',auth()->user()->restorant->id)->orderBy('distance', 'ASC')->get()
