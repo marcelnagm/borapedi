@@ -8,7 +8,9 @@
         <div class="pl-lg-4">
             <p>
                 {{ $restorant->name }}<br />
+            <div id="rid">
                 {{ $restorant->address }}<br />
+                </div>
                 {{ $restorant->phone }}<br />
             </p>
             @if(!empty($openingTime) && !empty($closingTime))

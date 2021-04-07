@@ -5,6 +5,9 @@
     </tr>
 </thead>
 <tbody>
+    <tr>
+        <td>Entregas até a distância de : {{$max}}Km</td>
+    </tr>
 @foreach($taxes as $tax)
 <tr>    
     <td class="table-web">
@@ -49,6 +52,6 @@
             }, error: function (response) {
                 //alert(response.responseJSON.errMsg);
             }
-        })
+        });
   }
     </script>

@@ -146,8 +146,7 @@ Route::group(['middleware' => ['auth']], function () {
          Route::post('post', 'DevileryTaxController@post')->name('post');
          Route::post('delete', 'DevileryTaxController@delete')->name('delete');
         
-    });
-    
+    });    
     Route::get('/updatestatus/{alias}/{order}', ['as' => 'update.status', 'uses'=>'OrderController@updateStatus']);
 
     Route::resource('settings', 'SettingsController');
@@ -281,7 +280,7 @@ if (count($exploded) > 3 && config('app.isqrsaas')) {
 
 Route::get('register/visit/{restaurant_id}', 'VisitsController@register')->name('register.visit');
 Route::post('register/visit', 'VisitsController@registerstore')->name('register.visit.store');
-
+Route::post('/find-cep', 'DevileryTaxController@getCoordinatesForTax')->name('find-cep');
 //Call Waiter
 Route::post('call/waiter/', 'RestorantController@callWaiter')->name('call.waiter');
 

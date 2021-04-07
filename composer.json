@@ -39,6 +39,7 @@
         "codedge/laravel-selfupdater": "@dev",
         "darryldecode/cart": "~4.0",
         "doctrine/dbal": "^2.11",
+        "farhanwazir/laravelgooglemaps": "dev-master",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
