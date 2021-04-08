@@ -62,7 +62,8 @@ return [
     'projecttype' => env('APP_PROJECT_TYPE', 'ft'),
     'isqrsaas' => env('APP_PROJECT_TYPE', 'ft') == 'qrsaas',
     'iswp' => env('IS_WHATSAPP_ORDERING_MODE', false),
-    'isft' => env('APP_PROJECT_TYPE', 'ft') == 'ft',
+//    'isft' => env('APP_PROJECT_TYPE', 'ft') == 'ft',
+    'isft' =>true,
     'ordering' => env('APP_PROJECT_TYPE', 'ft') != 'qrsaas' || env('APP_PROJECT_TYPE', 'ft') == 'qrsaas' && ! env('QRSAAS_DISABLE_ODERING', false),
 
     /*
@@ -76,7 +77,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------

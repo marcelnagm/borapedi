@@ -1,4 +1,4 @@
-<div class="text-center" id="totalSubmitCOD">
+ <div class="text-center" id="totalSubmitCOD">
     <button 
         
         v-if="totalPrice"

@@ -102,7 +102,10 @@ $(document).ready(function () {
 
                     $('#totalSubmitCOD').hide(1);
                     alert(response.message);
-                } else {
+                }
+                if (response.status == true) {
+//                    alert(response.tax);
+                    $('#deliveryTax').html("<strong>R$"+response.tax+"</strong>");                    
                 }
 //                      $("#result").html(response);
             }, error: function (response) {

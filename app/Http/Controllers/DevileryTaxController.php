@@ -102,11 +102,11 @@ class DevileryTaxController extends Controller {
     public function getCoordinatesForTax(Request $request) {
         $client = new \GuzzleHttp\Client();
         $geocoder = new Geocoder($client);
-        $geocoder->setApiKey(config('geocoder.key'));
-
+        $geocoder->setApiKey('AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA');
+//        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
         $me = $geocoder->getCoordinatesForAddress($request->address);
         $rid = $geocoder->getCoordinatesForAddress($request->address_rid);
-//        dd($me);
+        
         $max = DeliveryTax::where('restaurant_id', $request->r_id)->max('distance');
 
 //        dd($max);
@@ -122,7 +122,7 @@ class DevileryTaxController extends Controller {
                     ->min('cost');
                         
                 $data = ['status' => true,
-                'tax' => $tax
+                'tax' => number_format($tax, 2)
             ];
         }
         return response()->json($data);
@@ -130,7 +130,7 @@ class DevileryTaxController extends Controller {
 
     private function getDrivingDistance($lat1, $lat2, $long1, $long2) {
 
-        $api = config('geocoder.key');
+        $api = 'AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA';
         $url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" . $lat1 . "," . $long1 . "&destinations=" . $lat2 . "," . $long2 . "&mode=driving&language=pl-PL&key=" . $api;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

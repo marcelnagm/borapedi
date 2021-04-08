@@ -16,7 +16,7 @@
                             <span v-if="totalPrice" class="ammount"><strong>@{{ totalPriceFormat }}</strong></span>
                             @if(config('app.isft'))
                                 <span v-if="totalPrice&&delivery"><br /><strong>{{ __('Delivery') }}:</strong></span>
-                                <span v-if="totalPrice&&delivery" class="ammount"><strong>@{{ deliveryPriceFormated }}</strong></span><br />
+                                <span v-if="totalPrice&&delivery" class="ammount" id="deliveryTax"><strong>@{{ deliveryPriceFormated }}</strong></span><br />
                             @endif
                             <br />
                             <span v-if="totalPrice"><strong>{{ __('TOTAL') }}:</strong></span>
