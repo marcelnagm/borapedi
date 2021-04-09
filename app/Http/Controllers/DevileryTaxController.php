@@ -58,9 +58,18 @@ class DevileryTaxController extends Controller {
     public function index() {
         if (auth()->user()->hasRole('owner')) {
             $max = DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->max('distance');
+//            dd(auth()->user()->restorant->lat,auth()->user()->restorant->lng);
+            $client = new \GuzzleHttp\Client();
+        $geocoder = new Geocoder($client);
+        $geocoder->setApiKey(config('settings.google_maps_api_key'));
+//        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
+        $me = $geocoder->getCoordinatesForAddress(auth()->user()->restorant->address);
+//        dd($me);
             return view('deliverytax.index',
                     ['restorant' => Restorant::find(auth()->user()->restorant->id),
                         'max' => $max,
+                        'lat' => $me['lat'],
+                        'lng' => $me['lng'],
                         'taxes' => DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->orderBy('distance', 'ASC')->get()
             ]);
         } else {
@@ -86,7 +95,7 @@ class DevileryTaxController extends Controller {
     public function post(Request $request) {
         if (auth()->user()->hasRole('owner')) {
             $requestData = $request->all();
-
+            
             DeliveryTax::create($requestData);
             $max = DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->max('distance');
             return view('deliverytax.list',
@@ -99,10 +108,11 @@ class DevileryTaxController extends Controller {
         }
     }
 
+    
     public function getCoordinatesForTax(Request $request) {
         $client = new \GuzzleHttp\Client();
         $geocoder = new Geocoder($client);
-        $geocoder->setApiKey('AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA');
+        $geocoder->setApiKey(config('settings.google_maps_api_key'));
 //        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
         $me = $geocoder->getCoordinatesForAddress($request->address);
         $rid = $geocoder->getCoordinatesForAddress($request->address_rid);
@@ -130,7 +140,7 @@ class DevileryTaxController extends Controller {
 
     private function getDrivingDistance($lat1, $lat2, $long1, $long2) {
 
-        $api = 'AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA';
+        $api = config('settings.google_maps_api_key');
         $url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" . $lat1 . "," . $long1 . "&destinations=" . $lat2 . "," . $long2 . "&mode=driving&language=pl-PL&key=" . $api;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
