@@ -145,6 +145,7 @@ Route::group(['middleware' => ['auth']], function () {
          Route::get('index', 'DevileryTaxController@index')->name('index');
          Route::post('post', 'DevileryTaxController@post')->name('post');
          Route::post('delete', 'DevileryTaxController@delete')->name('delete');
+         Route::post('edit', 'DevileryTaxController@edit')->name('edit');
         
     });    
     Route::get('/updatestatus/{alias}/{order}', ['as' => 'update.status', 'uses'=>'OrderController@updateStatus']);

@@ -57,7 +57,7 @@ class DevileryTaxController extends Controller {
      */
     public function index() {
         if (auth()->user()->hasRole('owner')) {
-            $max = DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->max('distance');
+          $max = DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->max('distance');
 //            dd(auth()->user()->restorant->lat,auth()->user()->restorant->lng);
             $client = new \GuzzleHttp\Client();
         $geocoder = new Geocoder($client);
@@ -81,12 +81,7 @@ class DevileryTaxController extends Controller {
         if (auth()->user()->hasRole('owner')) {
             $requestData = $request->all();
             DeliveryTax::find($requestData['id'])->delete();
-            $max = DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->max('distance');
-            return view('deliverytax.list',
-                    [
-                        'max' => $max,
-                        'taxes' => DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->orderBy('distance', 'ASC')->get()
-            ]);
+             return  $this->returnView();
         } else {
             return redirect()->route('orders.index')->withStatus(__('No Access'));
         }
@@ -98,16 +93,48 @@ class DevileryTaxController extends Controller {
             
             DeliveryTax::create($requestData);
             $max = DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->max('distance');
-            return view('deliverytax.list',
-                    [
-                        'max' => $max,
-                        'taxes' => DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->orderBy('distance', 'ASC')->get()
-            ]);
+             return  $this->returnView();
+        } else {
+            return redirect()->route('orders.index')->withStatus(__('No Access'));
+        }
+    }
+    public function edit(Request $request) {
+        if (auth()->user()->hasRole('owner')) {
+            $requestData = $request->all();
+            $id = explode('_', $request['id']);
+//            dd($id);
+            $tax = DeliveryTax::find($id[2]);
+            if($id[1] =='d'){
+                $tax->distance = str_replace('Km', '',$requestData['val']);
+            }
+            if($id[1] =='c'){
+                $tax->cost=  str_replace('R$', '',$requestData['val']);
+            }
+            $tax->update();
+             return  $this->returnView();             
         } else {
             return redirect()->route('orders.index')->withStatus(__('No Access'));
         }
     }
 
+    private function returnView(){
+         $max = DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->max('distance');
+//            dd(auth()->user()->restorant->lat,auth()->user()->restorant->lng);
+            $client = new \GuzzleHttp\Client();
+        $geocoder = new Geocoder($client);
+        $geocoder->setApiKey(config('settings.google_maps_api_key'));
+//        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
+        $me = $geocoder->getCoordinatesForAddress(auth()->user()->restorant->address);
+//        dd($me);
+            return view('deliverytax.list',
+                    ['restorant' => Restorant::find(auth()->user()->restorant->id),
+                        'max' => $max,
+                        'lat' => $me['lat'],
+                        'lng' => $me['lng'],
+                        'taxes' => DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->orderBy('distance', 'ASC')->get()
+            ]);
+    }
+    
     
     public function getCoordinatesForTax(Request $request) {
         $client = new \GuzzleHttp\Client();
