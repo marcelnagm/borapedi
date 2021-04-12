@@ -12,10 +12,10 @@
     </tr>
     @foreach($taxes as $tax)
     <tr>    
-        <td class="table-web" id="edit_d_{{$tax->id}}" onclick="edit(this);">
+        <td class="table-web" id="edit_d_{{$tax->id}}" onclick="edit(this);" style=' cursor: pointer; '>
             {{ $tax->distance }} Km
         </td>
-        <td class="table-web" id="edit_c_{{$tax->id}}" onclick="edit(this);">
+        <td class="table-web" id="edit_c_{{$tax->id}}" onclick="edit(this);" style=' cursor: pointer;'>
             R$ <?php
             echo number_format($tax->cost, 2);
             $val[] = $tax->distance;
@@ -75,19 +75,22 @@
         var color = "#" + red.toString(16) + green.toString(16) + blue.toString(16);
         return color;
     }
-
+var show = false;
 
     function edit(element) {
+        if(show== false){
         var id_n = element.id;
         var valu = document.getElementById(id_n).innerText
         $(element).html('<input id="' + id_n + '" value="' + valu + '" onblur="send(this);">');
-        $(id_n).focus();
+        show = true;
+        }
     }
 
     function send(element) {
+        show = false;
         
         var id = element.id;
-        var values = element.value;
+        var values = element.value.replace('Km','').replace('R$','');
         console.log(id);
 //        event.preventDefault();
 //

@@ -105,10 +105,10 @@ class DevileryTaxController extends Controller {
 //            dd($id);
             $tax = DeliveryTax::find($id[2]);
             if($id[1] =='d'){
-                $tax->distance = str_replace('Km', '',$requestData['val']);
+                $tax->distance =$requestData['val'];
             }
             if($id[1] =='c'){
-                $tax->cost=  str_replace('R$', '',$requestData['val']);
+                $tax->cost= $requestData['val'];
             }
             $tax->update();
              return  $this->returnView();             
