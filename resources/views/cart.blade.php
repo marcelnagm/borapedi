@@ -36,9 +36,6 @@
                             @endif
                         @endif
 
-                        <!-- Delivery time slot -->
-                        @include('cart.time')
-
                         <!-- Delivery address -->
                         <div id='addressBox'>
                             @include('cart.address')
@@ -81,8 +78,6 @@
                         <!-- Delivery method -->
                         @include('cart.delivery')
 
-                        <!-- Delivery time slot -->
-                        @include('cart.time')
 
                         <!-- Custom Fields  -->
                         @include('cart.customfields')
