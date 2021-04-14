@@ -15,11 +15,7 @@
                         <div class="col-8">
                             <h3 class="mb-0">{{ __('Delivery tax')." - ".$restorant->name}}</h3>
                             @include('deliverytax.form')    
-                        </div>
-                        <div class="col-4 text-right">
-
-                        </div>
-
+                        </div>                       
                     </div>
                 </div>
                 <div class="card-body">
@@ -31,16 +27,14 @@
                             @include('deliverytax.list')                            
                         </table>
                     </div>'
-                    <div id="map_canvas" style="height: 100vh; width:100vw">
-                        
-                    </div>
+                  
                 </div>
             </div>
         </div>
-        <div class="col-xl-6 mb-5 mb-xl-0">
-            <br/>
-
-            <br/>
+        <div class="col-md-5">
+              <div id="map_canvas" style="height: 60vh; width:38vw">
+                        
+                    </div>
 
 
         </div>

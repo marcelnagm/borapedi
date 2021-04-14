@@ -8,7 +8,7 @@
 <tbody>
     @if(count($taxes)>0)
     <tr>
-        <td>Entregas até a distância de : {{$max}}Km</td>
+        <td colspan="3">Entregas até a distância de : {{$max}}Km</td>
     </tr>
     @foreach($taxes as $tax)
     <tr>    
