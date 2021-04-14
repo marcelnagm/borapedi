@@ -62,7 +62,7 @@ return [
     'projecttype' => env('APP_PROJECT_TYPE', 'ft'),
     'isqrsaas' => env('APP_PROJECT_TYPE', 'ft') == 'qrsaas',
     'iswp' => env('IS_WHATSAPP_ORDERING_MODE', false),
-    'isft' => env('APP_PROJECT_TYPE', 'ft') == 'ft',
+    'isft' =>true,
 //    'isft' =>true,
     'ordering' => env('APP_PROJECT_TYPE', 'ft') != 'qrsaas' || env('APP_PROJECT_TYPE', 'ft') == 'qrsaas' && ! env('QRSAAS_DISABLE_ODERING', false),
 
@@ -285,7 +285,7 @@ return [
         'ReCaptcha' => Biscolab\ReCaptcha\Facades\ReCaptcha::class,
         'Pusher' => Pusher\Pusher::class,
 
-        //'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];
