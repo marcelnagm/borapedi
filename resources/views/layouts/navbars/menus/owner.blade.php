@@ -41,13 +41,13 @@
                     <i class="ni ni-ungroup text-red"></i> {{ __('Tables') }}
                 </a>
             </li>
-    
-    @if (config('app.isqrsaas')&&!config('settings.is_whatsapp_ordering_mode'))
-        <li class="nav-item">
+     <li class="nav-item">
             <a class="nav-link" href="{{ route('qr') }}">
                 <i class="ni ni-mobile-button text-red"></i> {{ __('QR Builder') }}
             </a>
         </li>
+    @if (config('app.isqrsaas')&&!config('settings.is_whatsapp_ordering_mode'))
+       
         @if(config('settings.enable_guest_log'))
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.restaurant.visits.index') }}">
