@@ -36,16 +36,12 @@
         </a>
     </li>
 
-    @if (config('app.isqrsaas') && (!config('settings.qrsaas_disable_odering') || config('settings.enable_guest_log')))
-        @if(!config('settings.is_whatsapp_ordering_mode'))
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.restaurant.tables.index') }}">
                     <i class="ni ni-ungroup text-red"></i> {{ __('Tables') }}
                 </a>
             </li>
-        @endif
-    @endif
-
+    
     @if (config('app.isqrsaas')&&!config('settings.is_whatsapp_ordering_mode'))
         <li class="nav-item">
             <a class="nav-link" href="{{ route('qr') }}">
@@ -77,13 +73,13 @@
             </li>
         @endif
 
-        <!--
+        
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.restaurant.coupons.index') }}">
                 <i class="ni ni-tag text-pink"></i> {{ __('Coupons') }}
             </a>
         </li>
-    -->
+    
 
 
     <li class="nav-item">
