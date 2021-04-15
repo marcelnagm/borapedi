@@ -111,7 +111,7 @@ return [
     'enable_finances_admin' => env('ENABLE_FINANCES_ADMIN', true),
     'enable_finances_owner' => env('ENABLE_FINANCES_OWNER', true),
     'hide_project_branding' => env('HIDE_PROJECT_BRANDING', true),
-    'enable_guest_log' => env('IS_WHATSAPP_ORDERING_MODE', false)?false:env('ENABLE_GUEST_LOG', true),
+    'enable_guest_log' => env('ENABLE_GUEST_LOG', true),
     'app_dev' => env('APP_DEV', false),
     'qrsaas_disable_odering' => env('QRSAAS_DISABLE_ODERING', false),
     'restoloyalty_token' => env('RESTOLOYALTY_TOKEN', ''),

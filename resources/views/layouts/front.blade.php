@@ -86,7 +86,7 @@ Coded by www.creative-tim.com
 
     <!-- Navbar -->
     @if(config('app.isft'))
-        @include('layouts.menu.top')
+         @include('layouts.menu.top_justlogo')
     @else
         @include('layouts.menu.top_justlogo')
     @endif
