@@ -205,8 +205,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/make/payment', 'PaymentController@payment')->name('make.payment');
 
     if (config('app.isft')) {
-//        Route::get('/cart-checkout', 'RestaurantClientController@index')->name('cart.checkout');
-//        Route::get('/cart-end', 'CartController@cart')->name('cart.checkout.end');
+        Route::get('/cart-checkout', 'CartController@cart')->name('cart.checkout');
     }
 
     Route::resource('plans', 'PlansController');
@@ -230,13 +229,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/downloadqr', 'RestorantController@downloadQR')->name('download.menu');
 });
 
-    Route::post('/client-register', 'RestaurantClientController@store')->name('client-register');
-    Route::post('/client-login', 'RestaurantClientController@login')->name('client-login');
-    Route::get('/cart-checkout', 'RestaurantClientController@index')->name('cart.checkout');
-    Route::get('/cart-end', 'CartController@cart')->name('cart.checkout.end');
 if (config('app.isqrsaas')) {
-   
-    
+    Route::get('/cart-checkout', 'CartController@cart')->name('cart.checkout');
     Route::get('/guest-orders', 'OrderController@guestOrders')->name('guest.orders');
     Route::post('/whatsapp/store', 'OrderController@storeWhatsappOrder')->name('whatsapp.store');
 }
