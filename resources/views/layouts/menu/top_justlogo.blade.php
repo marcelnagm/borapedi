@@ -55,6 +55,7 @@
                     @endguest
                 </li>
                 @if(config('settings.enable_call_waiter') && strlen(config('broadcasting.connections.pusher.app_id')) > 2 && strlen(config('broadcasting.connections.pusher.key')) > 2 && strlen(config('broadcasting.connections.pusher.secret')) > 2 && ($restorant->self_deliver == 1))
+                <div id='dine_in' style="display: none;">
                 <li class="web-menu mr-1">
                     <button type="button" class="btn btn-neutral btn-icon btn-cart" data-toggle="modal" data-target="#modal-form">
                         <span class="btn-inner--icon">
@@ -71,6 +72,7 @@
                         <span class="nav-link-inner--text">{{ __('Register visit') }}</span>
                     </a>
                 </li>
+                </div>
                 @endif
 
                 @if(isset($hasGuestOrders)&&$hasGuestOrders)

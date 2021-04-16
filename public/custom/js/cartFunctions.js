@@ -208,16 +208,25 @@ function orderTypeSwither(mod){
 
       $('.delTime').hide();
       $('.picTime').hide();
+      
 
       if(mod=="pickup"){
           updatePrices(cartTotal.totalPrice,null,false)
           $('.picTime').show();
+          $('#addressBox').hide();
+            $('#dine_in').hide();
+      }
+      if(mod=="dinein"){
+          updatePrices(cartTotal.totalPrice,null,false)
+          $('.picTime').show();
+          $('#dine_in').show();
           $('#addressBox').hide();
       }
 
       if(mod=="delivery"){
           $('.delTime').show();
           $('#addressBox').show();
+          $('#dine_in').hide();
           getCartContentAndTotalPrice();
       }
 }

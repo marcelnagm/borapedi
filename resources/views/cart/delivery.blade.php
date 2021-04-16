@@ -19,7 +19,7 @@
             @endif
             @if($restorant->self_deliver == 1)
             <div class="custom-control custom-radio mb-3">
-                <input name="deliveryType" class="custom-control-input" id="deliveryTypeDinein" type="radio" value="dinein" checked>
+                <input name="deliveryType" class="custom-control-input" id="deliveryTypeDinein" type="radio" value="dinein" >
                 <label class="custom-control-label" for="deliveryTypeDinein">Consumo no Local</label>
             </div>
             @endif

@@ -30,10 +30,10 @@
                     @if (config('app.isft')&&count($timeSlots)>0)
                     <!-- FOOD TIGER -->
                     <!-- Delivery method -->
-                    @if($restorant->can_pickup == 1)
-                    @if($restorant->can_deliver == 1)
+                    @if(($restorant->can_pickup == 1) || ($restorant->can_deliver == 1) || ($restorant->self_deliver == 1) )
+                    
                     @include('cart.delivery')
-                    @endif
+                    
                     @endif
                     <!-- Delivery address -->
                     <div id='addressBox'>
