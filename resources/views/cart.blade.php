@@ -82,8 +82,7 @@
                     @if (config('settings.enable_pickup'))
                     <!-- Takeaway time slot -->
                     <div class="takeaway_picker" style="display: none">
-                        @include('cart.time')
-                          @include('cart.localorder.table')
+                      @include('cart.localorder.table')
 
                       <!-- Local Order Phone -->
                       @include('cart.localorder.phone')

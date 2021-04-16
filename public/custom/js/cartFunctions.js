@@ -214,12 +214,14 @@ function orderTypeSwither(mod){
           updatePrices(cartTotal.totalPrice,null,false)
           $('.picTime').show();
           $('#addressBox').hide();
+          $('.takeaway_picker').hide();
             $('#dine_in').hide();
       }
       if(mod=="dinein"){
           updatePrices(cartTotal.totalPrice,null,false)
           $('.picTime').show();
           $('#dine_in').show();
+          $('.takeaway_picker').show();
           $('#addressBox').hide();
       }
 
@@ -227,6 +229,7 @@ function orderTypeSwither(mod){
           $('.delTime').show();
           $('#addressBox').show();
           $('#dine_in').hide();
+          $('.takeaway_picker').hide();
           getCartContentAndTotalPrice();
       }
 }
