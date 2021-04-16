@@ -23,10 +23,10 @@ class CartController extends Controller
     {
         $item = Items::find($request->id);
         $restID = $item->category->restorant->id;
-
+        
         $restaurant = Restorant::findOrFail($restID);
         \App\Services\ConfChanger::switchCurrency($restaurant);
-        
+        session(['in_cart' => true]);
 
         //Check if added item is from the same restorant as previus items in cart
         $canAdd = false;
@@ -103,7 +103,6 @@ class CartController extends Controller
 
     public function cart()
     {
-
         $fieldsToRender=[];
         if(strlen(config('global.order_fields'))>10){
             $fieldsToRender=$this->convertJSONToFields(json_decode(config('global.order_fields'),true)); 
@@ -275,7 +274,7 @@ class CartController extends Controller
 
     public function clear(Request $request)
     {
-
+              session(['in_cart' => false]);
         //Get the client_id from address_id
 
         $oreder = new Order;
