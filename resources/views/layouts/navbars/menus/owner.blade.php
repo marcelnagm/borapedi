@@ -35,12 +35,13 @@
             <i class="ni ni-collection text-pink"></i> {{ __('Menu') }}
         </a>
     </li>
-
+@if($restorant->self_deliver == 1)
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.restaurant.tables.index') }}">
             <i class="ni ni-ungroup text-red"></i> {{ __('Tables') }}
         </a>
     </li>
+    @endif
     <li class="nav-item">
         <a class="nav-link" href="{{ route('qr') }}">
             <i class="ni ni-mobile-button text-red"></i> {{ __('QR Builder') }}
