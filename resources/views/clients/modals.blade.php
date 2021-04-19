@@ -10,84 +10,21 @@
             <div class="modal-body p-0">
                 <div class="card bg-secondary shadow border-0">
                     <div class="card-body px-lg-5 py-lg-5" id="new_address_checkout_body">
-                        <form role="form">
-                            @csrf
-                            <div class="form-group" id="new_address_checkout_holder">
-                                <label class="form-control-label" for="new_address_checkout">{{ __('Address') }}</label>
-                                <select class="noselecttwo form-control" id="new_address_checkout">
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <div id="new_address_map" class="form-control"></div>
-                            </div>
-
-                            <div id="address-info">
-
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group{{ $errors->has('address') ? ' has-danger' : '' }}">
-                                            <input name="address" id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" placeholder="{{ __('Address')}}">
-                                            @if ($errors->has('address'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('address') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                        <div class="form-group{{ $errors->has('address_number') ? ' has-danger' : '' }}">
-                                            <input name="address_number" id="address_number" type="text" class="form-control{{ $errors->has('address_number') ? ' is-invalid' : '' }}" placeholder="{{ __('Address number')}}">
-                                            @if ($errors->has('address_number'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('address_number') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                        <div class="form-group{{ $errors->has('number_apartment') ? ' has-danger' : '' }}">
-                                            <input name="number_apartment" id="number_apartment" type="text" class="form-control{{ $errors->has('number_apartment') ? ' is-invalid' : '' }}" placeholder="{{ __('Apartment number')}}">
-                                            @if ($errors->has('number_apartment'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('number_apartment') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                        <input type="hidden" id="lat" name="lat" />
-
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group{{ $errors->has('number_intercom') ? ' has-danger' : '' }}">
-                                            <input name="number_intercom" id="number_intercom" type="text" class="form-control{{ $errors->has('number_intercom') ? ' is-invalid' : '' }}" placeholder="{{ __('Intercom')}}">
-                                            @if ($errors->has('number_intercom'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('number_intercom') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                        <div class="form-group{{ $errors->has('floor') ? ' has-danger' : '' }}">
-                                            <input name="floor" id="floor" type="text" class="form-control{{ $errors->has('floor') ? ' is-invalid' : '' }}" placeholder="{{ __('Floor')}}">
-                                            @if ($errors->has('floor'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('floor') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                        <div class="form-group{{ $errors->has('entry') ? ' has-danger' : '' }}">
-                                            <input name="entry" id="entry" type="text" class="form-control{{ $errors->has('entry') ? ' is-invalid' : '' }}" placeholder="{{ __('Entry number')}}">
-                                            @if ($errors->has('entry'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('entry') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                        <input type="hidden" id="lng" name="lng" />
-                                    </div>
-                                </div>
-
-
-
-
-                            </div>
-                        </form>
-
+                        <div class="card-content border-top">
+                            <br />
+                            @include('partials.fields',['fields'=>[
+                            ['ftype'=>'input','name'=>"cep",'id'=>"addressID",'placeholder'=>"Coloque seu CEP aqui ...",'required'=>true],
+                            ['ftype'=>'input','name'=>"Logradouro",'id'=>"address",'placeholder'=>"",'required'=>true,'readonly' => true],
+                            ['ftype'=>'input','name'=>"Bairro",'id'=>"address_neigh",'placeholder'=>"",'required'=>true,'readonly' => true],
+                            ['ftype'=>'input','name'=>"Cidade/Estado",'id'=>"address_city",'placeholder'=>"",'required'=>true,'readonly' => true]
+                            ]])
+                            
+                            @include('partials.fields',['fields'=>[            
+                            ['ftype'=>'input','name'=>"number",'id'=>"numbero",'placeholder'=>"Numero",'required'=>true],
+                            ['ftype'=>'input','name'=>"complement",'id'=>"complement",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>true]
+                            ]])
+                            45
+                        </div>
                     </div>
                 </div>
             </div>
@@ -96,9 +33,63 @@
 
                 <button type="button" class="btn btn-link" data-dismiss="modal">{{ __('Close') }}</button>
                 <button type="button" id="submitNewAddress" class="btn btn-outline-success">{{ __('Save') }}</button>
-              </div>
+            </div>
 
         </div>
     </div>
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+crossorigin="anonymous"></script>
+<script>
+
+$(document).ready(function () {
+
+
+//Quando o campo cep perde o foco.
+    $("#addressID").blur(function () {
+
+//Nova variável "cep" somente com dígitos.
+        var cep = $(this).val().replace(/\D/g, '');
+        cep = cep.replace('-', '');
+        $("#numbero").val('');
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+//Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+            //Valida o formato do CEP.
+            if (validacep.test(cep)) {
+
+//Preenche os campos com "..." enquanto consulta webservice.
+
+//Consulta o webservice viacep.com.br/
+                $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+
+                    if (!("erro" in dados)) {
+//Atualiza os campos com os valores da consulta.
+                        $("#address").val(dados.logradouro);
+                        $("#address_neigh").val(dados.bairro );
+                        $("#address_city").val(dados.localidade+' - '+dados.uf);
+                    } //end if.
+                    else {
+//CEP pesquisado não foi encontrado.                              
+                        alert("CEP não encontrado.");
+                    }
+                });
+            } //end if.
+            else {
+//cep é inválido.                      
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+//cep sem valor, limpa formulário.
+
+        }
+    });
+});
+
+</script>   

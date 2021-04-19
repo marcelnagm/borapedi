@@ -93,12 +93,15 @@
     })
 
     $("#submitNewAddress").on("click",function() {
-        var address_name = $("#new_address_checkout option:selected").text();
-        var address_number = $("#address_number").val();
-        var number_apartment = $("#number_apartment").val();
-        var number_intercom = $("#number_intercom").val();
-        var entry = $("#entry").val();
-        var floor = $("#floor").val();
+        alert('baba');
+        var address_name = $("#address").val();
+        var address_neigh = $("#address_neigh").val();
+        var address_city = $("#address_city").val();
+        var address_number = $("#numbero").val();
+        var number_apartment = $("complement").val();
+        var number_intercom = '';
+        var entry = '';
+        var floor = '';
 
         $.ajaxSetup({
                 headers: {
@@ -110,7 +113,7 @@
                 type: 'POST',
                 url: '/addresses',
                 data: {
-                    new_address: address_number.length != 0 ? address_number + ", " + address_name : address_name,
+                    new_address: address_number.length != 0 ? address_name+ ", " +address_number+ ", " +address_neigh + "- " + address_city : address_name+ ", " +address_neigh + "- " + address_city,
                     lat: latAdd,
                     lng: lngAdd,
                     apartment: number_apartment,

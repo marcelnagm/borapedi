@@ -46,11 +46,19 @@ class AddressControler extends Controller
      */
     public function store(Request $request)
     {
+        
+            $client = new \GuzzleHttp\Client();
+        $geocoder = new Geocoder($client);
+        $geocoder->setApiKey(config('settings.google_maps_api_key'));
+//        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
+        $me = $geocoder->getCoordinatesForAddress($request->new_address);
+        
+        
         $address = new Address;
         $address->address = strip_tags($request->new_address);
         $address->user_id = auth()->user()->id;
-        $address->lat = $request->lat;
-        $address->lng = $request->lng;
+        $address->lat = $me['lat'];
+        $address->lng = $me['lng'];
         $address->apartment = $request->apartment ?? $request->apartment;
         $address->intercom = $request->intercom ?? $request->intercom;
         $address->floor = $request->floor ?? $request->floor;

@@ -223,13 +223,15 @@ var initAddress=function(){
     var markerData = null;
     var marker = null;
 
-    $("#new_address_map").hide();
-    $("#address").hide();
+//    $("#new_address_map").hide();
     $("#new_address_spinner").hide();
     $("#address-info").hide();
     $("#submitNewAddress").hide();
 
     //Change on Place entering
+    $('#numbero').keypress(function(){          
+         $("#submitNewAddress").show();
+    });
     $('select[id="new_address_checkout"]').change(function(){
         $("#new_address_checkout_holder").hide();
         var place_id = $("#new_address_checkout option:selected").val();
@@ -283,13 +285,16 @@ var initAddress=function(){
 
     //Save on click for location
     $("#submitNewAddress").on("click",function() {
-        var address_name = $("#address").val();
-        var address_number = $("#address_number").val();
-        var number_apartment = $("#number_apartment").val();
-        var number_intercom = $("#number_intercom").val();
-        var entry = $("#entry").val();
-        var floor = $("#floor").val();
-
+        alert('é esser');
+          var address_name = $("#address").val();
+        var address_neigh = $("#address_neigh").val();
+        var address_city = $("#address_city").val();
+        var address_number = $("#numbero").val();
+        var number_apartment = $("complement").val();
+        var number_intercom = '';
+        var entry = '';
+        var floor = '';
+        
         var lat = $("#lat").val();
         var lng = $("#lng").val();
 
@@ -316,7 +321,7 @@ var initAddress=function(){
                 type: 'POST',
                 url: '/addresses',
                 data: {
-                    new_address: address_number.length != 0 ? address_number + ", " + address_name : address_name,
+                    new_address: address_number.length != 0 ? address_name+ ", " +address_number+ ", " +address_neigh + "- " + address_city : address_name+ ", " +address_neigh + "- " + address_city,
                     lat: lat,
                     lng: lng,
                     apartment: number_apartment,
