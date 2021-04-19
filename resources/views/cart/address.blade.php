@@ -18,11 +18,11 @@
                         }
                         ?> value={{ $address->id }}>{{$address->address." - ".money( $address->cost_per_km, config('settings.cashier_currency'),config('settings.do_convertion')) }} </option>
                     @else
-                    <option data-cost={{ config('global.delivery')}} id="{{ 'address'.$address->id }}"  <?php
+                    <option data-cost="{{$address->cost_total}}" id="{{ 'address'.$address->id }}"  <?php
                         if (!$address->inRadius) {
                             echo "disabled";
                         }
-                        ?> value={{ $address->id }}>{{$address->address}} </option>
+                        ?> value={{ $address->id }}>{{$address->address}}11111 </option>
                     @endif
                     @endforeach
                 </select>

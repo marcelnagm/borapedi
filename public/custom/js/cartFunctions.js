@@ -33,6 +33,8 @@ function updatePrices(net,delivery,enableDelivery){
 
     //Total
     cartTotal.withDelivery=net+delivery;
+    console.log(cartTotal.withDelivery);
+    console.log(cartTotal);
     cartTotal.withDeliveryFormat=formatter.format(net+delivery);//+"==>"+new Date().getTime();
     total.totalPrice=net+delivery;
 
