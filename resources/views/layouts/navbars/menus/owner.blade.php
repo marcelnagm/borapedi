@@ -35,7 +35,7 @@
             <i class="ni ni-collection text-pink"></i> {{ __('Menu') }}
         </a>
     </li>
-@if($restorant->self_deliver == 1)
+    @if(auth()->user()->restorant->self_deliver)
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.restaurant.tables.index') }}">
             <i class="ni ni-ungroup text-red"></i> {{ __('Tables') }}
