@@ -13,7 +13,7 @@
                         <div class="card-content border-top">
                             <br />
                             @include('partials.fields',['fields'=>[
-                            ['ftype'=>'input','name'=>"cep",'id'=>"addressID",'placeholder'=>"Coloque seu CEP aqui ...",'required'=>true],
+                            ['ftype'=>'input','name'=>"cep",'id'=>"cep",'placeholder'=>"Coloque seu CEP aqui ...",'required'=>true],
                             ['ftype'=>'input','name'=>"Logradouro",'id'=>"address",'placeholder'=>"",'required'=>true,'readonly' => true],
                             ['ftype'=>'input','name'=>"Bairro",'id'=>"address_neigh",'placeholder'=>"",'required'=>true,'readonly' => true],
                             ['ftype'=>'input','name'=>"Cidade/Estado",'id'=>"address_city",'placeholder'=>"",'required'=>true,'readonly' => true]
@@ -45,12 +45,11 @@
 crossorigin="anonymous"></script>
 <script>
 
-$(document).ready(function () {
+$(document).ready(function($){
 
 
 //Quando o campo cep perde o foco.
-    $("#addressID").blur(function () {
-
+    $("#cep").blur(function () {
 //Nova variável "cep" somente com dígitos.
         var cep = $(this).val().replace(/\D/g, '');
         cep = cep.replace('-', '');
