@@ -82,15 +82,14 @@ class Controller extends BaseController {
     }
 
     public function getAccessibleAddresses($restaurant, $addressesRaw) {
-        $addresses = [];
-        $polygon = json_decode(json_encode($restaurant->radius));
+        $addresses = [];        
         $numItems = $restaurant->radius ? count($restaurant->radius) : 0;
         $max = DeliveryTax::where('restaurant_id', $restaurant->id)->max('distance');
         $client = new \GuzzleHttp\Client();
         $geocoder = new Geocoder($client);
         $geocoder->setApiKey(config('settings.google_maps_api_key'));
         $rid = $geocoder->getCoordinatesForAddress($restaurant->address);
-
+        
         if ($addressesRaw) {
             foreach ($addressesRaw as $address) {
                 $point = json_decode('{"lat": ' . $address->lat . ', "lng":' . $address->lng . '}');
@@ -106,6 +105,7 @@ class Controller extends BaseController {
                     if ($data2['distance'] > $max) {
                         $new_obj->inRadius = false;
                         $new_obj->rangeFound = false;
+                         $new_obj->cost_total = 500;
                     } else {
                         $new_obj->inRadius = true;
                         $new_obj->rangeFound = true;
@@ -114,7 +114,7 @@ class Controller extends BaseController {
                                 where('distance', '>=', $data2['distance'])
                                 ->min('cost');
 
-                        $new_obj->cost_per_km = config('global.delivery');
+//                        $new_obj->cost_per_km = config('global.delivery');
                         $new_obj->cost_total = $tax;
                     }
 
@@ -124,7 +124,7 @@ class Controller extends BaseController {
             }
         }
 
-        //dd($addresses);
+//        dd($addresses);
         return $addresses;
     }
 
@@ -142,10 +142,10 @@ class Controller extends BaseController {
         curl_close($ch);
         $response_a = json_decode($response, true);
 //        dd($response_a0 );
-        $dist = $response_a['rows'][0]['elements'][0]['distance']['text'];
+        $dist = $response_a['rows'][0]['elements'][0]['distance']['value'];
         $time = $response_a['rows'][0]['elements'][0]['duration']['text'];
 
-        return array('distance' => $dist, 'time' => $time);
+        return array('distance' => $dist/1000, 'time' => $time);
     }
 
     public function getRestaurant() {

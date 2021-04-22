@@ -16,8 +16,7 @@
             @include('partials.fields',['fields'=>[            
             ['ftype'=>'input','name'=>"number",'id'=>"numbero",'placeholder'=>"Numero",'required'=>true],
             ['ftype'=>'input','name'=>"complement",'id'=>"addressID",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>true]
-            ]])
-            40
+            ]])            
         </div>
       </div>
       <br />

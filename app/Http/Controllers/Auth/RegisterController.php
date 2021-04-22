@@ -105,7 +105,7 @@ class RegisterController extends Controller
             $user->callToVerify();
         }
         if ($request->session()->exists('in_cart')) {
-            $in_cart =  $value = session('in_cart');
+            $in_cart = session('in_cart');
             if($in_cart)return redirect('cart-checkout');
         }
         return redirect($this->redirectPath());

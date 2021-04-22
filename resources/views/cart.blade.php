@@ -40,6 +40,7 @@
                         @include('cart.address')
                     </div>
 
+                   @include('cart.time')
                     <!-- Comment -->
                     @include('cart.comment')
 
@@ -70,7 +71,7 @@
                     <!-- Delivery method -->
                     @include('cart.delivery')
 
-
+                    @include('cart.time')
                     <!-- Custom Fields  -->
                     @include('cart.customfields')
 

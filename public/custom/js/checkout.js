@@ -1,50 +1,58 @@
 "use strict";
 console.log("Checkout JS includeded");
-window.onload?window.onload():console.log("No other windowonload foound");
+window.onload ? window.onload() : console.log("No other windowonload foound");
 window.onload = function () {
     checkPrivacyPolicy();
     initAddress();
     initCOD();
     //getUserAddresses();
 
-    if(ENABLE_STRIPE){
+    if (ENABLE_STRIPE) {
         initStripePayment();
     }
 }
 
-var checkPrivacyPolicy = function(){
+var checkPrivacyPolicy = function () {
     if (!$('#privacypolicy').is(':checked')) {
 
         $('.paymentbutton').attr("disabled", true);
     }
 }
 
-$("#privacypolicy").change(function() {
-    if(this.checked) {
-        $('.paymentbutton').attr("disabled", false);
-    }else{
+$("#privacypolicy").change(function () {
+    if (this.checked) {
+        if ($('#phone').val().length >= 14 || no_phone == false) {
+            $('.paymentbutton').attr("disabled", false);
+        } else {
+            $('.paymentbutton').attr("disabled", true);
+            $("#privacypolicy").prop("checked", false);
+            if ($('#phone').val().length < 14) {
+              alert('Preencha o Telefone');
+            }
+        }
+    } else {
         $('.paymentbutton').attr("disabled", true);
     }
 });
 
-var validateAddressInArea = function(positions, area){
+var validateAddressInArea = function (positions, area) {
     var paths = [];
 
-    if(area !== null){
+    if (area !== null) {
         area.forEach(location =>
             paths.push(new google.maps.LatLng(location.lat, location.lng))
         );
     }
-    var delivery_area = new google.maps.Polygon({ paths: paths });
+    var delivery_area = new google.maps.Polygon({paths: paths});
 
-    if(area != null){
-        Object.keys(positions).map(function(key, index) {
+    if (area != null) {
+        Object.keys(positions).map(function (key, index) {
             //alert("OK")
-            setTimeout(function() {
+            setTimeout(function () {
                 var belongsToArea = google.maps.geometry.poly.containsLocation(new google.maps.LatLng(positions[key].lat, positions[key].lng), delivery_area);
 
-                if(belongsToArea === false){
-                    $('#address'+key).attr('disabled', 'disabled');
+                if (belongsToArea === false) {
+                    $('#address' + key).attr('disabled', 'disabled');
                 }
             }, 100);
         });
@@ -55,35 +63,35 @@ var validateAddressInArea = function(positions, area){
 
 
 //JS FORM Validate functions
-var validateOrderFormSubmit=function(){
-    var deliveryMethod=$('input[name="deliveryType"]:checked').val();
+var validateOrderFormSubmit = function () {
+    var deliveryMethod = $('input[name="deliveryType"]:checked').val();
 
     //If deliverty, we need to have selected address
-    if(deliveryMethod=="delivery"){
+    if (deliveryMethod == "delivery") {
         //console.log($("#addressID").val())
         if ($("#addressID").val()) {
             return true;
-        }else{
+        } else {
             alert("Please select address");
             return false;
         }
-    }else{
+    } else {
         return true;
     }
 }
 
-var initCOD=function(){
+var initCOD = function () {
     console.log("Initialize COD");
-     // Handle form submission  - for card.
-     var form = document.getElementById('order-form');
-     form.addEventListener('submit', async function(event) {
-         event.preventDefault();
-         console.log('prevented');
-         //IF delivery - we need to have selected address
-         if(validateOrderFormSubmit()){
+    // Handle form submission  - for card.
+    var form = document.getElementById('order-form');
+    form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        console.log('prevented');
+        //IF delivery - we need to have selected address
+        if (validateOrderFormSubmit()) {
             console.log('Form valid');
             form.submit();
-         }
+        }
     });
 }
 
@@ -92,35 +100,34 @@ var initCOD=function(){
  * Payment Functions
  *
  */
-var initStripePayment=function(){
+var initStripePayment = function () {
 
     console.log("Payment initialzing");
 
     //On select payment method
     $('input:radio[name="paymentType"]').change(
+            function () {
+                //HIDE ALL
+                $('#totalSubmitCOD').hide()
+                $('#totalSubmitStripe').hide()
+                $('#stripe-payment-form').hide()
 
-        function(){
-            //HIDE ALL
-            $('#totalSubmitCOD').hide()
-            $('#totalSubmitStripe').hide()
-            $('#stripe-payment-form').hide()
-
-            if($(this).val()=="cod"){
-                //SHOW COD
-                $('#totalSubmitCOD').show();
-            }else if($(this).val()=="stripe"){
-                //SHOW STRIPE
-                $('#totalSubmitStripe').show();
-                $('#stripe-payment-form').show()
+                if ($(this).val() == "cod") {
+                    //SHOW COD
+                    $('#totalSubmitCOD').show();
+                } else if ($(this).val() == "stripe") {
+                    //SHOW STRIPE
+                    $('#totalSubmitStripe').show();
+                    $('#stripe-payment-form').show()
+                }
             }
-        }
     );
 
-     // Create a Stripe client.
-     var stripe = Stripe(STRIPE_KEY);
+    // Create a Stripe client.
+    var stripe = Stripe(STRIPE_KEY);
 
-     // Create an instance of Elements.
-     var elements = stripe.elements();
+    // Create an instance of Elements.
+    var elements = stripe.elements();
 
     // Custom styling can be passed to options when creating an Element.
     // (Note that this demo uses a wider set of styles than the guide below.)
@@ -131,7 +138,7 @@ var initStripePayment=function(){
             fontSmoothing: 'antialiased',
             fontSize: '16px',
             '::placeholder': {
-            color: '#aab7c4'
+                color: '#aab7c4'
             }
         },
         invalid: {
@@ -144,10 +151,10 @@ var initStripePayment=function(){
         // Custom styling can be passed to options when creating an Element.
         style: {
             base: {
-            // Add your base input styles here. For example:
-            fontSize: '16px',
-            color: '#32325d',
-            padding: '2px 2px 4px 2px',
+                // Add your base input styles here. For example:
+                fontSize: '16px',
+                color: '#32325d',
+                padding: '2px 2px 4px 2px',
             },
         }
     }
@@ -159,7 +166,7 @@ var initStripePayment=function(){
     card.mount('#card-element');
 
     // Handle real-time validation errors from the card Element.
-    card.addEventListener('change', function(event) {
+    card.addEventListener('change', function (event) {
         var displayError = document.getElementById('card-errors');
         if (event.error) {
             displayError.textContent = event.error.message;
@@ -172,15 +179,15 @@ var initStripePayment=function(){
 
     // Handle form submission  - for card.
     var form = document.getElementById('stripe-payment-form');
-    form.addEventListener('submit', async function(event) {
+    form.addEventListener('submit', async function (event) {
         event.preventDefault();
 
         //IF delivery - we need to have selected address
-        if(validateOrderFormSubmit()){
-            const { paymentMethod, error } = await stripe.createPaymentMethod(
-                'card', card, {
-                    billing_details: { name: cardHolderName.value }
-                }
+        if (validateOrderFormSubmit()) {
+            const {paymentMethod, error} = await stripe.createPaymentMethod(
+                    'card', card, {
+                        billing_details: {name: cardHolderName.value}
+                    }
             );
 
             if (error) {
@@ -215,7 +222,7 @@ var initStripePayment=function(){
  * Address Functions
  *
  */
-var initAddress=function(){
+var initAddress = function () {
     console.log("Address initialzing");
 
     var start = "https://cdn1.iconfinder.com/data/icons/Map-Markers-Icons-Demo-PNG/48/Map-Marker-Ball-Pink.png"
@@ -229,14 +236,14 @@ var initAddress=function(){
     $("#submitNewAddress").hide();
 
     //Change on Place entering
-    $('#numbero').keypress(function(){          
-         $("#submitNewAddress").show();
+    $('#numbero').keypress(function () {
+        $("#submitNewAddress").show();
     });
-    $('select[id="new_address_checkout"]').change(function(){
+    $('select[id="new_address_checkout"]').change(function () {
         $("#new_address_checkout_holder").hide();
         var place_id = $("#new_address_checkout option:selected").val();
         var place_name = $("#new_address_checkout option:selected").text();
-        console.log("Selected "+place_id);
+        console.log("Selected " + place_id);
 
         $("#address").show();
         $("#address").val(place_name);
@@ -246,8 +253,8 @@ var initAddress=function(){
         $("#submitNewAddress").show();
 
         //Get Place lat/lng
-        getPlaceDetails(place_id, function(isFetched, data){
-            if(isFetched){
+        getPlaceDetails(place_id, function (isFetched, data) {
+            if (isFetched) {
                 var latAdd = data.lat;
                 var lngAdd = data.lng;
 
@@ -268,7 +275,7 @@ var initAddress=function(){
                     title: data.name
                 });
 
-                mapAddress.addListener('click', function(event) {
+                mapAddress.addListener('click', function (event) {
                     var data = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
                     markerAddress.setPosition(data);
 
@@ -284,9 +291,9 @@ var initAddress=function(){
     });
 
     //Save on click for location
-    $("#submitNewAddress").on("click",function() {
-        alert('é esser');
-          var address_name = $("#address").val();
+    $("#submitNewAddress").on("click", function () {
+
+        var address_name = $("#address").val();
         var address_neigh = $("#address_neigh").val();
         var address_city = $("#address_city").val();
         var address_number = $("#numbero").val();
@@ -294,24 +301,24 @@ var initAddress=function(){
         var number_intercom = '';
         var entry = '';
         var floor = '';
-        
+
         var lat = $("#lat").val();
         var lng = $("#lng").val();
 
-        var doSubmit=true;
-        var message="";
-        if(address_number.length<1){
-            doSubmit=false;
-            message+="\nPlease enter address number";
+        var doSubmit = true;
+        var message = "";
+        if (address_number.length < 1) {
+            doSubmit = false;
+            message += "\nPlease enter address number";
         }
 
-        if(!doSubmit){
+        if (!doSubmit) {
             alert(message);
             return false;
-        }else{
+        } else {
 
 
-        $.ajaxSetup({
+            $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
@@ -321,7 +328,7 @@ var initAddress=function(){
                 type: 'POST',
                 url: '/addresses',
                 data: {
-                    new_address: address_number.length != 0 ? address_name+ ", " +address_number+ ", " +address_neigh + "- " + address_city : address_name+ ", " +address_neigh + "- " + address_city,
+                    new_address: address_number.length != 0 ? address_name + ", " + address_number + ", " + address_neigh + "- " + address_city : address_name + ", " + address_neigh + "- " + address_city,
                     lat: lat,
                     lng: lng,
                     apartment: number_apartment,
@@ -329,8 +336,8 @@ var initAddress=function(){
                     entry: entry,
                     floor: floor
                 },
-                success:function(response){
-                    if(response.status){
+                success: function (response) {
+                    if (response.status) {
                         //location.replace(response.success_url);
                         window.location.reload();
                     }
@@ -349,7 +356,7 @@ var initAddress=function(){
  * @param {*} place_id
  * @param {*} callback
  */
-function getPlaceDetails(place_id, callback){
+function getPlaceDetails(place_id, callback) {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -359,9 +366,9 @@ function getPlaceDetails(place_id, callback){
     $.ajax({
         type: 'POST',
         url: '/new/address/details',
-        data: { place_id: place_id },
-        success:function(response){
-            if(response.status){
+        data: {place_id: place_id},
+        success: function (response) {
+            if (response.status) {
                 return callback(true, response.result)
             }
         }, error: function (response) {

@@ -10,20 +10,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
-class LoginController extends Controller
-{
+class LoginController extends Controller {
     /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+      |--------------------------------------------------------------------------
+      | Login Controller
+      |--------------------------------------------------------------------------
+      |
+      | This controller handles authenticating users for the application and
+      | redirecting them to your home screen. The controller uses a trait
+      | to conveniently provide its functionality to your applications.
+      |
+     */
 
-    use AuthenticatesUsers;
+use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -37,13 +36,11 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest')->except('logout');
     }
 
-    public function googleRedirectToProvider()
-    {
+    public function googleRedirectToProvider() {
         return Socialite::driver('google')->redirect();
     }
 
@@ -52,14 +49,13 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function googleHandleProviderCallback()
-    {
+    public function googleHandleProviderCallback() {
         $user_google = Socialite::driver('google')->stateless()->user();
 
         // $user->token;
         $user = User::where('email', $user_google->email)->first();
         //$user = User::where('google_id', $user_google->id)->first();
-        if (! $user) {
+        if (!$user) {
             $user = new User;
             $user->google_id = $user_google->id;
             $user->name = $user_google->name;
@@ -78,12 +74,15 @@ class LoginController extends Controller
 
         // login
         Auth::loginUsingId($user->id);
-
+        if (session()->exists('in_cart')) {
+            $in_cart = session('in_cart');
+            if ($in_cart)
+                return redirect('cart-checkout');
+        }
         return redirect('/');
     }
 
-    public function facebookRedirectToProvider()
-    {
+    public function facebookRedirectToProvider() {
         return Socialite::driver('facebook')->redirect();
     }
 
@@ -92,14 +91,13 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function facebookHandleProviderCallback()
-    {
+    public function facebookHandleProviderCallback() {
         $user_facebook = Socialite::driver('facebook')->stateless()->user();
 
         // $user->token;
         $user = User::where('email', $user_facebook->email)->first();
         //$user = User::where('fb_id', $user_facebook->id)->first();
-        if (! $user) {
+        if (!$user) {
             $user = new User;
             $user->fb_id = $user_facebook->id;
             $user->name = $user_facebook->name;
@@ -117,12 +115,16 @@ class LoginController extends Controller
         }
         // login
         Auth::loginUsingId($user->id);
-
+        if (session()->exists('in_cart')) {
+            $in_cart =session('in_cart');
+            if ($in_cart)
+                return redirect('cart-checkout');
+        }
         return redirect('/');
     }
 
-    /*public function username()
-    {
-        return 'phone';
-    }*/
+    /* public function username()
+      {
+      return 'phone';
+      } */
 }

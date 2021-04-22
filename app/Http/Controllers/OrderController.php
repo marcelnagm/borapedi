@@ -274,7 +274,17 @@ class OrderController extends Controller
     }
 
     public function store(Request $request){
-
+//        dd($request);
+        if (session()->exists('in_cart')) {
+            $in_cart =session('in_cart');
+            if ($in_cart && auth()->user()->phone == ""){             
+                
+                $user = User::find(auth()->user()->id);
+                $user->phone=$request->phone_send;
+                $user->save();   
+            }                
+        }
+//        dd('pegou');        
         //Convert web request to mobile like request
         $mobileLikeRequest=$this->toMobileLike($request);
 

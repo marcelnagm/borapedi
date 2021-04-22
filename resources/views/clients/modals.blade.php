@@ -23,7 +23,7 @@
                             ['ftype'=>'input','name'=>"number",'id'=>"numbero",'placeholder'=>"Numero",'required'=>true],
                             ['ftype'=>'input','name'=>"complement",'id'=>"complement",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>true]
                             ]])
-                            45
+                            <input type="hidden"  name="phone_send"  id="phone_send" value="" > 
                         </div>
                     </div>
                 </div>

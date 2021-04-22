@@ -22,7 +22,7 @@
                         if (!$address->inRadius) {
                             echo "disabled";
                         }
-                        ?> value={{ $address->id }}>{{$address->address}}11111 </option>
+                        ?> value={{ $address->id }}>{{$address->address}} </option>
                     @endif
                     @endforeach
                 </select>
