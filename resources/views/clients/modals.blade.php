@@ -12,13 +12,28 @@
                     <div class="card-body px-lg-5 py-lg-5" id="new_address_checkout_body">
                         <div class="card-content border-top">
                             <br />
+                            <div class="row">
+                                <div class="col-6">
+                                    @include('partials.fields',['fields'=>[
+                                    ['ftype'=>'input','name'=>"cep",'id'=>"cep",'placeholder'=>"Coloque seu CEP aqui ...",'required'=>true]
+                                    ]])
+                                </div>
+                                <div class="col-4">
+                                    </br>                                    
+                                    <a  alt="Não sei Meu Cef"  target="_blank"  href="https://buscacepinter.correios.com.br/app/endereco/index.php?t" class="btn btn-primary" >Não sei meu CEP</a>                                    
+                                    <div class="input-group mb-4">                                        
+                                        <div type="button" class="input-group-append button">
+                                            <span class="input-group-text"><i id="search_location" class="fa fa-map-pin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Get my current location"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             @include('partials.fields',['fields'=>[
-                            ['ftype'=>'input','name'=>"cep",'id'=>"cep",'placeholder'=>"Coloque seu CEP aqui ...",'required'=>true],
                             ['ftype'=>'input','name'=>"Logradouro",'id'=>"address",'placeholder'=>"",'required'=>true,'readonly' => true],
                             ['ftype'=>'input','name'=>"Bairro",'id'=>"address_neigh",'placeholder'=>"",'required'=>true,'readonly' => true],
                             ['ftype'=>'input','name'=>"Cidade/Estado",'id'=>"address_city",'placeholder'=>"",'required'=>true,'readonly' => true]
                             ]])
-                            
+
                             @include('partials.fields',['fields'=>[            
                             ['ftype'=>'input','name'=>"number",'id'=>"numbero",'placeholder'=>"Numero",'required'=>true],
                             ['ftype'=>'input','name'=>"complement",'id'=>"complement",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>true]
@@ -45,8 +60,11 @@
 crossorigin="anonymous"></script>
 <script>
 
-$(document).ready(function($){
+$(document).ready(function ($) {
 
+//$('#numbero').keypress(function () {
+//        $("#submitNewAddress").show();
+//    });
 
 //Quando o campo cep perde o foco.
     $("#cep").blur(function () {
@@ -70,8 +88,9 @@ $(document).ready(function($){
                     if (!("erro" in dados)) {
 //Atualiza os campos com os valores da consulta.
                         $("#address").val(dados.logradouro);
-                        $("#address_neigh").val(dados.bairro );
-                        $("#address_city").val(dados.localidade+' - '+dados.uf);
+                        $("#address_neigh").val(dados.bairro);
+                        $("#address_city").val(dados.localidade + ' - ' + dados.uf);
+                        $("#submitNewAddress").show();
                     } //end if.
                     else {
 //CEP pesquisado não foi encontrado.                              

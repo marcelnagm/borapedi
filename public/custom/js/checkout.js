@@ -235,10 +235,7 @@ var initAddress = function () {
     $("#address-info").hide();
     $("#submitNewAddress").hide();
 
-    //Change on Place entering
-    $('#numbero').keypress(function () {
-        $("#submitNewAddress").show();
-    });
+    //Change on Place entering    
     $('select[id="new_address_checkout"]').change(function () {
         $("#new_address_checkout_holder").hide();
         var place_id = $("#new_address_checkout option:selected").val();
