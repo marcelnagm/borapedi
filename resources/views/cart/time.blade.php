@@ -1,4 +1,4 @@
-<div class="card card-profile shadow" >
+<div class="card card-profile shadow" style="display: none;">
     <div class="px-4">
       <div class="mt-5">
         <h3><span class="delTime delTimeTS">{{ __('Delivery time') }}</span><span class="picTime picTimeTS">{{ __('Pickup time') }}</span><span class="font-weight-light"></span></h3>

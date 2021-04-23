@@ -175,7 +175,7 @@ var js = {
           
           $('.select2').addClass('form-control');
           $('.select2-selection').css('border','0');
-          $('.select2').css('width','300px');
+          $('.select2').css('width','400px');
           $('.select2-selection__arrow').css('top','10px');
           $('.select2-selection__rendered').css('color','#8898aa');
 

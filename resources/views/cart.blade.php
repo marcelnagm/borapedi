@@ -19,85 +19,88 @@
 
             <!-- Left part -->
             <div class="col-md-7">
+                <div class="card card-profile shadow" style="    margin-top: -400px!important;">
+                    <form id="order-form" role="form" method="post" action="{{route('order.store')}}" autocomplete="off" enctype="multipart/form-data">
+                        @csrf
+                        <!-- Delivery address -->
+                        <div id='addressBox'>
+                            @include('cart.address')
+                        </div>
 
-                <!-- List of items -->
-                @include('cart.items')
+                        @include('cart.time_delivery')
 
-                <form id="order-form" role="form" method="post" action="{{route('order.store')}}" autocomplete="off" enctype="multipart/form-data">
-                    @csrf
-                    @if(!config('settings.social_mode'))
-
-                    @if (config('app.isft')&&count($timeSlots)>0)
-                    <!-- FOOD TIGER -->
-                    <!-- Delivery method -->
-                    @if(($restorant->can_pickup == 1) || ($restorant->can_deliver == 1) || ($restorant->self_deliver == 1) )
-                    
-                    @include('cart.delivery')
-                    
-                    @endif
-                    <!-- Delivery address -->
-                    <div id='addressBox'>
-                        @include('cart.address')
-                    </div>
-
-                   @include('cart.time')
-                    <!-- Comment -->
-                    @include('cart.comment')
-
-                    @else
-
-                    <!-- QRSAAS -->
-
-                    
-
-                    <!-- LOCAL ORDERING -->
-                      @include('cart.localorder.table')
-
-                      <!-- Local Order Phone -->
-                      @include('cart.localorder.phone')
-
-                    <!-- Custom Fields -->
-                    @include('cart.customfields')
-
-                    <!-- Comment -->
-                    @include('cart.comment')
+                        @include('cart.restaurant')
+                        <!-- List of items -->
+                        @include('cart.items')
 
 
-                    @endif
-                    @else
-                    <!-- Social MODE -->
+                        @if(!config('settings.social_mode'))
 
-                    @if(count($timeSlots)>0)
-                    <!-- Delivery method -->
-                    @include('cart.delivery')
+                        @if (config('app.isft')&&count($timeSlots)>0)
+                        <!-- FOOD TIGER -->
+                        <!-- Delivery method -->
+                        @if(($restorant->can_pickup == 1) || ($restorant->can_deliver == 1) || ($restorant->self_deliver == 1) )
 
-                    @include('cart.time')
-                    <!-- Custom Fields  -->
-                    @include('cart.customfields')
+                        @include('cart.delivery')
 
-                    <!-- Delivery adress -->
-                    <div id='addressBox'>
-                        @include('cart.address')
-                    </div>
-                   <!-- DINE IN OR TAKEAWAY -->
-                    @if (config('settings.enable_pickup'))
-                    <!-- Takeaway time slot -->
-                    <div class="takeaway_picker" style="display: none">
-                      @include('cart.localorder.table')
+                        @endif
 
-                      <!-- Local Order Phone -->
-                      @include('cart.localorder.phone')
 
-                    </div>
+                        @include('cart.time')
+                        <!-- Comment -->
+                        @include('cart.comment')
 
-                    @endif
-                    <!-- Comment -->
-                    @include('cart.comment')
-                    @endif
-                    @endif
+                        @else
 
-                    <!-- Restaurant -->
-                    @include('cart.restaurant')
+                        <!-- QRSAAS -->
+
+
+
+                        <!-- LOCAL ORDERING -->
+                        @include('cart.localorder.table')
+
+                        <!-- Local Order Phone -->
+                        @include('cart.localorder.phone')
+
+                        <!-- Custom Fields -->
+                        @include('cart.customfields')
+
+                        <!-- Comment -->
+                        @include('cart.comment')
+
+
+                        @endif
+                        @else
+                        <!-- Social MODE -->
+
+                        @if(count($timeSlots)>0)
+                        <!-- Delivery method -->
+                        @include('cart.delivery')
+
+                        @include('cart.time')
+                        <!-- Custom Fields  -->
+                        @include('cart.customfields')
+
+                        <!-- DINE IN OR TAKEAWAY -->
+                        @if (config('settings.enable_pickup'))
+                        <!-- Takeaway time slot -->
+                        <div class="takeaway_picker" style="display: none">
+                            @include('cart.localorder.table')
+
+                            <!-- Local Order Phone -->
+                            @include('cart.localorder.phone')
+
+                        </div>
+
+                        @endif
+                        <!-- Comment -->
+                        @include('cart.comment')
+                        @endif
+                        @endif
+
+                        <!-- Restaurant -->
+
+                </div>
             </div>
 
 
@@ -137,9 +140,9 @@ var STRIPE_KEY = "{{ config('settings.stripe_key') }}";
 var ENABLE_STRIPE = "{{ config('settings.enable_stripe') }}";
 var initialOrderType = 'delivery';
 if (RESTORANT.can_deliver == 1 && RESTORANT.can_pickup == 0) {
-  initialOrderType = 'delivery';
+    initialOrderType = 'delivery';
 } else if (RESTORANT.can_deliver == 0 && RESTORANT.can_pickup == 1) {
-  initialOrderType = 'pickup';
+    initialOrderType = 'pickup';
 }
 </script>
 <script src="{{ asset('custom') }}/js/checkout.js"></script>

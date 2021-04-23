@@ -1,4 +1,4 @@
-<div class="card card-profile shadow mt--300">
+<div class="card card-profile shadow" style="margin-top: -400px!important;">
     <div class="px-4">
       <div class="mt-5">
         <h3>{{ __('Checkout') }}<span class="font-weight-light"></span></h3>

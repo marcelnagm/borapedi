@@ -1,25 +1,14 @@
-<div class="card card-profile shadow">
-    <div class="px-4">
-      <div class="mt-5">
-        <h3>{{ __('Restaurant information') }}<span class="font-weight-light"></span></h3>
-      </div>
-      <div class="card-content border-top">
-        <br />
-        <div class="pl-lg-4">
-            <p>
-                {{ $restorant->name }}<br />
-            <div id="rid">
-                {{ $restorant->address }}<br />
-                </div>
-                {{ $restorant->phone }}<br />
-            </p>
-            @if(!empty($openingTime) && !empty($closingTime))
-                <p>{{ __('Today working hours') }}: {{ $openingTime . " - " . $closingTime }}</p>
-            @endif
-      </div>
-      </div>
-      <br />
-      <br />
+<div class="mt-5">
+    <h5>{{ __('Restaurant information') }}<span class="font-weight-light"></span></h5>
+</div>
+<div class="card-content border-top">    
+    <div class="pl-lg-4">
+        <p>
+            <img loading="lazy" src="/uploads/restorants/{{ $restorant->logo }}_thumbnail.jpg" ">
+        <h6>{{ $restorant->name }}</h6>           
+        </p>
+        @if(!empty($openingTime) && !empty($closingTime))
+        <p>{{ __('Today working hours') }}: {{ $openingTime . " - " . $closingTime }}</p>
+        @endif
     </div>
-  </div>
-  <br />
+</div>  

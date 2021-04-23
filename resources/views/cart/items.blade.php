@@ -1,5 +1,3 @@
-<div class="card card-profile shadow mt--300">
-    <div class="px-4">
       <div class="mt-5">
         <h3>{{ __('Items') }}<span class="font-weight-light"></span></h3>
       </div>
@@ -30,6 +28,5 @@
             </div>
         </div>
         <!-- End List of items -->
-    </div>
-</div>
+    
 <br />
