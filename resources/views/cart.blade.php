@@ -18,16 +18,22 @@
         <div class="row">
 
             <!-- Left part -->
-            <div class="col-md-7">
-                <div class="card card-profile shadow" style="    margin-top: -400px!important;">
+            <div class="col-md-7">                
+                <div class="card card-profile shadow" style="    margin-top: -450px!important;">
+                    <div class="mt-5" style="text-align: center;">
+                        <h3><span class="delTime delTimeTS">Sacola </span></h3>
+                    </div>
                     <form id="order-form" role="form" method="post" action="{{route('order.store')}}" autocomplete="off" enctype="multipart/form-data">
                         @csrf
+                        @if(($restorant->can_pickup == 1) || ($restorant->can_deliver == 1) || ($restorant->self_deliver == 1) )
+
+                        @include('cart.delivery')
+
+                        @endif                       
                         <!-- Delivery address -->
                         <div id='addressBox'>
                             @include('cart.address')
                         </div>
-
-                        @include('cart.time_delivery')
 
                         @include('cart.restaurant')
                         <!-- List of items -->
@@ -39,11 +45,7 @@
                         @if (config('app.isft')&&count($timeSlots)>0)
                         <!-- FOOD TIGER -->
                         <!-- Delivery method -->
-                        @if(($restorant->can_pickup == 1) || ($restorant->can_deliver == 1) || ($restorant->self_deliver == 1) )
 
-                        @include('cart.delivery')
-
-                        @endif
 
 
                         @include('cart.time')
@@ -74,9 +76,7 @@
                         <!-- Social MODE -->
 
                         @if(count($timeSlots)>0)
-                        <!-- Delivery method -->
-                        @include('cart.delivery')
-
+                        <!-- Delivery method -->                     
                         @include('cart.time')
                         <!-- Custom Fields  -->
                         @include('cart.customfields')

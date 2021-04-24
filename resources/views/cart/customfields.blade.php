@@ -1,7 +1,4 @@
-<div class="mt-5">
-    <h3>Informação de Cliente<span class="font-weight-light"></span></h3>
-</div>
-<div class="card-content border-top">
+<div class="card-content border-top" style="display: none;">
     <br />
     {{auth()->user()->name}}  
     <br />

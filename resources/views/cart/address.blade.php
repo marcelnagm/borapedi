@@ -1,8 +1,8 @@
-   <div class="mt-5">
-    <h5>{{ __('Delivery Address') }}<span class="font-weight-light"></span></h5>
+<div class="mt-5">
+    {{ __('Delivery Address') }}<span class="font-weight-light"></span>
 </div>
 <div class="card-content border-top">
-        <input type="hidden" value="{{$restorant->id}}" id="restaurant_id"/>
+    <input type="hidden" value="{{$restorant->id}}" id="restaurant_id"/>
     <div class="form-group{{ $errors->has('addressID') ? ' has-danger' : '' }}">
         @if(count($addresses))
         <select name="addressID" id="addressID" class="form-control{{ $errors->has('addressID') ? ' is-invalid' : '' }}  noselecttwo" required>
@@ -36,4 +36,9 @@
     <div class="form-group">
     </div>
     <input type="hidden" name="deliveryCost" id="deliveryCost" value="0" />
+</div>
+Tempo Estimado de Entrega<span class="font-weight-light"></span>
+<div class="card-content border-top">
+    <br />
+
 </div>
