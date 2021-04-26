@@ -56,22 +56,22 @@
                 </li>
                 @if(config('settings.enable_call_waiter') && strlen(config('broadcasting.connections.pusher.app_id')) > 2 && strlen(config('broadcasting.connections.pusher.key')) > 2 && strlen(config('broadcasting.connections.pusher.secret')) > 2 && ($restorant->self_deliver == 1))
                 <div id='dine_in' style="display: none;">
-                <li class="web-menu mr-1">
-                    <button type="button" class="btn btn-neutral btn-icon btn-cart" data-toggle="modal" data-target="#modal-form">
-                        <span class="btn-inner--icon">
-                            <i class="fa fa-bell"></i>
-                        </span>
-                        <span class="nav-link-inner--text">{{ __('Call Waiter') }}</span>
-                    </button>
-                </li>
-                <li class="web-menu mr-1">
-                    <a  href="{{ route('register.visit',['restaurant_id'=>$restorant->id])}}" class="btn btn-neutral btn-icon btn-cart" style="cursor:pointer;">
-                        <span class="btn-inner--icon">
-                            <i class="fa fa-calendar-plus-o"></i>
-                        </span>
-                        <span class="nav-link-inner--text">{{ __('Register visit') }}</span>
-                    </a>
-                </li>
+                    <li class="web-menu mr-1">
+                        <button type="button" class="btn btn-neutral btn-icon btn-cart" data-toggle="modal" data-target="#modal-form">
+                            <span class="btn-inner--icon">
+                                <i class="fa fa-bell"></i>
+                            </span>
+                            <span class="nav-link-inner--text">{{ __('Call Waiter') }}</span>
+                        </button>
+                    </li>
+                    <li class="web-menu mr-1">
+                        <a  href="{{ route('register.visit',['restaurant_id'=>$restorant->id])}}" class="btn btn-neutral btn-icon btn-cart" style="cursor:pointer;">
+                            <span class="btn-inner--icon">
+                                <i class="fa fa-calendar-plus-o"></i>
+                            </span>
+                            <span class="nav-link-inner--text">{{ __('Register visit') }}</span>
+                        </a>
+                    </li>
                 </div>
                 @endif
 
@@ -112,16 +112,18 @@
                     @isset($restorant)
 
                     @if(config('settings.enable_call_waiter') && strlen(config('broadcasting.connections.pusher.app_id')) > 2 && strlen(config('broadcasting.connections.pusher.key')) > 2 && strlen(config('broadcasting.connections.pusher.secret')) > 2)
-                    <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-form">
-                        <span class="btn-inner--icon">
-                            <i class="fa fa-bell"></i>
-                        </span>
-                        <span class="nav-link-inner--text">{{ __('Call Waiter') }}</span>
-                    </a>
-                    <a href="{{ route('register.visit',['restaurant_id'=>$restorant->id])}}" class="nav-link" style="cursor:pointer;">
-                        <i class="fa fa-calendar-plus-o"></i>
-                        <span class="nav-link-inner--text">{{ __('Register visit') }}</span>
-                    </a>
+                    <div id='dine_in_mobile' style="display: none;">
+                        <a type="button" class="nav-link" data-toggle="modal" data-target="#modal-form">
+                            <span class="btn-inner--icon">
+                                <i class="fa fa-bell"></i>
+                            </span>
+                            <span class="nav-link-inner--text">{{ __('Call Waiter') }}</span>
+                        </a>
+                        <a href="{{ route('register.visit',['restaurant_id'=>$restorant->id])}}" class="nav-link" style="cursor:pointer;">
+                            <i class="fa fa-calendar-plus-o"></i>
+                            <span class="nav-link-inner--text">{{ __('Register visit') }}</span>
+                        </a>
+                    </div>
                     @endif
 
                     @if(isset($hasGuestOrders)&&$hasGuestOrders)

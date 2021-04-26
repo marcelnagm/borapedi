@@ -205,9 +205,15 @@ function dineTypeSwitch(mod){
 
 }
 
+function IsMobile(){
+   if(screen.width >1024){       
+       return false;
+   }else return true;
+}
+
 function orderTypeSwither(mod){
       console.log("Change mod to "+mod);
-
+      console.log(screen.width);
       $('.delTime').hide();
       $('.picTime').hide();
       
@@ -217,12 +223,14 @@ function orderTypeSwither(mod){
           $('.picTime').show();
           $('#addressBox').hide();
           $('.takeaway_picker').hide();
-            $('#dine_in').hide();
+          if(!IsMobile())   $('#dine_in').hide();
+          else   $('#dine_in_mobile').hide();                        
       }
       if(mod=="dinein"){
           updatePrices(cartTotal.totalPrice,null,false)
           $('.picTime').show();
-          $('#dine_in').show();
+          if(!IsMobile())   $('#dine_in').show();
+          else   $('#dine_in_mobile').show();              
           $('.takeaway_picker').show();
           $('#addressBox').hide();
       }
@@ -230,7 +238,8 @@ function orderTypeSwither(mod){
       if(mod=="delivery"){
           $('.delTime').show();
           $('#addressBox').show();
-          $('#dine_in').hide();
+          if(!IsMobile())   $('#dine_in').hide();
+          else   $('#dine_in_mobile').hide();    
           $('.takeaway_picker').hide();
           getCartContentAndTotalPrice();
       }

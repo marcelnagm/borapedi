@@ -8,6 +8,19 @@
 
     </div>
 </section>
+<style>
+    .cart_adapt {
+        margin-top: -450px!important;
+    }
+    @media only screen and (max-width:1023px) {
+        .cart_adapt{
+            margin-top: 0!important;
+        }
+        .padding-left{
+            padding-left: 5px;
+        }
+    }
+</style>
 <section class="section bg-secondary">
 
     <div class="container">
@@ -19,7 +32,7 @@
 
             <!-- Left part -->
             <div class="col-md-7">                
-                <div class="card card-profile shadow" style="    margin-top: -450px!important;">
+                <div class="card card-profile shadow cart_adapt">
                     <div class="mt-5" style="text-align: center;">
                         <h3><span class="delTime delTimeTS">Sacola </span></h3>
                     </div>
