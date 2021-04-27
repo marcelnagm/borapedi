@@ -22,7 +22,7 @@
                                     </br>                                    
                                     <a  alt="Não sei Meu Cef"  target="_blank"  href="https://buscacepinter.correios.com.br/app/endereco/index.php?t" class="btn btn-primary" >Não sei meu CEP</a>                                    
                                     <div class="input-group mb-4">                                        
-                                        <button type="button" class="input-group-append button" onclick="getLocation()">
+                                        <button type="button" class="input-group-append button" onclick="getAdd()">
                                             <span class="input-group-text"><i id="search_location" class="fa fa-map-pin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Get my current location"></i></span>
                                         </button>
                                     </div>
@@ -70,42 +70,44 @@
 crossorigin="anonymous"></script>
 <script>
 
-                                            function getLocation() {
-                                                if (navigator.geolocation) {
-                                                navigator.geolocation.getCurrentPosition(function (position) {
-                                                var pos = {lat: position.coords.latitude, lng: position.coords.longitude};
-                                                        $.ajaxSetup({
-                                                        headers: {
-                                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                                        }
-                                                        });
-                                                        $.ajax({
-                                                        type: 'POST',
-                                                                url: '/search/location',
-                                                                dataType: 'json',
-                                                                data: {
-                                                                lat: position.coords.latitude,
-                                                                        lng: position.coords.longitude
-                                                                },
-                                                                success: function (response) {
-                                                                if (response.status) {
-                                                                console.log(response.data);
-                                                                        $("#txtlocation").val(response.data.formatted_address);
-                                                                        $("#address").val(response.data.address_components[1]['long_name']);
-                                                                        $("#address_neigh").val(response.data.address_components[2]['long_name']);
-                                                                        $("#address_city").val(response.data.address_components[3]['long_name'] + ' - ' + response.data.address_components[4]['long_name']);
-                                                                        $("#numbero").val(response.data.address_components[0]['long_name']);
-                                                                        $("#cep").val(response.data.address_components[6]['long_name']);
-                                                                        $("#submitNewAddress").show();
-                                                                }
-                                                                }, error: function (response) {
-                                                        }
-                                                        });
-                                                } else {
+function getAdd() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {lat: position.coords.latitude, lng: position.coords.longitude};
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: '/search/location',
+                dataType: 'json',
+                data: {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                },
+                success: function (response) {
+                    if (response.status) {
+                        console.log(response.data);
+                        $("#txtlocation").val(response.data.formatted_address);
+                        $("#address").val(response.data.address_components[1]['long_name']);
+                        $("#address_neigh").val(response.data.address_components[2]['long_name']);
+                        $("#address_city").val(response.data.address_components[3]['long_name'] + ' - ' + response.data.address_components[4]['long_name']);
+                        $("#numbero").val(response.data.address_components[0]['long_name']);
+                        $("#cep").val(response.data.address_components[6]['long_name']);
+                        $("#submitNewAddress").show();
+                    }
+                }, error: function (response) {
+                }
+            });
+        });
+    } else {
 //                                                 Browser doesn't support Geolocation
 //                                                handleLocationError(false, infoWindow, map.getCenter());
-                                                }
-                                            }
+    }
+}
+
 
                                             $(document).ready(function ($) {
 
@@ -151,6 +153,7 @@ crossorigin="anonymous"></script>
 
                                                     }
                                                 });
-                                            });
+                                            }
+                                            );
 
 </script>   
