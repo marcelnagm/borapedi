@@ -26,11 +26,11 @@
             </div>
         </div>
 
-        </br>
-        <div class="text-center" id="totalSubmitCOD">
-            <a href="{{route('vendor',['alias'=>$restorant->alias])}}" class="btn btn-primary text-white" >Continuar Comprando</a>
-        </div>
+        </br>      
     </div>
+</div>
+<div class="text-center" id="totalSubmitCOD">
+    <a href="{{route('vendor',['alias'=>$restorant->alias])}}" class="btn btn-primary text-white" >Continuar Comprando</a>
 </div>
 <!-- End List of items -->
 
