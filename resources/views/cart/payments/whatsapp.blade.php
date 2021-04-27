@@ -10,7 +10,3 @@
     <span class="btn-inner--icon lg"><i class="fa fa-whatsapp" aria-hidden="true"></i></span>
     <span class="btn-inner--text">{{ __('Send Whatsapp Order') }}</span>
 </div>
-</br>
-<div class="text-center" id="totalSubmitCOD">
-    <a href="{{route('vendor',['alias'=>$restorant->alias])}}" class="btn btn-primary text-white" >Continuar Comprando</a>
- </div>
