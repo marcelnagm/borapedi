@@ -651,6 +651,7 @@ class FrontEndController extends Controller
         $geocoder = new Geocoder($client);
         $geocoder->setApiKey(config('geocoder.key'));
         $res = $geocoder->getAddressForCoordinates($request->lat, $request->lng);
+//        $res = $geocoder->getAddressForCoordinates('2.8442966', );
 
         return response()->json([
             'data' => $res,

@@ -22,7 +22,7 @@
         @endif
         <th class="table-web" scope="col">{{ __('Price') }}</th>
         <th class="table-web" scope="col">{{ __('Delivery') }}</th>
-        @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('owner') || auth()->user()->hasRole('driver'))
+        @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('owner') || auth()->user()->hasRole('driver') || auth()->user()->hasRole('client'))
             <th scope="col">{{ __('Actions') }}</th>
         @endif
     </tr>
