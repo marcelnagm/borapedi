@@ -39,10 +39,13 @@
                     <form id="order-form" role="form" method="post" action="{{route('order.store')}}" autocomplete="off" enctype="multipart/form-data">
                         @csrf
                         @if(($restorant->can_pickup == 1) || ($restorant->can_deliver == 1) || ($restorant->self_deliver == 1) )
-
+                        
                         @include('cart.delivery')
 
                         @endif                       
+                        <?php if (auth()->user()->phone == "") { ?>
+                        @include('cart.phone_modal')
+                        <?php } ?>
                         <!-- Delivery address -->
                         <div id='addressBox'>
                             @include('cart.address')
@@ -77,8 +80,7 @@
                         <!-- Local Order Phone -->
                         @include('cart.localorder.phone')
 
-                        <!-- Custom Fields -->
-                        @include('cart.customfields')
+                        <!-- Custom Fields -->                        
 
                         <!-- Comment -->
                         @include('cart.comment')
@@ -92,7 +94,7 @@
                         <!-- Delivery method -->                     
                         @include('cart.time')
                         <!-- Custom Fields  -->
-                        @include('cart.customfields')
+                        <!--@include('cart.customfields')-->
 
                         <!-- DINE IN OR TAKEAWAY -->
                         @if (config('settings.enable_pickup'))

@@ -126,7 +126,7 @@
             @include('cart.payments.facebook')
         @endif
         <!-- END Payment Actions -->
-
+<?php if (auth()->user()->phone != "") { ?>
         <br/><br/>
         <div class="text-center">
             <div class="custom-control custom-checkbox mb-3">
@@ -143,6 +143,7 @@
       </div>
       <br />
       <br />
+<?php } ?>
     </div>
   </div>
 
