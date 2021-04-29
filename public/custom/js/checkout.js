@@ -103,6 +103,11 @@ var initCOD = function () {
 var initStripePayment = function () {
 
     console.log("Payment initialzing");
+       var deliveryCost=$("#addressID").find(':selected').data('cost');
+
+      //We now need to pass this cost to some parrent funct for handling the delivery cost change
+      chageDeliveryCost(deliveryCost);
+
 
     //On select payment method
     $('input:radio[name="paymentType"]').change(

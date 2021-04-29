@@ -1,7 +1,7 @@
 <br />
 <?php if (auth()->user()->phone == "") { ?>
     <script>
-        var no_phone = true;
+        var no_phone = true;        
     </script>    
     <button type="button" data-toggle="modal" data-target="#modal-new-phone"  class="btn btn-success text-right">
         Enviar Pedido</button>

@@ -1,12 +1,12 @@
 <div class="mt-5">
-    {{ __('Delivery Address') }}<span class="font-weight-light"></span>
+    {{ 'Endereço de Entrega' }}<span class="font-weight-light"></span>
 </div>
 <div class="card-content border-top">
     <input type="hidden" value="{{$restorant->id}}" id="restaurant_id"/>
     <div class="form-group{{ $errors->has('addressID') ? ' has-danger' : '' }}">
         @if(count($addresses))
         <select name="addressID" id="addressID" class="form-control{{ $errors->has('addressID') ? ' is-invalid' : '' }}  noselecttwo" required>
-            <option disabled selected value> {{__('-- select an option -- ')}}</option>
+            <option  disabled value> {{__('-- select an option -- ')}}</option>
             @foreach ($addresses as $key => $address)
             @if(config('settings.enable_cost_per_distance'))
             <option data-cost={{ $address->cost_per_km}} id="{{ 'address'.$address->id }}"  <?php
@@ -37,6 +37,21 @@
     </div>
     <input type="hidden" name="deliveryCost" id="deliveryCost" value="0" />
 </div>
+<script>
+  $(document).ready(function ($) {
+      
+<?php if (count($addresses) == 0) { ?>            
+
+            $('#modal-order-new-address').modal('show');
+<?php } ?>
+<?php if (count($addresses) == 1) { ?>            
+    $("select[name='AddressID'] option:eq(2)").attr("selected", "selected");
+<?php } ?>
+    });
+</script>
+
+
+
 Tempo Estimado de Entrega<span class="font-weight-light"></span>
 <div class="card-content border-top">
     <br />
