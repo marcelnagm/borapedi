@@ -39,78 +39,32 @@
                     <form id="order-form" role="form" method="post" action="{{route('order.store')}}" autocomplete="off" enctype="multipart/form-data">
                         @csrf
                         @if(($restorant->can_pickup == 1) || ($restorant->can_deliver == 1) || ($restorant->self_deliver == 1) )
-                        
+
                         @include('cart.delivery')
 
                         @endif                       
                         <?php if (auth()->user()->phone == "") { ?>
-                        @include('cart.phone_modal')
+                            @include('cart.phone_modal')
                         <?php } ?>
                         <!-- Delivery address -->
                         <div id='addressBox'>
                             @include('cart.address')
+                        </div>                        
+                        <div class="takeaway_picker" style="display: none">
+                            <!-- LOCAL ORDERING -->
+                            @include('cart.localorder.table')
                         </div>
-
                         @include('cart.restaurant')
                         <!-- List of items -->
                         @include('cart.items')
 
 
-                        @if(!config('settings.social_mode'))
-
-                        @if (config('app.isft')&&count($timeSlots)>0)
-                        <!-- FOOD TIGER -->
-                        <!-- Delivery method -->
-
-
-
-                        @include('cart.time')
-                        <!-- Comment -->
                         @include('cart.comment')
-
-                        @else
-
-                        <!-- QRSAAS -->
-
-
-
-                        <!-- LOCAL ORDERING -->
-                        @include('cart.localorder.table')
-
-                        <!-- Local Order Phone -->
-                        @include('cart.localorder.phone')
-
-                        <!-- Custom Fields -->                        
-
-                        <!-- Comment -->
-                        @include('cart.comment')
-
-
-                        @endif
-                        @else
-                        <!-- Social MODE -->
 
                         @if(count($timeSlots)>0)
                         <!-- Delivery method -->                     
                         @include('cart.time')
-                        <!-- Custom Fields  -->
-                        <!--@include('cart.customfields')-->
-
-                        <!-- DINE IN OR TAKEAWAY -->
-                        @if (config('settings.enable_pickup'))
-                        <!-- Takeaway time slot -->
-                        <div class="takeaway_picker" style="display: none">
-                            @include('cart.localorder.table')
-
-                            <!-- Local Order Phone -->
-                            @include('cart.localorder.phone')
-
-                        </div>
-
-                        @endif
                         <!-- Comment -->
-                        @include('cart.comment')
-                        @endif
                         @endif
 
                         <!-- Restaurant -->
