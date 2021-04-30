@@ -32,7 +32,7 @@
                                 <div class="col-4">
                                     @include('partials.fields',['fields'=>[
                             ['ftype'=>'input','name'=>"Apelido",'id'=>"nick",'placeholder'=>"",'required'=>true]
-                            ]])  ;                  
+                            ]])    
                                 </div>
                                 <div class="col-8">                           
                             @include('partials.fields',['fields'=>[
@@ -44,19 +44,19 @@
                                 <div class="col-8">
                                     @include('partials.fields',['fields'=>[
                                     ['ftype'=>'input','name'=>"Bairro",'id'=>"address_neigh",'placeholder'=>"",'required'=>true,'readonly' => true]
-                                    ]]);
+                                    ]])
                                 </div>
                                 <div class="col-4">
                                     @include('partials.fields',['fields'=>[
                                     ['ftype'=>'input','name'=>"Cidade/Estado",'id'=>"address_city",'placeholder'=>"",'required'=>true,'readonly' => true]
-                                    ]]);
+                                    ]])
                                 </div>
                             </div>
 
                             @include('partials.fields',['fields'=>[            
-                            ['ftype'=>'input','name'=>"number",'id'=>"numbero",'placeholder'=>"Numero",'required'=>true],
-                            ['ftype'=>'input','name'=>"complement",'id'=>"complement",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>true]
-                            ]]);
+                            ['ftype'=>'input','name'=>"Número",'id'=>"numbero",'placeholder'=>"Numero",'required'=>true],
+                            ['ftype'=>'input','name'=>"complemento",'id'=>"complement",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>true]
+                            ]])
                             <input type="hidden"  name="phone_send"  id="phone_send" value="" > 
                         </div>
                     </div>
@@ -66,7 +66,7 @@
             <div class="modal-footer">
 
                 <button type="button" class="btn btn-link" data-dismiss="modal">{{ __('Close') }}</button>
-                <button type="button" id="submitNewAddress" class="btn btn-outline-success">{{ __('Save') }}</button>
+                <button type="button" id="submitNewAddress" class="btn btn-success">{{ __('Save') }}</button>
             </div>
 
         </div>
