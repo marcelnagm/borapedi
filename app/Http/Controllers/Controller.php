@@ -99,6 +99,7 @@ class Controller extends BaseController {
                     $new_obj = (object) [];
                     $new_obj->id = $address->id;
                     $new_obj->address = $address->address;
+                    $new_obj->nick= $address->nick;
 
                     $data2 = $this->getDrivingDistance($address->lat, $rid['lat'], $address->lng, $rid['lng']);
                    

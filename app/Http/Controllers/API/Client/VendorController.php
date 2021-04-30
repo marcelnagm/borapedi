@@ -150,6 +150,7 @@ class VendorController extends Controller
             'fee' => $addresses[$address_id]->cost_total,
             'inRadius' => $addresses[$address_id]->inRadius,
             'address'=>$addresses[$address_id],
+            'nick'=>$addresses[$address_id]->nick,
             'status' => true,
             'errMsg' => '',
         ]);

@@ -55,6 +55,7 @@ class AddressControler extends Controller
         
         
         $address = new Address;
+        $address->nick= $request->nick;
         $address->address = strip_tags($request->new_address);
         $address->user_id = auth()->user()->id;
         $address->lat = $me['lat'];
@@ -62,7 +63,7 @@ class AddressControler extends Controller
         $address->apartment = $request->apartment ?? $request->apartment;
         $address->intercom = $request->intercom ?? $request->intercom;
         $address->floor = $request->floor ?? $request->floor;
-        $address->entry = $request->entry ?? $request->entry;
+        $address->entry = $rckequest->entry ?? $request->entry;
         $address->save();
 
         //return redirect()->route('/cart-checkout')->withStatus(__('Address successfully added.'));

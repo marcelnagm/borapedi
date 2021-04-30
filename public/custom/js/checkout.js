@@ -27,7 +27,7 @@ $("#privacypolicy").change(function () {
             $('.paymentbutton').attr("disabled", true);
             $("#privacypolicy").prop("checked", false);
             if ($('#phone').val().length < 14) {
-              alert('Preencha o Telefone');
+                alert('Preencha o Telefone');
             }
         }
     } else {
@@ -103,11 +103,17 @@ var initCOD = function () {
 var initStripePayment = function () {
 
     console.log("Payment initialzing");
-       var deliveryCost=$("#addressID").find(':selected').data('cost');
 
-      //We now need to pass this cost to some parrent funct for handling the delivery cost change
-      chageDeliveryCost(deliveryCost);
+    if (num_addresses == 0) {
+        $('#modal-order-new-address').modal('show');
+    } else if (num_addresses >= 1) {
+        $("select[name='AddressID'] option:eq(2)").attr("selected", "selected");
+        var deliveryCost = $("#addressID").find(':selected').data('cost');
 
+        //We now need to pass this cost to some parrent funct for handling the delivery cost change
+        chageDeliveryCost(deliveryCost);
+
+    }
 
     //On select payment method
     $('input:radio[name="paymentType"]').change(
@@ -298,6 +304,7 @@ var initAddress = function () {
         var address_name = $("#address").val();
         var address_neigh = $("#address_neigh").val();
         var address_city = $("#address_city").val();
+        var nick = $("#nick").val();
         var address_number = $("#numbero").val();
         var number_apartment = $("complement").val();
         var number_intercom = '';
@@ -335,6 +342,7 @@ var initAddress = function () {
                     lng: lng,
                     apartment: number_apartment,
                     intercom: number_intercom,
+                    nick: nick,
                     entry: entry,
                     floor: floor
                 },

@@ -19,7 +19,7 @@
             if (!$address->inRadius) {
                 echo "disabled";
             }
-            ?> value={{ $address->id }}>{{$address->address}} </option>
+            ?> value={{ $address->id }}>{{$address->nick." / ".$address->address}} </option>
             @endif
             @endforeach
         </select>
@@ -37,17 +37,12 @@
     </div>
     <input type="hidden" name="deliveryCost" id="deliveryCost" value="0" />
 </div>
-<script>
-  $(document).ready(function ($) {
-      
-<?php if (count($addresses) == 0) { ?>            
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- BS JavaScript -->
 
-            $('#modal-order-new-address').modal('show');
-<?php } ?>
-<?php if (count($addresses) == 1) { ?>            
-    $("select[name='AddressID'] option:eq(2)").attr("selected", "selected");
-<?php } ?>
-    });
+<!-- Have fun using Bootstrap JS -->
+<script>
+    var num_addresses = {{count($addresses) }};        
 </script>
 
 

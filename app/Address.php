@@ -10,7 +10,7 @@ class Address extends Model
     use HasFactory;
     
     protected $fillable = [
-        'address', 'lat', 'lng', 'apartment', 'intercom', 'floor', 'entry',
+       'nick', 'address', 'lat', 'lng', 'apartment', 'intercom', 'floor', 'entry',
     ];
 
     protected $table = 'address';
