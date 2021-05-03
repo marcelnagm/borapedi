@@ -40,7 +40,7 @@
                         </p>
                         @endif
                         @foreach ($apps as $app)
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 mt-3">
                             <div class="card" style="width: 18rem;">
                                 <a target="_blank" href="{{ $app->link }}"><img class="card-img-top" src="{{ $app->image }}" alt="{{ $app->name }}"></a>
                                 <div class="card-body">

@@ -34,7 +34,7 @@
                     @endif
 
                     @if($newVersionAvailable)
-                        <a href="{{ route('settings.cloudupdate') }}?do_update=true" class="btn btn-sm btn-success">{{ __('New version avaialbe') }} - v{{$newVersion}}</a>
+                        <a href="{{ route('settings.cloudupdate') }}?do_update=true" class="btn btn-sm btn-success">{{ __('New version available') }} - v{{$newVersion}}</a>
                         @else
                         <a class="btn btn-sm btn-white" href="javascript:alert('You do have the latest major version')">{{ __('Latest version')}}</a>
                     @endif     

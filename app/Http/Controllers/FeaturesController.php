@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class FeaturesController extends Controller
 {
-    protected $imagePath = 'uploads/settings/';
+    protected $imagePath = 'uploads/restorants/';
 
     private function validateAccess()
     {

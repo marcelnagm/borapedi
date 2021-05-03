@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Image;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Services\ConfChanger;
+use Akaunting\Module\Facade as Module;
 
 class ItemsController extends Controller
 {
@@ -100,6 +101,7 @@ class ItemsController extends Controller
             }
 
             return view('items.index', [
+                'hasMenuPDf'=>Module::has('menupdf'),
                 'canAdd'=>$canAdd,
                 'categories' => $categories,
                 'restorant_id' => auth()->user()->restorant->id,
@@ -247,6 +249,7 @@ class ItemsController extends Controller
 
     public function import(Request $request)
     {
+
         $restorant = Restorant::findOrFail($request->res_id);
 
         Excel::import(new ItemsImport($restorant), request()->file('items_excel'));

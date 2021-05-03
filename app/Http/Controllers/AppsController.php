@@ -10,9 +10,9 @@ class AppsController extends Controller
 {
     public function index(){
         //1. Get all available apps
-        $appsLink="https://raw.githubusercontent.com/mobidonia/foodtigerapps/main/apps.json";
+        $appsLink="https://raw.githubusercontent.com/mobidonia/foodtigerapps/main/apps24.json";
         $response = (new \GuzzleHttp\Client())->get($appsLink);
-        
+
         $apps=[];
         if ($response->getStatusCode() == 200) {
             $apps = json_decode($response->getBody());

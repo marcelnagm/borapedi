@@ -44,10 +44,13 @@
                             @include('cart.address')
                         </div>
 
+                        <!-- Custom Fields -->
+                        @include('cart.customfields')
+
                         <!-- Comment -->
                         @include('cart.comment')
 
-                    @else
+                    @elseif(config('app.isqrsaas')&&count($timeSlots)>0)
 
                       <!-- QRSAAS -->
                       

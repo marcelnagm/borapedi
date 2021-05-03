@@ -15,7 +15,9 @@
         "zipft": "npm run clear && cp .env_ft .env && zip -r ftiger.zip ./   -x \"resources/lang/en/qrlanding.php\" -x \"resources/lang/en/whatsapp.php\"  -x \"whatsapp_food.zip\" -x \"qr_maker.zip\"  -x \"ngrok\" -x \"public/social/*\" -x \"node_modules/*\" -x \"modules/*\"  -x \"*.git*\" -x \"*.DS_Store\"  -x \"public/js/appreact.js\"  -x \".env_ft\" -x \".env_qr\"  -x \".env_wp\"",
         "zipupdate": "cat .diff-files.txt | zip -@ update.zip",
         "zipdfinvoice":"cd modules/PdfInvoice && zip -r /Users/danieldimov/Desktop/PdfInvoice.zip ./",
-        "zipim":"cd modules/Impressum && zip -r /Users/danieldimov/Desktop/Impressum.zip ./"
+        "zipim":"cd modules/Impressum && zip -r /Users/danieldimov/Desktop/Impressum.zip ./",
+        "missingtranslationshow":"sail artisan translation:list-missing-translation-keys",
+        "missingtranslation":"sail artisan translation:sync-translations"
     },
     "devDependencies": {
         "@babel/preset-react": "^7.0.0",

@@ -557,6 +557,10 @@ class FrontEndController extends Controller
         }
         $restorant = Restorant::whereRaw('REPLACE(subdomain, "-", "") = ?', [str_replace("-","",$alias)])->first();
 
+        //Set config based on restaurant
+        config(['app.timezone' => $restorant->getConfig('time_zone',config('app.timezone'))]);
+
+        
         if ($restorant->active == 1) {
 
             if(isset($_GET['pay'])){
@@ -591,18 +595,7 @@ class FrontEndController extends Controller
                 }
             }
 
-            //Working hours
-            $ourDateOfWeek = date('N') - 1;
-
-            //dd($ourDateOfWeek);
-            $format = 'G:i';
-            if (config('settings.time_format') == 'AM/PM') {
-                $format = 'g:i A';
-            }
-
-            $openingTime = $restorant->hours && $restorant->hours[$ourDateOfWeek.'_from'] ? date($format, strtotime($restorant->hours[$ourDateOfWeek.'_from'])) : null;
-            $closingTime = $restorant->hours && $restorant->hours[$ourDateOfWeek.'_to'] ? date($format, strtotime($restorant->hours[$ourDateOfWeek.'_to'])) : null;
-
+           
             $previousOrders = Cookie::get('orders') ? Cookie::get('orders') : '';
             $previousOrderArray = array_filter(explode(',', $previousOrders));
 
@@ -623,13 +616,20 @@ class FrontEndController extends Controller
 
             //dd($restorant->categories[1]->items[0]->extras);
            // dd(Categories::where('restorant_id',$restorant->id)->ordered()->get());
+
+           $businessHours=$restorant->getBusinessHours();
+           $now = new \DateTime('now');
+
+           $formatter = new \IntlDateFormatter(config('app.locale'), \IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT);
+           $formatter->setPattern(config('settings.datetime_workinghours_display_format_new'));
+
             return view('restorants.show', [
                 'doWeHaveImpressumApp'=>$doWeHaveImpressumApp,
                 'restorant' => $restorant,
-                'openingTime' => $openingTime,
-                'closingTime' => $closingTime,
+                'openingTime' => $businessHours->isClosed()?$formatter->format($businessHours->nextOpen($now)):null,
+                'closingTime' => $businessHours->isOpen()?$formatter->format($businessHours->nextClose($now)):null,
                 'usernames' => $usernames,
-                'canDoOrdering'=>$canDoOrdering,
+                'canDoOrdering'=>$canDoOrdering&&$businessHours->isOpen(),
                 'currentLanguage'=>$currentEnvLanguage,
                 'showLanguagesSelector'=>env('ENABLE_MILTILANGUAGE_MENUS', false) && $restorant->localmenus()->count() > 1,
                 'hasGuestOrders'=>count($previousOrderArray) > 0,

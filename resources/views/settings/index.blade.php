@@ -1,7 +1,22 @@
 @extends('layouts.app', ['title' => __('Settings')])
 
 @section('content')
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-primary pb-7 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <!--<div class="col-lg-6 col-7">
+            </div>-->
+            <div class="col-lg-12 col-12 text-right">
+                @if($hasDemoRestaurants)
+                    <a href="{{ route('admin.restaurants.removedemo') }}" class="btn btn-sm btn-danger">{{ __('Remove demo data') }}</a>
+                @endif
+                <a href="{{ route('systemstatus') }}" class="btn btn-sm btn-danger">{{ __('settings_system_status') }}</a>
+                <a href="{{ route('admin.regenerate.sitemap') }}" class="btn btn-sm btn-warning">{{ __('Regenerate sitemap') }}</a>
+            </div>
+          </div>
+        </div>
+    </div>
 </div>
 <div class="container-fluid mt--7">
     @if ($showMultiLanguageMigration)
@@ -15,17 +30,17 @@
                         <div class="col-4">
                             <h3 class="mb-0">{{ __('Settings Management') }}</h3>
                         </div>
-                        <div class="col-8 text-right">
+                        <!--<div class="col-8 text-right">
                             @if($hasDemoRestaurants)
                                 <a href="{{ route('admin.restaurants.removedemo') }}" class="btn btn-sm btn-danger">{{ __('Remove demo data') }}</a>
                             @endif
                             <a href="{{ route('systemstatus') }}" class="btn btn-sm btn-danger">{{ __('settings_system_status') }}</a>
                             <a href="{{ route('admin.regenerate.sitemap') }}" class="btn btn-sm btn-warning">{{ __('Regenerate sitemap') }}</a>
-                           
-                        </div>
+                        </div>-->
                     </div>
                 </div>
                 <div class="card-body">
+
                     @if (session('status'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             {{ session('status') }}
@@ -34,17 +49,12 @@
                             </button>
                         </div>
                     @endif
+
                     @if (session('results'))
                         <div class="alert alert-success" role="alert">
+                            
                             <?php print_r(session('results')); ?>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-                    @if (session('message'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ session('message') }}
+                            
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -53,6 +63,7 @@
                         <form id="settings" method="post" action="{{ route('settings.update', $settings->id) }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             @method('put')
+
                             <div class="nav-wrapper">
                                 <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
                                     <li class="nav-item">
@@ -61,14 +72,25 @@
                                     <li class="nav-item">
                                         <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="ni ni-image mr-2"></i>{{ __ ('Images') }}</a>
                                     </li>
+
+
+
                                     @foreach ($envConfigs as $groupConfig)
                                         <li class="nav-item">
                                             <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#{{$groupConfig['slug']}}" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="{{$groupConfig['icon']}}"></i> {{ __ ($groupConfig['name']) }}</a>
                                         </li>
                                     @endforeach
+
+
                                     <li class="nav-item">
                                         <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#cssjs" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i class="ni ni-palette mr-2"></i>{{ __ ('CSS & JS') }}</a>
                                     </li>
+
+                                   
+
+
+
+
                                 </ul>
                             </div>
                             <br/>

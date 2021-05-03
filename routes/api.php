@@ -59,7 +59,7 @@ Route::prefix('v2/driver')->group(function () {
      */
     //Settings /api/v2/driver/settings
     Route::prefix('settings')->name('driver.settings.')->group(function () {
-        Route::get('/', 'API\Client\SettingsController@index')->name('index');
+        Route::get('/', 'API\Client\SettingsController@index')->name('indexapi');
     });
 
     //NEEDS AUTHENTICATION
@@ -104,7 +104,7 @@ Route::prefix('v2/vendor')->group(function () {
      */
     //Settings /api/v2/vendor/settings
     Route::prefix('settings')->name('vendor.settings.')->group(function () {
-        Route::get('/', 'API\Client\SettingsController@index')->name('index');
+        Route::get('/', 'API\Client\SettingsController@index')->name('indexapivendor');
     });
 
     //NEEDS AUTHENTICATION
@@ -152,7 +152,7 @@ Route::prefix('v2/client')->group(function () {
      */
     //Settings /api/v2/client/settings
     Route::prefix('settings')->name('settings.')->group(function () {
-        Route::get('/', 'API\Client\SettingsController@index')->name('index');
+        Route::get('/', 'API\Client\SettingsController@index')->name('indexapiclient');
     });
    
 
@@ -183,7 +183,7 @@ Route::prefix('v2/client')->group(function () {
         //Orders /api/v2/client/orders
         Route::prefix('orders')->name('orders.')->group(function () {
             Route::get('/', 'API\Client\OrdersController@index');
-            Route::post('/', 'API\Client\OrdersController@store')->name('store');
+            Route::post('/', 'API\Client\OrdersController@store')->name('storeapi');
         });
 
 
