@@ -3,9 +3,34 @@
     {{__('Menu')}}
 @endsection
 @section('content')
-    @include('items.partials.modals')
-    @include('items.partials.header', ['title' => __('Edit Restaurant Menu')])
-
+    @include('items.partials.modals', ['restorant_id' => $restorant_id])
+    
+    <div class="header bg-gradient-primary pb-7 pt-5 pt-md-8">
+        <div class="container-fluid">
+            <div class="header-body">
+            <div class="row align-items-center py-4">
+                <!--<div class="col-lg-6 col-7">
+                </div>-->
+                <div class="col-lg-12 col-12 text-right">
+                    @if (isset($hasMenuPDf)&&$hasMenuPDf)
+                        <a target="_blank" href="{{ route('menupdf.download')}}" class="btn btn-sm btn-danger"><i class="fas fa-file-pdf"></i> {{ __('PDF Menu') }}</a>
+                    @endif
+                    <button class="btn btn-icon btn-1 btn-sm btn-info" type="button" data-toggle="modal" data-target="#modal-items-category" data-toggle="tooltip" data-placement="top" title="{{ __('Add new category')}}">
+                        <span class="btn-inner--icon"><i class="fa fa-plus"></i> {{ __('Add new category') }}</span>
+                    </button>
+                    @if($canAdd)
+                    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal-import-items" onClick=(setRestaurantId({{ $restorant_id }}))>
+                        <span class="btn-inner--icon"><i class="fa fa-file-excel"></i> {{ __('Import from CSV') }}</span>
+                    </button>
+                    @endif
+                    @if(config('settings.enable_miltilanguage_menus'))
+                        @include('items.partials.languages')
+                    @endif
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid mt--7">
         <div class="row">
             <div class="col-xl-12 order-xl-1">
@@ -16,10 +41,9 @@
                                 <div class="row">
                                     <div class="col">
                                         <h3 class="mb-0">{{ __('Restaurant Menu Management') }} @if(config('settings.enable_miltilanguage_menus')) ({{ $currentLanguage}}) @endif</h3>
-                                        
                                     </div>
                                     <div class="col-auto">
-                                        <button class="btn btn-icon btn-1 btn-sm btn-primary" type="button" data-toggle="modal" data-target="#modal-items-category" data-toggle="tooltip" data-placement="top" title="{{ __('Add new category')}}">
+                                        <!--<button class="btn btn-icon btn-1 btn-sm btn-primary" type="button" data-toggle="modal" data-target="#modal-items-category" data-toggle="tooltip" data-placement="top" title="{{ __('Add new category')}}">
                                             <span class="btn-inner--icon"><i class="fa fa-plus"></i> {{ __('Add new category') }}</span>
                                         </button>
                                         @if($canAdd)
@@ -29,7 +53,7 @@
                                         @endif
                                         @if(config('settings.enable_miltilanguage_menus'))
                                             @include('items.partials.languages')
-                                        @endif
+                                        @endif-->
                                     </div>
                                 </div>
                             </div>
@@ -148,19 +172,19 @@
                                             </a>
                                         </div>
                                     @endforeach
-                                    @if($canAdd)
-                                        <div class="col-lg-3" >
-                                            <a data-toggle="modal" data-target="#modal-new-item" data-toggle="tooltip" data-placement="top" href="javascript:void(0);" onclick=(setSelectedCategoryId({{ $category->id }}))>
-                                                <div class="card">
-                                                    <img class="card-img-top" src="{{ asset('images') }}/default/add_new_item.jpg" alt="...">
-                                                    <div class="card-body">
-                                                        <h3 class="card-title text-primary text-uppercase">{{ __('Add item') }}</h3>
-                                                    </div>
+                                    <div class="col-lg-3" >
+                                        <a   data-toggle="modal" data-target="#modal-new-item" data-toggle="tooltip" data-placement="top" href="javascript:void(0);" onclick=(setSelectedCategoryId({{ $category->id }}))>
+                                            <div class="card">
+                                               
+
+                                                <img class="card-img-top" src="{{ asset('images') }}/default/add_new_item.jpg" alt="...">
+                                                <div class="card-body">
+                                                    <h3 class="card-title text-primary text-uppercase">{{ __('Add item') }}</h3>
                                                 </div>
-                                            </a>
-                                            <br />
-                                        </div>
-                                    @endif
+                                            </div>
+                                        </a>
+                                        <br />
+                                    </div>
                                 </div>
                             </div>
                         </div>

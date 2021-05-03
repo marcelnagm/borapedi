@@ -45,14 +45,29 @@ foreach ($order->items()->get() as $key => $item) {
 @if($order->delivery_method==1)
 <?php  //Deliver?>
 📍 {{ __('Delivery Details') }}
+
+@if(config('app.isft'))
+{{ __('Client').": ".$order->client->name }}
+{{ __('Address').": ".$order->address->address }}
+{{ __('Delivery time').": ".$order->getTimeFormatedAttribute() }}
+@else
 {{ __('Client').": ".$order->client_name }}
 {{ __('Address').": ".$order->whatsapp_address }}
 {{ __('Delivery time').": ".$order->getTimeFormatedAttribute() }}
+@endif
+
 @else
 <?php   //Pickup details ?>
-✅ {{ __('Pickup Details') }};
+✅ {{ __('Pickup Details') }}
+
+@if(config('app.isft'))
+{{ __('Client').": ".$order->client->name }}
+{{ __('Pickup time').": ".$order->getTimeFormatedAttribute() }}
+@else
 {{ __('Client').": ".$order->client_name }}
 {{ __('Pickup time').": ".$order->getTimeFormatedAttribute() }}
+@endif
+
 @endif
 
 <?php   //Custom fields ?>

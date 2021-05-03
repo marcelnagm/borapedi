@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'version' => '2.3.2',
+    'version' => '2.4.2',
     'env'=>[
         [
             'name'=>'Setup',
@@ -34,7 +34,6 @@ return [
                 ['title'=>'The id of the restaurant for single mode', 'help'=>'If you have single mode selected, than this restaurant id will be show', 'key'=>'SINGLE_MODE_ID', 'value'=>'1', 'type'=>'number', 'onlyin'=>'ft'],
                 ['title'=>'Enable import via CSV for restaurant items', 'key'=>'ENABLE_IMPORT_CSV', 'value'=>'false', 'ftype'=>'bool'],
 
-                ['title'=>'Enable call waiter button', 'help'=>'When enabled, there will be notification in the backend when user click on the button to call waiter', 'key'=>'ENABLE_CALL_WAITER', 'value'=>'true', 'ftype'=>'bool', 'onlyin'=>'qrsaas'],
                 ['title'=>'Enable WhatsApp ordering', 'key'=>'IS_WHATSAPP_ORDERING_MODE', 'value'=>'false', 'type'=>'hidden', 'onlyin'=>'qrsaas'],
                 
                 ['separator'=>'Delivery costs', 'title'=>'Enable cost per distance', 'key'=>'ENABLE_COST_PER_DISTANCE', 'value'=>'false', 'ftype'=>'bool', 'onlyin'=>'ft'],
@@ -56,7 +55,7 @@ return [
 
                 ['title'=>'Demo restaurant slug', 'separator'=>'Other settings', 'help'=>'Enter the domain - slug of your demo restaurant that will show on the landing page', 'key'=>'demo_restaurant_slug', 'value'=>'leukapizza', 'onlyin'=>'qrsaas'],
                 ['title'=>'Url route for restaurant', 'help'=>'If you want to change the link the restaurant is open in. ex yourdomain.com/shop/shopname. shop - should be the value here', 'key'=>'URL_ROUTE', 'value'=>'restaurant'],
-                ['title'=>'Print templates images', 'help'=>'Links to images representing the images for the templates. You can usae remote images', 'key'=>'templates', 'value'=>'/impactfront/img/menu_template_1.jpg,/impactfront/img/menu_template_2.jpg', 'onlyin'=>'qrsaas'],
+                ['title'=>'Print templates images', 'help'=>'Links to images representing the images for the templates. You can use remote images', 'key'=>'templates', 'value'=>'/impactfront/img/menu_template_1.jpg,/impactfront/img/menu_template_2.jpg', 'onlyin'=>'qrsaas'],
                 ['title'=>'Print templates zip', 'help'=>'Link to .zip representing the template for download. You can use remote file', 'key'=>'linkToTemplates', 'value'=>'/impactfront/img/templates.zip', 'onlyin'=>'qrsaas'],
 
                 ['title'=>'Enable multi language menus', 'help'=>'When enabled, restaurants can add language version to the menu', 'key'=>'ENABLE_MILTILANGUAGE_MENUS', 'value'=>'false', 'ftype'=>'bool'],
@@ -86,8 +85,7 @@ return [
             'slug'=>'finances',
             'icon'=>'ni ni-money-coins',
             'fields'=>[
-
-                ['separator'=>'General', 'title'=>'Tool used for subscriptions', 'key'=>'SUBSCRIPTION_PROCESSOR', 'value'=>'Stripe', 'ftype'=>'select', 'data'=>['Stripe'=>'Stripe', 'PayPal'=>'PayPal', 'Paystack'=>'Paystack', 'Paddle'=>'Paddle', 'Local'=>'Local bank transfer'], 'onlyin'=>'qrsaas'],
+                ['separator'=>'General', 'title'=>'Tool used for subscriptions', 'key'=>'SUBSCRIPTION_PROCESSOR', 'value'=>'Stripe', 'ftype'=>'select', 'data'=>[], 'onlyin'=>'qrsaas'],
                 ['key'=>'ENABLE_PRICING', 'value'=>'true', 'type'=>'hidden', 'onlyin'=>'qrsaas'],
                 ['title'=>'', 'key'=>'FREE_PRICING_ID', 'value'=>'1', 'type'=>'hidden', 'onlyin'=>'qrsaas'],
                 ['title'=>'Enable Finance dashboard for owner', 'help'=>'More advance, finance related reports for owner', 'key'=>'ENABLE_FINANCES_OWNER', 'value'=>'true', 'ftype'=>'bool'],
@@ -97,26 +95,11 @@ return [
                 ['title'=>'Stripe API key', 'key'=>'STRIPE_KEY', 'value'=>'pk_test_XXXXXXXXXXXXXX'],
                 ['title'=>'Stripe API Secret', 'key'=>'STRIPE_SECRET', 'value'=>'sk_test_XXXXXXXXXXXXXXX'],
                 ['title'=>'Enable Stripe connect', 'help'=>'If enabled, restaurants will be able to connect, and money to be send directly to them', 'key'=>'ENABLE_STRIPE_CONNECT', 'value'=>'true', 'ftype'=>'bool'],
-
-                ['separator'=>'Paypal', 'title'=>'Enable PayPal for payments when ordering', 'key'=>'ENABLE_PAYPAL', 'value'=>'false', 'ftype'=>'bool'],
-                ['title'=>'Paypal client id', 'key'=>'PAYPAL_CLIENT_ID', 'value'=>''],
-                ['title'=>'Paypal secret', 'key'=>'PAYPAL_SECRET', 'value'=>''],
-                ['title'=>'Paypal mode', 'key'=>'PAYPAL_MODE', 'value'=>'sandbox', 'ftype'=>'select', 'data'=>['sandbox'=>'Development - sandbox', 'live'=>'Production - live']],
-
-                ['separator'=>'Mollie', 'title'=>'Enable mollie for payments when ordering', 'key'=>'ENABLE_MOLLIE', 'value'=>'false', 'ftype'=>'bool'],
-                ['title'=>'Mollie client key', 'key'=>'MOLLIE_KEY', 'value'=>'test_W7vgVS4bUTVarzBm39wjUk7SRV3Aek'],
+                ["title"=> "System will use", "key" => "VENDORS_OR_ADMIN_STRIPE", "ftype" => "select", "onlyin"=>"qrsaas", "value"=>"admin","data"=>[ "admin"=>"Admin defined Stripe", "vendor"=>"Vendor defined Stripe"]],
 
                 ['separator'=>'Local bank transfer', 'title'=>'Local bank transfer explanation', 'key'=>'LOCAL_TRANSFER_INFO', 'value'=>'Wire us the plan amout on the following bank accoun. And inform us about the wire.', 'onlyin'=>'qrsaas'],
                 ['title'=>'Bank Account', 'key'=>'LOCAL_TRANSFER_ACCOUNT', 'value'=>'IBAN: 12112121212121', 'onlyin'=>'qrsaas'],
-
-                ['separator'=>'Paystack', 'title'=>'Paystak payments enabled', 'key'=>'ENABLE_PAYSTACK', 'value'=>'false', 'ftype'=>'bool'],
-                ['title'=>'', 'key'=>'PAYSTACK_PUBLIC_KEY', 'value'=>''],
-                ['title'=>'Secret key', 'key'=>'PAYSTACK_SECRET_KEY', 'value'=>''],
-                ['title'=>'Merchant email', 'key'=>'MERCHANT_EMAIL', 'value'=>''],
-                ['title'=>'Paystack payment url', 'key'=>'PAYSTACK_PAYMENT_URL', 'value'=>'https://api.paystack.co'],
-
-                ['separator'=>'Paddle', 'title'=>'Vendor ID obtained from Paddle.com', 'key'=>'paddleVendorID', 'value'=>'', 'onlyin'=>'qrsaas'],
-
+                
                 ],
         ],
         [],
@@ -142,17 +125,17 @@ return [
                 ['title'=>'Facebook client id', 'key'=>'FACEBOOK_CLIENT_ID', 'value'=>'', 'onlyin'=>'ft'],
                 ['title'=>'Facebook client secret', 'key'=>'FACEBOOK_CLIENT_SECRET', 'value'=>'', 'onlyin'=>'ft'],
                 ['title'=>'Facebook redirec', 'key'=>'FACEBOOK_REDIRECT', 'value'=>'', 'onlyin'=>'ft'],
-                ['separator'=>'Notifications', 'title'=>'Onesignal App id', 'key'=>'ONESIGNAL_APP_ID', 'value'=>''],
-                ['title'=>'Onesignal rest api key', 'key'=>'ONESIGNAL_REST_API_KEY', 'value'=>''],
+                ['separator'=>'Notifications', 'title'=>'Onesignal App id', 'key'=>'ONESIGNAL_APP_ID', 'value'=>'','onlyin'=>'ft'],
+                ['title'=>'Onesignal rest api key', 'key'=>'ONESIGNAL_REST_API_KEY', 'value'=>'','onlyin'=>'ft'],
                 ['title'=>'Twillo Account SID', 'key'=>'TWILIO_ACCOUNT_SID', 'value'=>'SID', 'onlyin'=>'ft'],
                 ['title'=>'Twillo Account auth token', 'key'=>'TWILIO_AUTH_TOKEN', 'value'=>'TOKEN', 'onlyin'=>'ft'],
                 ['title'=>'Twillo from number', 'key'=>'TWILIO_FROM', 'value'=>'NUMBER', 'onlyin'=>'ft'],
                 ['title'=>'System should send sms notifications', 'key'=>'SEND_SMS_NOTIFICATIONS', 'value'=>'false', 'ftype'=>'bool', 'onlyin'=>'ft'],
-                ['separator'=>'Pusher live notifications', 'title'=>'Pusher app id', 'help'=>'Pusher is used for notification for call waiter and new orders avaialbe', 'key'=>'PUSHER_APP_ID', 'value'=>''],
-                ['title'=>'Pusher app key', 'key'=>'PUSHER_APP_KEY', 'value'=>''],
-                ['title'=>'Pusher app secret', 'key'=>'PUSHER_APP_SECRET', 'value'=>''],
-                ['title'=>'Pusher app cluster', 'key'=>'PUSHER_APP_CLUSTER', 'value'=>'eu'],
-                ['title'=>'Broadcast Driver', 'key'=>'BROADCAST_DRIVER', 'value'=>'log', 'ftype'=>'select', 'data'=>['log'=>'Log', 'pusher'=>'Pusher']],
+                ['separator'=>'Pusher live notifications', 'title'=>'Pusher app id', 'help'=>'Pusher is used for notification for call waiter and new orders avaialbe', 'key'=>'PUSHER_APP_ID', 'value'=>'', 'onlyin'=>'qrsaas'],
+                ['title'=>'Pusher app key', 'key'=>'PUSHER_APP_KEY', 'value'=>'','onlyin'=>'qrsaas'],
+                ['title'=>'Pusher app secret', 'key'=>'PUSHER_APP_SECRET', 'value'=>'','onlyin'=>'qrsaas'],
+                ['title'=>'Pusher app cluster', 'key'=>'PUSHER_APP_CLUSTER', 'value'=>'eu','onlyin'=>'qrsaas'],
+                ['title'=>'Broadcast Driver', 'key'=>'BROADCAST_DRIVER', 'value'=>'log', 'ftype'=>'select', 'data'=>['log'=>'Log', 'pusher'=>'Pusher','onlyin'=>'qrsaas']],
 
                 ['separator'=>'Cookies','title'=>'Cookie Consent', 'key'=>'ENABLE_DEFAULT_COOKIE_CONSENT', 'value'=>'true', 'ftype'=>'bool', 'help'=>'Cookie consent popup - you can import other via js'],
 

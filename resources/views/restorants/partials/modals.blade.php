@@ -34,7 +34,20 @@
                                     <div class="form-group">
                                         <br />
                                         <label class="form-control-label" for="quantity">{{ __('Quantity') }}</label>
-                                        <input type="number" name="quantity" id="quantity" class="form-control form-control-alternative" placeholder="1" value="1" required autofocus>
+                                        <!--<input type="number" name="quantity" id="quantity" class="form-control form-control-alternative" placeholder="1" value="1" required autofocus>-->
+                                            <input
+                                                    type="number"
+                                                    min="1"
+                                                    step="1"
+                                                    onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                                    name="quantity" 
+                                                    id="quantity" 
+                                                    class="form-control form-control-alternative" 
+                                                    placeholder="1" 
+                                                    value="1" 
+                                                    required 
+                                                    autofocus
+                                            >
                                     </div>
                                     <div class="quantity-btn">
                                         <div id="addToCart1">

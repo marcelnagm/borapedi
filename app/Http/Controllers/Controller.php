@@ -255,34 +255,56 @@ class Controller extends BaseController {
                         ->orderBy('distance');
     }
 
-    public function getTimieSlots($hours) {
-        $ourDateOfWeek = date('N') - 1;
-        $restaurantOppeningTime = $this->getMinutes(date('G:i', strtotime($hours[$ourDateOfWeek . '_from'])));
-        $restaurantClosingTime = $this->getMinutes(date('G:i', strtotime($hours[$ourDateOfWeek . '_to'])));
+    public function getTimieSlots($vendor)
+    {
 
-        //Interval
-        $intervalInMinutes = config('settings.delivery_interval_in_minutes');
 
-        //Generate thintervals from
-        $currentTimeInMinutes = Carbon::now()->diffInMinutes(Carbon::today());
-        $from = $currentTimeInMinutes > $restaurantOppeningTime ? $currentTimeInMinutes : $restaurantOppeningTime; //Workgin time of the restaurant or current time,
+        $tz=$vendor->getConfig('time_zone',config('app.timezone'));
+
+        //Set config based on restaurant
+        config(['app.timezone' => $tz]);
+
+        $businessHours=$vendor->getBusinessHours();
+        $now = new \DateTime('now', new \DateTimeZone($tz));
+        //dd($now);
+        if($businessHours->isClosed()){
+            return [];
+        }
+
+
+         //Interval
+         $intervalInMinutes = $vendor->getConfig('delivery_interval_in_minutes',config('settings.delivery_interval_in_minutes'));
+         //$intervalInMinutes=5;
+
+        $from = Carbon::now()->setTimezone($tz)->diffInMinutes(Carbon::today()->setTimezone($tz)->startOfDay());
+
+        $to = $this->getMinutes($businessHours->nextClose($now)->format('G:i'));
+
+        //dd( $from."   ".$to);
+
+    
         //print_r('now: '.$from);
         //To have clear interval
         $missingInterval = $intervalInMinutes - ($from % $intervalInMinutes); //21
+
+        //dd($missingInterval);
         //print_r('<br />missing: '.$missingInterval);
         //Time to prepare the order in minutes
-        $timeToPrepare = config('settings.time_to_prepare_order_in_minutes'); //30
+        $timeToPrepare = $vendor->getConfig('time_to_prepare_order_in_minutes',config('settings.time_to_prepare_order_in_minutes')); //30
+        //$timeToPrepare=10;
+
         //First interval
         $from += $timeToPrepare <= $missingInterval ? $missingInterval : ($intervalInMinutes - (($from + $timeToPrepare) % $intervalInMinutes)) + $timeToPrepare;
 
-        //$from+=$missingInterval;
-        //Generate thintervals to
-        $to = $restaurantClosingTime; //Closing time of the restaurant or current time
+        //Enlarge to, since that is not the delivery time
+        $to+= $missingInterval+$intervalInMinutes+$timeToPrepare;
+        //$to+=2*30;
 
         $timeElements = [];
         for ($i = $from; $i <= $to; $i += $intervalInMinutes) {
             array_push($timeElements, $i);
         }
+        //dd($timeElements);
         //print_r("<br />");
         //print_r($timeElements);
 
@@ -290,6 +312,8 @@ class Controller extends BaseController {
         for ($i = 0; $i < count($timeElements) - 1; $i++) {
             array_push($slots, [$timeElements[$i], $timeElements[$i + 1]]);
         }
+
+        //dd($slots);
 
         //print_r("<br />SLOTS");
         //print_r($slots);

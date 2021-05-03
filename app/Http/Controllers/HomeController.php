@@ -208,7 +208,52 @@ class HomeController extends Controller
                 'months' => $months,
             ]);
         } elseif (auth()->user()->hasRole('driver')) {
-            return redirect()->route('orders.index');
+
+            $driver = auth()->user();
+
+             //Today paid orders
+            $today=Order::where(['driver_id'=>$driver->id])->where('payment_status','paid')->where('created_at', '>=', Carbon::today());
+        
+            //Week paid orders
+            $week=Order::where(['driver_id'=>$driver->id])->where('payment_status','paid')->where('created_at', '>=', Carbon::now()->startOfWeek());
+
+            //This month paid orders
+            $month=Order::where(['driver_id'=>$driver->id])->where('payment_status','paid')->where('created_at', '>=', Carbon::now()->startOfMonth());
+
+            //Previous month paid orders 
+            $previousmonth=Order::where(['driver_id'=>$driver->id])->where('payment_status','paid')->where('created_at', '>=',  Carbon::now()->subMonth(1)->startOfMonth())->where('created_at', '<',  Carbon::now()->subMonth(1)->endOfMonth());
+
+
+            //This user driver_percent_from_deliver
+            $driver_percent_from_deliver=intval(auth()->user()->getConfig('driver_percent_from_deliver',config('settings.driver_percent_from_deliver')))/100;
+
+            $earnings = [
+                'today'=>[
+                    'orders'=>$today->count(),
+                    'earning'=>$today->sum('delivery_price')*$driver_percent_from_deliver,
+                    'icon'=>'bg-gradient-red'
+                ],
+                'week'=>[
+                    'orders'=>$week->count(),
+                    'earning'=>$week->sum('delivery_price')*$driver_percent_from_deliver,
+                    'icon'=>'bg-gradient-orange'
+                ],
+                'month'=>[
+                    'orders'=>$month->count(),
+                    'earning'=>$month->sum('delivery_price')*$driver_percent_from_deliver,
+                    'icon'=>'bg-gradient-green'
+                ],
+                'previous'=>[
+                    'orders'=>$previousmonth->count(),
+                    'earning'=>$previousmonth->sum('delivery_price')*$driver_percent_from_deliver,
+                    'icon'=>'bg-gradient-info'
+                ]
+            ];
+
+            return view('dashboard', [
+                'earnings' => $earnings
+            ]);
+            //return redirect()->route('orders.index');
         } elseif (auth()->user()->hasRole('client')) {
             return redirect()->route('front');
         }

@@ -40,7 +40,7 @@ class SettingsController extends Controller
 
     public function systemstatus()
     {
-        $totalTasks = 3;
+        $totalTasks = 2;
         $percent = 100 / $totalTasks;
         $taskDone = 0;
 
@@ -61,25 +61,6 @@ class SettingsController extends Controller
                     auth()->user()->notify(new SystemTest(auth()->user()));
                     array_push($testResutls, ['settings_smtp', 'OK', true]);
                     $taskDone++;
-
-                    //Now in qr, we need paddle vendor id or stripe s
-                    if (config('settings.subscription_processor') == 'Paddle') {
-                        //Check paddle
-                        if (config('settings.paddlevendorid') && strlen(config('settings.paddlevendorid') > 3)) {
-                            array_push($testResutls, ['settings_paddle', 'OK', true]);
-                            $taskDone++;
-                        } else {
-                            array_push($testResutls, ['settings_paddle', 'settings_paddle_error', false, 'https://mobidonia.gitbook.io/qr-menu-maker/define-basics/payments']);
-                        }
-                    } else {
-                        //Check stripe
-                        if (config('settings.stripe_key') && strlen(config('settings.stripe_key')) > 3 && config('settings.stripe_key') != 'pk_test_XXXXXXXXXXXXXX' && config('settings.stripe_secret') != 'sk_test_XXXXXXXXXXXXXXX') {
-                            array_push($testResutls, ['settings_stripe', 'OK', true]);
-                            $taskDone++;
-                        } else {
-                            array_push($testResutls, ['settings_stripe', 'settings_stripe_error', false, 'https://mobidonia.gitbook.io/qr-menu-maker/define-basics/payments']);
-                        }
-                    }
                 } catch (\Exception $e) {
                     array_push($testResutls, ['settings_smtp', 'settings_smtp_not_ok', false, 'https://mobidonia.gitbook.io/qr-menu-maker/define-basics/obtain-smtp']);
                 }
@@ -102,8 +83,18 @@ class SettingsController extends Controller
         foreach ($items as $key => $item) {
             $object = $provider::find($item->id);
             foreach ($fields as $keyFields => $valueField) {
+                $valueToStore="";
                 if($object){
-                    $object->setTranslation($valueField, $locale, $item->name)->save();
+                    if($valueField=="name"){
+                        $valueToStore=$item->name; 
+                    }else if($valueField=="description"){
+                        $valueToStore=$item->description;
+                    }
+                    
+                    if(is_numeric($valueToStore)){
+                        $valueToStore=$valueToStore.".";
+                    }
+                    $object->setTranslation($valueField, $locale, $valueToStore)->save();
                 }
                 
             }
@@ -158,7 +149,10 @@ class SettingsController extends Controller
         //Extra fields from included modules
         $extraFields=[];
         foreach (Module::all() as $key => $module) {
-            $extraFields=array_merge($extraFields,$module->get('global_fields'));
+            if($module->get('global_fields')){
+                $extraFields=array_merge($extraFields,$module->get('global_fields'));
+            }
+            
         }
         $envConfigs['3']['fields']=array_merge($extraFields,$envConfigs['3']['fields']);
 

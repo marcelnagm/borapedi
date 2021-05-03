@@ -25,8 +25,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use willvincent\Rateable\Rating;
 use App\Services\ConfChanger;
 use Akaunting\Module\Facade as Module;
-
-class OrderController extends Controller {
+use App\Events\OrderAcceptedByAdmin;
+use App\Events\OrderAcceptedByVendor;
 
     public function migrateStatuses() {
         if (Status::count() < 13) {
@@ -186,6 +186,7 @@ class OrderController extends Controller {
         foreach (Cart::getContent() as $key => $item) {
             $vendor_id = $item->attributes->restorant_id;
         }
+        $restorant = Restorant::findOrFail($vendor_id);
 
         //Organize the item
         $items = [];
@@ -220,8 +221,10 @@ class OrderController extends Controller {
         $delivery_method = "pickup";
 
         //Delivery method - deliveryType - ft
-        if ($request->has('deliveryType')) {
-            $delivery_method = $request->deliveryType;
+        if($request->has('deliveryType')){
+            $delivery_method=$request->deliveryType;
+        }else if($restorant->can_pickup == 0 && $restorant->can_deliver == 1){
+            $delivery_method="delivery";
         }
 
         //Delivery method  - dineType - qr
@@ -299,15 +302,17 @@ class OrderController extends Controller {
 
             $vendor = Restorant::findOrFail($mobileLikeRequest->vendor_id);
 
-            //Mollie
-            if (strlen($vendor->mollie_payment_key) > 5) {
-                $vendorHasOwnPayment = "mollie";
+            //Payment methods
+            foreach (Module::all() as $key => $module) {
+                if($module->get('isPaymentModule')){
+                    if($vendor->getConfig($module->get('alias')."_enable","false")=="true"){
+                        $vendorHasOwnPayment=$module->get('alias');
+                    }
+                }
             }
 
-            //PayPal
-            $PayPalClientId = $vendor->getConfig('paypal_client_id');
-            if ($PayPalClientId && strlen($PayPalClientId) > 5) {
-                $vendorHasOwnPayment = "paypal";
+            if($vendorHasOwnPayment==null){
+                $hasPayment=false;
             }
         }
 
@@ -770,6 +775,16 @@ class OrderController extends Controller {
 
         //$order->status()->attach([$status->id => ['comment'=>"",'user_id' => auth()->user()->id]]);
         $order->status()->attach([$status_id_to_attach => ['comment' => '', 'user_id' => auth()->user()->id]]);
+
+
+        //Dispatch event
+        if($alias=="accepted_by_restaurant"){
+            OrderAcceptedByVendor::dispatch($order);
+        }
+        if($alias=="accepted_by_admin"){
+            OrderAcceptedByAdmin::dispatch($order);
+        }
+
 
         return redirect()->route('orders.index')->withStatus(__('Order status succesfully changed.'));
     }
