@@ -182,6 +182,7 @@ class CartController extends Controller
                 'title' => 'Shopping Cart Checkout',
                 'tables' =>  ['ftype'=>'select', 'name'=>'', 'id'=>'table_id', 'placeholder'=>'Select table', 'data'=>$tablesData, 'required'=>true],
                 'restorant' => $restaurant,
+                'timeToPrepare' => $restaurant->getConfig('time_to_prepare_order_in_minutes',config('settings.time_to_prepare_order_in_minutes')),
                 'timeSlots' => $timeSlots,
                 'openingTime' => $businessHours->isClosed()?$formatter->format($businessHours->nextOpen($now)):null,
                 'closingTime' => $businessHours->isOpen()?$formatter->format($businessHours->nextClose($now)):null,

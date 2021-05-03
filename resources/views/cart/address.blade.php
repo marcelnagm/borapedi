@@ -1,3 +1,12 @@
+Tempo Estimado de Entrega<span class="font-weight-light"></span>
+<div class="card-content border-top">
+    <br />
+  @if($timeToPrepare != 0)
+{{$timeToPrepare}}min - {{$timeToPrepare*2}}min
+@else
+Não Informado
+@endif
+</div>
 <div class="mt-5">
     {{ 'Endereço de Entrega' }}<span class="font-weight-light"></span>
 </div>
@@ -44,11 +53,3 @@
 <script>
     var num_addresses = {{count($addresses) }};        
 </script>
-
-
-
-Tempo Estimado de Entrega<span class="font-weight-light"></span>
-<div class="card-content border-top">
-    <br />
-
-</div>
