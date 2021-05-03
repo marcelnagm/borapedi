@@ -28,6 +28,9 @@ use Akaunting\Module\Facade as Module;
 use App\Events\OrderAcceptedByAdmin;
 use App\Events\OrderAcceptedByVendor;
 
+
+class OrderController extends Controller
+{
     public function migrateStatuses() {
         if (Status::count() < 13) {
             $statuses = ['Just created', 'Accepted by admin', 'Accepted by restaurant', 'Assigned to driver', 'Prepared', 'Picked up', 'Delivered', 'Rejected by admin', 'Rejected by restaurant', 'Updated', 'Closed', 'Rejected by driver', 'Accepted by driver'];
