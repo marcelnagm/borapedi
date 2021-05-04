@@ -22,18 +22,15 @@ class Main extends Controller
     public function pay($order)
     {
         $order=Order::findOrFail($order);
-        
-        $vendor = Restorant::findOrFail($order->restorant_id);
         $totalValue=$order->order_price+$order->delivery_price;
-
+        $rest = Restorant::find($order->restorant_id);
         //GET THE KEY
         //System setup 
         $access_token=config('mercadopago.access_token',"");
 
         //Setup based on vendor
         if(config('mercadopago.useVendor')){
-            
-            $access_token=$vendor->getConfig('mercadopago_access_token','');            
+            $access_token=$rest->getConfig('mercadopago_access_token','');
         }
 
         // Agrega credenciales
