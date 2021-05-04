@@ -1,7 +1,7 @@
 <br />
 <?php if (auth()->user()->phone == "") { ?>
     <script>
-        var no_phone = true;        
+        var no_phone = false;        
     </script>    
     <button type="button" data-toggle="modal" data-target="#modal-new-phone"  class="btn btn-success text-right">
         Enviar Pedido</button>
@@ -9,7 +9,7 @@
     <br>
 <?php } else { ?>
     <script>
-        var no_phone = false;
+        var no_phone = true;
     </script>  
     <div class="text-center" id="totalSubmitCOD">
         <button 
