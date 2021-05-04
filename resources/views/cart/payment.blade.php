@@ -39,7 +39,7 @@
                             <div role="alert" class="alert alert-danger">{{ session('error') }}</div>
                         @endif
 
-                        @if(!config('settings.is_whatsapp_ordering_mode'))
+                        
                         <!-- COD -->
                         @if (!config('settings.hide_cod'))
                             <div class="custom-control custom-radio mb-3">
@@ -49,7 +49,7 @@
                         @endif
 
                         @if($enablePayments)
-
+                        
                             <!-- STIPE CART -->
                             @if (config('settings.stripe_key')&&config('settings.enable_stripe'))
                                 <div class="custom-control custom-radio mb-3">
@@ -66,7 +66,6 @@
 
                         @endif
 
-                        @endif
                     </div>
                 </div>
             </div>
@@ -76,7 +75,7 @@
 
         <!-- Payment Actions -->
         @if(!config('settings.social_mode'))
-
+<h1>{{PEGAA}}</h1>
             <!-- COD -->
             @include('cart.payments.cod')
 
@@ -98,7 +97,7 @@
             @include('cart.payments.facebook')
         @endif
         <!-- END Payment Actions -->
-<?php if (auth()->user()->phone != "") { ?>
+@if (auth()->user()->phone != "")
         <br/><br/>
         <div class="text-center">
             <div class="custom-control custom-checkbox mb-3">
@@ -115,7 +114,7 @@
       </div>
       <br />
       <br />
-<?php } ?>
+@endif
     </div>
   </div>
 

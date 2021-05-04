@@ -257,11 +257,11 @@ class RestorantController extends Controller
                 "title"=>"Stripe secret", 
                 "key"=>"stripe_secret", 
                 "value"=>$restaurant->getConfig('stripe_secret',""),
-                "onlyin"=>"qrsaas"
+//                "onlyin"=>"qrsaas"
             ]);
         }
-  
-       
+//  
+//       dd($rawFields);
         $appFields=$this->convertJSONToFields($rawFields);
 
         $shiftsData = Hours::where(['restorant_id' => $restaurant->id])->get($hoursRange);

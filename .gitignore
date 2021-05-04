@@ -7,9 +7,8 @@
 storage/framework/views
 /storage/multilanguagemigrated
 /storage/auth0sync
-/storage/*
+/storage
 /vendor/*
-/modules
 .env
 .env_qr
 .env_ft

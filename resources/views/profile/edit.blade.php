@@ -151,8 +151,7 @@
             return false;
         }
     });
-    $(document).ready(function ($) {
-        alert('oega!');
+    $(document).ready(function ($) {        
         $("#input-phone").mask("(00) 0000-0000");
     });
 </script>

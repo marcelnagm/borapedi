@@ -178,7 +178,7 @@ class CartController extends Controller
         
 
             $params = [
-                'enablePayments'=>$enablePayments,
+                'enablePayments'=>true,
                 'title' => 'Shopping Cart Checkout',
                 'tables' =>  ['ftype'=>'select', 'name'=>'', 'id'=>'table_id', 'placeholder'=>'Select table', 'data'=>$tablesData, 'required'=>true],
                 'restorant' => $restaurant,
