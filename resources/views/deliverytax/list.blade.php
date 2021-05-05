@@ -141,7 +141,7 @@ if (isset($val)) {
             map,
             title: "Nosso Restaurante",
         });
-        for ($i = 0; $i < values_k.length; $i++) {
+        for (var $i = 0; $i < values_k.length; $i++) {
             var circulo = new google.maps.Circle(
                     {
                         map: map,

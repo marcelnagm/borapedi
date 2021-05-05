@@ -7,13 +7,13 @@
 </div>
 <div class="container-fluid mt--7">
     <div class="row">
-        <div class="col-xl-6">
+        <div class="col-12">
             <br/>
             <div class="card bg-secondary shadow">
                 <div class="card-header bg-white border-0">
                     <div class="row align-items-center">
                         <div class="col-8">
-                            <h3 class="mb-0">{{ __('Delivery tax')." - ".$restorant->name}}</h3>
+                            <h3 class="mb-0">{{ __('Delivery tax')}}</h3>
                             @include('deliverytax.form')    
                         </div>                       
                     </div>
@@ -31,8 +31,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5">
-              <div id="map_canvas" style="height: 60vh; width:38vw">
+        <div class="card bg-secondary shadow col-12" style="margin-top: 1vh;">
+             <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                            <h5 class="mb-0"> Áreas Atendidas</h5>
+                    </div>
+                </div>
+              <div id="map_canvas" style="height: 60vh; width:45vw">
                         
                     </div>
 
