@@ -1,2 +1,4 @@
 git pull 
-./clear_cache.sh
+composer dump-autoload
+php artisan config:clear
+php artisan config:cache
