@@ -141,7 +141,7 @@
                     }, error: function (response) {
                     //alert(response.responseJSON.errMsg);
                     }
-                })
+                });
             }
         }
 

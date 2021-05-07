@@ -142,6 +142,14 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('live', 'OrderController@live');
 //    Route::get('deliverytax', 'DevileryTaxController@index');
+     Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
+         Route::get('/', 'WhatsappController@index')->name('index');
+         Route::get('/new', 'WhatsappController@new')->name('new');
+         Route::post('/store', 'WhatsappController@store')->name('store');
+         Route::post('/update', 'WhatsappController@update')->name('update');
+         Route::get('/{id}/edit', 'WhatsappController@edit')->name('edit');
+         Route::get('/{id}/delete', 'WhatsappController@delete')->name('delete');
+    });    
      Route::prefix('deliverytax')->name('deliverytax.')->group(function () {
          Route::get('index', 'DevileryTaxController@index')->name('index');
          Route::post('post', 'DevileryTaxController@post')->name('post');
