@@ -1,8 +1,8 @@
 
 <thead class="thead-light">
     <tr>
-        <th class="table-web" scope="col">{{ __('Distance') }}</th>
-        <th class="table-web" scope="col">{{ __('Tax') }}</th>
+        <th class="table-web" scope="col">Quando Ocorre a ação</th>
+        <th class="table-web" scope="col">Mensagem Enviada</th>
     </tr>
 </thead>
 <tbody>
@@ -10,7 +10,7 @@
     @foreach($items as $item)
     <tr>    
         <td class="table-web" id="edit_d_{{$item->id}}" >
-            {{ $item->parameter }} 
+            {{ $item->getParameter()->name }} 
         </td>
         <td class="table-web" id="edit_c_{{$item->id}}">
          {{ $item->message }} 

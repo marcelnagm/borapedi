@@ -13,6 +13,7 @@ use App\Traits\Modules;
 use Artisan;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-//use Intervention\Image\Image;
+use App\WhastappService as WhatsappService;
+
 use Image;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
@@ -56,10 +58,12 @@ class WhatsappController extends Controller {
     }
 
     public function new() {
-        $all = Status::all();
+        $res = WhatsappMessage::where('restorant_id', auth()->user()->restorant->id)->pluck('parameter')->toArray();        
+        $all = Status::select()->whereNotIn('id', $res)->get();
+        WhatsappService::sendMessage('','');
         $data = array();
-        foreach (Status::all() as $item) {
-            $data[$item->alias] = $item->name;
+        foreach ($all as $item) {
+            $data[$item->id] = $item->name;
         }
         if (auth()->user()->hasRole('owner')) {
             return view('whatsapp.new', [
@@ -71,10 +75,10 @@ class WhatsappController extends Controller {
     }
 
     public function edit($id) {
-        $all = Status::all();
-        $data = array();
-        foreach (Status::all() as $item) {
-            $data[$item->alias] = $item->name;
+        $res = WhatsappMessage::where('restorant_id', auth()->user()->restorant->id)->pluck('parameter')->toArray();        
+        $all = Status::select()->whereNotIn('id', $res)->get();
+        foreach ($all as $item) {
+            $data[$item->id] = $item->name;
         }
         if (auth()->user()->hasRole('owner')) {
             return view('whatsapp.edit', [
@@ -109,10 +113,10 @@ class WhatsappController extends Controller {
             $message = new WhatsappMessage();
             $message->message = $requestData['mensagem'];
             $message->parameter = $requestData['tipo'];
-            $message->restorant_id = auth()->user()->restorant->id;
+            $message->restorant_id = auth()->user()->restorant->id;            
             $message->save();
-
-            return redirect()->route('whatsapp.index')->withStatus(__('Mengem adicionada com sucesso'));
+            
+            return redirect()->route('whatsapp.index')->withStatus(__('Mensagem adicionada com sucesso'));
         } else {
             return redirect()->route('orders.index')->withStatus(__('No Access'));
         }

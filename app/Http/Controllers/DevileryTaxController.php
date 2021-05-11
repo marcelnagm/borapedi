@@ -98,6 +98,7 @@ class DevileryTaxController extends Controller {
             return redirect()->route('orders.index')->withStatus(__('No Access'));
         }
     }
+    
     public function edit(Request $request) {
         if (auth()->user()->hasRole('owner')) {
             $requestData = $request->all();
