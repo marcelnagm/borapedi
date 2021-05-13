@@ -17,10 +17,10 @@
                 </div>
             </div>
             <div class="card-body bg-white border-0">                
-                    <form id="restorant-form" method="post" action="{{ route('whatsapp.update') }}" autocomplete="off" enctype="multipart/form-data">
-                        <input type='hidden' id='id' name='id' value='{{$object->id}}'>
+                <form id="restorant-form" method="post" action="{{ route('whatsapp.update') }}" autocomplete="off" enctype="multipart/form-data">
+                    <input type='hidden' id='id' name='id' value='{{$object->id}}'>
                     @include('whatsapp.form')
-                </form>
+                </form>              
             </div>
 
         </div>
@@ -33,7 +33,7 @@
     <script>
         $(document).ready(function ($) {
 
-                   });
+        });
 
 
     </script>

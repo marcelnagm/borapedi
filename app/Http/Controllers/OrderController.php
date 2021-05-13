@@ -27,7 +27,7 @@ use App\Services\ConfChanger;
 use Akaunting\Module\Facade as Module;
 use App\Events\OrderAcceptedByAdmin;
 use App\Events\OrderAcceptedByVendor;
-
+use App\WhastappService as WhatsappService;
 
 class OrderController extends Controller
 {
@@ -335,7 +335,7 @@ class OrderController extends Controller
             notify()->error($validatorOnMaking->errors()->first());
             return $orderRepo->redirectOrInform();
         }
-
+        
         return $orderRepo->redirectOrInform();
     }
 
@@ -599,7 +599,7 @@ class OrderController extends Controller
 
     public function updateStatus($alias, Order $order) {
         if ($alias == 'rebuy') {
-
+            WhatsappService::sendMessage($order,1);
             
             $list = OrderHasItems::where('order_id', $order->id)->get() ;
 //            dd($list[0]->item()->id,$list[1]->item()->id);
@@ -634,7 +634,7 @@ class OrderController extends Controller
                     $variant = '';
 //                fim variant                
 //                Exctras    
-                if ($item_k->extras != '') {
+                if ($item_k->extras != '[]') {
                     $res = explode(',', str_replace(']', '', str_replace('[', '', str_replace('"', '', $item_k->extras))));
 //                    dd($res);
                     foreach ($res as $key => $value) {
@@ -760,11 +760,13 @@ class OrderController extends Controller
         if (config('app.isft') && $alias . '' == 'delivered') {
             $order->payment_status = 'paid';
             $order->update();
+            WhatsappService::sendMessage($order,7);
         }
 
         if (config('app.isqrsaas') && $alias . '' == 'closed') {
             $order->payment_status = 'paid';
             $order->update();
+            WhatsappService::sendMessage($order,11);
         }
 
         if (config('app.isft')) {
@@ -783,6 +785,7 @@ class OrderController extends Controller
         //Dispatch event
         if($alias=="accepted_by_restaurant"){
             OrderAcceptedByVendor::dispatch($order);
+            WhatsappService::sendMessage($order,3);
         }
         if($alias=="accepted_by_admin"){
             OrderAcceptedByAdmin::dispatch($order);
@@ -914,7 +917,7 @@ class OrderController extends Controller
 
     public function success(Request $request) {
         $order = Order::findOrFail($request->order);
-
+        WhatsappService::sendMessage($order,1);
         //If order is not paid - redirect to payment
         if ($request->redirectToPayment . "" == "1" && $order->payment_status != 'paid' && strlen($order->payment_link) > 5) {
             //Redirect to payment

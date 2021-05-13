@@ -13,7 +13,7 @@
             {{ $item->getParameter()->name }} 
         </td>
         <td class="table-web" id="edit_c_{{$item->id}}">
-         {{ $item->message }} 
+         {!! $item->message !!}
         </td>
         <td class="table-web">
             <a type="button" class="btn btn-danger" value="x" href="{{ route('whatsapp.delete',$item->id) }}">Remover</a>

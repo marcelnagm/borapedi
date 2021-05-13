@@ -49,9 +49,17 @@ class WhatsappController extends Controller {
      */
     public function index() {
         if (auth()->user()->hasRole('owner')) {
+            
+//            dd($result);
+            if (WhatsappService::isConnected(auth()->user()->restorant->phone)) {
+                          
             return view('whatsapp.index', [
-                'items' => WhatsappMessage::where('restorant_id', auth()->user()->restorant->id)->orderBy('parameter', 'ASC')->get()
+                'items' => WhatsappMessage::where('restorant_id', auth()->user()->restorant->id)->orderBy('parameter', 'ASC')->get(),
+                'device' => WhatsappService::getMobileInfo(auth()->user()->restorant->phone)
             ]);
+            }else{
+                return view('whatsapp.index_no');
+            }
         } else {
             return redirect()->route('orders.index')->withStatus(__('No Access'));
         }
@@ -60,7 +68,7 @@ class WhatsappController extends Controller {
     public function new() {
         $res = WhatsappMessage::where('restorant_id', auth()->user()->restorant->id)->pluck('parameter')->toArray();        
         $all = Status::select()->whereNotIn('id', $res)->get();
-        WhatsappService::sendMessage('','');
+//        WhatsappService::sendMessage('','');
         $data = array();
         foreach ($all as $item) {
             $data[$item->id] = $item->name;
@@ -76,7 +84,7 @@ class WhatsappController extends Controller {
 
     public function edit($id) {
         $res = WhatsappMessage::where('restorant_id', auth()->user()->restorant->id)->pluck('parameter')->toArray();        
-        $all = Status::select()->whereNotIn('id', $res)->get();
+        $all = Status::all();
         foreach ($all as $item) {
             $data[$item->id] = $item->name;
         }

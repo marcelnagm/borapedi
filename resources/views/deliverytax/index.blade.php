@@ -15,31 +15,37 @@
                         <div class="col-8">
                             <h3 class="mb-0">{{ __('Delivery tax')}}</h3>
                             @include('deliverytax.form')    
-                        </div>                       
+                        </div>  
+                        <div class="col-4">
+                            <div id='loading' style="float: right; display: none;">
+                                Salvando
+                                <img src="/images/icons/loading.gif"  style="width: 50%;">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <h6 class="heading-small text-muted mb-4">{{ __('Delivery tax list') }}</h6>
                     <hr />
-                    
+
                     <div class="table-responsive">
                         <table class="table align-items-center" id='result'>                           
                             @include('deliverytax.list')                            
                         </table>
                     </div>'
-                  
+
                 </div>
             </div>
         </div>
         <div class="card bg-secondary shadow col-12" style="margin-top: 1vh;">
-             <div class="card-header bg-white border-0">
-                    <div class="row align-items-center">
-                            <h5 class="mb-0"> Áreas Atendidas</h5>
-                    </div>
+            <div class="card-header bg-white border-0">
+                <div class="row align-items-center">
+                    <h5 class="mb-0"> Áreas Atendidas</h5>
                 </div>
-              <div id="map_canvas" style="height: 60vh; width:45vw">
-                        
-                    </div>
+            </div>
+            <div id="map_canvas" style="height: 60vh; width:45vw">
+
+            </div>
 
 
         </div>
@@ -53,55 +59,56 @@
 
 
 <!-- Google Map -->
-<!--<script async defer src= "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=<?php // echo config('settings.google_maps_api_key'); ?>"></script>-->
+<!--<script async defer src= "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=<?php // echo config('settings.google_maps_api_key');   ?>"></script>-->
 
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=<?php echo config('settings.google_maps_api_key'); ?>"></script>
 <script type="text/javascript">
-  
-  var lat = <?php echo $lat ?>;
-  var lng = <?php echo $lng ?>;
-  
-  $(document).ready(function() {
-      drawmap();
+
+var lat = <?php echo $lat ?>;
+var lng = <?php echo $lng ?>;
+
+$(document).ready(function () {
+    drawmap();
 });
-  
-    //console.log(formatAMPM("19:05"));
-    var form = document.getElementById('restorant-form');
-    form.addEventListener('submit', async function (event) {
-        event.preventDefault();
+
+//console.log(formatAMPM("19:05"));
+var form = document.getElementById('restorant-form');
+form.addEventListener('submit', async function (event) {
+    event.preventDefault();
 //        alert('exectuado');
-        var distance = $('#distance').val();
-        var cost = $('#cost').val();
-        var restaurant_id = $('#rid').val();
+    var distance = $('#distance').val();
+    var cost = $('#cost').val();
+    var restaurant_id = $('#rid').val();
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $.ajax({
-            type: 'POST',
-            url: '/deliverytax/post',
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $('#loading').show(100);
+    $.ajax({
+        type: 'POST',
+        url: '/deliverytax/post',
 //            dataType: 'json',
-            data: {distance: distance,
-                cost: cost,
-                restaurant_id: restaurant_id 
-            },
-            success: function (response) { 
+        data: {distance: distance,
+            cost: cost,
+            restaurant_id: restaurant_id
+        },
+        success: function (response) {
 //                alert('sucess');
-                console.log(response.text);
-                    $("#result").html(response); 
-                    $('#distance').val('');
-                    $('#cost').val('');   
-                    $("#map_canvas").html();
-                drawmap();
-            }, error: function (response) {
-                //alert(response.responseJSON.errMsg);
-            }
-        })
-    });      
-    
+            console.log(response.text);
+            $("#result").html(response);
+            $('#distance').val('');
+            $('#cost').val('');
+            $("#map_canvas").html();
+            $('#loading').hide(100);
+            drawmap();
+        }, error: function (response) {
+            //alert(response.responseJSON.errMsg);
+        }
+    })
+});
+
 </script>
 @endsection
 
