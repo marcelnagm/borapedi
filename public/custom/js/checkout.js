@@ -21,7 +21,7 @@ var checkPrivacyPolicy = function () {
 
 $("#privacypolicy").change(function () {
     if (this.checked) {
-        if ($('#phone').val().length >= 14 || no_phone == false) {
+        if ($('#phone').val().length >= 14 || no_phone == true) {
             $('.paymentbutton').attr("disabled", false);
         } else {
             $('.paymentbutton').attr("disabled", true);
