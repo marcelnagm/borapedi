@@ -9,6 +9,7 @@ storage/framework/views
 /storage/auth0sync
 /storage
 /vendor/*
+vendor/*
 .env
 .env_qr
 .env_ft
