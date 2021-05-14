@@ -5,6 +5,7 @@ namespace App;
 use App\Order;
 use App\User;
 use App\Extras;
+use App\Models\Variants;
 use App\Address;
 use App\Models\OrderHasItems;
 use App\Models\WhatsappMessage;
@@ -46,6 +47,23 @@ class WhastappService {
     }
     
     public static function isConnected($name, $status = false) {
+          $ch = curl_init('https://api.borapedi.com:3333/Start');
+# Setup request to send json via POST.
+        $payload = json_encode(array(
+            "SessionName" => $name,
+//            "SessionName" => 'lalala',
+                )
+        );
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+//# Return response instead of printing.
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//# Send request.
+        $result = curl_exec($ch);
+        $result = json_decode($result, true);
+        curl_close($ch);
+        
         $ch = curl_init('https://api.borapedi.com:3333/Status');
 # Setup request to send json via POST.
         $payload = json_encode(array(
@@ -63,6 +81,8 @@ class WhastappService {
         $result = json_decode($result, true);
         curl_close($ch);
 //# Print response.
+//
+// Tratar erro quando node não estiver online
 //        dd($result);   
         if ($status == false) {
             if ($result['result'] == 'success') {
@@ -77,7 +97,9 @@ class WhastappService {
 
     public static function sendMessage($order, $status) {
         $name = $order->restorant->phone;
+          
         if (WhastappService::isConnected($name)) {
+//          dd('enviada');
             $message = WhatsappMessage::
                     where('restorant_id', $order->restorant->id)->
                     where('parameter', $status)->
@@ -97,6 +119,7 @@ class WhastappService {
                 $ch = curl_init('https://api.borapedi.com:3333/send');
 # Setup request to send json via POST.
 //                dd($client_phone);
+//                dd($result) ;
                 $payload = json_encode(array(
                     'SessionName' => $name,
                     'phone' => $client_phone, // NUMERO A SER ENVIADO EM FORMATO WHATSAPP
@@ -123,7 +146,7 @@ class WhastappService {
                 if (curl_errno($ch)) {
                     $error_msg = curl_error($ch);
                 }
-
+                
                 curl_close($ch);
 //# Print response.
                 return true;

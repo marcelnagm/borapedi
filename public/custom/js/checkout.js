@@ -21,15 +21,14 @@ var checkPrivacyPolicy = function () {
 
 $("#privacypolicy").change(function () {
     if (this.checked) {
-        console.log('no_phone ='+no_phone);
-        if (no_phone == false) {
+        if ($('#phone').val().length >= 14 || no_phone == false) {
+            $('.paymentbutton').attr("disabled", false);
+        } else {
             $('.paymentbutton').attr("disabled", true);
             $("#privacypolicy").prop("checked", false);
             if ($('#phone').val().length < 14) {
                 alert('Preencha o Telefone');
-            }                
-        } else {
-                $('.paymentbutton').attr("disabled", false);
+            }
         }
     } else {
         $('.paymentbutton').attr("disabled", true);
