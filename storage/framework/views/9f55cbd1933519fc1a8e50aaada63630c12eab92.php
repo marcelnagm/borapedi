@@ -4,24 +4,25 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-    <?php echo $__env->make('layouts.headers.cards', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php if(!auth()->user()->hasRole('driver')): ?>
+        <?php echo $__env->make('layouts.headers.cards.general', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php else: ?>
+        <?php echo $__env->make('layouts.headers.cards.driver', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php endif; ?>
 
     <?php if(auth()->user()->hasRole('admin')): ?>
-    <?php if(config('app.isft')): ?>
-    <div class="container-fluid mt--7 mb-8">
-        <div class="row">
-            <div class="col-xl-12">
-                <?php echo $__env->make('drivers.map', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php if(config('app.isft')): ?>
+        <div class="container-fluid mt--7 mb-8">
+            <div class="row">
+                <div class="col-xl-12">
+                    <?php echo $__env->make('drivers.map', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                </div>
             </div>
-            
-        </div>
-    </div>  
+        </div>  
+        <?php endif; ?>
     <?php endif; ?>
-    
-    <?php endif; ?>
-            
 
-
+    <?php if(!auth()->user()->hasRole('driver')): ?>
     <div class="container-fluid mt--7">
         <div class="row">
             <div class="col-xl-8 mb-5 mb-xl-0">
@@ -81,10 +82,9 @@
                 </div>
             </div>
         </div>
-
-
         <?php echo $__env->make('layouts.footers.auth', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     </div>
+    <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('topjs'); ?>
     <script src="<?php echo e(asset('argon')); ?>/vendor/chart.js/dist/Chart.min.js"></script>

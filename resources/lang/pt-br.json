@@ -512,9 +512,9 @@
     "Go Back": "Volte",
     "Refresh": "Atualizar",
     "Live orders": "Pedidos ativos",
-    "New Orders": "Novas ordens",
-    "Accepted": "Aceitaram",
-    "Done": "Feito",
+    "New Orders": "Aguardando",
+    "Accepted": "Em Andamento",
+    "Done": "Finalizado",
     "Status History": "Histórico de status",
     "Details": "Detalhes",
     "Your overall rating": "Sua classificação geral",
@@ -702,9 +702,8 @@
     "Order not on this driver": "O pedido não aceito pelo motorista",
     "Driver accepts order": "O pedido aceito pelo motorista",
     "Driver reject order": "O pedido rejeitado pelo motorista",
-    
-    "Delivery tax" : "Taxa de Entrega",
-    "Delivery tax list" : "Lista de Taxas de Entrega",
-    "Distance" : "Distância",
-    "Tax" : "Taxa de Entrega"
+    "Delivery tax": "Taxa de Entrega",
+    "Delivery tax list": "Lista de Taxas de Entrega",
+    "Distance": "Distância",
+    "Tax": "Taxa de Entrega"
 }

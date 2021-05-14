@@ -86,7 +86,7 @@ Coded by www.creative-tim.com
 
     <!-- Navbar -->
     <?php if(config('app.isft')): ?>
-        <?php echo $__env->make('layouts.menu.top', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+         <?php echo $__env->make('layouts.menu.top_justlogo', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php else: ?>
         <?php echo $__env->make('layouts.menu.top_justlogo', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php endif; ?>
