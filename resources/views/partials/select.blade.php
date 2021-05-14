@@ -9,7 +9,7 @@
     <label class="form-control-label">{{ __($name) }}</label><br />
 
     <select class="form-control form-control-alternative   @isset($classselect) {{$classselect}} @endisset"  name="{{ $id }}" id="{{  $id }}">
-        @if($edit ==true)
+        @if($edit ?? '' ==true)
         <option disabled value> {{ __('Select')." ".__($name)}} </option>
          @else
         <option disabled selected value> {{ __('Select')." ".__($name)}} </option>

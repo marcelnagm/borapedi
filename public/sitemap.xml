@@ -2,43 +2,241 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
         <loc>https://borapedi.com/</loc>
-        <lastmod>2021-03-19T21:10:37-04:00</lastmod>
+        <lastmod>2021-05-13T20:40:03-03:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://borapedi.com/blog/how-it-works</loc>
-        <lastmod>2021-03-19T21:10:37-04:00</lastmod>
+        <loc>https://borapedi.com/cart-checkout</loc>
+        <lastmod>2021-05-13T20:40:06-03:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://borapedi.com/blog/terms-and-conditions</loc>
-        <lastmod>2021-03-19T21:10:37-04:00</lastmod>
+        <loc>https://borapedi.com/city/al</loc>
+        <lastmod>2021-05-13T20:40:05-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/bf</loc>
+        <lastmod>2021-05-13T20:40:05-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/br</loc>
+        <lastmod>2021-05-13T20:40:05-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/bx</loc>
+        <lastmod>2021-05-13T20:40:04-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/mh</loc>
+        <lastmod>2021-05-13T20:40:05-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/mv</loc>
+        <lastmod>2021-05-13T20:40:05-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/nf</loc>
+        <lastmod>2021-05-13T20:40:06-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/nr</loc>
+        <lastmod>2021-05-13T20:40:05-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/qe</loc>
+        <lastmod>2021-05-13T20:40:05-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/rh</loc>
+        <lastmod>2021-05-13T20:40:04-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/ri</loc>
+        <lastmod>2021-05-13T20:40:05-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/sc</loc>
+        <lastmod>2021-05-13T20:40:06-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/sy</loc>
+        <lastmod>2021-05-13T20:40:05-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/ut</loc>
+        <lastmod>2021-05-13T20:40:06-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/wp</loc>
+        <lastmod>2021-05-13T20:40:06-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/city/yo</loc>
+        <lastmod>2021-05-13T20:40:05-03:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://borapedi.com/login</loc>
-        <lastmod>2021-03-19T21:10:37-04:00</lastmod>
+        <lastmod>2021-05-13T20:40:06-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/login/google</loc>
+        <lastmod>2021-05-13T20:40:10-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/new/driver/register</loc>
+        <lastmod>2021-05-13T20:40:06-03:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://borapedi.com/new/restaurant/register</loc>
-        <lastmod>2021-03-19T21:10:37-04:00</lastmod>
+        <lastmod>2021-05-13T20:40:06-03:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://borapedi.com/password/reset</loc>
-        <lastmod>2021-03-19T21:10:37-04:00</lastmod>
+        <lastmod>2021-05-13T20:40:10-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/register</loc>
+        <lastmod>2021-05-13T20:40:10-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/awangitalianrestorant</loc>
+        <lastmod>2021-05-13T20:40:08-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/bronxvannestrestorant</loc>
+        <lastmod>2021-05-13T20:40:07-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/brooklyntaco</loc>
+        <lastmod>2021-05-13T20:40:10-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/burger2go</loc>
+        <lastmod>2021-05-13T20:40:08-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/ilbuco</loc>
+        <lastmod>2021-05-13T20:40:09-03:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://borapedi.com/restaurant/leukapizza</loc>
-        <lastmod>2021-03-19T21:10:37-04:00</lastmod>
+        <lastmod>2021-05-13T20:40:10-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/malibudiner</loc>
+        <lastmod>2021-05-13T20:40:10-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/morrisparkburger</loc>
+        <lastmod>2021-05-13T20:40:07-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/norwoodburito</loc>
+        <lastmod>2021-05-13T20:40:07-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/oasisburgers</loc>
+        <lastmod>2021-05-13T20:40:10-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/pizzamanhattn</loc>
+        <lastmod>2021-05-13T20:40:09-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/pizzarelham</loc>
+        <lastmod>2021-05-13T20:40:07-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/thebrooklyntree</loc>
+        <lastmod>2021-05-13T20:40:10-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/titanfoods</loc>
+        <lastmod>2021-05-13T20:40:08-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/vandalburgers</loc>
+        <lastmod>2021-05-13T20:40:09-03:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://borapedi.com/restaurant/wendytaco</loc>
+        <lastmod>2021-05-13T20:40:08-03:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
