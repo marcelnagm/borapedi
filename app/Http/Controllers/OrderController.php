@@ -748,12 +748,14 @@ class OrderController extends Controller
             if ($status_id_to_attach . '' == '4') {
                 $order->driver->notify(new OrderNotification($order, $status_id_to_attach));
             }
+            WhatsappService::sendMessage($order,$status_id_to_attach);
         }
 
         //Picked up - start tracing
         if ($status_id_to_attach . '' == '6') {
             $order->lat = $order->restorant->lat;
             $order->lng = $order->restorant->lng;
+            WhatsappService::sendMessage($order,6);
             $order->update();
         }
 
@@ -789,6 +791,7 @@ class OrderController extends Controller
         }
         if($alias=="accepted_by_admin"){
             OrderAcceptedByAdmin::dispatch($order);
+            WhatsappService::sendMessage($order,2);
         }
 
 
