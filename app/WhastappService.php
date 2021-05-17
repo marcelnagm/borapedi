@@ -84,6 +84,10 @@ class WhastappService {
 //
 // Tratar erro quando node não estiver online
 //        dd($result);   
+         if ($result== false) {
+             return false;
+         }
+        
         if ($status == false) {
             if ($result['result'] == 'success') {
                 return true;
