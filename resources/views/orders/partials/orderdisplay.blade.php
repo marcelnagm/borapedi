@@ -61,7 +61,7 @@
     </td>
     @hasrole('admin|owner|driver')
     <td class="table-web">
-       {{ $order->client != null? $order->client->name : `Nao informado` }}
+       {{ $order->client != null? $order->client->name : 'Nao informado' }}
     </td>
     @endif
     @if(auth()->user()->hasRole('admin'))
