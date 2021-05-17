@@ -61,7 +61,7 @@
 <!-- Google Map -->
 <!--<script async defer src= "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=<?php // echo config('settings.google_maps_api_key');   ?>"></script>-->
 
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=<?php echo config('settings.google_maps_api_key'); ?>"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=<?php echo config('settings.google_maps_api_key'); ?>"></script>
 <script type="text/javascript">
 
 var lat = <?php echo $lat ?>;
