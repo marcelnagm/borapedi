@@ -264,14 +264,18 @@ class RestorantController extends Controller {
             unset($workingHours['id']);
             $shifts[$shiftId] = $workingHours;
         }
-        foreach(DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->orderBy('distance', 'ASC')->get()    as $tax){
+          if (!auth()->user()->hasRole('admin')) {
+            dd('Not allowed');
+        }
+
+        foreach(DeliveryTax::where('restaurant_id', $restaurant->id)->orderBy('distance', 'ASC')->get()    as $tax){
             $val[] = $tax->distance;
         }
         $client = new \GuzzleHttp\Client();
         $geocoder = new Geocoder($client);
         $geocoder->setApiKey(config('settings.google_maps_api_key'));
 //        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
-        $me = $geocoder->getCoordinatesForAddress(auth()->user()->restorant->address);
+        $me = $geocoder->getCoordinatesForAddress($restaurant->address);
 
         if (auth()->user()->id == $restaurant->user_id || auth()->user()->hasRole('admin')) {
             //return view('restorants.edit', compact('restorant'));
