@@ -111,6 +111,7 @@ class WhastappService {
 
             if (isset($message)) {
 //                dd('enviada');
+                $message = $message->message ;
                 if ($status == 1) {
                     
                     $message = $message->message ;
@@ -131,7 +132,7 @@ class WhastappService {
                     'message' => $message // MENSAGEM PARA SER ENVIADA   
                         )
                 );
-
+//dd($message);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                 curl_setopt($ch, CURLOPT_POST, 1);
