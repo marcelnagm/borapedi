@@ -264,10 +264,11 @@ class RestorantController extends Controller {
             unset($workingHours['id']);
             $shifts[$shiftId] = $workingHours;
         }
-          if (!auth()->user()->hasRole('admin')) {
-            dd('Not allowed');
-        }
-
+//          if (!auth()->user()->hasRole('admin')) {
+//            dd('Not allowed');
+//        }
+        
+        $val = array();
         foreach(DeliveryTax::where('restaurant_id', $restaurant->id)->orderBy('distance', 'ASC')->get()    as $tax){
             $val[] = $tax->distance;
         }
