@@ -114,7 +114,7 @@ class WhastappService {
                 $message = $message->message ;
                 if ($status == 1) {
                     
-                    $message = $message->message ;
+//                    $message = $message->message ;
                     $message .= "\n ".WhastappService::generateTextOrder($order);
                 }
 
