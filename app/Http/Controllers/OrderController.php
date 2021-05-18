@@ -755,20 +755,20 @@ class OrderController extends Controller
         if ($status_id_to_attach . '' == '6') {
             $order->lat = $order->restorant->lat;
             $order->lng = $order->restorant->lng;
-            WhatsappService::sendMessage($order,6);
+//            WhatsappService::ssendMessage($order,6);
             $order->update();
         }
 
         if (config('app.isft') && $alias . '' == 'delivered') {
             $order->payment_status = 'paid';
             $order->update();
-            WhatsappService::sendMessage($order,7);
+//            WhatsappService::sendMessage($order,7);
         }
 
         if (config('app.isqrsaas') && $alias . '' == 'closed') {
             $order->payment_status = 'paid';
             $order->update();
-            WhatsappService::sendMessage($order,11);
+//            WhatsappService::sendMessage($order,11);
         }
 
         if (config('app.isft')) {
@@ -787,11 +787,11 @@ class OrderController extends Controller
         //Dispatch event
         if($alias=="accepted_by_restaurant"){
             OrderAcceptedByVendor::dispatch($order);
-            WhatsappService::sendMessage($order,3);
+//            WhatsappService::sendMessage($order,3);
         }
         if($alias=="accepted_by_admin"){
             OrderAcceptedByAdmin::dispatch($order);
-            WhatsappService::sendMessage($order,2);
+//            WhatsappService::sendMessage($order,2);
         }
 
          WhatsappService::sendMessage($order,$status_id_to_attach);
