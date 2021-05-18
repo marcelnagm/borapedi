@@ -748,9 +748,9 @@ class OrderController extends Controller
             if ($status_id_to_attach . '' == '4') {
                 $order->driver->notify(new OrderNotification($order, $status_id_to_attach));
             }
-            WhatsappService::sendMessage($order,$status_id_to_attach);
+           
         }
-
+        
         //Picked up - start tracing
         if ($status_id_to_attach . '' == '6') {
             $order->lat = $order->restorant->lat;
@@ -794,7 +794,7 @@ class OrderController extends Controller
             WhatsappService::sendMessage($order,2);
         }
 
-
+         WhatsappService::sendMessage($order,$status_id_to_attach);
         return redirect()->route('orders.index')->withStatus(__('Order status succesfully changed.'));
     }
 
