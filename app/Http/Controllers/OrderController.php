@@ -527,7 +527,7 @@ class OrderController extends Controller
                 //Box 3 - Done
                 //Today completed or rejected
                 $last_status = $item['last_status_id'];
-                if ($last_status == 2 || $last_status == 10 || ($item['last_status_id'] == 1 && config('app.isqrsaas'))) {
+                if ($last_status == 2 || $last_status == 10 || ($item['last_status_id'] == 1 )) {
                     $item['pulse'] = 'blob green';
                     array_push($newOrders, $item);
                 } elseif ($last_status == 3 || $last_status == 4 || $last_status == 5) {
