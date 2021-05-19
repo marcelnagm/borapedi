@@ -14,11 +14,22 @@ class ReviewsController extends Controller
      */
     public function index()
     {
+         if (auth()->user()->hasRole('owner')) {
+            $ratings = Ratings::select()
+            ->join('orders', 'ratings.order_id', '=', 'orders.id')
+            ->where('restorant_id', '=', auth()->user()->restorant->id)
+            ->paginate(10);
+            ////Get driver's orders
+        } 
+         if (auth()->user()->hasRole('admin')) {
+            $ratings = Ratings::paginate(10);
+            ////Get driver's orders
+        } 
         return view('reviews.index', ['setup' => [
             'title'=>__('Order reviews'),
             'action_link'=>'',
             'action_name'=>'',
-            'items'=>Ratings::paginate(10),
+            'items'=> $ratings,
             'item_names'=>__('reviews'),
         ]]);
     }

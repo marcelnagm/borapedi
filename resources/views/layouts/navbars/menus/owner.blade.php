@@ -40,6 +40,16 @@
             <i class="ni ni-collection text-pink"></i> {{ __('Menu') }}
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('reviews.index') }}">
+            <i class="ni ni-diamond text-info"></i> {{ __('Reviews') }}
+        </a>
+    </li>
+     <li class="nav-item">
+            <a class="nav-link" href="{{ route('clients.index') }}">
+                <i class="ni ni-single-02 text-blue"></i> {{ __('Clients') }}
+            </a>
+        </li>   
     @if(auth()->user()->restorant->self_deliver)
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.restaurant.tables.index') }}">

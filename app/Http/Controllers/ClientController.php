@@ -14,9 +14,25 @@ class ClientController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->hasRole('admin')) {
+        if (auth()->user()->hasRole('owner')) {
+            $client = User::select('users.*')
+            ->join('orders', 'orders.client_id', '=', 'users.id')
+            ->join('model_has_roles', 'orders.client_id', '=', 'model_has_roles.model_id')
+            ->where('model_has_roles.model_type', '=', 'App\User')
+            ->where('model_has_roles.role_id', '=', 4)
+            ->where('users.active', '=', 1)
+            ->where('orders.restorant_id', '=', auth()->user()->restorant->id)
+            ->groupby('users.id')->distinct()        
+            ->paginate(10);
+            ////Get driver's orders
+        } 
+         if (auth()->user()->hasRole('admin')) {
+            $client = User::role('client')->where(['active'=>1])->paginate(15);
+            ////Get driver's orders
+        } 
+    if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('owner')) {
             return view('clients.index', [
-                    'clients' => User::role('client')->where(['active'=>1])->paginate(15),
+                    'clients' => $client
                 ]
             );
         } else {
