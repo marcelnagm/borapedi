@@ -119,12 +119,12 @@ class FrontEndController extends Controller
 
         //1. Single mode
         if (config('settings.single_mode') && config('settings.single_mode_id')) {
-            return $this->singleMode();
+//            return $this->singleMode();
         }
 
         //2. Subdomain mode
         if ($this->getSubDomain()) {
-            return $this->subdomainMode();
+//            return $this->subdomainMode();
         }
 
         //3. QR Mode ( WhatsApp )
@@ -134,14 +134,15 @@ class FrontEndController extends Controller
                 return $this->whatsappMode();
             }else{
                 //Default QR
-                return $this->qrsaasMode();
+//                return $this->qrsaasMode();
+                return $this->whatsappMode();
             }
             
         }
 
         //Multy City mode, and we don't have location atm
         if (config('settings.multi_city') && ! ($hasLocation || $hasQuery)) {
-            return $this->multyCityMode();
+//            return $this->multyCityMode();
         }
 
         //ELSE - Query and Location mode //Default
