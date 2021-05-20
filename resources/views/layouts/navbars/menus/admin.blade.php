@@ -61,30 +61,28 @@
                 <i class="ni ni-credit-card text-orange"></i> {{ __('Pricing plans') }}
             </a>
         </li>
-        @endif
-        @if(config('app.ordering')&&config('settings.enable_finances_admin'))
+        @endif        
         <li class="nav-item">
             <a class="nav-link" href="{{ route('finances.admin') }}">
                 <i class="ni ni-money-coins text-blue"></i> {{ __('Finances') }}
             </a>
         </li>
-        @endif
-        
-        @if(config('settings.app_dev'))
+        <li class="nav-item">
+            <a class="nav-link" href="{{ '/user/' }}">
+                <i class="ni ni-money-coins text-blue"></i> Usuarios
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.restaurant.banners.index') }}">
                 <i class="ni ni-album-2 text-green"></i> {{ __('Banners') }}
             </a>
-         </li>
-         @endif
-        @if(config('app.isqrsaas'))
-            @if(config('settings.is_whatsapp_ordering_mode'))
-            <li class="nav-item">
+         </li> 
+         <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.landing') }}">
                     <i class="ni ni-html5 text-green"></i> {{ __('Landing Page') }}
                 </a>
             </li>
-            @endif
+        @if(config('app.isqrsaas'))
         <li class="nav-item">
             <?php
                 $theLocaleToOpen=strtolower(config('settings.app_locale'));
@@ -109,13 +107,12 @@
             </a>
         </li>
 
-        @if(!config('settings.hideApps'))
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('apps.index') }}">
                     <i class="ni ni-spaceship text-red"></i> {{ __('Apps') }}
                 </a>
             </li>
-        @endif
+        
 
         
         <li class="nav-item">
