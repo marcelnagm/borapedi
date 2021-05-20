@@ -11,6 +11,7 @@ use App\Status;
 use App\User;
 use App\Models\Variants;
 use App\Models\Extras;
+use App\Models\RestorantHasDrivers;
 use App\Models\OrderHasItems;
 use App\Items;
 use Carbon\Carbon;
@@ -49,7 +50,22 @@ class OrderController extends Controller
         $this->migrateStatuses();
 
         $restorants = Restorant::where(['active' => 1])->get();
-        $drivers = User::role('driver')->where(['active' => 1])->get();
+                if (auth()->user()->hasRole('admin')) {
+
+            $drivers = User::role('driver')->paginate(15);
+        
+        } 
+        if (auth()->user()->plan()->first()->driver_own) {
+            $drivers = array();
+            foreach (RestorantHasDrivers::where('restorant_id', auth()->user()->restorant->id)->pluck('driver_id')->toArray() as $id => $val) {
+                $drivers[] = $val;
+            }
+
+//            dd($drivers);
+            $drivers = User::select('users.*')
+                    ->whereIn('id', $drivers)
+                    ->paginate(10);
+        }
         $clients = User::role('client')->where(['active' => 1])->get();
 
         $driversData = [];

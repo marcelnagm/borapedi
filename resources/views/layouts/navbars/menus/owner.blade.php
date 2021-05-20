@@ -45,23 +45,23 @@
             <i class="ni ni-diamond text-info"></i> {{ __('Reviews') }}
         </a>
     </li>
-     <li class="nav-item">
-            <a class="nav-link" href="{{ route('clients.index') }}">
-                <i class="ni ni-single-02 text-blue"></i> {{ __('Clients') }}
-            </a>
-        </li>   
-        <?php 
-        
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('clients.index') }}">
+            <i class="ni ni-single-02 text-blue"></i> {{ __('Clients') }}
+        </a>
+    </li>   
+    <?php
 //        dd(auth()->user()->plan()->first()->name )
-        ?>
-        
-        
+    ?>
+
+    @if(auth()->user()->plan()->count() !=  0)
+
     @if(auth()->user()->plan()->first()->driver_own)
     <li class="nav-item">
-            <a class="nav-link" href="{{ route('drivers.index') }}">
-                <i class="ni ni-delivery-fast text-pink"></i> {{ __('Drivers') }}
-            </a>
-        </li>
+        <a class="nav-link" href="{{ route('drivers.index') }}">
+            <i class="ni ni-delivery-fast text-pink"></i> {{ __('Drivers') }}
+        </a>
+    </li>
     @endif
     @if(auth()->user()->plan()->first()->local_table)
     <li class="nav-item">
@@ -69,6 +69,7 @@
             <i class="ni ni-ungroup text-red"></i> {{ __('Tables') }}
         </a>
     </li>
+    @endif
     @endif
     <li class="nav-item">
         <a class="nav-link" href="{{ route('qr') }}">

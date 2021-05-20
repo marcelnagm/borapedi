@@ -105,7 +105,7 @@
                 </div>
 
                 <!-- Tab Hours -->
-                @if(auth()->user()->hasRole('admin')&&config('app.isqrsaas'))
+                @if(auth()->user()->hasRole('admin'))
                     <div class="tab-pane fade show" id="plan" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
                         @include('restorants.partials.plan')
                     </div>
