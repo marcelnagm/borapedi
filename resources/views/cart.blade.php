@@ -104,6 +104,15 @@
 <script src="https://js.stripe.com/v3/"></script>
 <script>
 "use strict";
+
+var num_addresses = {{count($addresses) }};
+<?php if(count($addresses) ==0 ){ ?>
+    
+$(document).ready(function ($) {
+$('#modal-order-new-address').modal('show');
+});
+<?php } ?>
+
 var RESTORANT = <?php echo json_encode($restorant) ?>;
 var STRIPE_KEY = "{{ config('settings.stripe_key') }}";
 var ENABLE_STRIPE = "{{ config('settings.enable_stripe') }}";

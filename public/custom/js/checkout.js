@@ -240,6 +240,18 @@ var initAddress = function () {
     $("#new_address_spinner").hide();
     $("#address-info").hide();
     $("#submitNewAddress").hide();
+    console.log("num_address = " + num_addresses);
+
+    if (num_addresses == 0) {
+        $('#modal-order-new-address').modal('show');
+    } else if (num_addresses >= 1) {
+        $("select[name='AddressID'] option:eq(2)").attr("selected", "selected");
+        var deliveryCost = $("#addressID").find(':selected').data('cost');
+
+        //We now need to pass this cost to some parrent funct for handling the delivery cost change
+        chageDeliveryCost(deliveryCost);
+
+    }
     //Change on Place entering    
     $('select[id="new_address_checkout"]').change(function () {
         $("#new_address_checkout_holder").hide();
@@ -352,18 +364,7 @@ var initAddress = function () {
         }
 
     });
- console.log("num_address = " + num_addresses);
-
-    if (num_addresses == 0) {
-        $('#modal-order-new-address').modal('show');
-    } else if (num_addresses >= 1) {
-        $("select[name='AddressID'] option:eq(2)").attr("selected", "selected");
-        var deliveryCost = $("#addressID").find(':selected').data('cost');
-
-        //We now need to pass this cost to some parrent funct for handling the delivery cost change
-        chageDeliveryCost(deliveryCost);
-
-    }
+ 
 
 }
 

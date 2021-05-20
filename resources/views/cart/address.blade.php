@@ -50,12 +50,3 @@ Tempo Estimado de Entrega<span class="font-weight-light"></span>
 <!-- BS JavaScript -->
 
 <!-- Have fun using Bootstrap JS -->
-<script>
-var num_addresses = {{count($addresses) }};
-<?php if(count($addresses) ==0 ){ ?>
-    
-$(document).ready(function ($) {
-$('#modal-order-new-address').modal('show');
-});
-<?php } ?>
-</script>
