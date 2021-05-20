@@ -108,7 +108,8 @@ var initCOD = function () {
 var initStripePayment = function () {
 
     console.log("Payment initialzing");
-
+    console.log("num_address = "+num_addresses);
+    
     if (num_addresses == 0) {
         $('#modal-order-new-address').modal('show');
     } else if (num_addresses >= 1) {

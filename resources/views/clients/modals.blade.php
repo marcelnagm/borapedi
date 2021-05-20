@@ -13,12 +13,15 @@
                         <div class="card-content border-top">
                             <br />
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-12">
                                     @include('partials.fields',['fields'=>[
                                     ['ftype'=>'input','name'=>"cep",'id'=>"cep",'placeholder'=>"Coloque seu CEP aqui ...",'required'=>true]
                                     ]])
                                 </div>
-                                <div class="col-4">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
                                     </br>                                    
                                     <a  alt="Não sei Meu Cef"  target="_blank"  href="https://buscacepinter.correios.com.br/app/endereco/index.php?t" class="btn btn-primary" >Não sei meu CEP</a>                                    
                                     <div class="input-group mb-4">                                        
@@ -28,35 +31,49 @@
                                     </div>
                                 </div>
                             </div>
-                             <div class="row">
-                                <div class="col-4">
+                            <div class="row">
+                                <div class="col-12">
                                     @include('partials.fields',['fields'=>[
-                            ['ftype'=>'input','name'=>"Apelido",'id'=>"nick",'placeholder'=>"",'required'=>true]
-                            ]])    
+                                    ['ftype'=>'input','name'=>"Apelido",'id'=>"nick",'placeholder'=>"",'required'=>true]
+                                    ]])    
                                 </div>
-                                <div class="col-8">                           
-                            @include('partials.fields',['fields'=>[
-                            ['ftype'=>'input','name'=>"Logradouro",'id'=>"address",'placeholder'=>"",'required'=>true,'readonly' => true]
-                            ]])             ;               
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">                           
+                                    @include('partials.fields',['fields'=>[
+                                    ['ftype'=>'input','name'=>"Logradouro",'id'=>"address",'placeholder'=>"",'required'=>true,'readonly' => true]
+                                    ]])                         
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-8">
+                                <div class="col-12">
                                     @include('partials.fields',['fields'=>[
                                     ['ftype'=>'input','name'=>"Bairro",'id'=>"address_neigh",'placeholder'=>"",'required'=>true,'readonly' => true]
                                     ]])
                                 </div>
-                                <div class="col-4">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
                                     @include('partials.fields',['fields'=>[
                                     ['ftype'=>'input','name'=>"Cidade/Estado",'id'=>"address_city",'placeholder'=>"",'required'=>true,'readonly' => true]
                                     ]])
                                 </div>
                             </div>
-
-                            @include('partials.fields',['fields'=>[            
+                            <div class="row">
+                                <div class="col-12">
+                                  @include('partials.fields',['fields'=>[            
                             ['ftype'=>'input','name'=>"Número",'id'=>"numbero",'placeholder'=>"Numero",'required'=>true],
-                            ['ftype'=>'input','name'=>"complemento",'id'=>"complement",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>true]
                             ]])
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                             @include('partials.fields',['fields'=>[            
+                            ['ftype'=>'input','name'=>"complemento",'id'=>"complement",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>true]
+                            ]])   </div>
+                            </div>
                             <input type="hidden"  name="phone_send"  id="phone_send" value="" > 
                         </div>
                     </div>
@@ -79,43 +96,43 @@
 crossorigin="anonymous"></script>
 <script>
 
-function getAdd() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = {lat: position.coords.latitude, lng: position.coords.longitude};
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type: 'POST',
-                url: '/search/location',
-                dataType: 'json',
-                data: {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                },
-                success: function (response) {
-                    if (response.status) {
-                        console.log(response.data);
-                        $("#txtlocation").val(response.data.formatted_address);
-                        $("#address").val(response.data.address_components[1]['long_name']);
-                        $("#address_neigh").val(response.data.address_components[2]['long_name']);
-                        $("#address_city").val(response.data.address_components[3]['long_name'] + ' - ' + response.data.address_components[4]['long_name']);
-                        $("#numbero").val(response.data.address_components[0]['long_name']);
-                        $("#cep").val(response.data.address_components[6]['long_name']);
-                        $("#submitNewAddress").show();
-                    }
-                }, error: function (response) {
-                }
-            });
-        });
-    } else {
+                                            function getAdd() {
+                                                if (navigator.geolocation) {
+                                                    navigator.geolocation.getCurrentPosition(function (position) {
+                                                        var pos = {lat: position.coords.latitude, lng: position.coords.longitude};
+                                                        $.ajaxSetup({
+                                                            headers: {
+                                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                            }
+                                                        });
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            url: '/search/location',
+                                                            dataType: 'json',
+                                                            data: {
+                                                                lat: position.coords.latitude,
+                                                                lng: position.coords.longitude
+                                                            },
+                                                            success: function (response) {
+                                                                if (response.status) {
+                                                                    console.log(response.data);
+                                                                    $("#txtlocation").val(response.data.formatted_address);
+                                                                    $("#address").val(response.data.address_components[1]['long_name']);
+                                                                    $("#address_neigh").val(response.data.address_components[2]['long_name']);
+                                                                    $("#address_city").val(response.data.address_components[3]['long_name'] + ' - ' + response.data.address_components[4]['long_name']);
+                                                                    $("#numbero").val(response.data.address_components[0]['long_name']);
+                                                                    $("#cep").val(response.data.address_components[6]['long_name']);
+                                                                    $("#submitNewAddress").show();
+                                                                }
+                                                            }, error: function (response) {
+                                                            }
+                                                        });
+                                                    });
+                                                } else {
 //                                                 Browser doesn't support Geolocation
 //                                                handleLocationError(false, infoWindow, map.getCenter());
-    }
-}
+                                                }
+                                            }
 
 
                                             $(document).ready(function ($) {

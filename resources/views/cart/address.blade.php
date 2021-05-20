@@ -40,7 +40,7 @@ Não Informado
         @else
         <h6 id="address-complete-order">{{ __('You don`t have any address. Please add new one') }}.</h6>
         @endif
-        <button type="button" data-toggle="modal" data-target="#modal-order-new-address"  class="btn btn-success">+</button>
+        <button type="button" data-toggle="modal" data-target="#modal-order-new-address"  class="btn btn-success">Novo Endereço</button>
     </div>
     <div class="form-group">
     </div>
