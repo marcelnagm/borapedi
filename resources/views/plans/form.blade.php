@@ -52,6 +52,15 @@
         <input name="ordering" class="custom-control-input" id="disabled" value="disabled" @if (isset($plan) && $plan->enable_ordering == 2) checked @endif type="radio">
         <label class="custom-control-label" for="disabled">{{ __('Disabled') }}</label>
     </div>
+    <label class="form-control-label">Modulos Adicionais</label>
+    <div class="-3">
+        <input name="driver_own" class="" type="checkbox" @if (isset($plan))  @if ($plan->driver_own == 1) checked @endif  @endif  >
+        <label class="" for="driver_own">Motorista Próprio</label>
+    </div>
+    <div class="mb-3">
+        <input name="local_table" class="" type="checkbox" @if (isset($plan))  @if ($plan->local_table == 1) checked @endif   @endif  >
+        <label class="" for="local_table">Consumo no Local</label>
+    </div>
 </div>
 </div>
 <br/>
