@@ -1,11 +1,11 @@
 Tempo Estimado de Entrega<span class="font-weight-light"></span>
 <div class="card-content border-top">
     <br />
-  @if($timeToPrepare != 0)
-{{$timeToPrepare}}min - {{$timeToPrepare*2}}min
-@else
-Não Informado
-@endif
+    @if($timeToPrepare != 0)
+    {{$timeToPrepare}}min - {{$timeToPrepare*2}}min
+    @else
+    Não Informado
+    @endif
 </div>
 <div class="mt-5">
     {{ 'Endereço de Entrega' }}<span class="font-weight-light"></span>
@@ -51,5 +51,11 @@ Não Informado
 
 <!-- Have fun using Bootstrap JS -->
 <script>
-    var num_addresses = {{count($addresses) }};        
+var num_addresses = {{count($addresses) }};
+<?php if(count($addresses) ==0 ){ ?>
+    
+$(document).ready(function ($) {
+$('#modal-order-new-address').modal('show');
+});
+<?php } ?>
 </script>
