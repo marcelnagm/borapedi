@@ -50,7 +50,20 @@
                 <i class="ni ni-single-02 text-blue"></i> {{ __('Clients') }}
             </a>
         </li>   
-    @if(auth()->user()->restorant->self_deliver)
+        <?php 
+        
+//        dd(auth()->user()->plan()->first()->name )
+        ?>
+        
+        
+    @if(auth()->user()->plan()->first()->driver_own)
+    <li class="nav-item">
+            <a class="nav-link" href="{{ route('drivers.index') }}">
+                <i class="ni ni-delivery-fast text-pink"></i> {{ __('Drivers') }}
+            </a>
+        </li>
+    @endif
+    @if(auth()->user()->plan()->first()->local_table)
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.restaurant.tables.index') }}">
             <i class="ni ni-ungroup text-red"></i> {{ __('Tables') }}
