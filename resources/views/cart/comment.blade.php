@@ -1,3 +1,5 @@
+
+<div class="p-4">
 <div class="mt-5">
     <h5>{{ __('Comment') }}<span class="font-weight-light"></span></h5>
 </div>
@@ -11,4 +13,5 @@
         </span>
         @endif
     </div>
+</div>
 </div>

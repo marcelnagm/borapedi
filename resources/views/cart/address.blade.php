@@ -1,3 +1,4 @@
+<div class="p-4">
 Tempo Estimado de Entrega<span class="font-weight-light"></span>
 <div class="card-content border-top">
     <br />
@@ -45,6 +46,7 @@ Tempo Estimado de Entrega<span class="font-weight-light"></span>
     <div class="form-group">
     </div>
     <input type="hidden" name="deliveryCost" id="deliveryCost" value="0" />
+</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- BS JavaScript -->

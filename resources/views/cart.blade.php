@@ -12,6 +12,19 @@
     .cart_adapt {
         margin-top: -450px!important;
     }
+    .logo-img {
+        width: 11vw !important;
+        height:  19vh!important;
+        float:left;
+    }
+    .logo-text{
+        float:left;
+        width: 35vw !important;
+        height:  19vh!important;
+        padding: 2.4vw;
+        font-size: 6vh;
+    }
+
     @media only screen and (max-width:1023px) {
         .cart_adapt{
             margin-top: 0!important;
@@ -19,7 +32,26 @@
         .padding-left{
             padding-left: 5px;
         }
+
+        .logo-img {
+            width: 24vw !important;
+            height:  13vh!important;
+            float:left;
+        }
+        .logo-text{
+            float:left;
+            width: 53vw !important;
+            height:  13vh!important;
+            padding: 2.0vw;
+            font-size: 6vw;
+        }
+        .col-12-ml{
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+        }
     }
+
+
 </style>
 <section class="section bg-secondary">
 
@@ -31,15 +63,15 @@
         <div class="row">
 
             <!-- Left part -->
-            <div class="col-md-7">                
+            <div class="col-7 col-12-ml">                
                 <div class="card card-profile shadow cart_adapt">
-                    <div class="mt-5" style="text-align: center;">
-                        <h3><span class="delTime delTimeTS">Sacola </span></h3>
-                    </div>
+                    
+
                     <form id="order-form" role="form" method="post" action="{{route('order.store')}}" autocomplete="off" enctype="multipart/form-data">
                         @csrf
                         @if(($restorant->can_pickup == 1) || ($restorant->can_deliver == 1) || ($restorant->self_deliver == 1) )
 
+                        @include('cart.restaurant')
                         @include('cart.delivery')
 
                         @endif                       
@@ -54,7 +86,7 @@
                             <!-- LOCAL ORDERING -->
                             @include('cart.localorder.table')
                         </div>
-                        @include('cart.restaurant')
+                        <!--@include('cart.restaurant')-->
                         <!-- List of items -->
                         @include('cart.items')
 
@@ -104,13 +136,12 @@
 <script src="https://js.stripe.com/v3/"></script>
 <script>
 "use strict";
-
 var num_addresses = {{count($addresses) }};
-<?php if(count($addresses) ==0 ){ ?>
-    
-$(document).ready(function ($) {
-$('#modal-order-new-address').modal('show');
-});
+<?php if (count($addresses) == 0) { ?>
+
+    $(document).ready(function ($) {
+    $('#modal-order-new-address').modal('show');
+    });
 <?php } ?>
 
 var RESTORANT = <?php echo json_encode($restorant) ?>;
@@ -118,9 +149,9 @@ var STRIPE_KEY = "{{ config('settings.stripe_key') }}";
 var ENABLE_STRIPE = "{{ config('settings.enable_stripe') }}";
 var initialOrderType = 'delivery';
 if (RESTORANT.can_deliver == 1 && RESTORANT.can_pickup == 0) {
-    initialOrderType = 'delivery';
+initialOrderType = 'delivery';
 } else if (RESTORANT.can_deliver == 0 && RESTORANT.can_pickup == 1) {
-    initialOrderType = 'pickup';
+initialOrderType = 'pickup';
 }
 </script>
 <script src="{{ asset('custom') }}/js/checkout.js"></script>

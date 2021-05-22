@@ -25,6 +25,7 @@
             width: 65vw !important;
             height:  13vh!important;
             padding: 2vw;
+            font-size: 6vw;
         }
     }
 </style>
@@ -52,7 +53,7 @@
                             <div class="logo-text">   {{ $restorant->name }} </div>
                     </h1>
                     </br>
-                    <p class="display-4" style="margin-top: 120px">{{ $restorant->description }}</p>
+                    <p class="display-4" style="margin-top: 120px; font-size: 6vw;">{{ $restorant->description }}</p>
 
                     <p><i class="ni ni-watch-time"></i> @if(!empty($openingTime))<span class="closed_time">{{__('Opens')}} {{ $openingTime }}</span>@endif @if(!empty($closingTime))<span class="opened_time">{{__('Opened until')}} {{ $closingTime }}</span> @endif |   @if(!empty($restorant->address))<i class="ni ni-pin-3"></i></i> <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ urlencode($restorant->address) }}">{{ $restorant->address }}</a>  | @endif @if(!empty($restorant->phone)) <i class="ni ni-mobile-button"></i> <a href="tel:{{$restorant->phone}}">{{ $restorant->phone }} </a> @endif</p>
                 </div>

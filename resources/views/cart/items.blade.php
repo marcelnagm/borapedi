@@ -1,3 +1,4 @@
+<div class="p-4">
 <div class="mt-5">
     <h3>{{ __('Items') }}<span class="font-weight-light"></span></h3>
 </div>
@@ -31,6 +32,7 @@
 </div>
 <div class="text-center" id="totalSubmitCOD">
     <a href="{{route('vendor',['alias'=>$restorant->alias])}}" class="btn btn-primary text-white" >Continuar Comprando</a>
+</div>
 </div>
 <!-- End List of items -->
 
