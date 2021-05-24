@@ -1,4 +1,4 @@
-<?php
++<?php
 
 namespace App;
 
@@ -164,12 +164,12 @@ class WhastappService {
     }
 
     public static function generateTextOrder($order) {
-        $title = 'Novo Pedido #' .  "\n\n";
+        $title = '\nNovo Pedido'.$order->id.' #' .  "\n\n";
 
-        $price = '*Preço*: ' . $order->order_price . ' ' . config('settings.cashier_currency') . "\n\n";
-        $price .= '*Taxa de Entrega ' . $order->delivery_price . ' ' . config('settings.cashier_currency') . "\n\n";
+        $price = '*Preço: R$' . $order->order_price . "\n\n";
+        $price .= '*Taxa de Entrega: R$' . $order->delivery_price . ' ' . config('settings.cashier_currency') . "\n\n";
 
-        $items = '*Pedido:*' . "\n";
+        $items = '*Detalhes:' . "\n";
 
         $list = OrderHasItems::where('order_id', $order->id)->get();
 //            dd($list[0]->item()->id,$list[1]->item()->id);
@@ -218,17 +218,17 @@ class WhastappService {
                 }
                 
             }
-            $items .= strval($item_k->qty) . ' x ' . $cartItemName . " -" . $cartItemPrice ." por cada item". "\n";
+            $items .= strval($item_k->qty) . ' x ' . $cartItemName . " - R$" . $cartItemPrice ." por cada item". "\n";
         }
         $items .= "\n";
         $final = $title . $price . $items;
         $address =Address::find($order->address_id)->address;
         if ($address != null) {
-            $final .= '*Endereço de Entrega*:' . "\n" .$address   . "\n\n";
+            $final .= '*Endereço de Entrega:' . "\n" .$address   . "\n\n";
         }
         
         if ($order->comment  != null) {
-            $final .= '*Comentário:*' . "\n" . $order->comment . "\n\n";
+            $final .= '*Comentário:' . "\n" . $order->comment . "\n\n";
         }
 //        dd($final);
         return $final;
