@@ -1,3 +1,9 @@
+<style>
+    #addressID option{
+        height: 24vh;
+    }
+</style>
+
 <div class="p-4">
 Tempo Estimado de Entrega<span class="font-weight-light"></span>
 <div class="card-content border-top">
@@ -29,7 +35,8 @@ Tempo Estimado de Entrega<span class="font-weight-light"></span>
             if (!$address->inRadius) {
                 echo "disabled";
             }
-            ?> value={{ $address->id }}>{{$address->nick." / ".$address->address}} </option>
+            ?> value={{ $address->id }}>Entregar em {{$address->nick}}{{"\n"}}
+            {{$address->address}} </option>
             @endif
             @endforeach
         </select>
@@ -41,7 +48,10 @@ Tempo Estimado de Entrega<span class="font-weight-light"></span>
         @else
         <h6 id="address-complete-order">{{ __('You don`t have any address. Please add new one') }}.</h6>
         @endif
-        <button type="button" data-toggle="modal" data-target="#modal-order-new-address"  class="btn btn-success">Novo Endereço</button>
+        <div class=" text-center">
+        <button type="button" data-toggle="modal" data-target="#modal-order-new-address"  class="btn btn-success">Novo Endereço</button>    
+        </div>
+        
     </div>
     <div class="form-group">
     </div>
