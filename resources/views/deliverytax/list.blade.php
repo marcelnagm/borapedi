@@ -1,8 +1,9 @@
 
 <thead class="thead-light">
     <tr>
-        <th class="table-web" scope="col">{{ __('Distance') }}</th>
-        <th class="table-web" scope="col">{{ __('Tax') }}</th>
+        <th class="" scope="col">Distância</th>
+        <th class="" scope="col">Taxa</th>
+        <th class="" scope="col">Ações</th>
     </tr>
 </thead>
 <tbody>
@@ -12,17 +13,17 @@
     </tr>
     @foreach($taxes as $tax)
     <tr>    
-        <td class="table-web" id="edit_d_{{$tax->id}}" onclick="edit(this);" style=' cursor: pointer; '>
+        <td class="" id="edit_d_{{$tax->id}}" onclick="edit(this);" style=' cursor: pointer; '>
             {{ $tax->distance }} Km
         </td>
-        <td class="table-web" id="edit_c_{{$tax->id}}" onclick="edit(this);" style=' cursor: pointer;'>
+        <td class="" id="edit_c_{{$tax->id}}" onclick="edit(this);" style=' cursor: pointer;'>
             R$ <?php
             echo number_format($tax->cost, 2);
             $val[] = $tax->distance;
             ?>
         </td>
-        <td class="table-web">
-            <input type="button" class="btn btn-danger" value="x" id="remove_{{$tax->id}}" onclick="remove(this);">
+        <td class="">
+            <input type="button" class="btn btn-danger" value="x" id="remove_{{$tax->id}}" onclick="remove(this);" alt="Remover">
         </td>
     </tr>
     @endforeach

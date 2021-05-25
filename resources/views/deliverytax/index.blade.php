@@ -3,22 +3,22 @@
 {{ config('settings.url_route')." ".__('Management')}}
 @endsection
 @section('content')
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 p-4">
 
 <div class="row">
         <div class="col-12">
             @include('partials.flash')
         </div>
     </div></div>
-<div class="container-fluid mt--7">    
+<div class="container-fluid mt--7 ">    
     <div class="row">
         <div class="col-12">
             <br/>
-            <div class="card bg-secondary shadow">
-                <div class="card-header bg-white border-0">
+            <div class="card bg-secondary shadow p-4">
+                <div class="bg-white border-0">
                     <div class="row align-items-center">
                         <div class="col-8">
-                            <h3 class="mb-0">{{ __('Delivery tax')}}</h3>
+                            <h3 class="mb-0">Taxa de Entrega</h3>
                             @include('deliverytax.form')    
                         </div>  
                         <div class="col-4">
@@ -28,18 +28,18 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
+                     <div class="row">
+                    <div class="col-12">
                     <h6 class="heading-small text-muted mb-4">{{ __('Delivery tax list') }}</h6>
                     <hr />
-
-                    <div class="table-responsive">
-                        <table class="table align-items-center" id='result'>                           
+                        <table class="table align-items-center table-stripe" id='result'>                           
                             @include('deliverytax.list')                            
                         </table>
-                    </div>'
-
+                    '
+                  </div>
                 </div>
+                </div>
+               
             </div>
         </div>
         <div class="card bg-secondary shadow col-12" style="margin-top: 1vh;">
