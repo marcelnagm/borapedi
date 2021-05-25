@@ -34,7 +34,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     @include('partials.fields',['fields'=>[
-                                    ['ftype'=>'input','name'=>"Apelido",'id'=>"nick",'placeholder'=>"",'required'=>true]
+                                    ['ftype'=>'input','name'=>"Apelido",'id'=>"nick",'placeholder'=>"Casa,Trabalho, Casa do Amigo",'required'=>true]
                                     ]])    
                                 </div>
                             </div>
