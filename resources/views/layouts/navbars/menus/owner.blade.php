@@ -12,11 +12,6 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('deliverytax.index') }}">
-            <i class="ni ni-basket text-success"></i> {{ __('Delivery tax') }}
-        </a>
-    </li>
-    <li class="nav-item">
         <a class="nav-link" href="{{ route('whatsapp.index') }}">
             <i class="fa fa-whatsapp text-success"></i>Whatsapp
         </a>

@@ -1,14 +1,51 @@
 <div class="card card-profile shadow">
     <div class="card-header">
-        <h5 class="h3 mb-0">{{ ucfirst(config('settings.url_route'))." ".__("Location")}} - Àreas Atendidads </h5>
+        <h5 class="h3 mb-0">{{ ucfirst(config('settings.url_route'))." ".__("Location")}}</h5>
     </div>
     <div class="card-body">
-        <a href="{{ route('deliverytax.index') }}"  class="btn btn-primary">Alterar àreas</a>
-        <div class="card shadow">            
-            <div id="map_canvas" style="height: 80vh; width:60vw">
-
-
+        <div class="nav-wrapper">
+            <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab" href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true">{{ __('Location') }}</a>
+                </li>
+                    @if ($restorant->can_deliver == 1)
+                        <li class="nav-item">
+                            <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false">{{ __('Delivery Area') }}</a>
+                        </li>
+                    @endif
+            </ul>
+        </div>
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                        <div id="map_location" class="form-control form-control-alternative"></div>
+                    </div>
+                    <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
+                        @include('deliverytax.index')
+                    </div>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+
+var lat = <?php echo $lat ?>;
+var lng = <?php echo $lng ?>;
+
+$(document).ready(function () {
+     var map = new google.maps.Map(document.getElementById("map_location"),
+                {
+                    zoom: 11,
+                    center: new google.maps.LatLng(lat, lng
+                            ),
+                    mapTypeId: google.maps.MapTypeId.roadmap
+                });
+        const myLatLng = {lat: lat, lng: lng};
+        new google.maps.Marker({
+            position: myLatLng,
+            map,
+            title: "Nosso Restaurante",
+        });
+});
+</script >

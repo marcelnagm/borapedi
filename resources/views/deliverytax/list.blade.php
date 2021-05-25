@@ -59,7 +59,7 @@
             success: function (response) {
 //                alert('sucess');
                 console.log(response.text);
-                $("#result").html(response);
+                $("#result2").html(response);
                 $("#map_canvas").html();
                 drawmap();
             }, error: function (response) {
@@ -112,7 +112,7 @@ var show = false;
             success: function (response) {
 //                alert('sucess');
                 console.log(response.text);
-                $("#result").html(response);
+                $("#result2").html(response);
                 $("#map_canvas").html();
                 drawmap();
             }, error: function (response) {

@@ -192,6 +192,14 @@ class RestorantController extends Controller {
     public function edit(Restorant $restaurant) {
         //dd($restaurant->getBusinessHours()->isOpen());
         //Days of the week
+          $max = DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->max('distance');
+//            dd(auth()->user()->restorant->lat,auth()->user()->restorant->lng);
+            $client = new \GuzzleHttp\Client();
+        $geocoder = new Geocoder($client);
+        $geocoder->setApiKey(config('settings.google_maps_api_key'));
+//        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
+        $me = $geocoder->getCoordinatesForAddress(auth()->user()->restorant->address);
+//        dd($me);
         $timestamp = strtotime('next Monday');
         for ($i = 0; $i < 7; $i++) {
             $days[] = strftime('%A', $timestamp);
@@ -267,8 +275,7 @@ class RestorantController extends Controller {
 //          if (!auth()->user()->hasRole('admin')) {
 //            dd('Not allowed');
 //        }
-        
-        $val = array();
+         $val = array();
         foreach(DeliveryTax::where('restaurant_id', $restaurant->id)->orderBy('distance', 'ASC')->get()    as $tax){
             $val[] = $tax->distance;
         }
@@ -277,14 +284,17 @@ class RestorantController extends Controller {
         $geocoder->setApiKey(config('settings.google_maps_api_key'));
 //        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
         $me = $geocoder->getCoordinatesForAddress($restaurant->address);
-
+        $max = DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->max('distance');
+//        
         if (auth()->user()->id == $restaurant->user_id || auth()->user()->hasRole('admin')) {
             //return view('restorants.edit', compact('restorant'));
             return view('restorants.edit', [
             'restorant' => $restaurant,
             'lat' => $me['lat'],
             'lng' => $me['lng'],
-            'val' => $val ,
+            'max' => $max, 
+            'val' => $val, 
+            'taxes' => DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->orderBy('distance', 'ASC')->get(),
             'shifts' => $shifts,
             'days' => $days,
             'cities' => City::get()->pluck('name', 'id'),
