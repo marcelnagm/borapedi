@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class SystemTest extends Notification
+class MessageNotification extends Notification
 {
     use Queueable;
 
@@ -32,7 +32,7 @@ class SystemTest extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database','broadcast'];
     }
 
     /**
@@ -56,10 +56,24 @@ class SystemTest extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+     public function toArray($notifiable)
     {   
+        $greeting = __('There is new order');
+            $line = __('You have just received an order');
+       
         return [
-            //
+            'title'=>$greeting,
+            'body' =>$line,
         ];
     }
+     public function toDatabase($notifiable)
+    {     //Created
+            $greeting = __('There is new order');
+            $line = __('You have just received an order');
+       
+        return [
+            'title'=>$greeting,
+            'body' =>$line,
+        ];
     }
+}

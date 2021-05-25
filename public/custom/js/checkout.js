@@ -324,7 +324,11 @@ var initAddress = function () {
         var message = "";
         if (address_number.length < 1) {
             doSubmit = false;
-            message += "\nPlease enter address number";
+            message += "\nPreencha o campo numero";
+        }
+        if (nick.length < 1) {
+            doSubmit = false;
+            message += "\nPreencha o campo apelido para o endereco";
         }
 
         if (!doSubmit) {

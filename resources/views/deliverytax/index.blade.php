@@ -4,8 +4,13 @@
 @endsection
 @section('content')
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-</div>
-<div class="container-fluid mt--7">
+
+<div class="row">
+        <div class="col-12">
+            @include('partials.flash')
+        </div>
+    </div></div>
+<div class="container-fluid mt--7">    
     <div class="row">
         <div class="col-12">
             <br/>
@@ -59,7 +64,7 @@
 
 
 <!-- Google Map -->
-<!--<script async defer src= "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=<?php // echo config('settings.google_maps_api_key');   ?>"></script>-->
+<!--<script async defer src= "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=<?php // echo config('settings.google_maps_api_key');    ?>"></script>-->
 
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=<?php echo config('settings.google_maps_api_key'); ?>"></script>
 <script type="text/javascript">

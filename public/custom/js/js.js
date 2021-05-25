@@ -175,10 +175,6 @@ var js = {
           
           $('.select2').addClass('form-control');
           $('.select2-selection').css('border','0');
-          $('.select2-selection').css('height','14vh');
-          $('.select2').css('min-width','400px');
-          $('.select2').css('width','47vw');
-          $('.select2').css('height','14vh');
           $('.select2-selection__arrow').css('top','10px');
           $('.select2-selection__rendered').css('color','#8898aa');
 

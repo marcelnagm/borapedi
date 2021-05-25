@@ -1,6 +1,6 @@
 <div class="p-4">
 <div class="mt-5">
-    <h3>{{ __('Items') }}<span class="font-weight-light"></span></h3>
+    <h3>Itens<span class="font-weight-light"></span></h3>
 </div>
 <!-- List of items -->
 <div  id="cartList" class="border-top">

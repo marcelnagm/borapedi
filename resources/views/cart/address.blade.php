@@ -2,12 +2,41 @@
     #addressID option{
         height: 24vh;
     }
+    .select2-container .select2-selection--single .select2-selection__rendered{
+        overflow: visible !important;
+             text-overflow: visible !important; 
+     white-space: normal !important; 
+
+    }
+    .select2-container{
+           height: 18vh !important; 
+    }
+    
+    .select2-selection__clear{
+        display: none;
+        width: 36px; 
+        height: 41px; 
+        color: white !important;
+        background-image: url('images/icons/address.png'); 
+        display:block;
+        left: 12px;
+        cursor: none !important;
+        position: relative !important;  
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow{
+    display: none;
+    }        
+    
+    .select2-selection__arrow   {
+    -moz-appearance:none !important; /* Firefox */
+    -webkit-appearance:none !important; /* Safari and Chrome */
+    appearance:none !important`;
+}
 </style>
 
 <div class="p-4">
 Tempo Estimado de Entrega<span class="font-weight-light"></span>
 <div class="card-content border-top">
-    <br />
     @if($timeToPrepare != 0)
     {{$timeToPrepare}}min - {{$timeToPrepare*2}}min
     @else
