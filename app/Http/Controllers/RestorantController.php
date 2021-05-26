@@ -239,31 +239,9 @@ class RestorantController extends Controller {
         //App fields
         $rawFields = $this->vendorFields($restaurant->getAllConfigs());
         //Stripe fields
-        if (config('settings.stripe_useVendor')) {
-            array_push($rawFields, [
-                "separator" => "Stripe configuration",
-                "title" => "Enable Stripe for payments when ordering",
-                "key" => "stripe_enable",
-                "ftype" => "bool",
-                "value" => $restaurant->getConfig('stripe_enable', "false"),
-                "onlyin" => "qrsaas"
-                    ], [
-                "title" => "Stripe key",
-                "key" => "stripe_key",
-                "value" => $restaurant->getConfig('stripe_key', ""),
-                "onlyin" => "qrsaas"
-                    ],
-                    [
-                        "title" => "Stripe secret",
-                        "key" => "stripe_secret",
-                        "value" => $restaurant->getConfig('stripe_secret', ""),
-//                "onlyin"=>"qrsaas"
-            ]);
-        }
-//  
 //       dd($rawFields);
         $appFields = $this->convertJSONToFields($rawFields);
-
+        
         $shiftsData = Hours::where(['restorant_id' => $restaurant->id])->get($hoursRange);
         $shifts = [];
         foreach ($shiftsData as $key => $hours) {
