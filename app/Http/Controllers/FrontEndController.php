@@ -146,6 +146,7 @@ class FrontEndController extends Controller
         }
 
         //ELSE - Query and Location mode //Default
+         return $this->whatsappMode();
         return $this->showStores(null);
     }
 
