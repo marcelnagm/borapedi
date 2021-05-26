@@ -192,13 +192,13 @@ class RestorantController extends Controller {
     public function edit(Restorant $restaurant) {
         //dd($restaurant->getBusinessHours()->isOpen());
         //Days of the week
-          $max = DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->max('distance');
+          $max = DeliveryTax::where('restaurant_id', $restaurant->id)->max('distance');
 //            dd(auth()->user()->restorant->lat,auth()->user()->restorant->lng);
             $client = new \GuzzleHttp\Client();
         $geocoder = new Geocoder($client);
         $geocoder->setApiKey(config('settings.google_maps_api_key'));
 //        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
-        $me = $geocoder->getCoordinatesForAddress(auth()->user()->restorant->address);
+        $me = $geocoder->getCoordinatesForAddress($restaurant->address);
 //        dd($me);
         $timestamp = strtotime('next Monday');
         for ($i = 0; $i < 7; $i++) {
@@ -284,7 +284,7 @@ class RestorantController extends Controller {
         $geocoder->setApiKey(config('settings.google_maps_api_key'));
 //        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
         $me = $geocoder->getCoordinatesForAddress($restaurant->address);
-        $max = DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->max('distance');
+        $max = DeliveryTax::where('restaurant_id', $restaurant->id)->max('distance');
 //        
         if (auth()->user()->id == $restaurant->user_id || auth()->user()->hasRole('admin')) {
             //return view('restorants.edit', compact('restorant'));
@@ -294,7 +294,7 @@ class RestorantController extends Controller {
             'lng' => $me['lng'],
             'max' => $max, 
             'val' => $val, 
-            'taxes' => DeliveryTax::where('restaurant_id', auth()->user()->restorant->id)->orderBy('distance', 'ASC')->get(),
+            'taxes' => DeliveryTax::where('restaurant_id', $restaurant->id)->orderBy('distance', 'ASC')->get(),
             'shifts' => $shifts,
             'days' => $days,
             'cities' => City::get()->pluck('name', 'id'),
