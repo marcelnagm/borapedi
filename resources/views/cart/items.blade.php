@@ -1,9 +1,7 @@
-<div class="p-4">
-<div class="mt-5">
+<div class="" style="padding: 0 16px 0 16px">
     <h3>Itens<span class="font-weight-light"></span></h3>
-</div>
 <!-- List of items -->
-<div  id="cartList" class="border-top">
+<div  id="cartList" class="">
     <br />
     <div  v-for="item in items" class="items col-xs-12 col-sm-12 col-md-12 col-lg-12 clearfix">
         <div class="info-block block-info clearfix" v-cloak>
@@ -34,6 +32,3 @@
     <a href="{{route('vendor',['alias'=>$restorant->alias])}}" class="btn btn-primary text-white" >Continuar Comprando</a>
 </div>
 </div>
-<!-- End List of items -->
-
-<br />

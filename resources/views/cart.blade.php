@@ -22,7 +22,16 @@
         width: 35vw !important;
         height:  19vh!important;
         padding: 2.4vw;
-        font-size: 6vh;
+        font-size: 4vh;
+    }
+    
+    .nav-delivery{
+        background-color: #ff1200 !important;
+        border: black solid 1px;
+    }
+    .nav-pickup{
+        background-color: #ff7800 !important;   
+        border: black solid 1px;
     }
 
     @media only screen and (max-width:1023px) {
@@ -55,37 +64,62 @@
 </style>
 <section class="section bg-secondary">
 
-    <div class="container">
-
-
-        <x:notify-messages />
-
+    <div class="container">       
         <div class="row">
 
             <!-- Left part -->
             <div class="col-7 col-12-ml">                
                 <div class="card card-profile shadow cart_adapt">
-                    
+                    <div class="nav-wrapper">
+                        <ul class="nav nav-tabs nav-fill" id="res_menagment" role="tablist">
+
+                            <li class="nav-item nav-delivery text-white">
+                                <a class="nav-link mb-sm-3 mb-md-0 active " id="tabs-menagment-main" data-toggle="tab" href="#delivery" role="tab" aria-controls="tabs-menagment" aria-selected="true"><i class="ni ni-badge mr-2"></i>Entregar</a>
+                            </li>
+                            <li class="nav-item nav-pickup text-white">
+                                <a class="nav-link mb-sm-3 mb-md-0 " id="tabs-menagment-main" data-toggle="tab" href="#pickup" role="tab" aria-controls="tabs-menagment" aria-selected="true"><i class="ni ni-square-pin mr-2"></i>Buscar</a>
+                            </li>                            
+                        </ul>
+                    </div>
 
                     <form id="order-form" role="form" method="post" action="{{route('order.store')}}" autocomplete="off" enctype="multipart/form-data">
                         @csrf
-                        @if(($restorant->can_pickup == 1) || ($restorant->can_deliver == 1) || ($restorant->self_deliver == 1) )
-
                         @include('cart.restaurant')
-                        @include('cart.delivery')
 
-                        @endif                       
+                        <div class="tab-content" id="tabs">
+
+
+                            <!-- Tab Managment -->
+
+                            @if($restorant->can_deliver == 1 )
+
+                            <div class="tab-pane fade show active" id="delivery" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                                @include('cart.tete')
+
+                                <div id='addressBox'>
+                                    @include('cart.address')
+                                </div>                                 
+                            </div>
+                            @endif                       
+                            @if(($restorant->can_pickup == 1) || ($restorant->can_deliver == 1))
+                            <div class="tab-pane fade show" id="pickup" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                                @include('cart.pickup')
+
+                                <div class="takeaway_picker" style="display: none">
+                                    <!-- LOCAL ORDERING -->
+                                    @include('cart.localorder.table')
+                                </div>
+                            </div>
+                            @endif 
+                        </div>
+
+
+
                         <?php if (auth()->user()->phone == "") { ?>
                             @include('cart.phone_modal')
                         <?php } ?>
                         <!-- Delivery address -->
-                        <div id='addressBox'>
-                            @include('cart.address')
-                        </div>                        
-                        <div class="takeaway_picker" style="display: none">
-                            <!-- LOCAL ORDERING -->
-                            @include('cart.localorder.table')
-                        </div>
+
                         <!--@include('cart.restaurant')-->
                         <!-- List of items -->
                         @include('cart.items')
@@ -153,7 +187,24 @@ initialOrderType = 'delivery';
 } else if (RESTORANT.can_deliver == 0 && RESTORANT.can_pickup == 1) {
 initialOrderType = 'pickup';
 }
-</script>
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+var target = $(e.target).attr("href") // activated tab
+//        alert(target);
+if (target == "#delivery")
+        {
+        $("input[value='delivery']").attr('checked', true);
+        $("#addressBox").show(1);
+        $("input[value='pickup']").attr('checked', false);
+        $("input[value='dinein']").attr('checked', false);
+        }
+if (target == "#pickup")
+        {
+
+        $("input[value='delivery']").attr('checked', false);
+        $("input[value='pickup']").attr('checked', true);
+        $("input[value='dinein']").attr('checked', false);
+        }
+});</script>
 <script src="{{ asset('custom') }}/js/checkout.js"></script>
 @endsection
 

@@ -12,6 +12,10 @@
            height: 18vh !important; 
     }
     
+    .map_icon{
+        width: 36px; 
+        height: 41px;         
+    }
     .select2-selection__clear{
         display: none;
         width: 36px; 
@@ -33,22 +37,14 @@
     appearance:none !important`;
 }
 </style>
+</br>
+<div style="padding: 16px 16px 0 16px;">
 
-<div class="p-4">
-Tempo Estimado de Entrega<span class="font-weight-light"></span>
-<div class="card-content border-top">
-    @if($timeToPrepare != 0)
-    {{$timeToPrepare}}min - {{$timeToPrepare*2}}min
-    @else
-    Não Informado
-    @endif
-</div>
-<div class="mt-5">
     {{ 'Endereço de Entrega' }}<span class="font-weight-light"></span>
-</div>
-<div class="card-content border-top">
+    <div class="card-content" >
     <input type="hidden" value="{{$restorant->id}}" id="restaurant_id"/>
     <div class="form-group{{ $errors->has('addressID') ? ' has-danger' : '' }}">
+        <!--<img src="images/icons/map.png" class="map_icon">-->    
         @if(count($addresses))
         <select name="addressID" id="addressID" class="form-control{{ $errors->has('addressID') ? ' is-invalid' : '' }}  noselecttwo" required>
             <option  disabled value> {{__('-- select an option -- ')}}</option>
@@ -87,6 +83,7 @@ Tempo Estimado de Entrega<span class="font-weight-light"></span>
     <input type="hidden" name="deliveryCost" id="deliveryCost" value="0" />
 </div>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- BS JavaScript -->
 
