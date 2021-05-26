@@ -147,10 +147,6 @@
         //console.log(formatAMPM("19:05"));
         
   
-  var lat = <?php echo $lat ?>;
-  var lng = <?php echo $lng ?>;
-  
-
         var config = {
             enableTime: true,
             dateFormat: timeFormat == "AM/PM" ? "h:i K": "H:i",
@@ -214,52 +210,7 @@
             }
         }
         
-        
-        
-    function getColor() {
-        var red = (Math.floor((256 - 50) * Math.random()));
-        var green = (Math.floor((256 - 50) * Math.random()));
-        var blue = (Math.floor((256 - 50) * Math.random()));
-        var color = "#" + red.toString(16) + green.toString(16) + blue.toString(16);
-        return color;
-    }
-            function drawmap() {
-//        var colors = ['black', 'cyan', 'black yellow', 'black green'];
-<?php
-if (isset($val)) {
-    $js_array = json_encode($val);
-    
-    echo "var values_k = " . $js_array . ";\n";
-}
-?>
-        var map = new google.maps.Map(document.getElementById("map_canvas"),
-                {
-                    zoom: 11,
-                    center: new google.maps.LatLng(lat, lng
-                            ),
-                    mapTypeId: google.maps.MapTypeId.roadmap
-                });
-        const myLatLng = {lat: lat, lng: lng};
-        new google.maps.Marker({
-            position: myLatLng,
-            map,
-            title: "Nosso Restaurante",
-        });
-        for (var $i = 0; $i < values_k.length; $i++) {
-            console.log('aqui no circulo');
-            var circulo = new google.maps.Circle(
-                    {
-                        map: map,
-                        center: new google.maps.LatLng(lat, lng),
-                        radius: values_k[$i] * 1000, // 1000 metros = 1k.
-                        strokeColor: getColor(),
-                        fillColor: "white",
-                        fillOpacity: 0.15,
-                    });
-        }
-
-    }
-
+          
         window.onload = function () {
             //var map, infoWindow, marker, lng, lat;
 
@@ -269,33 +220,5 @@ if (isset($val)) {
           
         }
 
-        var form = document.getElementById('restorant-form');
-        form.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            
-            var address = $('#address').val();
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                type: 'POST',
-                url: '/restaurant/address',
-                dataType: 'json',
-                data: { address: address},
-                success:function(response){
-                    if(response.status){
-                        drawmap();
-                    }
-                }, error: function (response) {
-                //alert(response.responseJSON.errMsg);
-                }
-            })
-
-            form.submit();
-        });
     </script>
 @endsection

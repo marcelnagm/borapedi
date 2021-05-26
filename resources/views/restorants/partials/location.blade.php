@@ -28,6 +28,7 @@
         </div>
     </div>
 </div>
+</div>
 <script type="text/javascript">
 
 var lat = <?php echo $lat ?>;

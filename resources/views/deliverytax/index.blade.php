@@ -1,10 +1,3 @@
-<div class=" p-4">
-
-<div class="row">
-        <div class="col-12">
-            @include('partials.flash')
-        </div>
-    </div></div>
 <div class="container-fluid ">    
     <div class="row">
         <div class="col-12">
@@ -23,18 +16,18 @@
                             </div>
                         </div>
                     </div>
-                     <div class="row">
-                    <div class="col-12">
-                    <h6 class="heading-small text-muted mb-4">{{ __('Delivery tax list') }}</h6>
-                    <hr />
-                        <table class="table align-items-center table-stripe" id='result2'>                           
-                            @include('deliverytax.list')                            
-                        </table>
-                    '
-                  </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="heading-small text-muted mb-4">{{ __('Delivery tax list') }}</h6>
+                            <hr />
+                            <table class="table align-items-center table-stripe" id='result2'>                           
+                                @include('deliverytax.list')                            
+                            </table>
+                            '
+                        </div>
+                    </div>
                 </div>
-                </div>
-               
+
             </div>
         </div>
         <div class="card bg-secondary shadow col-12" style="margin-top: 1vh;">
@@ -50,12 +43,11 @@
 
         </div>
     </div>
-    @include('layouts.footers.auth')
 </div>
 
 
 <!-- Google Map -->
-<!--<script async defer src= "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=<?php // echo config('settings.google_maps_api_key');    ?>"></script>-->
+<!--<script async defer src= "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=<?php // echo config('settings.google_maps_api_key');     ?>"></script>-->
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=<?php echo config('settings.google_maps_api_key'); ?>"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -68,7 +60,7 @@ $(document).ready(function () {
 });
 
 //console.log(formatAMPM("19:05"));
-function enviar_tax(){
+function enviar_tax() {
 //        alert('exectuado');
     var distance = $('#distance').val();
     var cost = $('#cost').val();
