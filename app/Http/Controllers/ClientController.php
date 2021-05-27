@@ -25,16 +25,21 @@ class ClientController extends Controller
             ->groupby('users.id')->distinct()        
             ->paginate(10);
             ////Get driver's orders
+            return view('clients.index_client', [
+                    'clients' => $client
+                ]
+            );
         } 
          if (auth()->user()->hasRole('admin')) {
             $client = User::role('client')->where(['active'=>1])->paginate(15);
             ////Get driver's orders
-        } 
-    if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('owner')) {
             return view('clients.index', [
                     'clients' => $client
                 ]
             );
+        } 
+    if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('owner')) {
+            
         } else {
             return redirect()->route('orders.index')->withStatus(__('No Access'));
         }
