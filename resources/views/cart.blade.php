@@ -13,25 +13,31 @@
         margin-top: -450px!important;
     }
     .logo-img {
-        width: 11vw !important;
-        height:  19vh!important;
+        width: 60px !important;
+        height:  60px!important;
         float:left;
+        margin-left: 10px;
     }
     .logo-text{
         float:left;
         width: 35vw !important;
-        height:  19vh!important;
+        height:  15vh!important;
         padding: 2.4vw;
-        font-size: 4vh;
+        font-size: 18px;
     }
-    
+
     .nav-delivery{
-        background-color: #ff1200 !important;
+        background-color: #ffa200 !important;
         border: black solid 1px;
     }
     .nav-pickup{
-        background-color: #ff7800 !important;   
-        border: black solid 1px;
+        background-color: #ffa200 !important;   
+        border-right:  black solid 1px;
+        border-top:  black solid 1px;
+        border-bottom:   black solid 1px;
+    }
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        background: #ffe7bd;
     }
 
     @media only screen and (max-width:1023px) {
@@ -43,16 +49,16 @@
         }
 
         .logo-img {
-            width: 24vw !important;
-            height:  13vh!important;
+            width: 40px !important;
+            height:  40px!important;
             float:left;
         }
         .logo-text{
             float:left;
             width: 53vw !important;
-            height:  13vh!important;
+            height:  7vh!important;
             padding: 2.0vw;
-            font-size: 6vw;
+            font-size: 16px;
         }
         .col-12-ml{
             flex: 0 0 100% !important;
@@ -190,20 +196,20 @@ initialOrderType = 'pickup';
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 var target = $(e.target).attr("href") // activated tab
 //        alert(target);
-if (target == "#delivery")
-        {
-        $("input[value='delivery']").attr('checked', true);
-        $("#addressBox").show(1);
-        $("input[value='pickup']").attr('checked', false);
-        $("input[value='dinein']").attr('checked', false);
-        }
+        if (target == "#delivery")
+{
+$("input[value='delivery']").attr('checked', true);
+$("#addressBox").show(1);
+$("input[value='pickup']").attr('checked', false);
+$("input[value='dinein']").attr('checked', false);
+}
 if (target == "#pickup")
-        {
+{
 
-        $("input[value='delivery']").attr('checked', false);
-        $("input[value='pickup']").attr('checked', true);
-        $("input[value='dinein']").attr('checked', false);
-        }
+$("input[value='delivery']").attr('checked', false);
+$("input[value='pickup']").attr('checked', true);
+$("input[value='dinein']").attr('checked', false);
+}
 });</script>
 <script src="{{ asset('custom') }}/js/checkout.js"></script>
 @endsection

@@ -1,4 +1,6 @@
-<div class="container-fluid ">    
+<div id="map_canvas" style="height: 500px;" class="form-control form-control-alternative">
+
+</div>    
     <div class="row">
         <div class="col-12">
             <br/>
@@ -30,24 +32,11 @@
 
             </div>
         </div>
-        <div class="card bg-secondary shadow col-12" style="margin-top: 1vh;">
-            <div class="card-header bg-white border-0">
-                <div class="row align-items-center">
-                    <h5 class="mb-0"> Áreas Atendidas</h5>
-                </div>
-            </div>
-            <div id="map_canvas" style="height: 60vh; width:45vw">
-
-            </div>
-
-
-        </div>
     </div>
-</div>
 
 
 <!-- Google Map -->
-<!--<script async defer src= "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=<?php // echo config('settings.google_maps_api_key');     ?>"></script>-->
+<!--<script async defer src= "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=<?php // echo config('settings.google_maps_api_key');      ?>"></script>-->
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=<?php echo config('settings.google_maps_api_key'); ?>"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript">

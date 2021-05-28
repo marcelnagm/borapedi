@@ -53,7 +53,10 @@ class OrderController extends Controller
                 if (auth()->user()->hasRole('admin')) {
 
             $drivers = User::role('driver')->paginate(15);
-        
+        $driversData = [];
+        foreach ($drivers as $key => $driver) {
+            $driversData[$driver->id] = $driver->name;
+        }
         } 
         if (auth()->user()->plan()->first()->driver_own) {
             $drivers = array();
@@ -65,13 +68,16 @@ class OrderController extends Controller
             $drivers = User::select('users.*')
                     ->whereIn('id', $drivers)
                     ->paginate(10);
-        }
-        $clients = User::role('client')->where(['active' => 1])->get();
-
         $driversData = [];
         foreach ($drivers as $key => $driver) {
             $driversData[$driver->id] = $driver->name;
         }
+            
+            }
+        $clients = User::role('client')->where(['active' => 1])->get();
+
+        
+        
 
         $orders = Order::orderBy('created_at', 'desc');
 

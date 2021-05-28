@@ -5,19 +5,23 @@
 
 <style>
     .logo-img {
-        width: 10vw!important;
-        height:  10vw!important;
+        width: 60px!important;
+        height:  60px!important;
         float:left;
     }
     .logo-text{
         float:left;
-        height:  10vw!important;
-        padding: 2vw;
+        height:  20px!important;
+        padding: 4px;
+        font-size: 24px;
     }
+    .sub-description{
+      margin-top: 120px; font-size: 20px;      
+        }
     @media only screen and (max-width:1023px) {
         .logo-img {
-            width: 24vw !important;
-            height:  13vh!important;
+            width: 60px !important;
+            height:  60px!important;
             float:left;
         }
         .logo-text{
@@ -25,7 +29,13 @@
             width: 65vw !important;
             height:  13vh!important;
             padding: 2vw;
-            font-size: 6vw;
+            font-size: 22px;
+        }
+        .sub-description{
+            font-size: 1.2275rem;
+            margin-top: 0px !important;
+    font-weight: 600;
+    line-height: 0.5
         }
     }
 </style>
@@ -53,7 +63,7 @@
                             <div class="logo-text">   {{ $restorant->name }} </div>
                     </h1>
                     </br>
-                    <p class="display-4" style="margin-top: 120px; font-size: 6vh;">{{ $restorant->description }}</p>
+                    <p class="display-4 sub-description" >{{ $restorant->description }}</p>
 
                     <p><i class="ni ni-watch-time"></i> @if(!empty($openingTime))<span class="closed_time">{{__('Opens')}} {{ $openingTime }}</span>@endif @if(!empty($closingTime))<span class="opened_time">{{__('Opened until')}} {{ $closingTime }}</span> @endif |   @if(!empty($restorant->address))<i class="ni ni-pin-3"></i></i> <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ urlencode($restorant->address) }}">{{ $restorant->address }}</a>  | @endif @if(!empty($restorant->phone)) <i class="ni ni-mobile-button"></i> <a href="tel:{{$restorant->phone}}">{{ $restorant->phone }} </a> @endif</p>
                 </div>
@@ -82,7 +92,7 @@
                      <img loading="lazy" src="/uploads/restorants/{{ $restorant->logo }}_thumbnail.jpg" class="logo-img img-fluid rounded-circle shadow-lg" >            
                          <div class="logo-text">  {{ $restorant->name }}</div>
                     </h1>
-                    <p class="display-4 text">{{ $restorant->description }}</p>
+                    <p class="display-4 text sub-description" >{{ $restorant->description }}</p>
                     <p><i class="ni ni-watch-time"></i> @if(!empty($openingTime))<span class="closed_time">{{__('Opens')}} {{ $openingTime }}</span>@endif @if(!empty($closingTime))<span class="opened_time">{{__('Opened until')}} {{ $closingTime }}</span> @endif   @if(!empty($restorant->address))<i class="ni ni-pin-3"></i></i> <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ urlencode($restorant->address) }}">{{ $restorant->address }}</a>  | @endif @if(!empty($restorant->phone)) <i class="ni ni-mobile-button"></i> <a href="tel:{{$restorant->phone}}">{{ $restorant->phone }} </a> @endif</p>
                 </div>
             </div>

@@ -6,10 +6,10 @@
         overflow: visible !important;
              text-overflow: visible !important; 
      white-space: normal !important; 
-
+    border: 1px solid #cad1d7;
     }
     .select2-container{
-           height: 18vh !important; 
+         border: 0px !important;
     }
     
     .map_icon{
@@ -40,7 +40,6 @@
 </br>
 <div style="padding: 16px 16px 0 16px;">
 
-    {{ 'Endereço de Entrega' }}<span class="font-weight-light"></span>
     <div class="card-content" >
     <input type="hidden" value="{{$restorant->id}}" id="restaurant_id"/>
     <div class="form-group{{ $errors->has('addressID') ? ' has-danger' : '' }}">
@@ -73,9 +72,6 @@
         @else
         <h6 id="address-complete-order">{{ __('You don`t have any address. Please add new one') }}.</h6>
         @endif
-        <div class=" text-center">
-        <button type="button" data-toggle="modal" data-target="#modal-order-new-address"  class="btn btn-success">Novo Endereço</button>    
-        </div>
         
     </div>
     <div class="form-group">
@@ -83,7 +79,9 @@
     <input type="hidden" name="deliveryCost" id="deliveryCost" value="0" />
 </div>
 </div>
-
+<div class=" text-center" style="margin-top:30px">
+        <button type="button" data-toggle="modal" data-target="#modal-order-new-address"  class="btn btn-success">Novo Endereço</button>    
+        </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- BS JavaScript -->
 

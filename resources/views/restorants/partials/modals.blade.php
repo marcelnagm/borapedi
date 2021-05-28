@@ -99,14 +99,20 @@
 </div>
 @isset($restorant)
 <div class="modal fade" id="modal-restaurant-info" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
-    <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document" >
+    <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document" >        
         <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title-new-item"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
             <div class="modal-body p-0">
                 <div class="card">
                     <div class="card-header bg-white text-center">
-                        <img class="rounded img-center" src="{{ $restorant->icon }}" width="90px" height="90px"></img>
-                        <h4 class="heading mt-4">{{ $restorant->name }} &nbsp;@if(count($restorant->ratings))<span><i class="fa fa-star" style="color: #dc3545"></i> <strong>{{ number_format($restorant->averageRating, 1, '.', ',') }} <span class="small">/ 5 ({{ count($restorant->ratings) }})</strong></span></span>@endif</h4>
-                        <p class="description">{{ $restorant->description }}</p>
+                        <img class="img-center" src="{{ $restorant->icon }}" width="100px" height="100px"></img>
+                        <h3 class="headihng mt-4">{{ $restorant->name }} &nbsp;@if(count($restorant->ratings))<span><i class="fa fa-star" style="color: #dc3545"></i> <strong>{{ number_format($restorant->averageRating, 1, '.', ',') }} <span class="small">/ 5 ({{ count($restorant->ratings) }})</strong></span></span>@endif</h3>
+                        <h5 class="description">{{ $restorant->description }}</h5>
                         @if(!empty($openingTime) && !empty($closingTime))
                             <p class="description">{{ __('Open') }}: {{ $openingTime }} - {{ $closingTime }}</p>
                         @endif
@@ -126,8 +132,11 @@
                             <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h6 class="heading-small">{{ __('Phone') }}</h6>
-                                        <p class="heading-small text-muted">{{ $restorant->phone }}</p>
+                                        <h6 class="heading-small">Telefone</h6>
+                                        <p class="heading-small text-muted"><a href="tel://{{ $restorant->phone }}">{{ $restorant->phone }}</a></p>
+                                        <br/>
+                                        <h6 class="heading-small">Whatsapp</h6>
+                                        <p class="heading-small text-muted"><a href="https://wa.me/{{ $restorant->whatsapp_phone }}">{{ $restorant->whatsapp_phone }}</a></p>
                                         <br/>
                                         <h6 class="heading-small">{{ __('Address') }}</h6>
                                         <p class="heading-small text-muted">{{ $restorant->address }}</p>
