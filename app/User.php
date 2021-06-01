@@ -12,6 +12,7 @@ use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 use Twilio\Rest\Client;
 use App\Traits\HasConfig;
+use App\Order;
 
 class User extends Authenticatable
 {
@@ -88,6 +89,14 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(\App\Order::class, 'client_id', 'id');
+    }
+    public function OrdersFromRestorant()
+    {
+        return  Order::select('orders.*')
+                ->join('users', 'orders.client_id', '=', 'users.id')
+                ->where('orders.restorant_id', '=', auth()->user()->restorant->id)
+                ->where('users.id', '=', $this->id)->get();
+           
     }
 
     public function driverorders()
