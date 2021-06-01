@@ -5,7 +5,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="/">
+        <a class="navbar-brand pt-0" href="/home">
             <img src="{{ config('global.site_logo') }}" class="navbar-brand-img" alt="...">
         </a>
         <!-- User -->
