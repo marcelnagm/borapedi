@@ -151,10 +151,10 @@
                 @if (count($timeSlots)>0)
                 <!-- Payment -->
                 @include('cart.payment')
-                <!--
+                
                   <br/>
                   @include('cart.coupons')
-                -->
+
                 @else
                 <!-- Closed restaurant -->
                 @include('cart.closed')
