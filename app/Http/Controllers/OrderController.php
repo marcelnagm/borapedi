@@ -30,8 +30,8 @@ use App\Events\OrderAcceptedByAdmin;
 use App\Events\OrderAcceptedByVendor;
 use App\WhastappService as WhatsappService;
 
-class OrderController extends Controller
-{
+class OrderController extends Controller {
+
     public function migrateStatuses() {
         if (Status::count() < 13) {
             $statuses = ['Just created', 'Accepted by admin', 'Accepted by restaurant', 'Assigned to driver', 'Prepared', 'Picked up', 'Delivered', 'Rejected by admin', 'Rejected by restaurant', 'Updated', 'Closed', 'Rejected by driver', 'Accepted by driver'];
@@ -50,39 +50,38 @@ class OrderController extends Controller
         $this->migrateStatuses();
 
         $restorants = Restorant::where(['active' => 1])->get();
-                if (auth()->user()->hasRole('admin')) {
+        $drivers = array();
+        $driversData = [];
+
+        if (auth()->user()->hasRole('admin')) {
 
             $drivers = User::role('driver')->paginate(15);
-        $driversData = [];
-        foreach ($drivers as $key => $driver) {
-            $driversData[$driver->id] = $driver->name;
-        }
-        } 
-        if (auth()->user()->plan()->first() != null) {
-        if (auth()->user()->plan()->first()->driver_own) {
-            $drivers = array();
-            foreach (RestorantHasDrivers::where('restorant_id', auth()->user()->restorant->id)->pluck('driver_id')->toArray() as $id => $val) {
-                $drivers[] = $val;
+            $driversData = [];
+            foreach ($drivers as $key => $driver) {
+                $driversData[$driver->id] = $driver->name;
             }
+        }
+        if (auth()->user()->plan()->first() != null) {
+            if (auth()->user()->plan()->first()->driver_own) {
+                $drivers = array();
+                foreach (RestorantHasDrivers::where('restorant_id', auth()->user()->restorant->id)->pluck('driver_id')->toArray() as $id => $val) {
+                    $drivers[] = $val;
+                }
 
 //            dd($drivers);
-            $drivers = User::select('users.*')
-                    ->whereIn('id', $drivers)
-                    ->paginate(10);
-        $driversData = [];
-        foreach ($drivers as $key => $driver) {
-            $driversData[$driver->id] = $driver->name;
-        }
-            
-            }
-            }else{
-                $drivers = array();
+                $drivers = User::select('users.*')
+                        ->whereIn('id', $drivers)
+                        ->paginate(10);
                 $driversData = [];
+                foreach ($drivers as $key => $driver) {
+                    $driversData[$driver->id] = $driver->name;
+                }
             }
+        }
         $clients = User::role('client')->where(['active' => 1])->get();
 
-        
-        
+
+
 
         $orders = Order::orderBy('created_at', 'desc');
 
@@ -251,10 +250,10 @@ class OrderController extends Controller
         $delivery_method = "pickup";
 
         //Delivery method - deliveryType - ft
-        if($request->has('deliveryType')){
-            $delivery_method=$request->deliveryType;
-        }else if($restorant->can_pickup == 0 && $restorant->can_deliver == 1){
-            $delivery_method="delivery";
+        if ($request->has('deliveryType')) {
+            $delivery_method = $request->deliveryType;
+        } else if ($restorant->can_pickup == 0 && $restorant->can_deliver == 1) {
+            $delivery_method = "delivery";
         }
 
         //Delivery method  - dineType - qr
@@ -334,15 +333,15 @@ class OrderController extends Controller
 
             //Payment methods
             foreach (Module::all() as $key => $module) {
-                if($module->get('isPaymentModule')){
-                    if($vendor->getConfig($module->get('alias')."_enable","false")=="true"){
-                        $vendorHasOwnPayment=$module->get('alias');
+                if ($module->get('isPaymentModule')) {
+                    if ($vendor->getConfig($module->get('alias') . "_enable", "false") == "true") {
+                        $vendorHasOwnPayment = $module->get('alias');
                     }
                 }
             }
 
-            if($vendorHasOwnPayment==null){
-                $hasPayment=false;
+            if ($vendorHasOwnPayment == null) {
+                $hasPayment = false;
             }
         }
 
@@ -362,7 +361,7 @@ class OrderController extends Controller
             notify()->error($validatorOnMaking->errors()->first());
             return $orderRepo->redirectOrInform();
         }
-        
+
         return $orderRepo->redirectOrInform();
     }
 
@@ -626,15 +625,15 @@ class OrderController extends Controller
 
     public function updateStatus($alias, Order $order) {
         if ($alias == 'rebuy') {
-            WhatsappService::sendMessage($order,1);
-            
-            $list = OrderHasItems::where('order_id', $order->id)->get() ;
+            WhatsappService::sendMessage($order, 1);
+
+            $list = OrderHasItems::where('order_id', $order->id)->get();
 //            dd($list[0]->item()->id,$list[1]->item()->id);
-            $i =0;
-            foreach ( $list as $item_k) {
+            $i = 0;
+            foreach ($list as $item_k) {
 //            dd($item_k);
                 $item = $item_k->item();
-               $i++;
+                $i++;
                 $restID = $item->category->restorant->id;
                 $cartItemPrice = $item->price;
                 $cartItemName = $item->name;
@@ -678,10 +677,9 @@ class OrderController extends Controller
 //                fim Exctras                
 //                dd($item_k->item_id);
 
-                Cart::add((new \DateTime())->getTimestamp()+$i, $cartItemName, $cartItemPrice, $item_k->qty, ['id' => $item_k->id, 'variant' => $variant, 'extras' => $item_k->extras, 'restorant_id' => $restID, 'image' => $item->icon, 'friendly_price' => Money($cartItemPrice, config('settings.cashier_currency'), config('settings.do_convertion'))->format()]);
-                unset($item );
-                
-                    }
+                Cart::add((new \DateTime())->getTimestamp() + $i, $cartItemName, $cartItemPrice, $item_k->qty, ['id' => $item_k->id, 'variant' => $variant, 'extras' => $item_k->extras, 'restorant_id' => $restID, 'image' => $item->icon, 'friendly_price' => Money($cartItemPrice, config('settings.cashier_currency'), config('settings.do_convertion'))->format()]);
+                unset($item);
+            }
 
             session(['in_cart' => true]);
             return redirect()->route('cart.checkout')->withStatus('Carrinho remontado finalize!');
@@ -775,9 +773,8 @@ class OrderController extends Controller
             if ($status_id_to_attach . '' == '4') {
                 $order->driver->notify(new OrderNotification($order, $status_id_to_attach));
             }
-           
         }
-        
+
         //Picked up - start tracing
         if ($status_id_to_attach . '' == '6') {
             $order->lat = $order->restorant->lat;
@@ -812,16 +809,16 @@ class OrderController extends Controller
 
 
         //Dispatch event
-        if($alias=="accepted_by_restaurant"){
+        if ($alias == "accepted_by_restaurant") {
             OrderAcceptedByVendor::dispatch($order);
 //            WhatsappService::sendMessage($order,3);
         }
-        if($alias=="accepted_by_admin"){
+        if ($alias == "accepted_by_admin") {
             OrderAcceptedByAdmin::dispatch($order);
 //            WhatsappService::sendMessage($order,2);
         }
 
-         WhatsappService::sendMessage($order,$status_id_to_attach);
+        WhatsappService::sendMessage($order, $status_id_to_attach);
         return redirect()->route('orders.index')->withStatus(__('Order status succesfully changed.'));
     }
 
@@ -947,7 +944,7 @@ class OrderController extends Controller
 
     public function success(Request $request) {
         $order = Order::findOrFail($request->order);
-        WhatsappService::sendMessage($order,1);
+        WhatsappService::sendMessage($order, 1);
         //If order is not paid - redirect to payment
         if ($request->redirectToPayment . "" == "1" && $order->payment_status != 'paid' && strlen($order->payment_link) > 5) {
             //Redirect to payment
