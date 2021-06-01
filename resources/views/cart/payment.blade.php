@@ -49,14 +49,14 @@
                         @endif
 
                         @if($enablePayments)
-                        
-                            <!-- STIPE CART -->
+<!--                        
+                             STIPE CART 
                             @if (config('settings.stripe_key')&&config('settings.enable_stripe'))
                                 <div class="custom-control custom-radio mb-3">
                                     <input name="paymentType" class="custom-control-input" id="paymentStripe" type="radio" value="stripe" {{ config('settings.default_payment')=="stripe"?"checked":""}}>
                                     <label class="custom-control-label" for="paymentStripe">{{ __('Pay with card') }}</label>
                                 </div>
-                            @endif
+                            @endif-->
 
                             <!-- Extra Payments ( Via module ) -->
                             @foreach ($extraPayments as $extraPayment)
