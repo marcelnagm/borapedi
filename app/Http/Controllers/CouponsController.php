@@ -183,8 +183,20 @@ class CouponsController extends Controller
     public function apply(Request $request)
     {
         //'data' => Cart::getContent(),
+        $r_id = null;
+        foreach (Cart::getContent() as $key => $cartItem) {
+                $r_id  = $cartItem->attributes->restorant_id;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      break;
+                break;
+            }
+//         dd($r_id);   
         $coupon = Coupons::where(['code' => $request->code])->get()->first();
-
+        if($coupon->restaurant_id != $r_id){
+            
+            return response()->json([
+                'status' => false,
+                'msg' => "O cupom não se aplica a este restaurante",
+            ]);
+        }
         $dateActive = false;
 
         if ((new Carbon($coupon->active_to))->gt(new Carbon($coupon->active_from)) && Carbon::now()->between(new Carbon($coupon->active_from), new Carbon($coupon->active_to))) {
