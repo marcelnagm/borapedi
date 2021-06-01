@@ -58,6 +58,7 @@ class OrderController extends Controller
             $driversData[$driver->id] = $driver->name;
         }
         } 
+        if (auth()->user()->plan()->first() != null) {
         if (auth()->user()->plan()->first()->driver_own) {
             $drivers = array();
             foreach (RestorantHasDrivers::where('restorant_id', auth()->user()->restorant->id)->pluck('driver_id')->toArray() as $id => $val) {
@@ -73,6 +74,10 @@ class OrderController extends Controller
             $driversData[$driver->id] = $driver->name;
         }
             
+            }
+            }else{
+                $drivers = array();
+                $driversData = [];
             }
         $clients = User::role('client')->where(['active' => 1])->get();
 
