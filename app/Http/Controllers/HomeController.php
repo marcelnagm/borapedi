@@ -10,15 +10,14 @@ use Carbon\Carbon;
 use DB;
 use Spatie\Permission\Models\Role;
 
-class HomeController extends Controller
-{
+class HomeController extends Controller {
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
 
@@ -27,13 +26,19 @@ class HomeController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
-    {
-        if (! config('app.ordering')) {
+    public function index() {
+        if (!config('app.ordering')) {
             if (auth()->user()->hasRole('owner')) {
                 return redirect()->route('admin.restaurants.edit', auth()->user()->restorant->id);
             } elseif (auth()->user()->hasRole('admin')) {
                 return redirect()->route('admin.restaurants.index');
+            }
+        }
+        if (auth()->user()->hasRole('client')) {
+            if (session()->exists('visited')) {
+                $restorant = session('visited');
+                if ($restorant != NULL)
+                    return redirect(route('vendor',['alias'=>$restorant->alias]));
             }
         }
         $months = [
@@ -55,7 +60,7 @@ class HomeController extends Controller
             //first analytics
             $last30days = Carbon::now()->subDays(30);
             $last30daysOrders = Order::all()->where('created_at', '>', $last30days)->count();
-            $last30daysOrdersValue = Order::all()->where('created_at', '>', $last30days)->where('payment_status','paid')->sum('order_price');
+            $last30daysOrdersValue = Order::all()->where('created_at', '>', $last30days)->where('payment_status', 'paid')->sum('order_price');
             //$uniqueUsersOrders = Order::all()->unique('address_id')->count();
             $uniqueUsersOrders = Order::select('client_id')->groupBy('client_id')->get()->count();
             $allClients = User::all()->count();
@@ -63,51 +68,51 @@ class HomeController extends Controller
             //Last 7 months sales values
             $sevenMonthsDate = Carbon::now()->subMonths(6)->startOfMonth();
             $salesValue = DB::table('orders')
-                        ->select(DB::raw('SUM(order_price + delivery_price) AS sumValue'))
-                        ->where('created_at', '>', $sevenMonthsDate)
-                        ->where('payment_status','paid')
-                        ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
-                        ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
-                        ->pluck('sumValue');
+                    ->select(DB::raw('SUM(order_price + delivery_price) AS sumValue'))
+                    ->where('created_at', '>', $sevenMonthsDate)
+                    ->where('payment_status', 'paid')
+                    ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+                    ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
+                    ->pluck('sumValue');
 
             $monthLabels = DB::table('orders')
-                        ->select(DB::raw('MONTH(created_at) as month'))
-                        ->where('created_at', '>', $sevenMonthsDate)
-                        ->where('payment_status','paid')
-                        ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
-                        ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
-                        ->pluck('month');
+                    ->select(DB::raw('MONTH(created_at) as month'))
+                    ->where('created_at', '>', $sevenMonthsDate)
+                    ->where('payment_status', 'paid')
+                    ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+                    ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
+                    ->pluck('month');
 
             $totalOrders = DB::table('orders')
-                        ->select(DB::raw('count(id) as totalPerMonth'))
-                        ->where('created_at', '>', $sevenMonthsDate)
-                        ->where('payment_status','paid')
-                        ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
-                        ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
-                        ->pluck('totalPerMonth');
+                    ->select(DB::raw('count(id) as totalPerMonth'))
+                    ->where('created_at', '>', $sevenMonthsDate)
+                    ->where('payment_status', 'paid')
+                    ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+                    ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
+                    ->pluck('totalPerMonth');
 
-            $last30daysDeliveryFee = Order::all()->where('created_at', '>', $last30days)->where('payment_status','paid')->sum('delivery_price');
-            $last30daysStaticFee = Order::all()->where('created_at', '>', $last30days)->where('payment_status','paid')->sum('static_fee');
-            $last30daysDynamicFee = Order::all()->where('created_at', '>', $last30days)->where('payment_status','paid')->sum('fee_value');
+            $last30daysDeliveryFee = Order::all()->where('created_at', '>', $last30days)->where('payment_status', 'paid')->sum('delivery_price');
+            $last30daysStaticFee = Order::all()->where('created_at', '>', $last30days)->where('payment_status', 'paid')->sum('static_fee');
+            $last30daysDynamicFee = Order::all()->where('created_at', '>', $last30days)->where('payment_status', 'paid')->sum('fee_value');
             $last30daysTotalFee = DB::table('orders')
-                                ->select(DB::raw('SUM(delivery_price + static_fee + fee_value) AS sumValue'))
-                                ->where('created_at', '>', $last30days)
-                                ->where('payment_status','paid')
-                                ->value('sumValue');
+                    ->select(DB::raw('SUM(delivery_price + static_fee + fee_value) AS sumValue'))
+                    ->where('created_at', '>', $last30days)
+                    ->where('payment_status', 'paid')
+                    ->value('sumValue');
 
             //dd(Carbon::now()->format('M'));
             $views = Restorant::sum('views');
 
             return view('dashboard', [
                 'last30daysOrders' => $last30daysOrders,
-                'last30daysOrdersValue'=> $last30daysOrdersValue,
+                'last30daysOrdersValue' => $last30daysOrdersValue,
                 'uniqueUsersOrders' => $uniqueUsersOrders,
                 'allClients' => $allClients,
                 'allViews' => $views,
                 'salesValue' => $salesValue,
                 'monthLabels' => $monthLabels,
                 'totalOrders' => $totalOrders,
-                'countItems'=>Restorant::count(),
+                'countItems' => Restorant::count(),
                 'last30daysDeliveryFee' => $last30daysDeliveryFee,
                 'last30daysStaticFee' => $last30daysStaticFee,
                 'last30daysDynamicFee' => $last30daysDynamicFee,
@@ -124,16 +129,16 @@ class HomeController extends Controller
             $last30days = Carbon::now()->subDays(30);
             // $last30daysOrders = Order::all()->where('created_at', '>', $last30days, 'AND', 'restorant_id', '=' ,$restorant_id)->count();
             $last30daysOrders = Order::where([
-                ['created_at', '>', $last30days],
-                ['restorant_id', '=', $restorant_id],
-            ])->count();
+                        ['created_at', '>', $last30days],
+                        ['restorant_id', '=', $restorant_id],
+                    ])->count();
 
             //$last30daysOrdersValue = Order::all()->where('created_at', '>', $last30days, 'AND', 'restorant_id', '=', $restorant_id)->sum('order_price');
             $last30daysOrdersValue = Order::where([
-                ['created_at', '>', $last30days],
-                ['restorant_id', '=', $restorant_id],
-                ['payment_status', '=', 'paid'],
-            ])->sum('order_price');
+                        ['created_at', '>', $last30days],
+                        ['restorant_id', '=', $restorant_id],
+                        ['payment_status', '=', 'paid'],
+                    ])->sum('order_price');
 
             //$uniqueUsersOrders = Order::all()->unique('address_id')->where('restorant_id', '=', $restorant_id)->count();
             $uniqueUsersOrders = Order::select('client_id')->where('restorant_id', '=', $restorant_id)->groupBy('client_id')->get()->count();
@@ -143,64 +148,64 @@ class HomeController extends Controller
 
             //Last 7 months sales values
             $sevenMonthsDate = Carbon::now()->subMonths(6)->startOfMonth();
-            /*$salesValue = DB::table('orders')
-                        ->select(DB::raw('SUM(order_price + delivery_price) AS sumValue'))
-                        ->where('created_at', '>', $sevenMonthsDate, 'AND', 'restorant_id', '=', $restorant_id)
-                        ->groupBy(DB::raw("YEAR(created_at), MONTH(created_at)"))
-                        ->orderBy(DB::raw("YEAR(created_at), MONTH(created_at)"), 'asc')
-                        ->pluck('sumValue');*/
+            /* $salesValue = DB::table('orders')
+              ->select(DB::raw('SUM(order_price + delivery_price) AS sumValue'))
+              ->where('created_at', '>', $sevenMonthsDate, 'AND', 'restorant_id', '=', $restorant_id)
+              ->groupBy(DB::raw("YEAR(created_at), MONTH(created_at)"))
+              ->orderBy(DB::raw("YEAR(created_at), MONTH(created_at)"), 'asc')
+              ->pluck('sumValue'); */
             $salesValue = DB::table('orders')
-                        ->select(DB::raw('SUM(order_price + delivery_price) AS sumValue'))
-                        ->where([['created_at', '>', $sevenMonthsDate], ['restorant_id', '=', $restorant_id], ['payment_status', '=', 'paid']])
-                        ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
-                        ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
-                        ->pluck('sumValue');
+                    ->select(DB::raw('SUM(order_price + delivery_price) AS sumValue'))
+                    ->where([['created_at', '>', $sevenMonthsDate], ['restorant_id', '=', $restorant_id], ['payment_status', '=', 'paid']])
+                    ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+                    ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
+                    ->pluck('sumValue');
 
-            /*$monthLabels = DB::table('orders')
-                        ->select(DB::raw('MONTH(created_at) as month'))
-                        ->where('created_at', '>', $sevenMonthsDate, 'AND', 'restorant_id', '=', $restorant_id)
-                        ->groupBy(DB::raw("YEAR(created_at), MONTH(created_at)"))
-                        ->orderBy(DB::raw("YEAR(created_at), MONTH(created_at)"), 'asc')
-                        ->pluck('month');*/
+            /* $monthLabels = DB::table('orders')
+              ->select(DB::raw('MONTH(created_at) as month'))
+              ->where('created_at', '>', $sevenMonthsDate, 'AND', 'restorant_id', '=', $restorant_id)
+              ->groupBy(DB::raw("YEAR(created_at), MONTH(created_at)"))
+              ->orderBy(DB::raw("YEAR(created_at), MONTH(created_at)"), 'asc')
+              ->pluck('month'); */
             $monthLabels = DB::table('orders')
-                        ->select(DB::raw('MONTH(created_at) as month'))
-                        ->where([['created_at', '>', $sevenMonthsDate], ['restorant_id', '=', $restorant_id]])
-                        ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
-                        ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
-                        ->pluck('month');
+                    ->select(DB::raw('MONTH(created_at) as month'))
+                    ->where([['created_at', '>', $sevenMonthsDate], ['restorant_id', '=', $restorant_id]])
+                    ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+                    ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
+                    ->pluck('month');
 
-            /*$totalOrders = DB::table('orders')
-                        ->select(DB::raw('count(id) as totalPerMonth'))
-                        ->where('created_at', '>', $sevenMonthsDate, 'AND', 'restorant_id', '=', $restorant_id)
-                        ->groupBy(DB::raw("YEAR(created_at), MONTH(created_at)"))
-                        ->orderBy(DB::raw("YEAR(created_at), MONTH(created_at)"), 'asc')
-                        ->pluck('totalPerMonth');*/
+            /* $totalOrders = DB::table('orders')
+              ->select(DB::raw('count(id) as totalPerMonth'))
+              ->where('created_at', '>', $sevenMonthsDate, 'AND', 'restorant_id', '=', $restorant_id)
+              ->groupBy(DB::raw("YEAR(created_at), MONTH(created_at)"))
+              ->orderBy(DB::raw("YEAR(created_at), MONTH(created_at)"), 'asc')
+              ->pluck('totalPerMonth'); */
             $totalOrders = DB::table('orders')
-                        ->select(DB::raw('count(id) as totalPerMonth'))
-                        ->where([['created_at', '>', $sevenMonthsDate], ['restorant_id', '=', $restorant_id]])
-                        ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
-                        ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
-                        ->pluck('totalPerMonth');
+                    ->select(DB::raw('count(id) as totalPerMonth'))
+                    ->where([['created_at', '>', $sevenMonthsDate], ['restorant_id', '=', $restorant_id]])
+                    ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+                    ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
+                    ->pluck('totalPerMonth');
 
             $last30daysDeliveryFee = Order::where([['created_at', '>', $last30days], ['restorant_id', '=', $restorant_id]])->sum('delivery_price');
             $last30daysStaticFee = Order::where([['created_at', '>', $last30days], ['restorant_id', '=', $restorant_id]])->sum('static_fee');
             $last30daysDynamicFee = Order::where([['created_at', '>', $last30days], ['restorant_id', '=', $restorant_id]])->sum('fee_value');
             $last30daysTotalFee = DB::table('orders')
-                                ->select(DB::raw('SUM(delivery_price + static_fee + fee_value) AS sumValue'))
-                                ->where([['created_at', '>', $last30days], ['restorant_id', '=', $restorant_id]])
-                                ->value('sumValue');
+                    ->select(DB::raw('SUM(delivery_price + static_fee + fee_value) AS sumValue'))
+                    ->where([['created_at', '>', $last30days], ['restorant_id', '=', $restorant_id]])
+                    ->value('sumValue');
             $itemsCount = Items::whereIn('category_id', auth()->user()->restorant->categories->pluck('id')->toArray())->count();
 
             return view('dashboard', [
                 'last30daysOrders' => $last30daysOrders,
-                'last30daysOrdersValue'=> $last30daysOrdersValue,
+                'last30daysOrdersValue' => $last30daysOrdersValue,
                 'uniqueUsersOrders' => $uniqueUsersOrders,
                 'allClients' => $allClients,
                 'allViews' => auth()->user()->restorant->views,
                 'salesValue' => $salesValue,
                 'monthLabels' => $monthLabels,
                 'totalOrders' => $totalOrders,
-                'countItems'=>$itemsCount,
+                'countItems' => $itemsCount,
                 'last30daysDeliveryFee' => $last30daysDeliveryFee,
                 'last30daysStaticFee' => $last30daysStaticFee,
                 'last30daysDynamicFee' => $last30daysDynamicFee,
@@ -211,42 +216,42 @@ class HomeController extends Controller
 
             $driver = auth()->user();
 
-             //Today paid orders
-            $today=Order::where(['driver_id'=>$driver->id])->where('payment_status','paid')->where('created_at', '>=', Carbon::today());
-        
+            //Today paid orders
+            $today = Order::where(['driver_id' => $driver->id])->where('payment_status', 'paid')->where('created_at', '>=', Carbon::today());
+
             //Week paid orders
-            $week=Order::where(['driver_id'=>$driver->id])->where('payment_status','paid')->where('created_at', '>=', Carbon::now()->startOfWeek());
+            $week = Order::where(['driver_id' => $driver->id])->where('payment_status', 'paid')->where('created_at', '>=', Carbon::now()->startOfWeek());
 
             //This month paid orders
-            $month=Order::where(['driver_id'=>$driver->id])->where('payment_status','paid')->where('created_at', '>=', Carbon::now()->startOfMonth());
+            $month = Order::where(['driver_id' => $driver->id])->where('payment_status', 'paid')->where('created_at', '>=', Carbon::now()->startOfMonth());
 
             //Previous month paid orders 
-            $previousmonth=Order::where(['driver_id'=>$driver->id])->where('payment_status','paid')->where('created_at', '>=',  Carbon::now()->subMonth(1)->startOfMonth())->where('created_at', '<',  Carbon::now()->subMonth(1)->endOfMonth());
+            $previousmonth = Order::where(['driver_id' => $driver->id])->where('payment_status', 'paid')->where('created_at', '>=', Carbon::now()->subMonth(1)->startOfMonth())->where('created_at', '<', Carbon::now()->subMonth(1)->endOfMonth());
 
 
             //This user driver_percent_from_deliver
-            $driver_percent_from_deliver=intval(auth()->user()->getConfig('driver_percent_from_deliver',config('settings.driver_percent_from_deliver')))/100;
+            $driver_percent_from_deliver = intval(auth()->user()->getConfig('driver_percent_from_deliver', config('settings.driver_percent_from_deliver'))) / 100;
 
             $earnings = [
-                'today'=>[
-                    'orders'=>$today->count(),
-                    'earning'=>$today->sum('delivery_price')*$driver_percent_from_deliver,
-                    'icon'=>'bg-gradient-red'
+                'today' => [
+                    'orders' => $today->count(),
+                    'earning' => $today->sum('delivery_price') * $driver_percent_from_deliver,
+                    'icon' => 'bg-gradient-red'
                 ],
-                'week'=>[
-                    'orders'=>$week->count(),
-                    'earning'=>$week->sum('delivery_price')*$driver_percent_from_deliver,
-                    'icon'=>'bg-gradient-orange'
+                'week' => [
+                    'orders' => $week->count(),
+                    'earning' => $week->sum('delivery_price') * $driver_percent_from_deliver,
+                    'icon' => 'bg-gradient-orange'
                 ],
-                'month'=>[
-                    'orders'=>$month->count(),
-                    'earning'=>$month->sum('delivery_price')*$driver_percent_from_deliver,
-                    'icon'=>'bg-gradient-green'
+                'month' => [
+                    'orders' => $month->count(),
+                    'earning' => $month->sum('delivery_price') * $driver_percent_from_deliver,
+                    'icon' => 'bg-gradient-green'
                 ],
-                'previous'=>[
-                    'orders'=>$previousmonth->count(),
-                    'earning'=>$previousmonth->sum('delivery_price')*$driver_percent_from_deliver,
-                    'icon'=>'bg-gradient-info'
+                'previous' => [
+                    'orders' => $previousmonth->count(),
+                    'earning' => $previousmonth->sum('delivery_price') * $driver_percent_from_deliver,
+                    'icon' => 'bg-gradient-info'
                 ]
             ];
 
@@ -258,4 +263,5 @@ class HomeController extends Controller
             return redirect()->route('front');
         }
     }
+
 }

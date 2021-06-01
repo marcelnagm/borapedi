@@ -551,13 +551,15 @@ class FrontEndController extends Controller
 
         //Do we have impressum app
         $doWeHaveImpressumApp=Module::has('impressum');
-
+        
 
         $subDomain = $this->getSubDomain();
         if ($subDomain && $alias !== $subDomain) {
             return redirect()->route('restorant', $subDomain);
         }
         $restorant = Restorant::whereRaw('REPLACE(subdomain, "-", "") = ?', [str_replace("-","",$alias)])->first();
+
+        session(['visited' => $restorant ]);
 
         //Set config based on restaurant
         config(['app.timezone' => $restorant->getConfig('time_zone',config('app.timezone'))]);
