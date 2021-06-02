@@ -3,7 +3,7 @@
 
     <div class="container-fluid">
         @if(!config('settings.hide_project_branding'))
-        <a class="navbar-brand mr-lg-5" href="/home">
+        <a class="navbar-brand mr-lg-5" href="/">
             <img src="{{ config('global.site_logo') }}">
         </a>
         @else
@@ -22,7 +22,7 @@
                 <div class="row">
                     @if(!config('settings.hide_project_branding'))
                     <div class="col-6 collapse-brand">
-                        <a href="">
+                        <a href="#">
                             <img src="{{ config('global.site_logo') }}">
                         </a>
                     </div>
