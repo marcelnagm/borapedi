@@ -6,6 +6,7 @@ use App\MyModel;
 use App\Traits\HasConfig;
 use willvincent\Rateable\Rateable;
 use Spatie\OpeningHours\OpeningHours;
+use App\Models\ClientRatings;
 
 class Restorant extends MyModel
 {
@@ -77,6 +78,10 @@ class Restorant extends MyModel
     public function hours()
     {
         return $this->hasMany(\App\Hours::class, 'restorant_id', 'id');
+    }
+    public function client_ratings()
+    {
+        return ClientRatings::where("restaurant_id", $this->id);
     }
 
     public function getBusinessHours(){

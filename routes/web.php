@@ -88,8 +88,10 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('coupons', 'CouponsController@store')->name('coupons.store');
             Route::put('coupons/{coupon}', 'CouponsController@update')->name('coupons.update');
             Route::get('coupons/del/{coupon}', 'CouponsController@destroy')->name('coupons.delete');
-
+            
             Route::post('coupons/apply', 'CouponsController@apply')->name('coupons.apply');
+
+           
 
             //Banners
             Route::get('banners', 'BannersController@index')->name('banners.index');
@@ -142,6 +144,16 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('live', 'OrderController@live');
 //    Route::get('deliverytax', 'DevileryTaxController@index');
+     Route::prefix('client_ratings')->name('client_ratings.')->group(function () {
+                      //Clients Rating
+            Route::get('/', 'ClientRatingsController@index')->name('index');
+            Route::get('{coupon}/edit', 'ClientRatingsController@edit')->name('edit');
+            Route::get('/create', 'ClientRatingsController@create')->name('create');
+            Route::post('/store', 'ClientRatingsController@store')->name('store');
+            Route::put('/{coupon}/update', 'ClientRatingsController@update')->name('update');
+            Route::get('/{coupon}/delete', 'ClientRatingsController@destroy')->name('delete');
+
+    });    
      Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
          Route::get('/', 'WhatsappController@index')->name('index');
          Route::get('/new', 'WhatsappController@new')->name('new');
@@ -156,7 +168,9 @@ Route::group(['middleware' => ['auth']], function () {
          Route::post('delete', 'DevileryTaxController@delete')->name('delete');
          Route::post('edit', 'DevileryTaxController@edit')->name('edit');
         
-    });    
+    });
+
+    
     Route::get('/updatestatus/{alias}/{order}', ['as' => 'update.status', 'uses'=>'OrderController@updateStatus']);
 
     Route::resource('settings', 'SettingsController');
