@@ -131,7 +131,7 @@ class Restorant extends MyModel
         //Get all working hours
         return OpeningHours::create($mergedRanges,$tz);
     }
-
+    
     public function tables()
     {
         return $this->hasMany(\App\Tables::class, 'restaurant_id', 'id');

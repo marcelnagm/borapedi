@@ -13,6 +13,8 @@ use App\Models\Variants;
 use App\Models\Extras;
 use App\Models\RestorantHasDrivers;
 use App\Models\OrderHasItems;
+use App\Models\ClientRatings;
+use App\Models\ClientHasRating;
 use App\Items;
 use Carbon\Carbon;
 use Cart;
@@ -951,6 +953,42 @@ class OrderController extends Controller {
             return redirect($order->payment_link);
         }
 
+        $ratings = ClientRatings::where("restaurant_id", $order->restorant_id)->count();
+//        dd($ratings);
+////       se possui fidelizacao
+        if ($ratings > 0) {
+            $my_ranting = auth()->user()->ClientHasRating($order->restorant_id);
+            if ($my_ranting == NULL) {
+//                dd(" no rating ");
+                $my_ranting = new ClientHasRating();
+                $my_ranting->restaurant_id = $order->restorant_id;
+                $my_ranting->client_id = auth()->user()->id;
+                $my_ranting->rating_id = null;
+            }
+            
+            
+            $max = DB::select('SELECT max(period) as max FROM `clients_ratings` WHERE `restaurant_id` = '.$order->restorant_id)[0];
+            $max = json_decode(json_encode($max), true);
+//            dd($max);
+            $date = date('Y-m-d', strtotime(date('Y-m-d'). ' - '.$max['max'].' month'));
+//            dd($date);
+            $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = '.$my_ranting->client_id .' and created_at >= "'.$date.'" group by client_id');
+            $res = json_decode(json_encode($res), true)[0];
+            
+//            dd($res);
+            $my_ranting->orders = $res['cont'];
+            $my_ranting->spent = $res['total'];
+
+
+            $rating = ClientRatings::select("clients_ratings.*")->where("restaurant_id", $order->restorant_id)->
+                            where("clients_ratings.val", "<=", $my_ranting->spent)
+                            ->orderby("clients_ratings.val", "desc")->first();
+
+//            dd($rating->name);
+            $my_ranting->rating_id = $rating->id;
+            $my_ranting->save();
+//            dd(" have r ating ");
+        }
         //If we have whatsapp send
         if ($request->has('whatsapp')) {
             $message = $order->getSocialMessageAttribute(true);

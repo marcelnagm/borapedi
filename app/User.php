@@ -13,6 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Twilio\Rest\Client;
 use App\Traits\HasConfig;
 use App\Order;
+use App\Models\ClientHasRating;
 
 class User extends Authenticatable
 {
@@ -90,6 +91,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(\App\Order::class, 'client_id', 'id');
     }
+    
+    
+    public function client_has_rating()
+    {
+        return  ClientHasRating::
+                where('client_id', '=', $this->id)->get();
+           
+    }
+    
+    public function ClientHasRating($r_id)
+    {
+        $rat =  ClientHasRating::
+                where('restaurant_id', '=', $r_id)
+                ->where('client_id', '=', $this->id)->first();
+        
+        return $rat != null ? $rat->rating()->name: 'Nenhum' ;   
+    }
+    
     public function OrdersFromRestorant()
     {
         return  Order::select('orders.*')

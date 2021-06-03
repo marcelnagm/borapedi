@@ -35,6 +35,11 @@
                                     {{$client->email}}
                                 </td>                                                        
                             </tr>
+                            <tr>
+                                <td><h4>Classificação :</h4> 
+                                    {{$client->ClientHasRating(auth()->user()->restorant()->first()->id)}}
+                                </td>                                                        
+                            </tr>
                         </table>
                     </div>
                     <div class="row col-12"> 

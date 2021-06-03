@@ -43,9 +43,9 @@ class ClientRatingsController extends Controller
     private function getFields()
     {
         return [
-            ['class'=>'col-md-4', 'ftype'=>'input', 'name'=>'Name', 'id'=>'name', 'placeholder'=>'Enter code name', 'required'=>true],
-            ['ftype'=>'select', 'name'=>'period', 'id'=>'type', 'placeholder'=>'Select type', 'data'=>['Mensal', 'Anual'], 'required'=>true],
-            ['class'=>'col-md-4', 'ftype'=>'input', 'name'=>'Valor', 'id'=>'val', 'placeholder'=>'Enter code name', 'required'=>true],
+            ['class'=>'col-md-4', 'ftype'=>'input', 'name'=>'Nome da Classificação', 'id'=>'name', 'placeholder'=>'Enter code name', 'required'=>true],
+            ['ftype'=>'select', 'name'=>'Periodo contabilizado', 'id'=>'type', 'placeholder'=>'Select type', 'data'=>['Mensal', 'Anual'], 'required'=>true],
+            ['class'=>'col-md-4', 'ftype'=>'input', 'name'=>'Compras até', 'id'=>'val', 'placeholder'=>'Enter code name', 'required'=>true],
         ];
     }
 
@@ -62,6 +62,13 @@ class ClientRatingsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index_client()
+    {
+     return view($this->view_path.'index_client', [
+            'ratings' => auth()->user()->client_has_rating()
+        ]);
+    }
+    
     public function index()
     {
         $this->authChecker();

@@ -145,7 +145,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('live', 'OrderController@live');
 //    Route::get('deliverytax', 'DevileryTaxController@index');
      Route::prefix('client_ratings')->name('client_ratings.')->group(function () {
-                      //Clients Rating
+                      //Clients Rating            
             Route::get('/', 'ClientRatingsController@index')->name('index');
             Route::get('{coupon}/edit', 'ClientRatingsController@edit')->name('edit');
             Route::get('/create', 'ClientRatingsController@create')->name('create');
@@ -250,7 +250,7 @@ if (config('app.isqrsaas')) {
     Route::get('/guest-orders', 'OrderController@guestOrders')->name('guest.orders');
     Route::post('/whatsapp/store', 'OrderController@storeWhatsappOrder')->name('whatsapp.store');
 }
-
+Route::get('client_ratings/index', 'ClientRatingsController@index_client')->name('client_ratings.index_client');
 Route::get('/handleOrderPaymentStripe/{order}', 'PaymentController@handleOrderPaymentStripe')->name('handle.order.payment.stripe');
 
 Route::get('/get/rlocation/{restaurant}', 'RestorantController@getLocation');

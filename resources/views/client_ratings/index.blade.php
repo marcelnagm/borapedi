@@ -3,7 +3,7 @@
     @foreach ($setup['items'] as $item)
         <tr>
             <td>{{ $item->name }}</td>
-            <td>{{ $item->period }}</td>
+            <td>{{ $item->period }} -Mes(ês)</td>
             <td>R${{ $item->val}}</td>                 
 <td>
     <a href="{{ route( "client_ratings.edit",$item) }}" class="btn btn-primary btn-sm">Editar</a>
