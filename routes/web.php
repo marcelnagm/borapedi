@@ -86,7 +86,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('coupons/{coupon}/edit', 'CouponsController@edit')->name('coupons.edit');
             Route::get('coupons/create', 'CouponsController@create')->name('coupons.create');
             Route::post('coupons', 'CouponsController@store')->name('coupons.store');
-            Route::put('coupons/{coupon}', 'CouponsController@update')->name('coupons.update');
+            Route::put('coupons/{coupon}', 'CouponsController@update')->name('coupons.update'); 
             Route::get('coupons/del/{coupon}', 'CouponsController@destroy')->name('coupons.delete');
             
             Route::post('coupons/apply', 'CouponsController@apply')->name('coupons.apply');
@@ -167,6 +167,13 @@ Route::group(['middleware' => ['auth']], function () {
          Route::post('post', 'DevileryTaxController@post')->name('post');
          Route::post('delete', 'DevileryTaxController@delete')->name('delete');
          Route::post('edit', 'DevileryTaxController@edit')->name('edit');
+        
+    });
+     Route::prefix('marketing')->name('marketing.')->group(function () {
+         Route::get('/', 'MarketingController@index')->name('index');
+         Route::post('/post', 'DevileryTaxController@post')->name('post');
+         Route::post('/delete', 'DevileryTaxController@delete')->name('delete');
+         Route::post('/edit', 'DevileryTaxController@edit')->name('edit');
         
     });
 
