@@ -70,7 +70,7 @@ class Main extends Controller
         
 
         $order=Order::findOrFail($_GET['external_reference']);
-        if($_GET['status']){
+        if($_GET['status'] == 'approved'){
             $order->payment_status = 'paid';
             $order->update();
             return redirect()->route('order.success', ['order' => $order]);
