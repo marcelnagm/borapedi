@@ -116,7 +116,7 @@ class CouponsController extends Controller
 
         $item->save();
 
-        return redirect()->route('marketing.index')->withStatus(__('crud.item_has_been_added', ['item'=>__($this->title)]));
+        return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_been_added', ['item'=>__($this->title)]));
     }
 
     /**
@@ -161,7 +161,7 @@ class CouponsController extends Controller
 
         $item->update();
 
-        return redirect()->route('marketing.index')->withStatus(__('crud.item_has_been_updated', ['item'=>__($this->title)]));
+        return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_been_updated', ['item'=>__($this->title)]));
     }
 
     /**
@@ -177,7 +177,7 @@ class CouponsController extends Controller
         $item->delete();
 
         //TODO -- Delete customers from this table
-        return redirect()->route('marketing.index')->withStatus(__('crud.item_has_been_removed', ['item'=>__($this->title)]));
+        return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_been_removed', ['item'=>__($this->title)]));
     }
 
     public function apply(Request $request)

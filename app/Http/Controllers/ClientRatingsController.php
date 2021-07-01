@@ -33,12 +33,12 @@ class ClientRatingsController extends Controller
     /**
      * Title of this crud.
      */
-    private $title = 'Classificação  de Cliente';
+    private $title = 'Fidelizacao de Cliente';
 
     /**
      * Title of this crud in plural.
      */
-    private $titlePlural = 'Classificação de Clientes';
+    private $titlePlural = 'Fidelizacao de Clientes';
 
     private function getFields()
     {
@@ -116,7 +116,7 @@ class ClientRatingsController extends Controller
 
         $item->save();
 
-        return redirect()->route('marketing.index')->withStatus(__('crud.item_has_been_added', ['item'=>__($this->title)]));
+        return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_been_added', ['item'=>__($this->title)]));
     }
 
     /**
@@ -157,7 +157,7 @@ class ClientRatingsController extends Controller
         $item->val = $request->Val;
         $item->update();
 
-        return redirect()->route('marketing.index')->withStatus(__('crud.item_has_been_updated', ['item'=>__($this->title)]));
+        return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_been_updated', ['item'=>__($this->title)]));
     }
 
     /**
@@ -173,7 +173,7 @@ class ClientRatingsController extends Controller
         $item->delete();
 
         //TODO -- Delete customers from this table
-        return redirect()->route('marketing.index')->withStatus(__('crud.item_has_been_removed', ['item'=>__($this->title)]));
+        return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_been_removed', ['item'=>__($this->title)]));
     }
 
     

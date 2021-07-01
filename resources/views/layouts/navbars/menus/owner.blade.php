@@ -36,8 +36,8 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('marketing.index') }}">
-            <i class="ni ni ni-notification-70 text-info"></i> Campanha de Marketing
+        <a class="nav-link" href="{{ route('client_ratings.index') }}">
+            <i class="ni ni-diamond text-info"></i> Fidelização de Clientes
         </a>
     </li>
     </li>
@@ -103,6 +103,13 @@
         </a>
     </li>
     @endif
+
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.restaurant.coupons.index') }}">
+            <i class="ni ni-tag text-pink"></i> {{ __('Coupons') }}
+        </a>
+    </li>
 
 
 

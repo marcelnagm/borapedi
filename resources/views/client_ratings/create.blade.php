@@ -17,7 +17,7 @@
                             @endif
                         </div>
                         <div class="col-4 text-right">
-                             <a href="{{route('marketing.index')}}" class="btn btn-sm btn-primary">{{ __('Back') }}>{{ __('Back') }}</a>
+                            <a href="{{ route('client_ratings.index') }}" class="btn btn-sm btn-primary">{{ __('Back') }}</a>
                         </div>
                     </div>
                 </div>
