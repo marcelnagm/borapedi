@@ -57,6 +57,7 @@ class OrderController extends Controller
         $restorants = Restorant::where(['active'=>1])->get();
         $drivers = User::role('driver')->where(['active'=>1])->get();
         $clients = User::role('client')->where(['active'=>1])->get();
+        $driversData = [];
 
         if (auth()->user()->hasRole('admin')) {
 

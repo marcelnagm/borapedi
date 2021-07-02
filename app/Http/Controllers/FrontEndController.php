@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Banners;
+use Cart;
 use App\City;
 use App\Items;
 use App\Pages;
@@ -286,6 +287,16 @@ class FrontEndController extends Controller
      */
     public function whatsappMode()
     {
+           
+        if (session()->exists('visited') && session('in_cart') ) {
+            $restorant = session('visited');
+            
+            return redirect('/restaurant/'.$restorant->subdomain);
+        }
+        
+        if (!Cart::getContent()->isEmpty()) {
+            return redirect('/cart-checkout');
+        }
         if (config('settings.disable_landing')) {
             //With disabled landing
             return redirect()->route('login');
@@ -617,6 +628,7 @@ class FrontEndController extends Controller
             return redirect()->route('restorant', $subDomain);
         }
         $restorant = Restorant::whereRaw('REPLACE(subdomain, "-", "") = ?', [str_replace("-","",$alias)])->first();
+        session(['visited' => $restorant ]);
 
                
         if ($restorant && $restorant->active == 1) {

@@ -321,3 +321,9 @@ Route::post('new/driver/register/store', 'DriverController@registerStore')->name
 Route::get('order/success', 'OrderController@success')->name('order.success');
 
 Route::post('/fb-order', 'OrderController@fbOrderMsg')->name('fb.order');
+
+
+//custom routes
+    Route::get('client_ratings/index', 'ClientRatingsController@index_client')->name('client_ratings.index_client');        
+    Route::post('/find-cep', 'DevileryTaxController@getCoordinatesForTax')->name('find-cep');
+        

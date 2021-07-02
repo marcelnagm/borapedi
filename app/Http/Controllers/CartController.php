@@ -43,6 +43,8 @@ class CartController extends Controller
         $canAdd = false;
         if (Cart::getContent()->isEmpty()) {
             $canAdd = true;
+            session(['in_cart' => false]);
+        
         } else {
             $canAdd = true;
             foreach (Cart::getContent() as $key => $cartItem) {
