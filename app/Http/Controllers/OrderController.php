@@ -322,8 +322,8 @@ class OrderController extends Controller
                 $user = User::find(auth()->user()->id);
                 $user->phone = $request->phone_send;
                 $user->save();
-            }
-        }
+            
+        
 //        dd('pegou');        
         //Convert web request to mobile like request
         $mobileLikeRequest=$this->toMobileLike($request);
@@ -373,6 +373,7 @@ class OrderController extends Controller
 
         return $orderRepo->redirectOrInform();
     }
+    
 
 
     public function orderLocationAPI(Order $order)
