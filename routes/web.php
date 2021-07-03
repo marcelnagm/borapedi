@@ -73,6 +73,17 @@ Route::group(['middleware' => ['auth']], function () {
             Route::put('tables/{table}', 'TablesController@update')->name('tables.update');
             Route::get('tables/del/{table}', 'TablesController@destroy')->name('tables.delete');
 
+            // Delivery areas
+            Route::get('simpledelivery', 'SimpleDeliveryController@index')->name('simpledelivery.index');
+            Route::get('simpledelivery/{delivery}/edit', 'SimpleDeliveryController@edit')->name('simpledelivery.edit');
+            Route::get('simpledelivery/create', 'SimpleDeliveryController@create')->name('simpledelivery.create');
+            Route::post('simpledelivery', 'SimpleDeliveryController@store')->name('simpledelivery.store');
+            Route::put('simpledelivery/{delivery}', 'SimpleDeliveryController@update')->name('simpledelivery.update');
+            Route::get('simpledelivery/del/{delivery}', 'SimpleDeliveryController@destroy')->name('simpledelivery.delete');
+
+
+            
+
             // Areas
             Route::resource('restoareas', 'RestoareasController');
             Route::get('restoareas/del/{restoarea}', 'RestoareasController@destroy')->name('restoareas.delete');
@@ -88,10 +99,8 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('coupons', 'CouponsController@store')->name('coupons.store');
             Route::put('coupons/{coupon}', 'CouponsController@update')->name('coupons.update');
             Route::get('coupons/del/{coupon}', 'CouponsController@destroy')->name('coupons.delete');
-            
-            Route::post('coupons/apply', 'CouponsController@apply')->name('coupons.apply');
 
-           
+            Route::post('coupons/apply', 'CouponsController@apply')->name('coupons.apply');
 
             //Banners
             Route::get('banners', 'BannersController@index')->name('banners.index');
@@ -250,12 +259,13 @@ if (config('app.isqrsaas')) {
     Route::get('/guest-orders', 'OrderController@guestOrders')->name('guest.orders');
     Route::post('/whatsapp/store', 'OrderController@storeWhatsappOrder')->name('whatsapp.store');
 }
-Route::get('client_ratings/index', 'ClientRatingsController@index_client')->name('client_ratings.index_client');
+
 Route::get('/handleOrderPaymentStripe/{order}', 'PaymentController@handleOrderPaymentStripe')->name('handle.order.payment.stripe');
 
 Route::get('/get/rlocation/{restaurant}', 'RestorantController@getLocation');
 Route::get('/footer-pages', 'PagesController@getPages');
 Route::get('/cart-getContent', 'CartController@getContent')->name('cart.getContent');
+Route::get('/cart-getContent-POS', 'CartController@getContentPOS')->name('cart.getContentPOS');
 Route::post('/cart-add', 'CartController@add')->name('cart.add');
 Route::post('/cart-remove', 'CartController@remove')->name('cart.remove');
 Route::get('/cart-update', 'CartController@update')->name('cart.update');
@@ -291,13 +301,16 @@ if (count($exploded) > 3 && config('app.isqrsaas')) {
         if(config('settings.is_whatsapp_ordering_mode')){
             $mode="whatsappMode";
         }
+        if(config('settings.is_pos_cloud_mode')){
+            $mode="posMode";
+        }
         Route::get('/'.strtolower($exploded[$i]), 'FrontEndController@'.$mode)->name('lang.'.strtolower($exploded[$i]));
     }
 }
 
 Route::get('register/visit/{restaurant_id}', 'VisitsController@register')->name('register.visit');
 Route::post('register/visit', 'VisitsController@registerstore')->name('register.visit.store');
-Route::post('/find-cep', 'DevileryTaxController@getCoordinatesForTax')->name('find-cep');
+
 //Call Waiter
 Route::post('call/waiter/', 'RestorantController@callWaiter')->name('call.waiter');
 

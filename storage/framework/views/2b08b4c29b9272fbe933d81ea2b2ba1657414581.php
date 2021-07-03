@@ -73,6 +73,12 @@
                 <span></span>
             <?php endif; ?>
 
+            <?php if(auth()->user()->hasRole('staff')): ?>
+                <?php echo $__env->make('layouts.navbars.menus.staff', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php else: ?>
+                <span></span>
+            <?php endif; ?>
+
             <?php if(auth()->user()->hasRole('client')): ?>
                 <?php echo $__env->make('layouts.navbars.menus.client', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <?php else: ?>

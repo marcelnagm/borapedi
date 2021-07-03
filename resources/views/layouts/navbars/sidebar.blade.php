@@ -5,7 +5,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="/home">
+        <a class="navbar-brand pt-0" href="/">
             <img src="{{ config('global.site_logo') }}" class="navbar-brand-img" alt="...">
         </a>
         <!-- User -->
@@ -69,6 +69,12 @@
 
             @if(auth()->user()->hasRole('owner'))
                 @include('layouts.navbars.menus.owner')
+            @else
+                <span></span>
+            @endif
+
+            @if(auth()->user()->hasRole('staff'))
+                @include('layouts.navbars.menus.staff')
             @else
                 <span></span>
             @endif

@@ -15,19 +15,29 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use App\Services\ConfChanger;
 use Akaunting\Module\Facade as Module;
+use App\Models\CartStorageModel;
 
 class CartController extends Controller
 {
     use Fields;
 
+    private function setSessionID($session_id){
+        Cart::session($session_id);
+    }
+
     public function add(Request $request)
     {
+        if(isset($request->session_id)){
+            $this->setSessionID($request->session_id);
+        }
+    
         $item = Items::find($request->id);
         $restID = $item->category->restorant->id;
-        
+
         $restaurant = Restorant::findOrFail($restID);
         \App\Services\ConfChanger::switchCurrency($restaurant);
         session(['in_cart' => true]);
+        
 
         //Check if added item is from the same restorant as previus items in cart
         $canAdd = false;
@@ -93,6 +103,10 @@ class CartController extends Controller
 
     public function getContent()
     {
+        if(isset($_GET['session_id'])){
+            $this->setSessionID($_GET['session_id']);
+        }
+
         //Cart::clear();
         return response()->json([
             'data' => Cart::getContent(),
@@ -102,10 +116,31 @@ class CartController extends Controller
         ]);
     }
 
+    public function getContentPOS()
+    {
+        if(isset($_GET['session_id'])){
+            $this->setSessionID($_GET['session_id']);
+        }
+
+        $cs=CartStorageModel::where('id',$_GET['session_id']."_cart_items")->first();
+
+        //Cart::clear();
+        return response()->json([
+            'data' => Cart::getContent(),
+            'config'=> $cs?$cs->getAllConfigs():[],
+            'id'=>$_GET['session_id'],
+            'total' => Cart::getSubTotal(),
+            'status' => true,
+            'errMsg' => '',
+        ]);
+    }
+
     public function cart()
     {
          
-        
+        if(isset($_GET['session_id'])){
+            $this->setSessionID($_GET['session_id']);
+        }
 
 
         $fieldsToRender=[];
@@ -178,7 +213,7 @@ class CartController extends Controller
         
 
             $params = [
-                'enablePayments'=>true,
+                'enablePayments'=>$enablePayments,
                 'title' => 'Shopping Cart Checkout',
                 'tables' =>  ['ftype'=>'select', 'name'=>'', 'id'=>'table_id', 'placeholder'=>'Select table', 'data'=>$tablesData, 'required'=>true],
                 'restorant' => $restaurant,
@@ -291,7 +326,10 @@ class CartController extends Controller
 
     public function clear(Request $request)
     {
-              session(['in_cart' => false]);
+        if(isset($request->session_id)){
+            $this->setSessionID($request->session_id);
+        }
+
         //Get the client_id from address_id
 
         $oreder = new Order;
@@ -325,6 +363,11 @@ class CartController extends Controller
      */
     public function remove(Request $request)
     {
+
+        if(isset($request->session_id)){
+            $this->setSessionID($request->session_id);
+        }
+
         Cart::remove($request->id);
 
         return response()->json([
@@ -349,6 +392,10 @@ class CartController extends Controller
      */
     private function updateCartQty($howMuch, $item_id)
     {
+        if(isset($_GET['session_id'])){
+            $this->setSessionID($_GET['session_id']);
+        }
+
         Cart::update($item_id, ['quantity' => $howMuch]);
 
         return $this->generalApiResponse();
@@ -359,6 +406,10 @@ class CartController extends Controller
      */
     public function increase($id)
     {
+        if(isset($_GET['session_id'])){
+            $this->setSessionID($_GET['session_id']);
+        }
+
         return $this->updateCartQty(1, $id);
     }
 
@@ -367,6 +418,10 @@ class CartController extends Controller
      */
     public function decrease($id)
     {
+        if(isset($_GET['session_id'])){
+            $this->setSessionID($_GET['session_id']);
+        }
+        
         return $this->updateCartQty(-1, $id);
     }
 }

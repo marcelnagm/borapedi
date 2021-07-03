@@ -1054,5 +1054,39 @@
     "Shift": "Shift",
     "Opens": "Opens",
     "Opened until": "Opened until",
-    "Change log": "Change log"
+    "Change log": "Change log",
+    "Order created":"Order created",
+    "No plan found":"No plan found",
+    "You can add":"You can add",
+    "more items.":"more items.",
+    "You can not add more items. Please subscribe to new plan.":"You can not add more items. Please subscribe to new plan.",
+    "You can add unlimited number of items":"You can add unlimited number of items",
+    "You can receive":"You can receive",
+    "more orders.":"more orders.",
+    "Total included in this plan":"Total included in this plan",
+    "You can not receive more orders. Please subscribe to new plan.":"You can not receive more orders. Please subscribe to new plan.",
+    "You can receive unlimited number of orders":"You can receive unlimited number of orders",
+    "This plan does not allow ordering.":"This plan does not allow ordering.",
+    "STAFF":"STAFF",
+    "Delivery area":"Delivery area",
+    "Select delivery area":"Select delivery area",
+    "Expenses":"Expenses",
+    "By category":"By category",
+    "No expenses right now!":"No expenses right now!",
+    "By vendor":"By vendor",
+    "Delivery areas":"Delivery areas",
+    "POS":"POS",
+    "Register":"Register",
+    "Sub total":"Sub total",
+    "Go to plans":"Go to plans",
+    "close":"close",
+    "Floor Plan":"Floor Plan",
+    "Restaurant wide logo":"Restaurant wide logo",
+    "Dark restaurant wide logo":"Dark restaurant wide logo"
+
+
+
+
+
+
 }

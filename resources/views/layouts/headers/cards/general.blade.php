@@ -27,10 +27,10 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">{{ __('Sales Volume') }} ( 30 {{ __('days') }} )</h5>
-                                    <span class="h2 font-weight-bold mb-0"> @money( $last30daysOrdersValue, config('settings.cashier_currency'),config('settings.do_convertion'))</span>
+                                    <span class="h2 font-weight-bold mb-0"> @money( is_numeric($last30daysOrdersValue['order_price'])?$last30daysOrdersValue['order_price']:0, config('settings.cashier_currency'),config('settings.do_convertion'))</span>
                                 </div>
                                 <div class="col-auto">
-                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                    <div class="icon icon-shape bg-success text-white rounded-circle shadow">
                                         <i class="fas fa-chart-line"></i>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                                     </div>
                                 </div>
                             @endif
-                            @if(auth()->user()->hasRole('owner'))
+                            @if(auth()->user()->hasRole('owner')&&!$doWeHaveExpensesApp)
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">{{ __('Number of items') }}</h5>
@@ -64,6 +64,19 @@
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
                                             <i class="fas fa-folder"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            @if($doWeHaveExpensesApp)
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">{{ __('Expenses') }} ( 30 {{ __('days') }} )</h5>
+                                        <span class="h2 font-weight-bold mb-0">@money( is_numeric($expenses['last30daysCostValue'])?$expenses['last30daysCostValue']:0, config('settings.cashier_currency'),config('settings.do_convertion'))</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                            <i class="fas fa-chart-line"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +116,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">{{ __('Delivery Fee') }} ( 30 {{ __('days') }} )</h5>
-                                        <span class="h2 font-weight-bold mb-0"> @money($last30daysDeliveryFee, config('settings.cashier_currency'),config('settings.do_convertion'))</span>
+                                        <span class="h2 font-weight-bold mb-0"> @money(is_numeric($last30daysDeliveryFee)?$last30daysDeliveryFee:0, config('settings.cashier_currency'),config('settings.do_convertion'))</span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -121,7 +134,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">{{ __('Static Fee') }} ( 30 {{ __('days') }} )</h5>
-                                        <span class="h2 font-weight-bold mb-0">@money($last30daysStaticFee, config('settings.cashier_currency'),config('settings.do_convertion'))</span>
+                                        <span class="h2 font-weight-bold mb-0">@money(is_numeric($last30daysStaticFee)?$last30daysStaticFee:0, config('settings.cashier_currency'),config('settings.do_convertion'))</span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -139,7 +152,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">{{ __('Dynamic Fee') }} ( 30 {{ __('days') }} )</h5>
-                                        <span class="h2 font-weight-bold mb-0">@money($last30daysDynamicFee, config('settings.cashier_currency'),config('settings.do_convertion'))</span>
+                                        <span class="h2 font-weight-bold mb-0">@money(is_numeric($last30daysDynamicFee)?$last30daysDynamicFee:0, config('settings.cashier_currency'),config('settings.do_convertion'))</span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -158,7 +171,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">{{ __('Total Fee') }} ( 30 {{ __('days') }} )</h5>
-                                        <span class="h2 font-weight-bold mb-0">@money(( $last30daysTotalFee != null ? $last30daysTotalFee:0), config('settings.cashier_currency'),config('settings.do_convertion'))</span>
+                                        <span class="h2 font-weight-bold mb-0">@money(( is_numeric($last30daysTotalFee) ? $last30daysTotalFee:0), config('settings.cashier_currency'),config('settings.do_convertion'))</span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-info text-white rounded-circle shadow">

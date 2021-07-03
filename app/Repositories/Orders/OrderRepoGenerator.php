@@ -19,6 +19,8 @@ class OrderRepoGenerator extends BaseOrderRepository
                     $hasPayment=true;
                     $request->payment_method=$vendorHasOwnPayment;
                 }
+            }else if(config('settings.is_pos_cloud_mode')){
+                $serviceType="POS";//POS
             }else{
                 $serviceType="Local";//QR
             }

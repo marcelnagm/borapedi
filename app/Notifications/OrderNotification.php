@@ -127,6 +127,9 @@ class OrderNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        //Change currency
+        \App\Services\ConfChanger::switchCurrency( $this->order->restorant);
+
         if ($this->status.'' == '1') {
             //Created
             $greeting = __('There is new order');

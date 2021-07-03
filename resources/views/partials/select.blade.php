@@ -15,15 +15,21 @@
         <option disabled selected value> {{ __('Select')." ".__($name)}} </option>
         @endif
         @foreach ($data as $key => $item)
-            @if (old($id)&&old($id).""==$key."")
-                <option  selected value="{{ $key }}">{{ __($item) }}</option>
-            @elseif (isset($value)&&strtoupper($value."")==strtoupper($key.""))
-                <option  selected value="{{ $key }}">{{ __($item) }}</option>
-            @elseif (app('request')->input($id)&&strtoupper(app('request')->input($id)."")==strtoupper($key.""))
-                <option  selected value="{{ $key }}">{{ __($item) }}</option>
+
+            @if (is_array(__($item)))
+                <option value="{{ $key }}">{{ $item }}</option>
             @else
-                <option value="{{ $key }}">{{ __($item) }}</option>
+                @if (old($id)&&old($id).""==$key."")
+                    <option  selected value="{{ $key }}">{{ __($item) }}</option>
+                @elseif (isset($value)&&strtoupper($value."")==strtoupper($key.""))
+                    <option  selected value="{{ $key }}">{{ __($item) }}</option>
+                @elseif (app('request')->input($id)&&strtoupper(app('request')->input($id)."")==strtoupper($key.""))
+                    <option  selected value="{{ $key }}">{{ __($item) }}</option>
+                @else
+                    <option value="{{ $key }}">{{ __($item) }}</option>
+                @endif
             @endif
+            
         @endforeach
     </select>
 

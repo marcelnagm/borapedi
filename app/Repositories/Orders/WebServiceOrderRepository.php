@@ -8,6 +8,8 @@
 
 namespace App\Repositories\Orders;
 
+use App\Notifications\OrderNotification;
+use App\User;
 use Illuminate\Support\Facades\Validator;
 use Cart;
 
@@ -82,6 +84,15 @@ class WebServiceOrderRepository extends BaseOrderRepository implements OrderType
         }else{
             //In Case we approve directly, we need to inform owner
             $this->notifyOwner();
+        }
+    }
+
+    //Overwrite notifyAdmin from BaseOrder
+    public function notifyAdmin(){
+        //Send email to owner
+        $admin=User::where('id',1)->first();
+        if($admin){
+            $admin->notify((new OrderNotification($this->order))->locale(strtolower(config('settings.app_locale'))));
         }
     }
 }

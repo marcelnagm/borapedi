@@ -247,14 +247,17 @@ class SettingsController extends Controller
             
             $theChangeLog="";
             if(config('settings.enalbe_change_log_in_update')){
-                $ftChange="https://raw.githubusercontent.com/dimovdaniel/foodtigerdocs/master/changelog/changelog.md        ";
+                $ftChange="https://raw.githubusercontent.com/dimovdaniel/foodtigerdocs/master/changelog/changelog.md";
                 $qrChange="https://raw.githubusercontent.com/dimovdaniel/qrmakerdocs/master/changelog/changelog.md";
                 $wpChange="https://raw.githubusercontent.com/mobidonia/whatsappfooddocs/master/changelog/changelog.md";
+                $pcChange="https://raw.githubusercontent.com/dimovdaniel/poscloud/master/changelog/changelog.md";
                 if(config('app.isft')){
                     $theChangeLog=@file_get_contents($ftChange);
                 }else {
                     if(config('settings.is_whatsapp_ordering_mode')){
                         $theChangeLog=@file_get_contents($wpChange);
+                    }else if(config('settings.is_pos_cloud')){
+                        $theChangeLog=@file_get_contents($pcChange);
                     }else{
                         $theChangeLog=@file_get_contents($qrChange);
                     }
@@ -364,11 +367,11 @@ class SettingsController extends Controller
 
     public function setEnvironmentValue(array $values)
     {
+       
         $envFile = app()->environmentFilePath();
         $str = "\n";
         $str .= file_get_contents($envFile);
         $str .= "\n"; // In case the searched variable is in the last line without \n
-
         if (count($values) > 0) {
             foreach ($values as $envKey => $envValue) {
                 if ($envValue == trim($envValue) && strpos($envValue, ' ') !== false) {
@@ -383,7 +386,12 @@ class SettingsController extends Controller
                 if ((! $keyPosition && $keyPosition != 0) || ! $endOfLinePosition || ! $oldLine) {
                     $str .= "{$envKey}={$envValue}\n";
                 } else {
-                    $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
+                    if($envKey=="DB_PASSWORD"){
+                        $str = str_replace($oldLine, "{$envKey}=\"{$envValue}\"", $str);
+                    }else{
+                        $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
+                    }
+                    
                 }
             }
         }
@@ -505,6 +513,11 @@ class SettingsController extends Controller
         if ($request->hasFile('wphomehero')) {
             $wpDemo = Image::make($request->wphomehero->getRealPath());
             $wpDemo->save(public_path().'/social/img/wpordering.svg'); 
+        }
+
+        if ($request->hasFile('poshomehero')) {
+            $wpDemo = Image::make($request->poshomehero->getRealPath());
+            $wpDemo->save(public_path().'/soft/img/poshero.jpeg'); 
         }
         
         $images = [

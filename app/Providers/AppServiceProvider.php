@@ -68,7 +68,7 @@ class AppServiceProvider extends ServiceProvider
             if ((isset($settings['restorant_details_image']) && ! (strpos($settings['restorant_details_image'], '/') !== false))) {
                 $settings['restorant_details_image'] = '/uploads/settings/'.$settings['restorant_details_image'].'_large.jpg';
             }
-
+            
             config([
                 'global' =>  $settings,
             ]);

@@ -1023,7 +1023,7 @@ var SalesChart = (function() {
 						}
 					}]
 				},
-				tooltips: {
+				tooltipss: {
 					callbacks: {
 						label: function(item, data) {
 							var label = data.datasets[item.datasetIndex].label || '';
@@ -1044,8 +1044,12 @@ var SalesChart = (function() {
 			data: {
 				labels: monthLabels,// ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 				datasets: [{
-					label: 'Performance',
-					data: salesValue //[0, 20, 10, 30, 15, 40, 20, 60, 60]
+					label: 'Sales ',
+					data: salesValues //[0, 20, 10, 30, 15, 40, 20, 60, 60]
+				},{
+					label: 'Expenses ',
+					borderColor: "#ff0000",
+					data: costValues //[0, 20, 10, 30, 15, 40, 20, 60, 60]
 				}]
 			}
 		});
@@ -1061,6 +1065,70 @@ var SalesChart = (function() {
 
 	if ($chart.length) {
 		init($chart);
+	}
+
+})();
+
+//
+// Orders chart
+//
+
+var ExpensesChart = (function() {
+
+	//
+	// Variables
+	//
+
+	var $chartByCategory = $('#chart-bycategory');
+	var $chartByVendor = $('#chart-byvendor');
+
+
+
+	//
+	// Methods
+	//
+
+	// Init chart
+	function initChart($chart,theLabels,theValues) {
+
+		// Create chart
+		var ordersChart = new Chart($chart, {
+			type: 'pie',
+			
+			
+			data: {
+				labels: theLabels,//['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				datasets: [{
+					label: 'Expenses',
+					backgroundColor: ["#172b4d","#5e72e4","#11cdef","#2dce89","#f5365c","#fb6340"],
+					data: theValues//[25, 20, 30, 22, 17, 29]
+				}]
+			},
+			options: {
+				responsive: true,
+				plugins: {
+				  legend: {
+					position: 'top',
+				  },
+				  title: {
+					display: true,
+					text: ''
+				  }
+				}
+			  },
+		});
+
+		// Save to jQuery object
+		$chart.data('chart', ordersChart);
+	}
+
+
+	// Init chart
+	if ($chartByCategory.length) {
+		initChart($chartByCategory,categoriesLabels,categoriesValues);
+	}
+	if ($chartByVendor.length) {
+		initChart($chartByVendor,vendorsLabels,vendorsValues);
 	}
 
 })();

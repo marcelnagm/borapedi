@@ -132,6 +132,9 @@ class FrontEndController extends Controller
             if(config('settings.is_whatsapp_ordering_mode')){
                 //WhatsApp Mode
                 return $this->whatsappMode();
+//            }else if(config('settings.is_pos_cloud_mode')){
+//                //POS Cloud Mode
+//                return $this->posMode();
             }else{
                 //Default QR
 //                return $this->qrsaasMode();
@@ -317,6 +320,61 @@ class FrontEndController extends Controller
             $processes = Process::where('post_type', 'process')->get();
 
             $response = new \Illuminate\Http\Response(view('social.home', [
+                'col' => $colCounter[count($plans)-1],
+                'plans' => $plans,
+                'availableLanguages' => $availableLanguages,
+                'locale' => $locale,
+                'pages' => Pages::where('showAsLink', 1)->get(),
+                'features' => $features,
+                'testimonials' => $testimonials,
+                'processes' => $processes
+            ]));
+
+            $response->withCookie(cookie('lang', $locale, 120));
+            App::setLocale(strtolower($locale));
+
+            return $response;
+        }
+    }
+
+    /**
+     * 5. POS Mode.
+     */
+    public function posMode(){
+        if (config('settings.disable_landing')) {
+            //With disabled landing
+            return redirect()->route('login');
+        } else {
+            //Normal, with landing
+            $plans = Plans::get()->toArray();
+            $colCounter = [12, 6, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4];
+
+            $availableLanguagesENV = ENV('FRONT_LANGUAGES', 'EN,English,IT,Italian,FR,French,DE,German,ES,Spanish,RU,Russian,PT,Portuguese,TR,Turkish');
+            $exploded = explode(',', $availableLanguagesENV);
+            $availableLanguages = [];
+            for ($i = 0; $i < count($exploded); $i += 2) {
+                $availableLanguages[$exploded[$i]] = $exploded[$i + 1];
+            }
+
+            $locale = Cookie::get('lang') ? Cookie::get('lang') : config('settings.app_locale');
+            $route = Route::current();
+            $name = Route::currentRouteName();
+            $query = 'lang.';
+            if (substr($name, 0, strlen($query)) === $query) {
+                //this is language route
+                $exploded = explode('.', $name);
+                $lang = strtoupper($exploded[1]);
+                $locale = $lang;
+            }
+            App::setLocale(strtolower($locale));
+            session(['applocale_change' => strtolower($locale)]);
+
+            //Landing page content
+            $features = Features::where('post_type', 'feature')->get();
+            $testimonials = Testimonials::where('post_type', 'testimonial')->get();
+            $processes = Process::where('post_type', 'process')->get();
+
+            $response = new \Illuminate\Http\Response(view('poslanding.home', [
                 'col' => $colCounter[count($plans)-1],
                 'plans' => $plans,
                 'availableLanguages' => $availableLanguages,
@@ -548,10 +606,11 @@ class FrontEndController extends Controller
 
     public function restorant($alias)
     {
+       
 
         //Do we have impressum app
         $doWeHaveImpressumApp=Module::has('impressum');
-        
+
 
         $subDomain = $this->getSubDomain();
         if ($subDomain && $alias !== $subDomain) {
@@ -559,13 +618,17 @@ class FrontEndController extends Controller
         }
         $restorant = Restorant::whereRaw('REPLACE(subdomain, "-", "") = ?', [str_replace("-","",$alias)])->first();
 
-        session(['visited' => $restorant ]);
+               
+        if ($restorant && $restorant->active == 1) {
 
-        //Set config based on restaurant
-        config(['app.timezone' => $restorant->getConfig('time_zone',config('app.timezone'))]);
-
-        
-        if ($restorant->active == 1) {
+            if(config('settings.is_pos_cloud_mode')){
+                return redirect(route('admin.restaurants.edit',$restorant->id));
+            }
+    
+            //Set config based on restaurant
+            config(['app.timezone' => $restorant->getConfig('time_zone',config('app.timezone'))]);
+    
+    
 
             if(isset($_GET['pay'])){
                 //This is a payment link
@@ -577,13 +640,8 @@ class FrontEndController extends Controller
 
             $restorant->increment('views');
 
-            $canDoOrdering = true;
-            if (config('app.isqrsaas')) {
-                //In QRsaas with plans, we need to check if they can add new items.
-                $currentPlan = Plans::findOrFail($restorant->user->mplanid());
-                $canDoOrdering = $currentPlan->enable_ordering == 1;
-            }
-
+            $canDoOrdering = $restorant->getPlanAttribute()['canMakeNewOrder'];
+            
             //ratings usernames
             $usernames = [];
             if ($restorant && $restorant->ratings) {
@@ -640,7 +698,7 @@ class FrontEndController extends Controller
                 'fields'=>[['class'=>'col-12', 'classselect'=>'noselecttwo', 'ftype'=>'select', 'name'=>'Table', 'id'=>'table_id', 'placeholder'=>'Select table', 'data'=>$tablesData, 'required'=>true]],
             ]);
         } else {
-            return redirect()->back()->withError(__('The selected restaurant is not active at this moment!'));
+            return abort(404,__('The selected restaurant is not active at this moment!'));
         }
     }
 
@@ -655,7 +713,6 @@ class FrontEndController extends Controller
         $geocoder = new Geocoder($client);
         $geocoder->setApiKey(config('geocoder.key'));
         $res = $geocoder->getAddressForCoordinates($request->lat, $request->lng);
-//        $res = $geocoder->getAddressForCoordinates('2.8442966', );
 
         return response()->json([
             'data' => $res,

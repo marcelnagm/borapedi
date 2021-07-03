@@ -33,7 +33,11 @@ foreach ($order->items()->get() as $key => $item) {
 }
 ?>
 ---------
-🧾 {{__('Total: ').money($order->order_price, config('settings.cashier_currency'), config('settings.do_convertion')) }}
+@if ($order->delivery_method==1)
+🗒 {{ __('Sub total').": ".money(($order->order_price), config('settings.cashier_currency'), config('settings.do_convertion')) }}
+🛵 {{ __('Delivery').": ".money(($order->delivery_price), config('settings.cashier_currency'), config('settings.do_convertion')) }}
+@endif
+🧾 {{__('Total: ').money(($order->order_price+$order->delivery_price), config('settings.cashier_currency'), config('settings.do_convertion')) }}
 ---------
 
 @if (strlen($order->comment)>0)   

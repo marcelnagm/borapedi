@@ -9,15 +9,15 @@
             <br />
             @include('partials.fields',['fields'=>[
             ['ftype'=>'input','name'=>"cep",'id'=>"addressID",'placeholder'=>"Coloque seu CEP aqui ...",'required'=>true],
-            ]])
+          ]])
             <div id="result_cep" readonly="true" class="card-content">
 
-            </div>
+        </div>
             @include('partials.fields',['fields'=>[            
             ['ftype'=>'input','name'=>"number",'id'=>"numbero",'placeholder'=>"Numero",'required'=>true],
             ['ftype'=>'input','name'=>"complement",'id'=>"addressID",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>true]
             ]])            
-        </div>
+      </div>
       </div>
       <br />
       <br />

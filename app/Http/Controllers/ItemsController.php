@@ -45,6 +45,7 @@ class ItemsController extends Controller
                     $canAdd = $currentPlan->limit_items > $items->count();
                 }
             }
+            
 
             //Change language
             ConfChanger::switchLanguage(auth()->user()->restorant);

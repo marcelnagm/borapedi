@@ -20,6 +20,8 @@ Coded by www.creative-tim.com
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('argonfront') }}/img/apple-icon.png">
     <link rel="icon" type="image/png" href="{{ asset('argonfront') }}/img/favicon.png">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    @yield('extrameta')
     <meta property="og:image" content="{{ config('global.site_logo') }}">
     <title>{{ config('global.site_name','FoodTiger') }}</title>
 

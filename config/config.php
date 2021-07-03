@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'version' => '2.4.2',
+    'version' => '2.5.1',
     'env'=>[
         [
             'name'=>'Setup',
@@ -85,9 +85,9 @@ return [
             'slug'=>'finances',
             'icon'=>'ni ni-money-coins',
             'fields'=>[
-                ['separator'=>'General', 'title'=>'Tool used for subscriptions', 'key'=>'SUBSCRIPTION_PROCESSOR', 'value'=>'Stripe', 'ftype'=>'select', 'data'=>[], 'onlyin'=>'qrsaas'],
-                ['key'=>'ENABLE_PRICING', 'value'=>'true', 'type'=>'hidden', 'onlyin'=>'qrsaas'],
-                ['title'=>'', 'key'=>'FREE_PRICING_ID', 'value'=>'1', 'type'=>'hidden', 'onlyin'=>'qrsaas'],
+                ['separator'=>'General', 'title'=>'Tool used for subscriptions', 'key'=>'SUBSCRIPTION_PROCESSOR', 'value'=>'Stripe', 'ftype'=>'select', 'data'=>[]],
+                ['title'=>'Enable Pricing','key'=>'ENABLE_PRICING', 'value'=>'true', 'ftype'=>'bool'],
+                ['title'=>'The free plan ID','title'=>'', 'key'=>'FREE_PRICING_ID', 'value'=>'1'],
                 ['title'=>'Enable Finance dashboard for owner', 'help'=>'More advance, finance related reports for owner', 'key'=>'ENABLE_FINANCES_OWNER', 'value'=>'true', 'ftype'=>'bool'],
                 ['title'=>'Enable Finance dashboard for admin', 'key'=>'ENABLE_FINANCES_ADMIN', 'help'=>'More advance, finance related reports for admin', 'value'=>'true', 'ftype'=>'bool'],
 
@@ -98,7 +98,7 @@ return [
                 ["title"=> "System will use", "key" => "VENDORS_OR_ADMIN_STRIPE", "ftype" => "select", "onlyin"=>"qrsaas", "value"=>"admin","data"=>[ "admin"=>"Admin defined Stripe", "vendor"=>"Vendor defined Stripe"]],
 
                 ['separator'=>'Local bank transfer', 'title'=>'Local bank transfer explanation', 'key'=>'LOCAL_TRANSFER_INFO', 'value'=>'Wire us the plan amout on the following bank accoun. And inform us about the wire.', 'onlyin'=>'qrsaas'],
-                ['title'=>'Bank Account', 'key'=>'LOCAL_TRANSFER_ACCOUNT', 'value'=>'IBAN: 12112121212121', 'onlyin'=>'qrsaas'],
+                ['title'=>'Bank Account', 'key'=>'LOCAL_TRANSFER_ACCOUNT', 'value'=>'IBAN: 12112121212121'],
                 
                 ],
         ],
@@ -154,7 +154,7 @@ return [
                 ['title'=>'Mail driver', 'key'=>'MAIL_MAILER', 'value'=>'smtp', 'ftype'=>'select', 'data'=>['smtp'=>'SMTP', 'sendmail'=>'PHP Sendmail - best of port 465']],
                 ['title'=>'Host', 'key'=>'MAIL_HOST', 'value'=>'smtp.mailtrap.io', 'hint'=>'Your SMTP send server'],
                 ['title'=>'Port', 'key'=>'MAIL_PORT', 'value'=>'2525', 'help'=>'Common ports are 26, 465, 587'],
-                ['title'=>'Encryption', 'key'=>'MAIL_ENCRYPTION', 'value'=>'', 'ftype'=>'select', 'data'=>['null'=>'Null - best for port 26', ''=>'None - best for port 587', 'ssl'=>'SSL - best for port 465']],
+                ['title'=>'Encryption', 'key'=>'MAIL_ENCRYPTION', 'value'=>'', 'ftype'=>'select', 'data'=>['null'=>'Null - best for port 26', ''=>'None - best for port 587', 'ssl'=>'SSL - best for port 465','tls'=>"TLS"]],
 
                 ['title'=>'Username', 'key'=>'MAIL_USERNAME', 'value'=>'802fc656dd8029'],
                 ['title'=>'Password', 'key'=>'MAIL_PASSWORD', 'value'=>'bbcf39d313eac6'],

@@ -8,6 +8,7 @@
 
 namespace App\Repositories\Orders;
 
+use App\Models\SimpleDelivery;
 use Illuminate\Support\Facades\Validator;
 use Cart;
 use Illuminate\Support\Facades\Cookie;
@@ -33,7 +34,12 @@ class SocialOrderRepository extends BaseOrderRepository implements OrderTypeInte
         if($this->request->delivery_method=="delivery"){
             //In Social, we don't have common, id, instead there, we have a string
             $this->order->whatsapp_address=$this->request->address_id;
-            $this->order->delivery_price= 0;
+            if($this->request->deliveryAreaId){
+                $this->order->delivery_price = SimpleDelivery::findOrFail($this->request->deliveryAreaId)->cost;
+            }else{
+                $this->order->delivery_price = 0;
+            }
+
             $this->order->update();
         }
         $this->setTimeSlot();

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\RestorantScope;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,11 +13,16 @@ class Order extends Model
     use HasFactory;
     use HasConfig;
 
+    protected static function booted(){
+        static::addGlobalScope(new RestorantScope);
+    }
+
+
     protected $modelName="App\Order";
 
     protected $table = 'orders';
 
-    protected $appends = ['time_formated','last_status','is_prepared','actions'];
+    protected $appends = ['time_created','time_formated','last_status','is_prepared','actions','configs','tableassigned'];
 
     protected $fillable = ['fee', 'fee_value', 'static_fee', 'vatvalue','payment_info','mollie_payment_key','whatsapp_phone'];
 
@@ -55,7 +61,10 @@ class Order extends Model
         return $this->belongsToMany(\App\Status::class, 'order_has_status', 'order_id', 'status_id')->withPivot('user_id', 'created_at', 'comment')->orderBy('order_has_status.id', 'DESC')->limit(1);
     }
 
-    
+    public function getTableassignedAttribute()
+    {
+        return $this->table()->with('restoarea')->get();
+    }
 
     public function getLastStatusAttribute()
     {
@@ -78,7 +87,11 @@ class Order extends Model
             if(config('settings.is_whatsapp_ordering_mode')){
                 //WP
                 $delivery=$this->delivery_method==1?__('Delivery'):__('Pickup');
-            }else{
+            }if(config('settings.is_pos_cloud_mode')){
+                //POS
+                $delivery=$this->delivery_method==1?__('Delivery'):($this->delivery_method==3?__('Dine in'):__('Takeaway'));
+            }
+            else{
                 //QR
                 $delivery=$this->delivery_method==3?__('Dine in'):__('Takeaway');
             }
@@ -104,6 +117,7 @@ class Order extends Model
     }
 
     public function getSocialMessageAttribute($encode=false){
+        \App\Services\ConfChanger::switchCurrency($this->restorant);
         $message = view('messages.social', ['order' => $this])->render();
         $message=str_replace('&#039;',"'",$message);
         if($encode){
@@ -111,6 +125,10 @@ class Order extends Model
             return $message;
         }
         return $message;
+    }
+
+    public function getTimeCreatedAttribute(){
+        return $this->created_at?$this->created_at->format(config('settings.datetime_display_format')):null;
     }
 
     public function getTimeFormatedAttribute()
@@ -151,6 +169,10 @@ class Order extends Model
 
             return true;
         });
+    }
+
+    public function getConfigsAttribute(){
+        return $this->getAllConfigs();
     }
 
 
@@ -205,15 +227,17 @@ class Order extends Model
         if(count($lastStatus)>0){
             $lastStatusAlias=$this->getLastStatusAttribute()[0]->alias;
         }
-        if(config('app.isft')){           
-            if(in_array($lastStatusAlias,["just_created","updated"])){
+        if(config('app.isft')){
+            if(in_array($lastStatusAlias,["just_created"])){
+                return ["buttons"=>[],'message'=>__('Admin will have to approve the order first')];
+            }if(in_array($lastStatusAlias,["rejected_by_admin"])){
+                return ["buttons"=>[],'message'=>__('Admin have rejected this order')];
+            }else if(in_array($lastStatusAlias,["accepted_by_admin"])){
                 return ["buttons"=>['rejected_by_restaurant','accepted_by_restaurant'],'message'=>""];
-            }else if(in_array($lastStatusAlias,["accepted_by_restaurant"])){
+            }else if(in_array($lastStatusAlias,["assigned_to_driver","accepted_by_restaurant","accepted_by_driver","rejected_by_driver"])){
                 return ["buttons"=>['prepared'],'message'=>""];
-            }else if(in_array($lastStatusAlias,["prepared"])){
+            }else if(in_array($lastStatusAlias,["prepared"])&&config('app.allow_self_deliver')&&$this->delivery_method.""=="2"){
                 return ["buttons"=>['delivered'],'message'=>""];
-            }else if(in_array($lastStatusAlias,["delivered"])){
-                return ["buttons"=>['closed'],'message'=>""];
             }
         }else if(config('app.isqrsaas')){
             if(in_array($lastStatusAlias,["just_created","updated"])){

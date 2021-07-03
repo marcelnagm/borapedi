@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\RestoArea;
 use Illuminate\Http\Request;
+use Akaunting\Module\Facade as Module;
 
 class RestoareasController extends Controller
 {
@@ -73,6 +74,7 @@ class RestoareasController extends Controller
             'webroute_path'=>$this->webroute_path,
             'fields'=>$this->getFields(),
             'parameter_name'=>$this->parameter_name,
+            'hasFloorPlan'=>Module::has('floorplan')
         ]]);
     }
 

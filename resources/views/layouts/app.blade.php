@@ -18,7 +18,8 @@
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+        <link href="{{ asset('css') }}/gfonts.css" rel="stylesheet">
+        
         <!-- Icons -->
         <link href="{{ asset('argon') }}/vendor/nucleo/css/nucleo.css" rel="stylesheet">
         <link href="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
@@ -123,6 +124,9 @@
         <!-- Notify JS -->
         <script src="{{ asset('custom') }}/js/notify.min.js"></script>
 
+         <!-- Cart custom sidemenu -->
+        <script src="{{ asset('custom') }}/js/cartSideMenu.js"></script>
+
 
         <script>
             var ONESIGNAL_APP_ID = "{{ config('settings.onesignal_app_id') }}";
@@ -146,8 +150,6 @@
          @if(strlen( config('broadcasting.connections.pusher.app_id'))>2)
             <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
             <script src="{{ asset('custom') }}/js/pusher.js"></script>
-
-
         @endif
 
         <!-- Custom JS defined by admin -->

@@ -9,7 +9,7 @@ use App\Traits\HasTranslations;
 class Features extends Model
 {
     use HasFactory,HasTranslations;
-    public $translatable = ['title','description'];
+    public $translatable = ['title','description','subtitle'];
 
     protected $fillable = ['post_type', 'title', 'description', 'image'];
 

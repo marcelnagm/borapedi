@@ -85,6 +85,7 @@
                     <i class="fa fa-shopping-cart"></i>
                     <span class="nav-link-inner--text">{{ __('Cart') }}</span>
                 </a>
+              
               @endif
 
 

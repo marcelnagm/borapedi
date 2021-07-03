@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\RestoArea;
 use App\Tables;
 use Illuminate\Http\Request;
+use Akaunting\Module\Facade as Module;
 
 class TablesController extends Controller
 {
@@ -63,6 +64,11 @@ class TablesController extends Controller
     public function index()
     {
         $this->authChecker();
+
+        //If we have the Floor Manager, we should use FlooPlan
+        if(Module::has('floorplan')){
+            return redirect(route('admin.restaurant.restoareas.index'));
+        }
 
         return view($this->view_path.'index', ['setup' => [
             'title'=>__('crud.item_managment', ['item'=>__($this->titlePlural)]),

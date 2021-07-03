@@ -89,7 +89,7 @@
          </li>
          <?php endif; ?>
         <?php if(config('app.isqrsaas')): ?>
-            <?php if(config('settings.is_whatsapp_ordering_mode')): ?>
+            <?php if(config('settings.is_whatsapp_ordering_mode')||config('settings.is_pos_cloud_mode')): ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?php echo e(route('admin.landing')); ?>">
                     <i class="ni ni-html5 text-green"></i> <?php echo e(__('Landing Page')); ?>

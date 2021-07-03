@@ -13,6 +13,9 @@ $('#localorder_phone').hide();
  * @param {Boolean} enableDelivery Disable or enable delivery
  */
 function updatePrices(net,delivery,enableDelivery){
+  net=parseFloat(net+"");
+  delivery=parseFloat(delivery+"");
+  console.log("NET: "+net+" Delivery: "+delivery+" ENable Del: "+enableDelivery+"===");
   var formatter = new Intl.NumberFormat(LOCALE, {
     style: 'currency',
     currency:  CASHIER_CURRENCY,
@@ -33,12 +36,12 @@ function updatePrices(net,delivery,enableDelivery){
 
     //Total
     cartTotal.withDelivery=net+delivery;
-    console.log(cartTotal.withDelivery);
-    console.log(cartTotal);
     cartTotal.withDeliveryFormat=formatter.format(net+delivery);//+"==>"+new Date().getTime();
     total.totalPrice=net+delivery;
+    console.log("totalPrice: "+total.totalPrice); 
+    
 
-  }else{
+  }else{ 
     //No delivery
     //Delivery
     cartTotal.delivery=false;
@@ -205,42 +208,21 @@ function dineTypeSwitch(mod){
 
 }
 
-function IsMobile(){
-   if(screen.width >1024){       
-       return false;
-   }else return true;
-}
-
 function orderTypeSwither(mod){
       console.log("Change mod to "+mod);
-      console.log(screen.width);
+
       $('.delTime').hide();
       $('.picTime').hide();
-      
 
       if(mod=="pickup"){
           updatePrices(cartTotal.totalPrice,null,false)
           $('.picTime').show();
-          $('#addressBox').hide();
-          $('.takeaway_picker').hide();
-          if(!IsMobile())   $('#dine_in').hide();
-          else   $('#dine_in_mobile').hide();                        
-      }
-      if(mod=="dinein"){
-          updatePrices(cartTotal.totalPrice,null,false)
-          $('.picTime').show();
-          if(!IsMobile())   $('#dine_in').show();
-          else   $('#dine_in_mobile').show();              
-          $('.takeaway_picker').show();
           $('#addressBox').hide();
       }
 
       if(mod=="delivery"){
           $('.delTime').show();
           $('#addressBox').show();
-          if(!IsMobile())   $('#dine_in').hide();
-          else   $('#dine_in_mobile').hide();    
-          $('.takeaway_picker').hide();
           getCartContentAndTotalPrice();
       }
 }
@@ -266,9 +248,30 @@ function chageDeliveryCost(deliveryCost){
     $("#addressID").change(function() {
       //The delivery cost
       var deliveryCost=$(this).find(':selected').data('cost');
+      console.log("---deliveryAddressSwithcer----")
+      console.log(deliveryCost)
+
+      //We now need to pass this cost to some parrent funct for handling the delivery cost change
+      if(deliveryCost!=undefined){
+        chageDeliveryCost(deliveryCost);
+      }
+      
+
+
+    });
+
+  }
+
+  function deliveryAreaSwithcer(){
+    $("#delivery_area").change(function() {
+      //The delivery cost
+      var deliveryCost=$(this).find(':selected').data('cost');
+      console.log("deliveryAreaSwithcer")
+      console.log(deliveryCost)
 
       //We now need to pass this cost to some parrent funct for handling the delivery cost change
       chageDeliveryCost(deliveryCost);
+      
 
 
     });
@@ -353,6 +356,9 @@ window.onload = function () {
 
   //Activate address switcher
   deliveryAddressSwithcer();
+
+  //Activate deliveryAreaSwithcer
+  deliveryAreaSwithcer();
 
 
   //VUE FOOTER PAGES

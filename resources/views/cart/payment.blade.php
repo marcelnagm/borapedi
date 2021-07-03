@@ -75,7 +75,7 @@
 
         <!-- Payment Actions -->
         @if(!config('settings.social_mode'))
-<h1>{{PEGAA}}</h1>
+
             <!-- COD -->
             @include('cart.payments.cod')
 

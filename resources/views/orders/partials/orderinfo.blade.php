@@ -105,6 +105,10 @@
              </li>
          @endforeach
      </ul>
+     @if(!empty($order->whatsapp_address))
+        <br/>
+        <h4>{{ __('Address') }}: {{ $order->whatsapp_address }}</h4>
+     @endif
      @if(!empty($order->comment))
         <br/>
         <h4>{{ __('Comment') }}: {{ $order->comment }}</h4>
@@ -124,7 +128,7 @@
  
      @endif
      <h4>{{ __("Sub Total") }}: @money( $order->order_price, $currency,$convert)</h4>
-     @if(config('app.isft'))
+     @if(config('app.isft')  || (config('app.iswp')&&$order->delivery_method==1) )
      <h4>{{ __("Delivery") }}: @money( $order->delivery_price, $currency,$convert)</h4>
      @endif
      <hr />
