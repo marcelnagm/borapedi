@@ -149,6 +149,11 @@ class Controller extends BaseController {
         return array('distance' => $dist/1000, 'time' => $time);
     }
 
+    public function adminOnly() {
+          if (! auth()->user()->hasRole('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+    }
     public function getRestaurant() {
         if (!auth()->user()->hasRole('owner')) {
             return null;
@@ -255,16 +260,30 @@ class Controller extends BaseController {
                         ->orderBy('distance');
     }
 
+ private $days = array(
+    0 => 'monday',
+    1 => 'tuesday',
+    2 => 'wednesday',
+    3 => 'thursday',
+    4 => 'friday',
+    5 => 'saturday',
+    6 => 'sunday'
+);
+    
     public function getTimieSlots($hours) {
         $ourDateOfWeek = date('N') - 1;
-        $restaurantOppeningTime = $this->getMinutes(date('G:i', strtotime($hours[$ourDateOfWeek . '_from'])));
-        $restaurantClosingTime = $this->getMinutes(date('G:i', strtotime($hours[$ourDateOfWeek . '_to'])));
-
+        $business = $hours->getBusinessHours();
+        
+        $part = explode("-", $business->forDay($this->days[$ourDateOfWeek ])->__toString());
+        $restaurantOppeningTime = $this->getMinutes(date('G:i', strtotime($part[0])));
+        $restaurantClosingTime = $this->getMinutes(date('G:i', strtotime($part[1])));
         //Interval
         $intervalInMinutes = config('settings.delivery_interval_in_minutes');
 
         //Generate thintervals from
         $currentTimeInMinutes = Carbon::now()->diffInMinutes(Carbon::today());
+//        dd($part,$currentTimeInMinutes ,$restaurantOppeningTime,$restaurantClosingTime);
+        
         $from = $currentTimeInMinutes > $restaurantOppeningTime ? $currentTimeInMinutes : $restaurantOppeningTime; //Workgin time of the restaurant or current time,
         //print_r('now: '.$from);
         //To have clear interval
@@ -304,7 +323,7 @@ class Controller extends BaseController {
 
         return $formatedSlots;
     }
-
+    
     /* "0_from" => "09:00"
       "0_to" => "20:00"
       "1_from" => "09:00"

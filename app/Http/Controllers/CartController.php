@@ -186,7 +186,7 @@ class CartController extends Controller
             //Create all the time slots
             $timeSlots = $this->getTimieSlots($restaurant);
 
-           
+//           dd($timeSlots);
             //user addresses
             $addresses = [];
             if (config('app.isft')) {
