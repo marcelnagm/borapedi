@@ -81,11 +81,6 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="{{ url('/admin/languages')."/".strtolower(config('settings.app_locale'))."/translations" }}">
-                <i class="ni ni-world text-orange"></i> {{ __('Translations') }}
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" href="{{ route('settings.index') }}">
                 <i class="ni ni-settings text-black"></i> {{ __('Site Settings ') }}
             </a>

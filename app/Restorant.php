@@ -6,6 +6,7 @@ use App\MyModel;
 use App\Traits\HasConfig;
 use willvincent\Rateable\Rateable;
 use Spatie\OpeningHours\OpeningHours;
+use App\Models\ClientRatings;
 use Carbon\Carbon;
 
 class Restorant extends MyModel
@@ -144,6 +145,12 @@ class Restorant extends MyModel
         }
     }
 
+     public function client_ratings()
+    {
+        return ClientRatings::where("restaurant_id", $this->id);
+    }
+
+    
     public function getLogomAttribute()
     {
         return $this->getImge($this->logo, config('global.restorant_details_image'));
@@ -267,6 +274,7 @@ class Restorant extends MyModel
     {
         return $this->hasMany(\App\Coupons::class, 'restaurant_id', 'id');
     }
+    
 
     public static function boot()
     {

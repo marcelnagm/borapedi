@@ -41,7 +41,6 @@
 <div style="padding: 16px 16px 0 16px;">
 
     <div class="card-content" >
-    <input type="hidden" value="{{$restorant->id}}" id="restaurant_id"/>
     <div class="form-group{{ $errors->has('addressID') ? ' has-danger' : '' }}">
         <!--<img src="images/icons/map.png" class="map_icon">-->    
         @if(count($addresses))
