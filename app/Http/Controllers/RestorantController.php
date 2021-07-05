@@ -248,6 +248,7 @@ class RestorantController extends Controller
 
         //App fields
         $rawFields=$this->vendorFields($restaurant->getAllConfigs());
+        
         //Stripe fields
         if(config('settings.stripe_useVendor')){
             array_push($rawFields,[
@@ -273,7 +274,7 @@ class RestorantController extends Controller
   
        
         $appFields=$this->convertJSONToFields($rawFields);
-
+//        dd($appFields);
         $shiftsData = Hours::where(['restorant_id' => $restaurant->id])->get($hoursRange);
         $shifts=[];
         foreach ($shiftsData as $key => $hours) {
