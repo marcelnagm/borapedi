@@ -228,16 +228,14 @@ class Order extends Model
             $lastStatusAlias=$this->getLastStatusAttribute()[0]->alias;
         }
         if(config('app.isft')){
-            if(in_array($lastStatusAlias,["just_created"])){
-                return ["buttons"=>[],'message'=>__('Admin will have to approve the order first')];
-            }if(in_array($lastStatusAlias,["rejected_by_admin"])){
-                return ["buttons"=>[],'message'=>__('Admin have rejected this order')];
-            }else if(in_array($lastStatusAlias,["accepted_by_admin"])){
+           if(in_array($lastStatusAlias,["just_created","updated"])){
                 return ["buttons"=>['rejected_by_restaurant','accepted_by_restaurant'],'message'=>""];
-            }else if(in_array($lastStatusAlias,["assigned_to_driver","accepted_by_restaurant","accepted_by_driver","rejected_by_driver"])){
+            }else if(in_array($lastStatusAlias,["accepted_by_restaurant"])){
                 return ["buttons"=>['prepared'],'message'=>""];
-            }else if(in_array($lastStatusAlias,["prepared"])&&config('app.allow_self_deliver')&&$this->delivery_method.""=="2"){
+            }else if(in_array($lastStatusAlias,["prepared"])){
                 return ["buttons"=>['delivered'],'message'=>""];
+            }else if(in_array($lastStatusAlias,["delivered"])){
+                return ["buttons"=>['closed'],'message'=>""];
             }
         }else if(config('app.isqrsaas')){
             if(in_array($lastStatusAlias,["just_created","updated"])){
