@@ -24,6 +24,7 @@ $("#privacypolicy").change(function () {
         if (no_phone == false) {
             if ($('#phone').val().length >= 14) {
         $('.paymentbutton').attr("disabled", false);
+        console.log("Hab botao");
             } else {
         $('.paymentbutton').attr("disabled", true);
                 $("#privacypolicy").prop("checked", false);
@@ -114,7 +115,6 @@ var initStripePayment=function(){
 
         function(){
             //HIDE ALL
-            $('#totalSubmitCOD').hide()
             $('#totalSubmitStripe').hide()
             $('#stripe-payment-form').hide()
 

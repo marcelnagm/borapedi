@@ -76,6 +76,11 @@
                     $theLocaleToOpen=strtolower(session('applocale_change'));
                 }
             ?>
+              <li class="nav-item">
+            <a class="nav-link" target="_blank" href="{{ url('/admin/languages')."/".strtolower(config('settings.app_locale'))."/translations" }}">
+                <i class="ni ni-world text-orange"></i> {{ __('Translations') }}
+            </a>
+        </li>
             <a class="nav-link" target="_blank" href="{{ url('/admin/languages')."/".$theLocaleToOpen."/translations".(config('app.isqrsaas')?"?group=qrlanding":"") }}">
                 <i class="ni ni-world text-orange"></i>{{ __('Translations') }}
             </a>

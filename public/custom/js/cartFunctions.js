@@ -298,7 +298,6 @@ function chageDeliveryCost(deliveryCost){
 
       function(){
           //HIDE ALL
-          $('#totalSubmitCOD').hide()
           $('#totalSubmitStripe').hide()
           $('#stripe-payment-form').hide()
 

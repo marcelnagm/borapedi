@@ -36,13 +36,17 @@
                     </div>
                 </div>                
                 <div class="modal-footer">
-                    <div class="text-center" id="totalSubmitCOD">
+                    <Div style="display:none;">
+                        MM
+                    </Div>
+                    <div class="text-center" id="totalSubmitCOD" style="display:block !important;">
                         <button 
 
                             v-if="totalPrice"
                             type="submit"
                             class="btn btn-lg btn-icon btn-success mt-4 paymentbutton"
                             onclick="this.disabled = true;this.form.submit();"
+                            
                             >
 
                             <span class="btn-inner--icon lg"><i class="fa fa-whatsapp" aria-hidden="true"></i></span>
