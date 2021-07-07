@@ -1,19 +1,19 @@
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-6">
         @if(isset($coupon))
             @include('partials.input',['class'=>"col-12", 'ftype'=>'input','name'=>"Name",'id'=>"name",'placeholder'=>"Enter code name",'required'=>true, 'value'=>$coupon->name])
         @else
             @include('partials.input',['class'=>"col-12", 'ftype'=>'input','name'=>"Name",'id'=>"name",'placeholder'=>"Enter code name",'required'=>true])
         @endif
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
         @if(isset($coupon))
             @include('partials.select', ['class'=>"col-12",'name'=>"Type",'id'=>"type",'placeholder'=>"Select type",'data'=>['Fixed', 'Percentage'],'required'=>true, 'value'=>$coupon->type])
         @else
             @include('partials.select', ['class'=>"col-12",'name'=>"Type",'id'=>"type",'placeholder'=>"Select type",'data'=>['Fixed', 'Percentage'],'required'=>true])
         @endif
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
         @if(isset($coupon) && $coupon->type == 0)
             @include('partials.input',['class'=>"col-12", 'type'=>'number', 'name'=>"Price",'id'=>"price_fixed",'placeholder'=>"Enter price here",'required'=>false, 'additionalInfo'=>'Price in '.config('settings.cashier_currency'), 'value'=>$coupon->price])
             @include('partials.input',['class'=>"col-12", 'type'=>'number', 'min'=>'1', 'max'=>'100', 'name'=>"Price",'id'=>"price_percentage",'placeholder'=>"Enter percentage here",'required'=>false, 'additionalInfo'=>'Percentage value', 'value'=>$coupon->price])
@@ -27,7 +27,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-6">
         <div class="input-daterange datepicker row align-items-center" style="margin-left: 15px;">
            <div class="form-group">
                 <label class="form-control-label">{{ __('Active from') }}</label>
@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
         <div class="input-daterange datepicker row align-items-center" style="margin-left: 15px;">
            <div class="form-group">
                 <label class="form-control-label">{{ __('Active to') }}</label>
@@ -61,7 +61,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
         @if(isset($coupon))
             @include('partials.input',['class'=>"col-12", 'type'=>'number','name'=>"Limit number",'id'=>"limit_to_num_uses",'placeholder'=>"Limit number to use",'required'=>true, 'value'=>$coupon->limit_to_num_uses, 'step'=>1])
         @else

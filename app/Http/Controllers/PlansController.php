@@ -43,22 +43,6 @@ class PlansController extends Controller
         ];
 
         
-        if ($theSelectedProcessor == 'stripe') {
-            $data['intent'] = auth()->user()->createSetupIntent();
-
-            if (auth()->user()->subscribed('main')) {
-                //Subscribed
-                //Switch the user to the free plan
-                //auth()->user()->plan_id=config('settings.free_pricing_id');
-                //auth()->user()->update();
-                //$currentUserPlan=Plans::findOrFail(auth()->user()->mplanid());
-                //$data['currentPlan']=$currentUserPlan;
-            } else {
-                //not subscribed
-            }
-        }
-
-        $data['subscription_processor']=$theSelectedProcessor;
 
         return view('plans.current', $data);
     }

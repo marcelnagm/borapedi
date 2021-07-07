@@ -12,6 +12,8 @@ use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 use Twilio\Rest\Client;
 use App\Traits\HasConfig;
+use App\Order;
+use App\Models\ClientHasRating;
 use Akaunting\Module\Facade as Module;
 
 class User extends Authenticatable
@@ -149,4 +151,32 @@ class User extends Authenticatable
         $body = __('Hi').' '.$this->name.".\n\n".__('Your verification code is').': '.$code;
         $client->messages->create($this->phone, ['from' => config('settings.twilio_from'), 'body' => $body]);
     }
+    
+    
+    
+    public function client_has_rating()
+    {
+        return  ClientHasRating::
+                where('client_id', '=', $this->id)->get();
+           
+    }
+    
+    public function ClientHasRating($r_id)
+    {
+        $rat =  ClientHasRating::
+                where('restaurant_id', '=', $r_id)
+                ->where('client_id', '=', $this->id)->first();
+        
+        return $rat != null ? $rat->rating()->name: 'Nenhum' ;   
+    }
+    
+    public function OrdersFromRestorant()
+    {
+        return  Order::select('orders.*')
+                ->join('users', 'orders.client_id', '=', 'users.id')
+                ->where('orders.restorant_id', '=', auth()->user()->restorant->id)
+                ->where('users.id', '=', $this->id)->get();
+           
+    }
+    
 }

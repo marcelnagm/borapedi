@@ -43,8 +43,8 @@ class CouponsController extends Controller
     private function getFields()
     {
         return [
-            ['class'=>'col-md-4', 'ftype'=>'input', 'name'=>'Name', 'id'=>'name', 'placeholder'=>'Enter code name', 'required'=>true],
-            ['class'=>'col-md-4', 'ftype'=>'input', 'type'=>'number', 'name'=>'Code', 'id'=>'size', 'placeholder'=>'Enter table person size, ex 4', 'required'=>true],
+            ['class'=>'col-lg-6', 'ftype'=>'input', 'name'=>'Name', 'id'=>'name', 'placeholder'=>'Enter code name', 'required'=>true],
+            ['class'=>'col-lg-6', 'ftype'=>'input', 'type'=>'number', 'name'=>'Code', 'id'=>'size', 'placeholder'=>'Enter table person size, ex 4', 'required'=>true],
             ['ftype'=>'select', 'name'=>'Price', 'id'=>'type', 'placeholder'=>'Select type', 'data'=>['Fixed', 'Percentage'], 'required'=>true],
             ['ftype'=>'select', 'name'=>'Active from', 'id'=>'type', 'placeholder'=>'Select type', 'data'=>['Fixed', 'Percentage'], 'required'=>true],
             ['ftype'=>'select', 'name'=>'Active to', 'id'=>'type', 'placeholder'=>'Select type', 'data'=>['Fixed', 'Percentage'], 'required'=>true],
