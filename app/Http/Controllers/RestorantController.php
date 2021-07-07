@@ -163,7 +163,7 @@ class RestorantController extends Controller
 
         //Send email to the user/owner
         $owner->notify(new RestaurantCreated($generatedPassword, $restaurant, $owner));
-
+        
         return redirect()->route('admin.restaurants.index')->withStatus(__('Restaurant successfully created.'));
     }
 
@@ -666,6 +666,7 @@ class RestorantController extends Controller
         
         $hours->save();
 
+        Auth::loginUsingId($owner->id);
         $restaurant->setConfig('disable_callwaiter', 0);
 
         if (config('app.isqrsaas') || config('settings.directly_approve_resstaurant')) {
@@ -677,7 +678,7 @@ class RestorantController extends Controller
                 return redirect('/login')->withStatus(__('notifications_thanks_andcheckemail'));
             }else{
                 //Normal, go to landing
-                return redirect()->route('front')->withStatus(__('notifications_thanks_andcheckemail'));
+                return redirect()->route('admin.restaurants.edit',  auth()->user()->restorant->id)->withStatus('Preencha o restante dos dados do restaurante');
             }
 
             

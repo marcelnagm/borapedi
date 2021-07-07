@@ -95,7 +95,12 @@ class RegisterController extends Controller
 
         //Send welcome email
         //$user->notify(new WelcomeNotification($user));
-
+        
+        if (session()->exists('in_cart')) {
+            $in_cart = session('in_cart');
+            if ($in_cart)
+                return redirect('cart-checkout');
+        }
         return $user;
     }
 
