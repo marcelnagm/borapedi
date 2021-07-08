@@ -38,7 +38,7 @@ Campanha de Marketing
 
                 <!-- Tab Managment -->
                 <div class="tab-pane fade show active" id="menagment" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
-                    
+                    @include('offer.index') 
                 </div>
 
                 <!-- Tab Apps -->

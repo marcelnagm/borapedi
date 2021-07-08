@@ -769,6 +769,11 @@
     "Restaurant description" : "Descrição do Estabelecimento",
     "Restaurant Phone" : "Telefone do Estabelecimento",
     " I agree to the Terms of Service and Privacy Policy." : "Eu aceito os Termos do Serviço e da Politica de Privacidade",
+    "delivered" : "emtregue",
+    "closed" : "concluir",
+    "accepted_by_restaurant" : "Aceitar Pedido",
+    "rejected_by_restaurant" : "Rejeitar Pedido",
+    "prepared" : "Preparado",
     "Add new shift" : "Adicionar novo turno"
     
 }
