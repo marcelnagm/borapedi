@@ -181,7 +181,7 @@ class Order extends Model
         if(!auth()->user()){
             return ["buttons"=>[],'message'=>__('No actions for you right now!')];
         }
-        else if (auth()->user()->hasRole('client')) {
+        else if (auth()->user()->hasRole('client')) {            
             return ["buttons"=>[],'message'=>__('No actions for you right now!')];
         }else if (auth()->user()->hasRole('admin')) {
             return ["buttons"=>[],'message'=>__('No actions for you right now!')];

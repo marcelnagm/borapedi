@@ -647,8 +647,6 @@ class OrderController extends Controller
 
     public function updateStatus($alias, Order $order) {
         if ($alias == 'rebuy') {
-            WhatsappService::sendMessage($order, 1);
-
             $list = OrderHasItems::where('order_id', $order->id)->get();
 //            dd($list[0]->item()->id,$list[1]->item()->id);
             $i = 0;

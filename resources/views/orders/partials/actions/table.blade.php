@@ -29,7 +29,7 @@ $lastStatusAlisas = $order->status->pluck('alias')->last();
         @endif
         @if(auth()->user()->hasRole('client') )
         <td>    
-            @if($lastStatusAlisas == "delivered" || $lastStatusAlisas == "picked_up" || $lastStatusAlisas == "close")
+            @if($lastStatusAlisas == "delivered" || $lastStatusAlisas == "picked_up" || $lastStatusAlisas == "closed")
             <a href="{{'updatestatus/rebuy/'.$order->id }}" class="btn btn-success btn-sm order-action">{{ __('Refazer este pedido') }}</a>            
             @else
             <small>{{ __('No actions for you right now!') }}</small>

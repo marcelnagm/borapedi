@@ -17,4 +17,4 @@
 @if($lastStatusAlisas == "prepared"&&$order->driver==null &&auth()->user()->plan()->first()->driver_own)
     <button type="button" class="btn btn-primary btn-sm order-action" onClick=(setSelectedOrderId({{ $order->id }}))  data-toggle="modal" data-target="#modal-asign-driver">{{ __('Assign to driver') }}</a>
 @endif        
-@endif        
+@endif    

@@ -442,7 +442,7 @@
     "Live Orders": "Pedidos Ativos",
     "Pricing plans": "Planos de preços",
     "Finances": "Finanças",
-    "My Orders": "minhas ordens",
+    "My Orders": "Meus pedidos",
     "My Addresses": "Meus endereços",
     "Logout": "Sair",
     "Login": "Conecte-se",
@@ -770,10 +770,11 @@
     "Restaurant Phone" : "Telefone do Estabelecimento",
     " I agree to the Terms of Service and Privacy Policy." : "Eu aceito os Termos do Serviço e da Politica de Privacidade",
     "delivered" : "emtregue",
-    "closed" : "concluir",
+    "closed" : "concluido",
     "accepted_by_restaurant" : "Aceitar Pedido",
     "rejected_by_restaurant" : "Rejeitar Pedido",
     "prepared" : "Preparado",
+    "just_created" : "Criado agora",
     "Add new shift" : "Adicionar novo turno"
     
 }
