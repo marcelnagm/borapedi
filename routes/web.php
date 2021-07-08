@@ -326,4 +326,12 @@ Route::post('/fb-order', 'OrderController@fbOrderMsg')->name('fb.order');
 //custom routes
     Route::get('client_ratings/index', 'ClientRatingsController@index_client')->name('client_ratings.index_client');        
     Route::post('/find-cep', 'DevileryTaxController@getCoordinatesForTax')->name('find-cep');
+    
+     Route::prefix('marketing')->name('marketing.')->group(function () {
+         Route::get('/', 'MarketingController@index')->name('index');
+         Route::post('/post', 'DevileryTaxController@post')->name('post');
+         Route::post('/delete', 'DevileryTaxController@delete')->name('delete');
+         Route::post('/edit', 'DevileryTaxController@edit')->name('edit');
+        
+    });
         

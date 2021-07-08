@@ -17,12 +17,12 @@
                             @endif
                         </div>
                         <div class="col-4 text-right">
-                            <a href="{{ route('client_ratings.index') }}" class="btn btn-sm btn-primary">{{ __('Back') }}</a>
+                            <a href="{{ route('marketing.index') }}" class="btn btn-sm btn-primary">{{ __('Back') }}</a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <h6 class="heading-small text-muted mb-4">{{ __('Coupon information') }}</h6>
+                    <h6 class="heading-small text-muted mb-4">Nova Classificação de Cliente</h6>
                     @if (session('status'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('status') }}
