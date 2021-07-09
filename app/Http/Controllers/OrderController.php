@@ -17,6 +17,7 @@ use App\Models\OrderHasItems;
 use App\Models\ClientRatings;
 use App\Models\ClientHasRating;
 use App\Items;
+use App\WhastappService as WhastappService;
 use Carbon\Carbon;
 use Cart;
 use Illuminate\Database\Eloquent\Builder;
@@ -841,7 +842,7 @@ class OrderController extends Controller
             OrderAcceptedByAdmin::dispatch($order);
         }
 
-        WhatsappService::sendMessage($order, $status_id_to_attach);
+        WhastappService::sendMessage($order, $status_id_to_attach);
         return redirect()->route('orders.index')->withStatus(__('Order status succesfully changed.'));
     }
 
@@ -975,7 +976,7 @@ class OrderController extends Controller
     public function success(Request $request)
     {   
         $order = Order::findOrFail($request->order);
-        WhatsappService::sendMessage($order, 1);
+        WhastappService::sendMessage($order, 1);
         //If order is not paid - redirect to payment
         if($request->redirectToPayment.""=="1"&&$order->payment_status != 'paid'&&strlen($order->payment_link)>5){
             //Redirect to payment
@@ -986,7 +987,7 @@ class OrderController extends Controller
 //        dd($ratings);
 ////       se possui fidelizacao
         if ($ratings > 0) {
-            $my_ranting = auth()->user()->ClientHasRating($order->restorant_id);
+            $my_ranting = auth()->user()->client_has_rating($order->restorant_id);
             if ($my_ranting == NULL) {
 //                dd(" no rating ");
                 $my_ranting = new ClientHasRating();
@@ -995,13 +996,13 @@ class OrderController extends Controller
                 $my_ranting->rating_id = null;
             }
             
-            
+//                   dd($my_ranting->client_id);
             $max = DB::select('SELECT max(period) as max FROM `clients_ratings` WHERE `restaurant_id` = '.$order->restorant_id)[0];
             $max = json_decode(json_encode($max), true);
 //            dd($max);
             $date = date('Y-m-d', strtotime(date('Y-m-d'). ' - '.$max['max'].' month'));
 //            dd($date);
-            $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = '.$my_ranting->client_id .' and created_at >= "'.$date.'" group by client_id');
+            $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = '.auth()->user()->id.' and created_at >= "'.$date.'" group by client_id');
             $res = json_decode(json_encode($res), true)[0];
             
 //            dd($res);

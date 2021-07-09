@@ -18,16 +18,19 @@
                 </h1>
                 <div class="d-flex justify-content-center">
                     <div class="col-8">
-                        <h5 class="mt-0 mb-5 heading-small text-muted">
+                        <h5 class="mt-0 mb-4 heading-small text-muted">
                             {{ __("Your order is created. You will be notified for further information.") }}
                         </h5>
-                        <div class="font-weight-300 mb-5">
+                        <a target="_blank"  href="orders/{{$order->id }}" class="btn btn-success btn-lg">                                                    
+                                    Acompanhar Pedido                       
+                        </a>
+                        <div class="font-weight-300 mt-4">
                             {{ __("Thanks for your purchase") }}, 
                         <span class="h3">{{ $order->restorant->name }}</span></div>
                         @if (config('settings.wildcard_domain_ready'))
-                            <a href="{{ $order->restorant->getLinkAttribute() }}" class="btn btn-outline-primary btn-sm">{{ __('Go back to restaurant') }}</a>
+                            <a href="{{ $order->restorant->getLinkAttribute() }}" class="btn btn-primary btn-lg">{{ __('Go back to restaurant') }}</a>
                         @else
-                            <a href="{{ route('vendor',$order->restorant->subdomain) }}" class="btn btn-outline-primary btn-sm">{{ __('Go back to restaurant') }}</a>
+                            <a href="{{ route('vendor',$order->restorant->subdomain) }}" class="btn btn-primary btn-lg">{{ __('Go back to restaurant') }}</a>
                         @endif
 
                         <!-- WHATS APP -->
@@ -39,7 +42,7 @@
                         @endif
                         
                     </div>
-                </div>
+                </div
             </div>
         </div>
     </div>

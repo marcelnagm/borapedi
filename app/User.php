@@ -157,7 +157,7 @@ class User extends Authenticatable
     public function client_has_rating()
     {
         return  ClientHasRating::
-                where('client_id', '=', $this->id)->get();
+                where('client_id', '=', $this->id)->first();
            
     }
     

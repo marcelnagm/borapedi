@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use MercadoPago\Preference;
+use MercadoPago\Payer;
 use MercadoPago\Item;
 use MercadoPago\SDK;
 
@@ -40,7 +41,12 @@ class Main extends Controller
        
         // Crea un objeto de preferencia
         $preference = new Preference();
-
+        $preference->payer = new Payer();
+        $preference->payer->name = $order->client()->first()->name;
+        $preference->payer->email = $order->client()->first()->email;
+        $preference->payer->date_created = $order->created_at;
+        $preference->binary_mode = true;
+        
         // Crea un ítem en la preferencia
         $item = new Item();
         $item->title = 'Pedido #'.$order->id;
