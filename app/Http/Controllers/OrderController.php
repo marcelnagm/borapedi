@@ -987,7 +987,7 @@ class OrderController extends Controller
 //        dd($ratings);
 ////       se possui fidelizacao
         if ($ratings > 0) {
-            $my_ranting = auth()->user()->client_has_rating($order->restorant_id);
+            $my_ranting = auth()->user()->client_has_rating($order->restorant_id)->first();
             if ($my_ranting == NULL) {
 //                dd(" no rating ");
                 $my_ranting = new ClientHasRating();

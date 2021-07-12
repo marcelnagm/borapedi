@@ -21,7 +21,7 @@
                         <h5 class="mt-0 mb-4 heading-small text-muted">
                             {{ __("Your order is created. You will be notified for further information.") }}
                         </h5>
-                        <a target="_blank"  href="orders/{{$order->id }}" class="btn btn-success btn-lg">                                                    
+                        <a target="_blank"  href="/orders/{{$order->id }}" class="btn btn-success btn-lg">                                                    
                                     Acompanhar Pedido                       
                         </a>
                         <div class="font-weight-300 mt-4">

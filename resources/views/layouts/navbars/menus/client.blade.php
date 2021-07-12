@@ -11,7 +11,7 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('client_ratings.index_client') }}">
-            <i class="ni ni-diamond text-info"></i> Minha Fidelização 
+            <i class="ni ni-diamond text-info"></i> Meus Rankings
         </a>
     </li>
 </ul>

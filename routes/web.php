@@ -23,10 +23,10 @@ Route::post('/search/location', 'FrontEndController@getCurrentLocation')->name('
 Auth::routes(['register' => config('app.isft')]);
 /*Route::get( '/auth0/callback', '\Auth0\Login\Auth0Controller@callback' )->name( 'auth0-callback' );
 Route::get('/login', 'Auth\Auth0IndexController@login' )->name( 'login' );
-Route::get('/logout', 'Auth\Auth0IndexController@logout' )->name( 'logout' )->middleware('auth');
+
 Route::get('/profiles', 'Auth\Auth0IndexController@profile' )->name( 'profiles' )->middleware('auth');
 */
-
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Route::group(['middleware' => 'auth'], function () {

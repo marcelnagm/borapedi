@@ -64,7 +64,7 @@ class ClientRatingsController extends Controller
      */
     public function index_client()
     {
-     return view($this->view_path.'index_client', [
+        return view($this->view_path.'index_client', [
             'ratings' => auth()->user()->client_has_rating()
         ]);
     }

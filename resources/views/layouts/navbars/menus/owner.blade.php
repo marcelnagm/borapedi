@@ -33,12 +33,6 @@
             <i class="ni ni-collection text-pink"></i> {{ __('Menu') }}
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('client_ratings.index') }}">
-            <i class="ni ni-diamond text-info"></i> Fidelização de Clientes
-        </a>
-    </li>
-</li>
 <li class="nav-item">
     <a class="nav-link" href="{{ route('reviews.index') }}">
         <i class="ni ni-diamond text-info"></i> {{ __('Reviews') }}
