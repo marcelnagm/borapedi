@@ -20,6 +20,7 @@
                             <a  alt="Não sei Meu Cef"  target="_blank"  href="https://buscacepinter.correios.com.br/app/endereco/index.php?t" class="btn-primary" style="float: left; " ><img src="/images/icons/naosei.png"></a>
                         </div>                                                                 
                     </div>                               
+                    <p>Este campo não fica preenchido sendo apenas uma ferramentar para selecionar o endereço corretamente</p>
                 </div>
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'input','name'=>"Restaurant Address",'id'=>"address",'placeholder'=>"Restaurant address",'required'=>true,'value'=>$restorant->address],
@@ -30,6 +31,9 @@
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'select','name'=>"Restaurant city",'id'=>"city_id",'data'=>$cities,'required'=>true,'value'=>$restorant->city_id],
                 ]])
+                <p>Se não aparece a sua cidade,peça a inclusão 
+                    <a href="mailto:suporte@4sconnect.com.br" >aqui</a>
+                </p>
                 @endif
 
                 @if(auth()->user()->hasRole('admin'))
