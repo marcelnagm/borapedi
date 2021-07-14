@@ -81,8 +81,11 @@ class Main extends Controller
             $order->update();
             return redirect()->route('order.success', ['order' => $order]);
         }else{
-            \Session::put('error',__('Payment status:')." ".$_GET['status']);
-            return redirect()->route('mercadopago.pay', ['order' => $order->id]);
+//            \Session::put('error',__('Payment status:')." ".$_GET['status']);
+//             dd($_GET);
+            $stats = $_GET['status'];;
+//             session(['error_payment' => $stats ]);
+            return redirect()->route('order.fail', ['order' => $order->id, 'status' => $stats]);
         }
 
         

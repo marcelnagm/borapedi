@@ -23,11 +23,9 @@
                             <div class="col-6">
                                 <div class="custom-control custom-checkbox mb-3">
                                     <input class="custom-control-input" id="privacypolicy" type="checkbox">
-                                    <!--<label class="custom-control-label" for="privacypolicy">{{ __('I agree to the Terms and Conditions and Privacy Policy') }}</label>-->
                                     <label class="custom-control-label" for="privacypolicy">
-                                        &nbsp;&nbsp;{{__('I agree to the')}}
-                                        <a href="{{config('settings.link_to_ts')}}" target="_blank" style="text-decoration: underline;">{{__('Terms of Service')}}</a> {{__('and')}}
-                                        <a href="{{config('settings.link_to_pr')}}" target="_blank" style="text-decoration: underline;">{{__('Privacy Policy')}}</a>.
+                                        <b > Concordar em receber mensagens do Whatsapp</b>
+                                        <p>Você receberá notificações do estabelecimento por WhatsApp sobre o seu pedido.</p>
                                     </label>
                                 </div>
 
@@ -46,7 +44,7 @@
                             type="submit"
                             class="btn btn-lg btn-icon btn-success mt-4 paymentbutton"
                             onclick="this.disabled = true;this.form.submit();"
-                            
+
                             >
 
                             <span class="btn-inner--icon lg"><i class="fa fa-whatsapp" aria-hidden="true"></i></span>

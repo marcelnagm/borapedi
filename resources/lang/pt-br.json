@@ -775,6 +775,7 @@
     "rejected_by_restaurant" : "Rejeitar Pedido",
     "prepared" : "Preparado",
     "just_created" : "Criado agora",
+    "Unpaid" : "Pagamento Pendente",
     "Add new shift" : "Adicionar novo turno"
     
 }

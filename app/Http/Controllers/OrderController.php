@@ -464,9 +464,30 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function change($id)
+    {
+         $order = Order::findOrFail($id);
+        $order->payment_method = 'cod';
+        $order->payment_link = NULL;
+        $order->save();
+        return redirect()->route('orders.show',['order'=>$id]);
+       
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         //
+        $order = Order::findOrFail($id);
+        $restorant = $order->restorant()->first();
+        $order->delete();
+         return redirect('/restaurant/'.$restorant->subdomain)->withStatus("Pedido cancelado com sucesso");
+        
+        
     }
 
     public function liveapi()
@@ -973,6 +994,18 @@ class OrderController extends Controller
         return Redirect::to($url);
     }
 
+    public function fail(Request $request)
+    {   
+        $order = Order::findOrFail($request->order);
+//        dd( $request['status'] );
+//        dd( session('error_payment') );
+        return view('orders.fail', 
+                ['order' => $order,
+                 'status' => $request['status'] ,
+                ]);
+    
+    }
+    
     public function success(Request $request)
     {   
         $order = Order::findOrFail($request->order);

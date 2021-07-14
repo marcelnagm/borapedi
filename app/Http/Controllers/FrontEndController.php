@@ -106,16 +106,17 @@ class FrontEndController extends Controller
 
     public function index()
     {
-       if (session()->exists('visited') && !session()->exists('in_cart') ) {
-            $restorant = session('visited');
-            
-            return redirect('/restaurant/'.$restorant->subdomain);
-        }
         
         if (!Cart::getContent()->isEmpty()) {
             return redirect('/cart-checkout');
         }
 
+       if (session()->exists('visited') ) {
+            $restorant = session('visited');
+            
+            return redirect('/restaurant/'.$restorant->subdomain);
+        }
+        
         $hasQuery = \Request::has('q') && strlen(\Request::input('q')) > 1;
         $hasLocation = \Request::has('location') && strlen(\Request::input('location')) > 1;
 
