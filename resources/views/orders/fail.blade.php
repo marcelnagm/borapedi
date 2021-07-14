@@ -28,9 +28,11 @@
                         <a href="/mercadopago/pay/{{$order->id }}" class="btn btn-success btn-lg" style="margin-bottom: 10px;">                                                    
                             Tentar pagar novamente
                         </a>
+                        </br>
                         <a href="/order/{{$order->id }}/change" class="btn btn-neutral btn-lg" style="background-color: #f7f267  !important;margin-bottom: 10px;">                                                    
                            Pagar na entrega
-                        </a>
+                        </a>                        
+                        </br>
                         <button  class="btn btn-danger btn-lg" onclick="remove()" style="margin-bottom: 10px;">                                                    
                             Cancelar o Pedido                       
                         </button>
