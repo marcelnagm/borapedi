@@ -124,20 +124,27 @@
         <div class="container container-restorant">
 
             
-            
+        <?php $i=0;?>    
             @if(!$restorant->categories->isEmpty())
         <nav class="tabbable sticky" style="top: {{ config('app.isqrsaas') ? 64:88 }}px;">
-                <ul class="nav nav-pills bg-white mb-2">
-                    <li class="nav-item nav-item-category ">
-                        <a class="nav-link  mb-sm-3 mb-md-0 active" data-toggle="tab" role="tab" href="">{{ __('All categories') }}</a>
-                    </li>
+                <ul class="nav nav-pills bg-white mb-2">                    
                     @foreach ( $restorant->categories as $key => $category)
                         @if(!$category->items->isEmpty())
                             <li class="nav-item nav-item-category" id="{{ 'cat_'.clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">
-                                <a class="nav-link mb-sm-3 mb-md-0" data-toggle="tab" role="tab" id="{{ 'nav_'.clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}" href="#{{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">{{ $category->name }}</a>
+                                <a class="nav-link mb-sm-3 mb-md-0 
+                                    <?php
+                                if($i==0){
+                                    ?> active<?php
+                                    $i++;
+                                    $aberto = clean(str_replace(' ', '', strtolower($category->name)).strval($key));
+                                }
+                                ?>" data-toggle="tab" role="tab" id="{{ 'nav_'.clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}" href="#{{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">{{ $category->name }}</a>
                             </li>
                         @endif
                     @endforeach
+                    <li class="nav-item nav-item-category ">
+                        <a class="nav-link  mb-sm-3 mb-md-0" data-toggle="tab" role="tab" href="">{{ __('All categories') }}</a>
+                    </li>
                 </ul>
 
                 
@@ -148,15 +155,16 @@
 
             
 
-
             @if(!$restorant->categories->isEmpty())
             @foreach ( $restorant->categories as $key => $category)
                 @if(!$category->aitems->isEmpty())
-                <div id="{{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}" class="{{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">
+                <div id="{{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}_titulo" class="{{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}"
+                     style="display:none;"        >                     
                     <h1>{{ $category->name }}</h1><br />
                 </div>
                 @endif
-                <div class="row {{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">
+                <div class="row {{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}" id="{{ clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}_box" style='display: none;'>                      
+                     
                     @foreach ($category->aitems as $item)
                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
                             <div class="strip">
@@ -170,7 +178,7 @@
                                 <span class="res_mimimum">@money($item->price, config('settings.cashier_currency'),config('settings.do_convertion'))</span>
                             </div>
                         </div>
-                    @endforeach
+                    @endforeach                    
                 </div>
             @endforeach
             @else
@@ -197,8 +205,21 @@
         </div>
 
         @if(  !(isset($canDoOrdering)&&!$canDoOrdering)   )
-            <div onClick="openNav()" class="callOutShoppingButtonBottom icon icon-shape bg-gradient-red text-white rounded-circle shadow mb-4">
+            <div class="callOutShoppingButtonBottom footerShow ">
+                <div class="buttons_cart icon icon-shape text-white rounded-circle shadow mb-4 right" onClick="openNav()" >
                 <i class="ni ni-cart"></i>
+                Carrinho
+                </div>
+                <div class="buttons_cart right icon icon-shape text-white rounded-circle shadow mb-4 ">                    
+                    <a class="text-white " href="{{route("cart.checkout")}}">
+                    <i class="ni ni-check-bold"></i>
+                    Finalizar Pedido
+                    </a>
+                </div>
+                <div class="buttons_cart right icon icon-shape text-white rounded-circle shadow mb-4 " onClick="share()">                    
+                    <i class="ni ni-send"></i>
+                    Compartilhar
+                </div>
             </div>
         @endif
 
@@ -274,6 +295,25 @@
         var CASHIER_CURRENCY = "<?php echo  config('settings.cashier_currency') ?>";
         var LOCALE="<?php echo  App::getLocale() ?>";
         var IS_POS=false;
+        $(document).ready(function($){    
+        $("#{{$aberto}}_titulo").show();
+        $("#{{$aberto}}_box").show();
+        alert({{$aberto}})
+    });
+
+        function share(){
+            console.log("Share");
+            if (navigator.share) {
+                navigator.share({
+                  title: document.title,
+                  text: "{{$restorant->name}}",
+                  url: window.location.href
+                })
+                .then(() => console.log('Successful share'))
+                .catch(error => console.log('Error sharing:', error));
+            }
+
+        }
     </script>
     <script src="{{ asset('custom') }}/js/order.js"></script>
     @include('restorants.phporderinterface') 
