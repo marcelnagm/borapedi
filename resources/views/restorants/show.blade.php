@@ -295,12 +295,11 @@
         var CASHIER_CURRENCY = "<?php echo  config('settings.cashier_currency') ?>";
         var LOCALE="<?php echo  App::getLocale() ?>";
         var IS_POS=false;
-        $(document).ready(function($){    
+    @if(!$restorant->categories->isEmpty()) 
+
         $("#{{$aberto}}_titulo").show();
         $("#{{$aberto}}_box").show();
-        alert({{$aberto}})
-    });
-
+    @endif
         function share(){
             console.log("Share");
             if (navigator.share) {
