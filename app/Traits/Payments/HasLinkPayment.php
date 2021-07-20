@@ -12,7 +12,7 @@ trait HasLinkPayment
     }
 
     public function payOrder(){
-
+        
         $className = '\Modules\\'.ucfirst($this->request->payment_method).'\Http\Controllers\App';
         $ref = new \ReflectionClass($className);
         $theValidator = $ref->newInstanceArgs(array($this->order,$this->vendor))->execute();

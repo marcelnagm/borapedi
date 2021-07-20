@@ -306,6 +306,7 @@ class OrderController extends Controller
             'payment_method'=> $request->paymentType?$request->paymentType:"cod",
             'address_id'=>$request->addressID,
             "timeslot"=>$request->timeslot,
+            "money_change"=>$request->money_change,
             "items"=>$items,
             "comment"=>$request->comment,
             "stripe_token"=>$stripe_token,
@@ -322,19 +323,20 @@ class OrderController extends Controller
 
     public function store(Request $request){
 
+        if (auth()->user()->phone == ""){
                 $user = User::find(auth()->user()->id);
                 $user->phone = $request->phone_send;
                 $user->save();
-            
+        }
         
-//        dd('pegou');        
+//        dd($request);        
         //Convert web request to mobile like request
         $mobileLikeRequest=$this->toMobileLike($request);
 
         //Data
         $vendor_id =  $mobileLikeRequest->vendor_id;
         $expedition= $mobileLikeRequest->delivery_method;
-        $hasPayment= $mobileLikeRequest->payment_method!="cod";
+        $hasPayment= ($mobileLikeRequest->payment_method!="cod" ||$mobileLikeRequest->payment_method!="card");
         $isStripe= $mobileLikeRequest->payment_method=="stripe";
 
         $vendorHasOwnPayment=null;

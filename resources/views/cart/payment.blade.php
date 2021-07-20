@@ -43,8 +43,12 @@
                         <!-- COD -->
                         @if (!config('settings.hide_cod'))
                             <div class="custom-control custom-radio mb-3">
-                                <input name="paymentType" class="custom-control-input" id="cashOnDelivery" type="radio" value="cod" {{ config('settings.default_payment')=="cod"?"checked":""}}>
-                                <label class="custom-control-label" for="cashOnDelivery"><span class="delTime">{{ config('app.isqrsaas')?__('Cash / Card Terminal'): __('Cash on delivery') }}</span> <span class="picTime">{{ __('Cash on pickup') }}</span></label>
+                                <input name="paymentType" class="custom-control-input" id="cashOnDelivery" type="radio" value="cod" onclick="$('#modal-money-change').modal('show');">
+                                <label class="custom-control-label" for="cashOnDelivery"><span class="delTime">Pagar na entrega - Dinheiro</span></label>
+                            </div>
+                            <div class="custom-control custom-radio mb-3">
+                                <input name="paymentType" class="custom-control-input" id="cardOnDelivery" type="radio" value="card" >
+                                <label class="custom-control-label" for="cardOnDelivery"><span class="delTime">Pagar na entrega -  Máquina de Cartão</span></label>
                             </div>
                         @endif
 

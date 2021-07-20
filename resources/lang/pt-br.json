@@ -776,6 +776,8 @@
     "prepared" : "Preparado",
     "just_created" : "Criado agora",
     "Unpaid" : "Pagamento Pendente",
+    "COD" : "Dinheiro (Verificar Troco) ",
+    "CARD" : "Maquina de Cartão",
     "Add new shift" : "Adicionar novo turno"
     
 }

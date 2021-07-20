@@ -133,9 +133,14 @@
      @endif
      <hr />
      <h3>{{ __("TOTAL") }}: @money( $order->delivery_price+$order->order_price, $currency,true)</h3>
+     @if($order->payment_method == "cod")
+     <h4> Troco para: @money( $order->money_change , $currency,true)</h4>
+     <h4> Troco: @money( $order->money_change - ($order->delivery_price+$order->order_price), $currency,true)</h4>
+     @endif
      <hr />
      <h4>{{ __("Payment method") }}: {{ __(strtoupper($order->payment_method)) }}</h4>
      <h4>{{ __("Payment status") }}: {{ __(ucfirst($order->payment_status)) }}</h4>
+     
      @if ($order->payment_status=="unpaid"&&strlen($order->payment_link)>5)
          <button onclick="location.href='{{$order->payment_link}}'" class="btn btn-success">{{ __('Pay now') }}</button>
      @endif

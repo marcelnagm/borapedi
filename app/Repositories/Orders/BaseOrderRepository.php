@@ -54,6 +54,10 @@ class BaseOrderRepository extends Controller
      * @var bool isNewOrder
      */
     public $isNewOrder=true;
+    /**
+     * @var bool isNewOrder
+     */
+    public $money_change=0;
 
     /**
      * @var string errorMessage - Deliver, DineIn, PickUp
@@ -81,6 +85,7 @@ class BaseOrderRepository extends Controller
         $this->expedition=$expedition;
         $this->hasPayment=$hasPayment;
         $this->isStripe=$isStripe;
+        $this->money_change=$request->money_change;
 
         //Set the Vendor
         $this->vendor = Vendor::findOrFail($vendor_id);
@@ -133,6 +138,8 @@ class BaseOrderRepository extends Controller
             $this->order->comment="";
             $this->order->payment_method=$this->request->payment_method;
             $this->order->payment_status="unpaid";
+            if($this->order->payment_method == "cod")
+            $this->order->money_change= $this->money_change;
 
             $expeditionsTypes=['delivery'=>1,'pickup'=>2,'dinein'=>3]; //1- delivery 2 - pickup 3-dinein
             $this->order->delivery_method=$expeditionsTypes[$this->expedition];  

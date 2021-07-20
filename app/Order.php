@@ -24,7 +24,7 @@ class Order extends Model
 
     protected $appends = ['time_created','time_formated','last_status','is_prepared','actions','configs','tableassigned'];
 
-    protected $fillable = ['fee', 'fee_value', 'static_fee', 'vatvalue','payment_info','mollie_payment_key','whatsapp_phone'];
+    protected $fillable = ['fee', 'fee_value', 'static_fee', 'vatvalue','money_change','payment_info','mollie_payment_key','whatsapp_phone'];
 
     public function restorant()
     {

@@ -1,8 +1,8 @@
-<div class="modal fade" id="modal-new-phone" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+<div class="modal fade" id="modal-money-change" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-large" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="modal-title-notification">{{ "Complete o se cadatro para finalizar o pedido" }}</h3>
+                <h3 class="modal-title" id="modal-title-notification">Vai precisar de troco</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -10,19 +10,39 @@
             <div class="modal-body p-0">
                 <div class="card bg-secondary shadow border-l-4">
                     <div class="card-content border-top">
-                        <br />
-                        <div class="row">
-                            <div class="col-12" style="padding-left: 30px;">
-                                @include('partials.fields',['fields'=>[
-                                ['ftype'=>'input','name'=>"Whatsapp",'id'=>"phone",'placeholder'=>"Coloque seu Whatsapp aqui ...",'required'=>true],
-                                ]])
-                            </div>
+                        <br />                            
+                            <div class="row">
+                            
+                            <div class="col-6" style="padding-left: 30px;">
+                                <div id="form-group-money_change" class="form-group  ">
+             <label class="form-control-label" for="money_change">Troco para quanto?</label>
+             <select name="money_change" id="money_change" name="money_change" id="money_change" class="form-control form-control  noselecttwo   " >
+                 <option value="0" default>
+                     Tenho o valor integral
+                 </option>
+                 <option value="10">
+                     10
+                 </option>
+                 </option>
+                 <option value="20">
+                     20
+                 </option>
+                 <option value="50">
+                     50
+                 </option>
+                 <option value="100">
+                     100
+                 </option>
+             </select>
+        </div>
+                                                    </div>
 
                         </div>
+                        </div>
                         <div class="row"> 
-                            <div class="col-6">
+                            <div class="col-12">
                                 <div class="custom-control custom-checkbox mb-3">
-                                    <input class="custom-control-input" id="privacypolicy" type="checkbox">
+                                    <input class="custom-control-input" id="privacypolicy" type="checkbox" checked>
                                     <label class="custom-control-label" for="privacypolicy">
                                         <b > Concordar em receber mensagens do Whatsapp</b>
                                         <p>Você receberá notificações do estabelecimento por WhatsApp sobre o seu pedido.</p>
@@ -33,17 +53,14 @@
                         </div>
                     </div>
                 </div>                
-                <div class="modal-footer">
-                    <Div style="display:none;">
-                        MM
-                    </Div>
+                <div class="modal-footer ">
                     <div class="text-center" id="totalSubmitCOD" style="display:block !important;">
                         <button 
 
                             v-if="totalPrice"
                             type="submit"
-                            class="btn btn-lg btn-icon btn-success mt-4 paymentbutton"
-                            onclick="this.disabled = true;this.form.submit();"
+                            class="btn btn-lg btn-icon btn-success mt-4 "
+                            onclick="form.submit();"
 
                             >
 

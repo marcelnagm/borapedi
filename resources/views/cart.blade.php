@@ -91,7 +91,6 @@
                     <form id="order-form" role="form" method="post" action="{{route('order.store')}}" autocomplete="off" enctype="multipart/form-data">
                         @csrf
                         @include('cart.restaurant')
-
                         <div class="tab-content" id="tabs">
 
 
@@ -166,6 +165,7 @@
 
 
     </div>
+    @include('cart.money_modal')
     @include('clients.modals')
 </section>
 @endsection

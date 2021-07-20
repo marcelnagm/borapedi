@@ -35,9 +35,11 @@ class WebServiceOrderRepository extends BaseOrderRepository implements OrderType
         if($resultFromValidateOrder->fails()){return $resultFromValidateOrder;}
         
         //From trait - make attempt to pay order or get payment link
+//        dd($this->request->payment_method );
+        if(!($this->request->payment_method == "cod" || $this->request->payment_method == "card")){                                
         $resultFromPayOrder=$this->payOrder();
         if($resultFromPayOrder->fails()){return $resultFromPayOrder;}
-
+        }
         //Local - set Initial Status
         $this->setInitialStatus();
 
