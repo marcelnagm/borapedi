@@ -466,6 +466,26 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function active()
+    {
+//       
+         $order = Order::where("client_id",auth()->user()->id)->
+                 orderBy('created_at', 'DESC')->first();
+//          dd($order->status()->count());
+//         $order = Order::where("id",10)->
+//                 orderBy('created_at', 'DESC')->first();
+//          dd($order->laststatus()->first()->id);
+          if($order->laststatus()->first()->id >=6 && $order->laststatus()->first()->id <=11){
+//           pedido concluido e volta para o ultimo restaurante   
+            return redirect('/restaurant/'.$order->restorant()->first()->subdomain);
+
+          }
+          if($order->laststatus()->first()->id <6){
+//           pedido nao concluido
+        return redirect()->route('orders.show',['order'=>$order->id]);          
+          }
+    }
+    
     public function change($id)
     {
          $order = Order::findOrFail($id);

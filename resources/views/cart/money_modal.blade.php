@@ -39,18 +39,6 @@
 
                         </div>
                         </div>
-                        <div class="row"> 
-                            <div class="col-12">
-                                <div class="custom-control custom-checkbox mb-3">
-                                    <input class="custom-control-input" id="privacypolicy" type="checkbox" checked>
-                                    <label class="custom-control-label" for="privacypolicy">
-                                        <b > Concordar em receber mensagens do Whatsapp</b>
-                                        <p>Você receberá notificações do estabelecimento por WhatsApp sobre o seu pedido.</p>
-                                    </label>
-                                </div>
-
-                            </div>
-                        </div>
                     </div>
                 </div>                
                 <div class="modal-footer ">
@@ -65,7 +53,7 @@
                             >
 
                             <span class="btn-inner--icon lg"><i class="fa fa-whatsapp" aria-hidden="true"></i></span>
-                            <span class="btn-inner--text">{{ __('Send Whatsapp Order') }}</span>
+                            <span class="btn-inner--text">Confirmar pedido</span>
                     </div>
                 </div>
 

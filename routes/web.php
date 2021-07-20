@@ -338,4 +338,5 @@ Route::post('/fb-order', 'OrderController@fbOrderMsg')->name('fb.order');
     });
     Route::get('/order/{order}/change', 'OrderController@change')->name('orders.change');
     Route::get('/order/{order}/destroy', 'OrderController@destroy')->name('orders.destroy');
+    Route::get('/order/active', 'OrderController@active')->name('orders.active');
         
