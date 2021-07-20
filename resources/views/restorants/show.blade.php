@@ -37,6 +37,10 @@
                                 .sub-description{
                                     margin-top: 120px; font-size: 20px;      
                                 }
+                                
+                                    .text-icon-cart{                                        
+                                        margin-left: 10px;
+                                    }
                                 @media only screen and (max-width:1023px) {
                                     .logo-img {
                                         width: 60px !important;
@@ -220,8 +224,12 @@
                                         </div>
                                     </div>
                                     <div class="buttons_cart right icon icon-shape text-white rounded-circle shadow mb-4 ">                    
+                                        
                                         <a class="text-white " href="{{route("cart.checkout")}}">
-                                            <i class="ni ni-check-bold"></i>
+                                            <i class="ni ni-check-bold"></i>                            
+                                            
+                                        </a>
+                                        <a class="text-white " href="{{route("cart.checkout")}}">
                                             <div class="text-icon-cart">
                                                 Finalizar Pedido
                                             </div>
