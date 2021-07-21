@@ -49,6 +49,29 @@ use AuthenticatesUsers;
      *
      * @return \Illuminate\Http\Response
      */
+    public function loginClient(Request $request) {
+        $user = User::where('phone', $request->phone)->first();
+           if ($user) {
+           if($user->hasRole(['client'])) ;
+                Auth::loginUsingId($user->id);
+      return redirect()->route("orders.active");
+           }else{
+                $user = new User;
+                $user->phone = $request->phone;
+                $user->save();
+
+                $user->assignRole('client');
+                Auth::loginUsingId($user->id);
+              return redirect("/");
+           }
+           
+    }
+
+    /**
+     * Obtain the user information from Google.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function googleHandleProviderCallback() {
         $user_google = Socialite::driver('google')->stateless()->user();
 
