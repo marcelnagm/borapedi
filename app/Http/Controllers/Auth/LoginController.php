@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\User;
 use Auth;
+//use 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -51,20 +52,23 @@ use AuthenticatesUsers;
      */
     public function loginClient(Request $request) {
         $user = User::where('phone', $request->phone)->first();
-           if ($user) {
-           if($user->hasRole(['client'])) ;
+        if ($user) {
+            if ($user->hasRole(['client'])) {
                 Auth::loginUsingId($user->id);
-      return redirect()->route("orders.active");
-           }else{
-                $user = new User;
-                $user->phone = $request->phone;
-                $user->save();
+                return redirect()->route("orders.active");
+            } else
+                return redirect()->route("logout");
+        } else {
+            $user = new User;
+            $user->phone = $request->phone;
+            $user->email =  Str::random(8).'@'. Str::random(8).'.com';
+            $user->api_token = Str::random(80);
+            $user->save();
 
-                $user->assignRole('client');
-                Auth::loginUsingId($user->id);
-              return redirect("/");
-           }
-           
+            $user->assignRole('client');
+            Auth::loginUsingId($user->id);
+            return redirect("/");
+        }
     }
 
     /**
@@ -139,7 +143,7 @@ use AuthenticatesUsers;
         // login
         Auth::loginUsingId($user->id);
         if (session()->exists('in_cart')) {
-            $in_cart =session('in_cart');
+            $in_cart = session('in_cart');
             if ($in_cart)
                 return redirect('cart-checkout');
         }

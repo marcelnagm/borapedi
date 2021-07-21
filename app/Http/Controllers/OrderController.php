@@ -328,6 +328,16 @@ class OrderController extends Controller
                 $user->phone = $request->phone_send;
                 $user->save();
         }
+        if (auth()->user()->email == ""){
+                $user = User::find(auth()->user()->id);
+                $user->email = $request->email;
+                $user->save();
+        }
+        if (auth()->user()->name == ""){
+                $user = User::find(auth()->user()->id);
+                $user->name = $request->name;
+                $user->save();
+        }
         
 //        dd($request);        
         //Convert web request to mobile like request
@@ -475,6 +485,7 @@ class OrderController extends Controller
 //         $order = Order::where("id",10)->
 //                 orderBy('created_at', 'DESC')->first();
 //          dd($order->laststatus()->first()->id);
+         if ($order != null){
           if($order->laststatus()->first()->id >=6 && $order->laststatus()->first()->id <=11){
 //           pedido concluido e volta para o ultimo restaurante   
             return redirect('/restaurant/'.$order->restorant()->first()->subdomain);
@@ -484,6 +495,9 @@ class OrderController extends Controller
 //           pedido nao concluido
         return redirect()->route('orders.show',['order'=>$order->id]);          
           }
+         }else{
+             return redirect()->route('home');          
+         }
     }
     
     public function change($id)

@@ -202,7 +202,7 @@
 
     <script>
 
-    ($"#phone").mask("(00) 00000-0000");
+    $("#phone").mask("(00) 00000-0000");
 
     //$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     //    var target = $e(.target).attr("href") // activated tab

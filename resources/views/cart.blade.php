@@ -95,7 +95,13 @@
 
 
                             <!-- Tab Managment -->
-
+                            <?php if (auth()->user()->name == "") { ?>
+                                @include('cart.client')
+                            <?php }else{ ?>
+                                <script>
+var no_name=false;
+</script>
+                            <?php } ?>
                             @if($restorant->can_deliver == 1 )
 
                             <div class="tab-pane fade show active" id="delivery" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
@@ -150,9 +156,9 @@
                 @if (count($timeSlots)>0)
                 <!-- Payment -->
                 @include('cart.payment')
-                
-                  <br/>
-                  @include('cart.coupons')
+
+                <br/>
+                @include('cart.coupons')
 
                 @else
                 <!-- Closed restaurant -->
@@ -197,19 +203,19 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 var target = $(e.target).attr("href") // activated tab
 //        alert(target);
         if (target == "#delivery")
-{
-$("input[value='delivery']").attr('checked', true);
-$("#addressBox").show(1);
-$("input[value='pickup']").attr('checked', false);
-$("input[value='dinein']").attr('checked', false);
-}
+        {
+        $("input[value='delivery']").attr('checked', true);
+        $("#addressBox").show(1);
+        $("input[value='pickup']").attr('checked', false);
+        $("input[value='dinein']").attr('checked', false);
+        }
 if (target == "#pickup")
-{
+        {
 
-$("input[value='delivery']").attr('checked', false);
-$("input[value='pickup']").attr('checked', true);
-$("input[value='dinein']").attr('checked', false);
-}
+        $("input[value='delivery']").attr('checked', false);
+        $("input[value='pickup']").attr('checked', true);
+        $("input[value='dinein']").attr('checked', false);
+        }
 });</script>
 <script src="{{ asset('custom') }}/js/checkout.js"></script>
 @endsection
