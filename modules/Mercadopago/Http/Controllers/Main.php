@@ -60,7 +60,7 @@ class Main extends Controller
             "failure" => route('mercadopago.execute','failure'),
             "pending" => route('mercadopago.execute','pending')
         );
-        $preference->auto_return = "rejected";
+        $preference->auto_return = "approved";
 
 
         $preference->save();
