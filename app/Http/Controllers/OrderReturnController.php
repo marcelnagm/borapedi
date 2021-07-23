@@ -32,11 +32,10 @@ use App\Services\ConfChanger;
 use Akaunting\Module\Facade as Module;
 use App\Events\OrderAcceptedByAdmin;
 use App\Events\OrderAcceptedByVendor;
-use MercadoPago\Preference;
-use MercadoPago\Payer;
 use MercadoPago\Payment;
 use MercadoPago\Item;
 use MercadoPago\SDK as SDK;
+use Illuminate\Support\Facades\Storage;
 
 class OrderReturnController {
 
@@ -48,12 +47,13 @@ class OrderReturnController {
     public function index(Request $request) {
 //        $data = json_decode(file_get_contents('php://input'), true);
 //        $input = $request->all();;  
-        $data = json_decode(file_get_contents('php://input'), true);
+        $input = file_get_contents('php://input');
+        $data = json_decode($input, true);
 
-//        dd ($data);
+//        dd ($input);
 //        var_dump( $data);
-//         MercadoPago\SDK::setAccessToken("ENV_ACCESS_TOKEN");
-//
+//         MercadoPago\SDK::
+        Storage::disk('local')->put('log.json',$input);
         if ($data["type"] == '"payment"') {
             if ($data['action'] == 'payment.updated') {
                 $order = Order::find($data['data']['id']);
@@ -63,7 +63,8 @@ class OrderReturnController {
                 $order->payment_status = 'Webhooks create';
             }
             $order->save();
-            dd("ok");
+            
+//            dd("ok");
         }
     }
 
