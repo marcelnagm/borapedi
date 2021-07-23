@@ -344,4 +344,4 @@ Route::post('/fb-order', 'OrderController@fbOrderMsg')->name('fb.order');
     });
     Route::post('/order/return', 'OrderReturnController@index')->name('orders.return');
     
-    Route::post('/login/client', 'Auth\LogingetController@loginClient')->name('login.client');        
+    Route::post('/login/client', 'Auth\LoginController@loginClient')->name('login.client');        
