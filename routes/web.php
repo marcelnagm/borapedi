@@ -144,6 +144,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('clients', 'ClientController');
     Route::resource('orders', 'OrderController');
     
+    Route::get('/order/{order}/change', 'OrderController@change')->name('orders.change');
+    Route::get('/order/{order}/destroy', 'OrderController@destroy')->name('orders.destroy');
+
+    Route::get('/order/active', 'OrderController@active')->name('orders.active');
+    
+    
     Route::post('/rating/{order}', 'OrderController@rateOrder')->name('rate.order');
     Route::get('/check/rating/{order}', 'OrderController@checkOrderRating')->name('check.rating');
 
@@ -336,9 +342,6 @@ Route::post('/fb-order', 'OrderController@fbOrderMsg')->name('fb.order');
          Route::post('/edit', 'DevileryTaxController@edit')->name('edit');
         
     });
-    Route::get('/order/{order}/change', 'OrderController@change')->name('orders.change');
-    Route::get('/order/{order}/destroy', 'OrderController@destroy')->name('orders.destroy');
-
-    Route::get('/order/active', 'OrderController@active')->name('orders.active');
+    Route::post('/order/return', 'OrderReturnController@index')->name('orders.return');
     
-    Route::post('/login/client', 'Auth\LoginController@loginClient')->name('login.client');        
+    Route::post('/login/client', 'Auth\LogingetController@loginClient')->name('login.client');        

@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use MercadoPago\Preference;
 use MercadoPago\Payer;
+use MercadoPago\Payment;
 use MercadoPago\Item;
 use MercadoPago\SDK;
 
@@ -46,6 +47,7 @@ class Main extends Controller
         $preference->payer->email = $order->client()->first()->email;
         $preference->payer->date_created = $order->created_at;
         $preference->binary_mode = true;
+        $preference->notification_url= "https://borapedi.com/order/return?source_news=webhooks";
         
         // Crea un ítem en la preferencia
         $item = new Item();
@@ -77,8 +79,8 @@ class Main extends Controller
 
         $order=Order::findOrFail($_GET['external_reference']);
         if($_GET['status'] == 'approved'){
-            $order->payment_status = 'paid';
-            $order->update();
+//            $order->payment_status = 'paid';
+//            $order->update();
             return redirect()->route('order.success', ['order' => $order]);
         }else{
 //            \Session::put('error',__('Payment status:')." ".$_GET['status']);
