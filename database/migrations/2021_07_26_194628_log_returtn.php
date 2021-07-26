@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ClientRating extends Migration
+class LogReturtn extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,10 @@ class ClientRating extends Migration
     public function up()
     {
         //
-            Schema::create('mercadopago_log', function (Blueprint $table) {
+         Schema::create('mercado_pago', function (Blueprint $table) {
             $table->id();              
-            $table->text('log')->nullable(false);                 
+            $table->text('retorno')->nullable(false);
+            $table->integer('processed')->defaul(0)->nullable(false);
             $table->timestamps();
         });
     }
@@ -29,6 +30,5 @@ class ClientRating extends Migration
     public function down()
     {
         //
-         Schema::dropIfExists('client_ratings');
     }
 }

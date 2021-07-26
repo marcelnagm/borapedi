@@ -7,20 +7,7 @@ use App\Exports\OrdersExport;
 use App\Notifications\OrderNotification;
 use App\Order;
 use App\Restorant;
-use App\Status;
-use App\User;
-use App\WhatsappService as WhatsappService;
-use App\Models\Variants;
-use App\Models\Extras;
-use App\Models\RestorantHasDrivers;
-use App\Models\OrderHasItems;
-use App\Models\ClientRatings;
-use App\Models\ClientHasRating;
-use App\Items;
-use App\WhastappService as WhastappService;
-use Carbon\Carbon;
-use Cart;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\MercadoLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -44,28 +31,63 @@ class OrderReturnController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) {
-//        $data = json_decode(file_get_contents('php://input'), true);
-//        $input = $request->all();;  
-        $input = file_get_contents('php://input');
-        $data = json_decode($input, true);
+    public function process(Request $request) {
+        $orders = Order::where('payment_method','mercadopago')
+                ->where('payment_status','=', 'unpaid')
+                        ->get();
+//        $orders = Order::where('id', 636)->get();
+//        dd ($orders);
+        foreach ($orders as $order) {
+            $ch = curl_init();
+            $url = "https://api.mercadopago.com/v1/payments/search?criteria=desc&external_reference=" . $order->id;
 
-//        dd ($input);
-//        var_dump( $data);
-//         MercadoPago\SDK::
-        Storage::disk('local')->put('log.json',$input);
-        if ($data["type"] == '"payment"') {
-            if ($data['action'] == 'payment.updated') {
-                $order = Order::find($data['data']['id']);
-                $order->payment_status = 'Webhooks Up';
+            $rest = Restorant::find($order->restorant_id);
+            //GET THE KEY
+            //System setup 
+            $access_token = config('mercadopago.access_token', "");
+
+            //Setup based on vendor
+            if (config('mercadopago.useVendor')) {
+                $access_token = $rest->getConfig('mercadopago_access_token', '');
             }
-            if ($data['action'] == 'payment.created') {
-                $order->payment_status = 'Webhooks create';
-            }
-            $order->save();
             
-//            dd("ok");
+            curl_setopt($ch, CURLOPT_URL, $url);
+            $headers = array(
+                "Accept: application/json",
+                "Authorization: Bearer ".$access_token,
+            );
+
+
+
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $server_output = curl_exec($ch);
+            $data_server = json_decode($server_output, true);
+            foreach($data_server['results'] as $return){
+                if ($return['status'] == "approved"){
+                    $order->payment_status='paid';
+                    $order->save(); 
+                }
+                if ($return['status'] != "approved"){
+//                    do do do
+                }
+            }
+//            dd($data_server);
+
+            curl_close($ch);
         }
+        dd("ok");
+    }
+
+    public function index(Request $request) {
+        $input = file_get_contents('php://input');
+        $mercado = new MercadoLog();
+        $mercado->retorno = $input;
+        $mercado->save();
     }
 
 }

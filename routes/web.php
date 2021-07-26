@@ -3,31 +3,36 @@
 use Illuminate\Support\Facades\Route;
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+  |--------------------------------------------------------------------------
+  | Web Routes
+  |--------------------------------------------------------------------------
+  |
+  | Here is where you can register web routes for your application. These
+  | routes are loaded by the RouteServiceProvider within a group which
+  | contains the "web" middleware group. Now create something great!
+  |
+ */
 
 Route::get('/', 'FrontEndController@index')->name('front');
-Route::get('/'.config('settings.url_route').'/{alias}', 'FrontEndController@restorant')->name('vendor');
+Route::get('/' . config('settings.url_route') . '/{alias}', 'FrontEndController@restorant')->name('vendor');
 Route::get('/city/{city}', 'FrontEndController@showStores')->name('show.stores');
 Route::get('/lang', 'FrontEndController@langswitch')->name('lang.switch');
 
 Route::post('/search/location', 'FrontEndController@getCurrentLocation')->name('search.location');
 
 Auth::routes(['register' => config('app.isft')]);
-/*Route::get( '/auth0/callback', '\Auth0\Login\Auth0Controller@callback' )->name( 'auth0-callback' );
-Route::get('/login', 'Auth\Auth0IndexController@login' )->name( 'login' );
+/* Route::get( '/auth0/callback', '\Auth0\Login\Auth0Controller@callback' )->name( 'auth0-callback' );
+  Route::get('/login', 'Auth\Auth0IndexController@login' )->name( 'login' );
 
-Route::get('/profiles', 'Auth\Auth0IndexController@profile' )->name( 'profiles' )->middleware('auth');
-*/
+  Route::get('/profiles', 'Auth\Auth0IndexController@profile' )->name( 'profiles' )->middleware('auth');
+ */
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('/order/return', 'OrderReturnController@index')->name('orders.return');
+Route::get('/order/process', 'OrderReturnController@process')->name('orders.process');
+
+Route::post('/login/client', 'Auth\LoginController@loginClient')->name('login.client');
 
 //Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => ['auth']], function () {
@@ -45,7 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('restaurants/loginas/{restaurant}', 'RestorantController@loginas')->name('restaurants.loginas');
 
         Route::get('removedemodata', 'RestorantController@removedemo')->name('restaurants.removedemo');
-        Route::get('sitemap','SettingsController@regenerateSitemap')->name('regenerate.sitemap');
+        Route::get('sitemap', 'SettingsController@regenerateSitemap')->name('regenerate.sitemap');
 
         // Landing page settings 
         Route::get('landing', 'SettingsController@landing')->name('landing');
@@ -82,7 +87,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('simpledelivery/del/{delivery}', 'SimpleDeliveryController@destroy')->name('simpledelivery.delete');
 
 
-            
+
 
             // Areas
             Route::resource('restoareas', 'RestoareasController');
@@ -124,7 +129,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/import/restaurants', 'RestorantController@import')->name('import.restaurants');
     Route::get('/restaurant/{restaurant}/activate', 'RestorantController@activateRestaurant')->name('restaurant.activate');
     Route::post('/restaurant/workinghours', 'RestorantController@workingHours')->name('restaurant.workinghours');
-    Route::post('/restaurant/address','RestorantController@getCoordinatesForAddress')->name('restaurant.coordinatesForAddress');
+    Route::post('/restaurant/address', 'RestorantController@getCoordinatesForAddress')->name('restaurant.coordinatesForAddress');
 
     Route::prefix('finances')->name('finances.')->group(function () {
         Route::get('admin', 'FinanceController@adminFinances')->name('admin');
@@ -143,13 +148,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('clients', 'ClientController');
     Route::resource('orders', 'OrderController');
-    
+
     Route::get('/order/{order}/change', 'OrderController@change')->name('orders.change');
     Route::get('/order/{order}/destroy', 'OrderController@destroy')->name('orders.destroy');
 
     Route::get('/order/active', 'OrderController@active')->name('orders.active');
-    
-    
+
+
     Route::post('/rating/{order}', 'OrderController@rateOrder')->name('rate.order');
     Route::get('/check/rating/{order}', 'OrderController@checkOrderRating')->name('check.rating');
 
@@ -160,38 +165,36 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('live', 'OrderController@live');
 //    Route::get('deliverytax', 'DevileryTaxController@index');
-     Route::prefix('client_ratings')->name('client_ratings.')->group(function () {
-                      //Clients Rating            
-            Route::get('/', 'ClientRatingsController@index')->name('index');
-            Route::get('{coupon}/edit', 'ClientRatingsController@edit')->name('edit');
-            Route::get('/create', 'ClientRatingsController@create')->name('create');
-            Route::post('/store', 'ClientRatingsController@store')->name('store');
-            Route::put('/{coupon}/update', 'ClientRatingsController@update')->name('update');
-            Route::get('/{coupon}/delete', 'ClientRatingsController@destroy')->name('delete');
-
-    });    
-     Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
-         Route::get('/', 'WhatsappController@index')->name('index');
-         Route::get('/new', 'WhatsappController@new')->name('new');
-         Route::post('/store', 'WhatsappController@store')->name('store');
-         Route::post('/update', 'WhatsappController@update')->name('update');
-         Route::get('/{id}/edit', 'WhatsappController@edit')->name('edit');
-         Route::get('/{id}/delete', 'WhatsappController@delete')->name('delete');
-    });    
-     Route::prefix('deliverytax')->name('deliverytax.')->group(function () {
-         Route::get('index', 'DevileryTaxController@index')->name('index');
-         Route::post('post', 'DevileryTaxController@post')->name('post');
-         Route::post('delete', 'DevileryTaxController@delete')->name('delete');
-         Route::post('edit', 'DevileryTaxController@edit')->name('edit');
-        
+    Route::prefix('client_ratings')->name('client_ratings.')->group(function () {
+        //Clients Rating            
+        Route::get('/', 'ClientRatingsController@index')->name('index');
+        Route::get('{coupon}/edit', 'ClientRatingsController@edit')->name('edit');
+        Route::get('/create', 'ClientRatingsController@create')->name('create');
+        Route::post('/store', 'ClientRatingsController@store')->name('store');
+        Route::put('/{coupon}/update', 'ClientRatingsController@update')->name('update');
+        Route::get('/{coupon}/delete', 'ClientRatingsController@destroy')->name('delete');
+    });
+    Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
+        Route::get('/', 'WhatsappController@index')->name('index');
+        Route::get('/new', 'WhatsappController@new')->name('new');
+        Route::post('/store', 'WhatsappController@store')->name('store');
+        Route::post('/update', 'WhatsappController@update')->name('update');
+        Route::get('/{id}/edit', 'WhatsappController@edit')->name('edit');
+        Route::get('/{id}/delete', 'WhatsappController@delete')->name('delete');
+    });
+    Route::prefix('deliverytax')->name('deliverytax.')->group(function () {
+        Route::get('index', 'DevileryTaxController@index')->name('index');
+        Route::post('post', 'DevileryTaxController@post')->name('post');
+        Route::post('delete', 'DevileryTaxController@delete')->name('delete');
+        Route::post('edit', 'DevileryTaxController@edit')->name('edit');
     });
 
-    
-    Route::get('/updatestatus/{alias}/{order}', ['as' => 'update.status', 'uses'=>'OrderController@updateStatus']);
+
+    Route::get('/updatestatus/{alias}/{order}', ['as' => 'update.status', 'uses' => 'OrderController@updateStatus']);
 
     Route::resource('settings', 'SettingsController');
-    Route::get('apps','AppsController@index')->name('apps.index');
-    Route::post('apps','AppsController@store')->name('apps.store');
+    Route::get('apps', 'AppsController@index')->name('apps.index');
+    Route::post('apps', 'AppsController@store')->name('apps.store');
     Route::get('cloudupdate', 'SettingsController@cloudupdate')->name('settings.cloudupdate');
     Route::get('systemstatus', 'SettingsController@systemstatus')->name('systemstatus');
     Route::get('translatemenu', 'SettingsController@translateMenu')->name('translatemenu');
@@ -290,7 +293,7 @@ Route::get('/login/google/redirect', 'Auth\LoginController@googleHandleProviderC
 Route::get('/login/facebook', 'Auth\LoginController@facebookRedirectToProvider')->name('facebook.login');
 Route::get('/login/facebook/redirect', 'Auth\LoginController@facebookHandleProviderCallback');
 
-Route::get('/new/'.config('settings.url_route').'/register', 'RestorantController@showRegisterRestaurant')->name('newrestaurant.register');
+Route::get('/new/' . config('settings.url_route') . '/register', 'RestorantController@showRegisterRestaurant')->name('newrestaurant.register');
 Route::post('/new/restaurant/register/store', 'RestorantController@storeRegisterRestaurant')->name('newrestaurant.store');
 
 Route::get('phone/verify', 'PhoneVerificationController@show')->name('phoneverification.notice');
@@ -304,14 +307,14 @@ $availableLanguagesENV = ENV('FRONT_LANGUAGES', 'EN,English,IT,Italian,FR,French
 $exploded = explode(',', $availableLanguagesENV);
 if (count($exploded) > 3 && config('app.isqrsaas')) {
     for ($i = 0; $i < count($exploded); $i += 2) {
-        $mode="qrsaasMode";
-        if(config('settings.is_whatsapp_ordering_mode')){
-            $mode="whatsappMode";
+        $mode = "qrsaasMode";
+        if (config('settings.is_whatsapp_ordering_mode')) {
+            $mode = "whatsappMode";
         }
-        if(config('settings.is_pos_cloud_mode')){
-            $mode="posMode";
+        if (config('settings.is_pos_cloud_mode')) {
+            $mode = "posMode";
         }
-        Route::get('/'.strtolower($exploded[$i]), 'FrontEndController@'.$mode)->name('lang.'.strtolower($exploded[$i]));
+        Route::get('/' . strtolower($exploded[$i]), 'FrontEndController@' . $mode)->name('lang.' . strtolower($exploded[$i]));
     }
 }
 
@@ -332,16 +335,12 @@ Route::post('/fb-order', 'OrderController@fbOrderMsg')->name('fb.order');
 
 
 //custom routes
-    Route::get('client_ratings/index', 'ClientRatingsController@index_client')->name('client_ratings.index_client');        
-    Route::post('/find-cep', 'DevileryTaxController@getCoordinatesForTax')->name('find-cep');
-    
-     Route::prefix('marketing')->name('marketing.')->group(function () {
-         Route::get('/', 'MarketingController@index')->name('index');
-         Route::post('/post', 'DevileryTaxController@post')->name('post');
-         Route::post('/delete', 'DevileryTaxController@delete')->name('delete');
-         Route::post('/edit', 'DevileryTaxController@edit')->name('edit');
-        
-    });
-    Route::post('/order/return', 'OrderReturnController@index')->name('orders.return');
-    
-    Route::post('/login/client', 'Auth\LoginController@loginClient')->name('login.client');        
+Route::get('client_ratings/index', 'ClientRatingsController@index_client')->name('client_ratings.index_client');
+Route::post('/find-cep', 'DevileryTaxController@getCoordinatesForTax')->name('find-cep');
+
+Route::prefix('marketing')->name('marketing.')->group(function () {
+    Route::get('/', 'MarketingController@index')->name('index');
+    Route::post('/post', 'DevileryTaxController@post')->name('post');
+    Route::post('/delete', 'DevileryTaxController@delete')->name('delete');
+    Route::post('/edit', 'DevileryTaxController@edit')->name('edit');
+});
