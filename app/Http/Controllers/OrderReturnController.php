@@ -80,7 +80,9 @@ class OrderReturnController {
             $now6 = strtotime("-6 minutes");
 
             if ($now >= strtotime($order->created_at->toDateTimeString()) && 
-               $now6 <= strtotime($order->created_at->toDateTimeString())       ) {
+               $now6 <= strtotime($order->created_at->toDateTimeString()) &&     
+                    $order->payment_status != 'paid'
+                    ) {
 //                echo $now;
 //                echo strtotime($order->created_at->toDateTimeString());
 //                echo 'expired!';
