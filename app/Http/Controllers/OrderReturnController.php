@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Carbon;
 use willvincent\Rateable\Rating;
 use App\Services\ConfChanger;
 use Akaunting\Module\Facade as Module;
@@ -32,9 +33,9 @@ class OrderReturnController {
      * @return \Illuminate\Http\Response
      */
     public function process(Request $request) {
-        $orders = Order::where('payment_method','mercadopago')
-                ->where('payment_status','=', 'unpaid')
-                        ->get();
+        $orders = Order::where('payment_method', 'mercadopago')
+                ->where('payment_status', '=', 'unpaid')
+                ->get();
 //        $orders = Order::where('id', 636)->get();
 //        dd ($orders);
         foreach ($orders as $order) {
@@ -50,11 +51,11 @@ class OrderReturnController {
             if (config('mercadopago.useVendor')) {
                 $access_token = $rest->getConfig('mercadopago_access_token', '');
             }
-            
+
             curl_setopt($ch, CURLOPT_URL, $url);
             $headers = array(
                 "Accept: application/json",
-                "Authorization: Bearer ".$access_token,
+                "Authorization: Bearer " . $access_token,
             );
 
 
@@ -67,14 +68,23 @@ class OrderReturnController {
 
             $server_output = curl_exec($ch);
             $data_server = json_decode($server_output, true);
-            foreach($data_server['results'] as $return){
-                if ($return['status'] == "approved"){
-                    $order->payment_status='paid';
-                    $order->save(); 
+            foreach ($data_server['results'] as $return) {
+                if ($return['status'] == "approved") {
+                    $order->payment_status = 'paid';
+                    $order->save();
+                     WhatsappService::ssendMessage($order,'paid');
                 }
-                if ($return['status'] != "approved"){
-//                    do do do
-                }
+                
+            }
+            $now = strtotime("-5 minutes");
+            $now6 = strtotime("-6 minutes");
+
+            if ($now >= strtotime($order->created_at->toDateTimeString()) && 
+               $now6 <= strtotime($order->created_at->toDateTimeString())       ) {
+//                echo $now;
+//                echo strtotime($order->created_at->toDateTimeString());
+//                echo 'expired!';
+                 WhatsappService::ssendMessage($order,'fail');
             }
 //            dd($data_server);
 

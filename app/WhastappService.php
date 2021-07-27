@@ -14,10 +14,10 @@ use App\Models\MyModel;
 class WhastappService {
 
     public static function getMobileInfo($name) {
-    
+
 //        https://api.borapedi.com:3333/getHostDevice
-        
-          $ch = curl_init('https://api.borapedi.com:3333/getHostDevice');
+
+        $ch = curl_init('https://api.borapedi.com:3333/getHostDevice');
 # Setup request to send json via POST.
         $payload = json_encode(array(
             "SessionName" => $name,
@@ -34,21 +34,19 @@ class WhastappService {
         $result = json_decode($result, true);
         curl_close($ch);
         $device = array(
-            'session'=> $result['wid']['user'],
-            'hw'=> $result['phone']['device_manufacturer'].' - '.$result['platform'],
-             'batt'   => $result['plugged']? $result['battery'].'-'. 'Carregando': $result['battery'].'-'.'Descarregando',
-             'respond'   => $result['isResponse'] ? 'Está Respondendo' : 'Não Responde',
-            );
-        
+            'session' => $result['wid']['user'],
+            'hw' => $result['phone']['device_manufacturer'] . ' - ' . $result['platform'],
+            'batt' => $result['plugged'] ? $result['battery'] . '-' . 'Carregando' : $result['battery'] . '-' . 'Descarregando',
+            'respond' => $result['isResponse'] ? 'Está Respondendo' : 'Não Responde',
+        );
+
 //# Print response.
 //        dd($result);   
-       return $device;
-        
-        
+        return $device;
     }
-    
+
     public static function isConnected($name, $status = false) {
-          $ch = curl_init('https://api.borapedi.com:3333/Start');
+        $ch = curl_init('https://api.borapedi.com:3333/Start');
 # Setup request to send json via POST.
         $payload = json_encode(array(
             "SessionName" => $name,
@@ -64,7 +62,7 @@ class WhastappService {
         $result = curl_exec($ch);
         $result = json_decode($result, true);
         curl_close($ch);
-        
+
         $ch = curl_init('https://api.borapedi.com:3333/Status');
 # Setup request to send json via POST.
         $payload = json_encode(array(
@@ -85,10 +83,10 @@ class WhastappService {
 //
 // Tratar erro quando node não estiver online
 //        dd($result);   
-         if ($result== false) {
-             return false;
-         }
-        
+        if ($result == false) {
+            return false;
+        }
+
         if ($status == false) {
             if ($result['result'] == 'success') {
                 return true;
@@ -102,26 +100,37 @@ class WhastappService {
 
     public static function sendMessage($order, $status) {
         $name = $order->restorant->phone;
-          
+
         if (WhastappService::isConnected($name)) {
 //          dd('enviada');
-            $message = WhatsappMessage::
-                    where('restorant_id', $order->restorant->id)->
-                    where('parameter', $status)->
-                    first();
 
-            if (isset($message)) {
+                $message = WhatsappMessage::
+                        where('restorant_id', $order->restorant->id)->
+                        where('parameter', $status)->
+                        first();
+
+            if (isset($message) || $status == 'fail' ||$status == 'paid') {
 //                dd('enviada');
-                $message = $message->message ;
+                $message = $message->message;
                 if ($status == 1) {
-                    
+
 //                    $message = $message->message ;
-                    $message .= "\n ".WhastappService::generateTextOrder($order);
+                    $message .= "\n " . WhastappService::generateTextOrder($order);
+                }
+                if ($status == 'fail') {
+
+//                    $message = $message->message ;
+                    $message .= "\n " . WhastappService::generateTextOrderFail($order);
+                }
+                if ($status == 'paid') {
+
+//                    $message = $message->message ;
+                    $message .= "\n " . "Confirmamos que recebemos o pagamento do seu pedido";
                 }
 
                 $client_phone = User::find($order->client_id)->phone;
                 $client_phone = str_replace('-', '', str_replace(')', '', str_replace('(', '', $client_phone)));
-                $client_phone = preg_replace('/\s+/', '','55' . $client_phone);
+                $client_phone = preg_replace('/\s+/', '', '55' . $client_phone);
                 $ch = curl_init('https://api.borapedi.com:3333/send');
 # Setup request to send json via POST.
 //                dd($client_phone);
@@ -152,20 +161,29 @@ class WhastappService {
                 if (curl_errno($ch)) {
                     $error_msg = curl_error($ch);
                 }
-                
+
                 curl_close($ch);
 //# Print response.
                 return true;
             }
             return false;
-    
         } else {
             return false;
         }
     }
 
+    public static function generateTextOrderFail($order) {
+        $title = 'Pedido ' . $order->id . ' #' . "\n\n";
+        $price = 'Desculpa, ocorreu algum erro no seu pagamento' . "\n";
+        $price .= 'Para tanto confira no link abaixo o que você pode fazer:' . "\n";
+        $price .= 'borapedi.com/order/' . $order->id . '/fail:' . "\n";
+        $final = $title . $price;
+
+        return $final;
+    }
+
     public static function generateTextOrder($order) {
-        $title = '\nNovo Pedido'.$order->id.' #' .  "\n\n";
+        $title = '\nNovo Pedido' . $order->id . ' #' . "\n\n";
 
         $price = '*Preço: R$' . $order->order_price . "\n\n";
         $price .= '*Taxa de Entrega: R$' . $order->delivery_price . ' ' . config('settings.cashier_currency') . "\n\n";
@@ -217,24 +235,21 @@ class WhastappService {
                     $cartItemPrice += $extra->price;
                     $theElement .= $extra->name . ' -- ' . $extra->name . '  --> ' . $cartItemPrice . ' ->- ';
                 }
-                
             }
-            $items .= strval($item_k->qty) . ' x ' . $cartItemName . " - R$" . $cartItemPrice ." por cada item". "\n";
+            $items .= strval($item_k->qty) . ' x ' . $cartItemName . " - R$" . $cartItemPrice . " por cada item" . "\n";
         }
         $items .= "\n";
         $final = $title . $price . $items;
-        $address =Address::find($order->address_id)->address;
+        $address = Address::find($order->address_id)->address;
         if ($address != null) {
-            $final .= '*Endereço de Entrega:' . "\n" .$address   . "\n\n";
+            $final .= '*Endereço de Entrega:' . "\n" . $address . "\n\n";
         }
-        
-        if ($order->comment  != null) {
+
+        if ($order->comment != null) {
             $final .= '*Comentário:' . "\n" . $order->comment . "\n\n";
         }
 //        dd($final);
         return $final;
-        
     }
-    
 
 }
