@@ -80,12 +80,6 @@
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('admin.restaurant.simpledelivery.index') }}">
-        <i class="ni ni-pin-3 text-blue"></i> {{ __('Delivery areas') }}
-    </a>
-</li>
-
-<li class="nav-item">
     <a class="nav-link" href="{{ route('plans.current') }}">
         <i class="ni ni-credit-card text-orange"></i> {{ __('Plan') }}
     </a>
