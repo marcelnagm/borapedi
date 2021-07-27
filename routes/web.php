@@ -149,7 +149,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('clients', 'ClientController');
     Route::resource('orders', 'OrderController');
 
-    Route::get('/order/{order}/change', 'OrderController@change')->name('orders.change');
+    Route::get('/order/{order}/change/{method}', 'OrderController@change')->name('orders.change');
     Route::get('/order/{order}/destroy', 'OrderController@destroy')->name('orders.destroy');
 
     Route::get('/order/active', 'OrderController@active')->name('orders.active');
@@ -329,6 +329,7 @@ Route::get('new/driver/register', 'DriverController@register')->name('driver.reg
 Route::post('new/driver/register/store', 'DriverController@registerStore')->name('driver.register.store');
 
 Route::get('order/success', 'OrderController@success')->name('order.success');
+Route::get('order/{order}/fail', 'OrderController@fail')->name('order.fail2');
 Route::get('order/fail', 'OrderController@fail')->name('order.fail');
 
 Route::post('/fb-order', 'OrderController@fbOrderMsg')->name('fb.order');

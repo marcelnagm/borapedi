@@ -29,8 +29,12 @@
                             Tentar pagar novamente
                         </a>
                         </br>
-                        <a href="/order/{{$order->id }}/change" class="btn btn-neutral btn-lg" style="background-color: #f7f267  !important;margin-bottom: 10px;">                                                    
-                           Pagar na entrega
+                        <a href="/order/{{$order->id }}/change/cod" class="btn btn-neutral btn-lg" style="background-color: #f7f267  !important;margin-bottom: 10px;">                                                    
+                            Pagar na entrega (Dinheiro)
+                        </a>                        
+                        </br>
+                        <a href="/order/{{$order->id }}/change/card" class="btn btn-neutral btn-lg" style="background-color: #faff00!important;margin-bottom: 10px;">                                                    
+                            Pagar na entrega (Máq. Cartão)
                         </a>                        
                         </br>
                         <button  class="btn btn-danger btn-lg" onclick="remove()" style="margin-bottom: 10px;">                                                    

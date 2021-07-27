@@ -500,10 +500,10 @@ class OrderController extends Controller
          }
     }
     
-    public function change($id)
+    public function change($id,$method)
     {
          $order = Order::findOrFail($id);
-        $order->payment_method = 'cod';
+        $order->payment_method = $method;
         $order->payment_link = NULL;
         $order->save();
         return redirect()->route('orders.show',['order'=>$id]);
