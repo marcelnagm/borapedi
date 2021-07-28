@@ -108,17 +108,17 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('coupons/apply', 'CouponsController@apply')->name('coupons.apply');
 
             //Banners
-            Route::get('banners', 'BannersController@index')->name('banners.index');
+          
+            //Language menu
+            Route::post('storenewlanguage', 'RestorantController@storeNewLanguage')->name('storenewlanguage');
+        });
+    });
+      Route::get('banners', 'BannersController@index')->name('banners.index');
             Route::get('banners/{banner}/edit', 'BannersController@edit')->name('banners.edit');
             Route::get('banners/create', 'BannersController@create')->name('banners.create');
             Route::post('banners', 'BannersController@store')->name('banners.store');
             Route::put('banners/{banner}', 'BannersController@update')->name('banners.update');
             Route::get('banners/del/{banner}', 'BannersController@destroy')->name('banners.delete');
-
-            //Language menu
-            Route::post('storenewlanguage', 'RestorantController@storeNewLanguage')->name('storenewlanguage');
-        });
-    });
 
     Route::resource('cities', 'CitiesController');
     Route::get('/cities/del/{city}', 'CitiesController@destroy')->name('cities.delete');

@@ -89,6 +89,18 @@ class MarketingController extends Controller {
         ];
     }
 
+     protected $imagePath = 'uploads/banners/';
+
+    private function getFieldsBanners()
+    {
+        return [
+            ['class'=>'col-md-4', 'ftype'=>'input', 'name'=>'Name', 'id'=>'name', 'placeholder'=>'Enter table name or internal id, ex Table 8', 'required'=>true],
+            ['class'=>'col-md-4', 'ftype'=>'input', 'type'=>'number', 'name'=>'Vendor/Page', 'id'=>'size', 'placeholder'=>'Enter table person size, ex 4', 'required'=>true],
+            ['class'=>'col-md-4', 'ftype'=>'select', 'name'=>'Active from', 'id'=>'restoarea_id', 'placeholder'=>'Selec rest area id', 'data'=>'', 'required'=>true],
+            ['class'=>'col-md-4', 'ftype'=>'select', 'name'=>'Active to', 'id'=>'restoarea_id', 'placeholder'=>'Selec rest area id', 'data'=>'', 'required'=>true],
+        ];
+    }
+    
     /**
      * Auth checker functin for the crud.
      */
@@ -123,7 +135,20 @@ class MarketingController extends Controller {
                             'webroute_path' => 'client_ratigns.',
                             'fields' => $this->getFieldsClientes(),
                             'parameter_name' => 'client_ratings',
-            ]]);
+            ],
+                        'setup3' => [
+                            'title' => __('crud.item_managment', ['item' => "Ofertas (Banners)"]),
+                            'action_link' => route('banners.create'),
+                            'action_name' => __('crud.add_new_item', ['item' => "Banner"]),
+                            'items' => $this->getRestaurant()->banners()->paginate(config('settings.paginate')),
+                            'item_names' => 'Banners',
+                            'webroute_path' => 'banners.',
+                            'fields' => $this->getFieldsBanners(),
+                            'parameter_name' => 'banners',
+            ],
+                        
+                        
+                        ]);
         } else {
             return redirect()->route('orders.index')->withStatus(__('No Access'));
         }

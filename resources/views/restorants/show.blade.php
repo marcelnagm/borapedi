@@ -37,10 +37,10 @@
                                 .sub-description{
                                     margin-top: 120px; font-size: 20px;      
                                 }
-                                
-                                    .text-icon-cart{                                        
-                                        margin-left: 10px;
-                                    }
+
+                                .text-icon-cart{                                        
+                                    margin-left: 10px;
+                                }
                                 @media only screen and (max-width:1023px) {
                                     .logo-img {
                                         width: 60px !important;
@@ -83,10 +83,10 @@
                                 <div class="container">
                                     <div class="col-lg-12">
                                         <div class="title white"  <?php
-                                             if ($restorant->description) {
-                                                 echo 'style="border-bottom: 1px solid #f2f2f2;"';
-                                             }
-                                             ?> >
+                                        if ($restorant->description) {
+                                            echo 'style="border-bottom: 1px solid #f2f2f2;"';
+                                        }
+                                        ?> >
                                             <h1 class="display-3 text-white" data-toggle="modal" data-target="#modal-restaurant-info" style="cursor: pointer;">
                                                 <img loading="lazy" src="/uploads/restorants/{{ $restorant->logo }}_thumbnail.jpg" class="logo-img img-fluid rounded-circle shadow-lg" >            
                                                     <div class="logo-text">   {{ $restorant->name }} </div>
@@ -129,13 +129,13 @@
                                     </div>
                                 </div>
                             </section>
-
+                            @include('restorants.partials.banners')
                             <section class="section pt-lg-0" id="restaurant-content" style="padding-top: 0px">
                                 <input type="hidden" id="rid" value="{{ $restorant->id }}"/>
                                 <div class="container container-restorant">
 
 
-<?php $i = 0; ?>    
+                                    <?php $i = 0; ?>    
                                     @if(!$restorant->categories->isEmpty())
                                     <nav class="tabbable sticky" style="top: {{ config('app.isqrsaas') ? 64:88 }}px;">
                                         <ul class="nav nav-pills bg-white mb-2">                    
@@ -143,9 +143,9 @@
                                             @if(!$category->items->isEmpty())
                                             <li class="nav-item nav-item-category" id="{{ 'cat_'.clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">
                                                 <a class="nav-link mb-sm-3 mb-md-0 
-                                                   <?php
-                                                   if ($i == 0) {
-                                                       ?> active<?php
+                                                <?php
+                                                if ($i == 0) {
+                                                    ?> active<?php
                                                        $i++;
                                                        $aberto = clean(str_replace(' ', '', strtolower($category->name)) . strval($key));
                                                    }
@@ -209,7 +209,7 @@
                                     <!-- Check if there is value -->
                                     @if (strlen($restorant->getConfig('impressum_value',''))>5)
                                     <h3>{{$restorant->getConfig('impressum_title','')}}</h3>
-                    <?php echo $restorant->getConfig('impressum_value',''); ?>
+                                    <?php echo $restorant->getConfig('impressum_value', ''); ?>
                                     @endif
                                     @endif
 
@@ -224,10 +224,10 @@
                                         </div>
                                     </div>
                                     <div class="buttons_cart right icon icon-shape text-white rounded-circle shadow mb-4 ">                    
-                                        
+
                                         <a class="text-white " href="{{route("cart.checkout")}}">
                                             <i class="ni ni-check-bold"></i>                            
-                                            
+
                                         </a>
                                         <a class="text-white " href="{{route("cart.checkout")}}">
                                             <div class="text-icon-cart">
@@ -316,13 +316,13 @@
                                 var CASHIER_CURRENCY = "<?php echo config('settings.cashier_currency') ?>";
                                 var LOCALE = "<?php echo App::getLocale() ?>";
                                 var IS_POS = false;
-                                @if (!$restorant->categories->isEmpty())
+                                @if (!$restorant ->categories->isEmpty())
 
                                         $("#{{$aberto}}_titulo").show();
                                 $("#{{$aberto}}_box").show();
                                 @endif
                                         function share(){
-                                        console.log("Share");
+
                                         if (navigator.share) {
                                         navigator.share({
                                         title: document.title,
@@ -334,6 +334,13 @@
                                         }
 
                                         }
+
+
+                              @if(count($banners) > 0)
+                                $(document).ready(function ($) {
+                                $('#modal-advertise').modal('show');
+                                });
+                            @endif
                             </script>
                             <script src="{{ asset('custom') }}/js/order.js"></script>
                             @include('restorants.phporderinterface') 

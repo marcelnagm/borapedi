@@ -17,7 +17,7 @@
                             @endif
                         </div>
                         <div class="col-4 text-right">
-                            <a href="{{ route('admin.restaurant.banners.index') }}" class="btn btn-sm btn-primary">{{ __('Back') }}</a>
+                            <a href="{{ route('marketing.index') }}" class="btn btn-sm btn-primary">{{ __('Back') }}</a>
                         </div>
                     </div>
                 </div>
@@ -33,11 +33,11 @@
                     @endif
                     <div class="pl-lg-4">
                         @if(isset($banner))
-                            <form method="post" action="{{ route('admin.restaurant.banners.update', $banner->id) }}" autocomplete="off" enctype="multipart/form-data">
+                            <form method="post" action="{{ route('banners.update', $banner->id) }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             @method('put')
                         @else
-                            <form method="post" action="{{ route('admin.restaurant.banners.store') }}" autocomplete="off" enctype="multipart/form-data">
+                            <form method="post" action="{{ route('banners.store') }}" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                         @endif
                             @include('banners.form', ['restaurants' => $restaurants])

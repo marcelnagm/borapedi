@@ -714,6 +714,7 @@ class FrontEndController extends Controller
                 'openingTime' => $businessHours->isClosed()?$formatter->format($businessHours->nextOpen($now)):null,
                 'closingTime' => $businessHours->isOpen()?$formatter->format($businessHours->nextClose($now)):null,
                 'usernames' => $usernames,
+                'banners' => $restorant->banners()->get(),
                 'canDoOrdering'=>$canDoOrdering&&$businessHours->isOpen(),
                 'currentLanguage'=>$currentEnvLanguage,
                 'showLanguagesSelector'=>env('ENABLE_MILTILANGUAGE_MENUS', false) && $restorant->localmenus()->count() > 1,

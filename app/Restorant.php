@@ -3,6 +3,7 @@
 namespace App;
 
 use App\MyModel;
+use App\Banners;
 use App\Traits\HasConfig;
 use willvincent\Rateable\Rateable;
 use Spatie\OpeningHours\OpeningHours;
@@ -176,6 +177,11 @@ class Restorant extends MyModel
         return $this->getImge($this->cover, config('global.restorant_details_cover_image'), '_cover.jpg');
     }
 
+    public function banners()
+    {
+        return Banners::where('vendor_id',$this->id);
+    }
+    
     public function categories()
     {
         return $this->hasMany(\App\Categories::class, 'restorant_id', 'id')->where(['categories.active' => 1])->ordered();

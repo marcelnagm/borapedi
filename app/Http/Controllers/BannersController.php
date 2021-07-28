@@ -22,7 +22,7 @@ class BannersController extends Controller
     /**
      * View path.
      */
-    private $view_path = 'banners.';
+    private $view_path = 'marketing.';
 
     /**
      * Parameter name.
@@ -58,13 +58,13 @@ class BannersController extends Controller
      */
     public function index(Banners $banners)
     {
-        $this->adminOnly();
+//        $this->adminOnly();
 
         return view($this->view_path.'index', ['setup' => [
             'title'=>__('crud.item_managment', ['item'=>__($this->titlePlural)]),
-            'action_link'=>route($this->webroute_path.'create'),
+            'action_link'=>'banners.create',
             'action_name'=>__('crud.add_new_item', ['item'=>__($this->title)]),
-            'items'=> $banners->paginate(config('settings.paginate')),
+            'items'=> $banners->where('vendor_id',auth()->user()->restorant()->id)-> paginate(config('settings.paginate')),
             'item_names'=>$this->titlePlural,
             'webroute_path'=>$this->webroute_path,
             'fields'=>$this->getFields(),
@@ -79,7 +79,7 @@ class BannersController extends Controller
      */
     public function create()
     {
-        $this->adminOnly();
+//        $this->adminOnly();
 
         $restaurants = Restorant::where(['active'=>1])->get();
         $restaurantsData = [];
@@ -104,7 +104,7 @@ class BannersController extends Controller
      */
     public function store(Request $request)
     {
-        $this->adminOnly();
+//        $this->adminOnly();
 
         $item = $this->provider::create([
             'name' => $request->name,
@@ -127,7 +127,7 @@ class BannersController extends Controller
 
         $item->save();
 
-        return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_been_added', ['item'=>__($this->title)]));
+        return redirect()->route('marketing.index')->withStatus(__('crud.item_has_been_added', ['item'=>__($this->title)]));
     }
 
     /**
@@ -149,7 +149,7 @@ class BannersController extends Controller
      */
     public function edit(Banners $banner)
     {
-        $this->adminOnly();
+//        $this->adminOnly();
 
         $restaurants = Restorant::where(['active'=>1])->get();
         $restaurantsData = [];
@@ -175,7 +175,7 @@ class BannersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->adminOnly();
+//        $this->adminOnly();
 
         $item = $this->provider::findOrFail($id);
         $item->name = $request->name;
@@ -197,7 +197,7 @@ class BannersController extends Controller
 
         $item->update();
 
-        return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_been_updated', ['item'=>__($this->title)]));
+        return redirect()->route('marketing.index')->withStatus(__('crud.item_has_been_updated', ['item'=>__($this->title)]));
     }
 
     /**
@@ -208,12 +208,12 @@ class BannersController extends Controller
      */
     public function destroy($id)
     {
-        $this->adminOnly();
+//        $this->adminOnly();
 
         $item = $this->provider::findOrFail($id);
         $item->delete();
 
         //TODO -- Delete customers from this table
-        return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_been_removed', ['item'=>__($this->title)]));
+        return redirect()->route('marketing.index')->withStatus(__('crud.item_has_been_removed', ['item'=>__($this->title)]));
     }
 }
