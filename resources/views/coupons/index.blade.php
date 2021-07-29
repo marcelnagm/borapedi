@@ -1,7 +1,7 @@
 
-<div  class="container-fluid mt--7">
+<div  class="mt--7">
     <div class="row">
-        <div class="col">
+        <div class="col-12">
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
@@ -22,14 +22,14 @@
                 <div class="table-responsive">
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
-                            @if(isset($fields))
-                            @foreach ($fields as $field)
-                        <th>{{ __( $field['name'] ) }}</th>
-                        @endforeach 
+                        <th>Nome</th>
+                        <th>Codigo do cupom</th>
+                        <th>Tipo</th>
+                        <th>Inicio</th>
+                        <th>Fim</th>
+                        <th>Quantidade</th>
+                        <th>Utilizados</th>
                         <th>{{ __('crud.actions') }}</th>
-                        @else
-                        @yield('thead')
-                        @endif
 
 
                         </thead>

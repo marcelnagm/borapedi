@@ -95,9 +95,18 @@ class MarketingController extends Controller {
     {
         return [
             ['class'=>'col-md-4', 'ftype'=>'input', 'name'=>'Name', 'id'=>'name', 'placeholder'=>'Enter table name or internal id, ex Table 8', 'required'=>true],
-            ['class'=>'col-md-4', 'ftype'=>'input', 'type'=>'number', 'name'=>'Vendor/Page', 'id'=>'size', 'placeholder'=>'Enter table person size, ex 4', 'required'=>true],
             ['class'=>'col-md-4', 'ftype'=>'select', 'name'=>'Active from', 'id'=>'restoarea_id', 'placeholder'=>'Selec rest area id', 'data'=>'', 'required'=>true],
             ['class'=>'col-md-4', 'ftype'=>'select', 'name'=>'Active to', 'id'=>'restoarea_id', 'placeholder'=>'Selec rest area id', 'data'=>'', 'required'=>true],
+        ];
+    }
+    private function getFieldsFidelity()
+    {
+        return [
+            ['class'=>'col-md-4', 'ftype'=>'input', 'name'=>'Description', 'id'=>'description', 'placeholder'=>'Descricao do Programa', 'required'=>true],
+            ['class'=>'col-md-4', 'ftype'=>'input', 'type'=>'number', 'name'=>'Active', 'id'=>'active', 'placeholder'=>'Enter table person size, ex 4', 'required'=>true],
+            ['class'=>'col-md-4', 'ftype'=>'input', 'type'=>'float', 'name'=>'Target', 'id'=>'target', 'placeholder'=>'Enter table person size, ex 4', 'required'=>true],
+            ['class'=>'col-md-4', 'ftype'=>'input', 'type'=>'float', 'name'=>'Reward', 'id'=>'reward', 'placeholder'=>'Enter table person size, ex 4', 'required'=>true],
+            ['class'=>'col-md-4', 'ftype'=>'input', 'type'=>'number', 'name'=>'Vendor/Page', 'id'=>'size', 'placeholder'=>'Enter table person size, ex 4', 'required'=>true],
         ];
     }
     
@@ -136,8 +145,18 @@ class MarketingController extends Controller {
                             'fields' => $this->getFieldsClientes(),
                             'parameter_name' => 'client_ratings',
             ],
-                        'setup3' => [
+                        'setup4' => [
                             'title' => __('crud.item_managment', ['item' => "Ofertas (Banners)"]),
+                            'action_link' => route('fidelity_program.create'),
+                            'action_name' => __('crud.add_new_item', ['item' => "Banner"]),
+                            'items' => $this->getRestaurant()->fidelity_program()->paginate(config('settings.paginate')),
+                            'item_names' => 'Programas de Fidelidade',
+                            'webroute_path' => 'fidelity_program.',
+                            'fields4' => $this->getFieldsFidelity(),
+                            'parameter_name' => 'fidelity_program',
+            ],
+                        'setup3' => [
+                            'title' => __('crud.item_managment', ['item' => "Programa de Fidelidade"]),
                             'action_link' => route('banners.create'),
                             'action_name' => __('crud.add_new_item', ['item' => "Banner"]),
                             'items' => $this->getRestaurant()->banners()->paginate(config('settings.paginate')),

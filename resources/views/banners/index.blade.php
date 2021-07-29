@@ -1,6 +1,6 @@
-<div  class="container-fluid mt--7">
+<div  class="mt--7">
     <div class="row">
-        <div class="col">
+        <div class="col-12">
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
@@ -20,21 +20,14 @@
                 <div class="table-responsive">
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
-                            @if(isset($fields))
-                            @foreach ($fields as $field)
-                        <th>{{ __( $field['name'] ) }}</th>
-                        @endforeach 
-                        <th>{{ __('crud.actions') }}</th>
-                        @else
-                        @yield('thead')
-                        @endif
-
-
+                        <th>Nome </th>
+                        <th>Inicio</th>
+                        <th>Fim</th>
+                        <th>{{ __('crud.actions') }}</th>                        
                         </thead>
                         @foreach ($setup3['items'] as $item)
                         <tr>
                             <td>{{ $item->name }}</td>
-                            <td>{{ $item->type == 0 ? $item->restaurant->name : $item->page->title}}</td>
                             <td>{{ $item->active_from }}</td>
                             <td>{{ $item->active_to }}</td>
                             <td>

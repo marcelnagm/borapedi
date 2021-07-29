@@ -29,6 +29,8 @@ Auth::routes(['register' => config('app.isft')]);
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+// ROUTES FOR RETURN OF MERCADO PAGO
 Route::post('/order/return', 'OrderReturnController@index')->name('orders.return');
 Route::get('/order/process', 'OrderReturnController@process')->name('orders.process');
 
@@ -108,17 +110,16 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('coupons/apply', 'CouponsController@apply')->name('coupons.apply');
 
             //Banners
-          
             //Language menu
             Route::post('storenewlanguage', 'RestorantController@storeNewLanguage')->name('storenewlanguage');
         });
     });
-      Route::get('banners', 'BannersController@index')->name('banners.index');
-            Route::get('banners/{banner}/edit', 'BannersController@edit')->name('banners.edit');
-            Route::get('banners/create', 'BannersController@create')->name('banners.create');
-            Route::post('banners', 'BannersController@store')->name('banners.store');
-            Route::put('banners/{banner}', 'BannersController@update')->name('banners.update');
-            Route::get('banners/del/{banner}', 'BannersController@destroy')->name('banners.delete');
+    Route::get('banners', 'BannersController@index')->name('banners.index');
+    Route::get('banners/{banner}/edit', 'BannersController@edit')->name('banners.edit');
+    Route::get('banners/create', 'BannersController@create')->name('banners.create');
+    Route::post('banners', 'BannersController@store')->name('banners.store');
+    Route::put('banners/{banner}', 'BannersController@update')->name('banners.update');
+    Route::get('banners/del/{banner}', 'BannersController@destroy')->name('banners.delete');
 
     Route::resource('cities', 'CitiesController');
     Route::get('/cities/del/{city}', 'CitiesController@destroy')->name('cities.delete');
@@ -262,6 +263,29 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/share/menu', 'RestorantController@shareMenu')->name('share.menu');
     Route::get('/downloadqr', 'RestorantController@downloadQR')->name('download.menu');
+//   USUARIO LOGADO
+// CUSTOM ROUTES   
+    Route::get('client_ratings/index', 'ClientRatingsController@index_client')->name('client_ratings.index_client');
+
+    Route::prefix('marketing')->name('marketing.')->group(function () {
+        Route::get('/', 'MarketingController@index')->name('index');
+        Route::post('/post', 'DevileryTaxController@post')->name('post');
+        Route::post('/delete', 'DevileryTaxController@delete')->name('delete');
+        Route::post('/edit', 'DevileryTaxController@edit')->name('edit');
+    });
+
+    Route::get('client_ratings/index', 'ClientRatingsController@index_client')->name('client_ratings.index_client');
+
+    Route::get('order/success', 'OrderController@success')->name('order.success');
+    Route::get('order/{order}/fail', 'OrderController@fail')->name('order.fail2');
+    Route::get('order/fail', 'OrderController@fail')->name('order.fail');
+
+    Route::get('fidelity/', 'FidelityProgramController@index')->name('fidelity_program.index');
+    Route::get('fidelity/{banner}/edit', 'FidelityProgramController@edit')->name('fidelity_program.edit');
+    Route::get('fidelity/create', 'FidelityProgramController@create')->name('fidelity_program.create');
+    Route::post('fidelity', 'FidelityProgramController@store')->name('fidelity_program.store');
+    Route::put('fidelity/{banner}', 'FidelityProgramController@update')->name('fidelity_program.update');
+    Route::get('fidelity/del/{banner}', 'FidelityProgramController@destroy')->name('fidelity_program.delete');
 });
 
 if (config('app.isqrsaas')) {
@@ -328,20 +352,8 @@ Route::post('call/waiter/', 'RestorantController@callWaiter')->name('call.waiter
 Route::get('new/driver/register', 'DriverController@register')->name('driver.register');
 Route::post('new/driver/register/store', 'DriverController@registerStore')->name('driver.register.store');
 
-Route::get('order/success', 'OrderController@success')->name('order.success');
-Route::get('order/{order}/fail', 'OrderController@fail')->name('order.fail2');
-Route::get('order/fail', 'OrderController@fail')->name('order.fail');
-
 Route::post('/fb-order', 'OrderController@fbOrderMsg')->name('fb.order');
 
 
 //custom routes
-Route::get('client_ratings/index', 'ClientRatingsController@index_client')->name('client_ratings.index_client');
 Route::post('/find-cep', 'DevileryTaxController@getCoordinatesForTax')->name('find-cep');
-
-Route::prefix('marketing')->name('marketing.')->group(function () {
-    Route::get('/', 'MarketingController@index')->name('index');
-    Route::post('/post', 'DevileryTaxController@post')->name('post');
-    Route::post('/delete', 'DevileryTaxController@delete')->name('delete');
-    Route::post('/edit', 'DevileryTaxController@edit')->name('edit');
-});

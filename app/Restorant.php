@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\FidelityProgram;
 use App\MyModel;
 use App\Banners;
 use App\Traits\HasConfig;
@@ -192,6 +193,11 @@ class Restorant extends MyModel
         return $this->hasMany(\App\Models\LocalMenu::class, 'restaurant_id', 'id');
     }
 
+    public function fidelity_program()
+    {
+        return $this->hasMany(\App\Models\FidelityProgram::class, 'restaurant_id', 'id');
+    }
+    
     public function hours()
     {
         return $this->hasMany(\App\Hours::class, 'restorant_id', 'id');

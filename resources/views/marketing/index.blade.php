@@ -14,6 +14,9 @@ Campanha de Marketing
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 " id="tabs-menagment-main" data-toggle="tab" href="#fidelity" role="tab" aria-controls="tabs-menagment" aria-selected="true"><i class="ni ni-diamond mr-2"></i>Programa de Fidelidade</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link mb-sm-3 mb-md-0 " id="tabs-menagment-main" data-toggle="tab" href="#client_ratings" role="tab" aria-controls="tabs-menagment" aria-selected="true"><i class="ni ni-diamond mr-2"></i>Classificação dos Clientes</a>
                 </li>
                 <li class="nav-item">
@@ -37,6 +40,9 @@ Campanha de Marketing
                 <!-- Tab Managment -->
                 <div class="tab-pane fade show active" id="menagment" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">                      
                     @include('banners.index') 
+                </div>
+                <div class="tab-pane fade show" id="fidelity" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">                      
+                    @include('fidelity_program.index') 
                 </div>
 
                 <!-- Tab Apps -->
