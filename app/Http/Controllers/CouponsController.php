@@ -105,7 +105,7 @@ class CouponsController extends Controller
         $this->authChecker();
         $item = $this->provider::create([
             'name' => $request->name,
-            'code' => strtoupper(substr($this->getRestaurant()->name, 0, 2).(Str::random(6))),
+            'code' => $request->code,
             'type' => $request->type,
             'price' => $request->type == 0 ? $request->price_fixed : $request->price_percentage,
             'active_from' => $request->active_from,

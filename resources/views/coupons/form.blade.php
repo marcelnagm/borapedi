@@ -8,6 +8,15 @@
     </div>
     <div class="col-md-6">
         @if(isset($coupon))
+            @include('partials.input',['class'=>"col-12", 'ftype'=>'input','name'=>"Codigo",'id'=>"code",'placeholder'=>"Coloque o codigo",'required'=>true, 'value'=>$coupon->code])
+        @else
+            @include('partials.input',['class'=>"col-12", 'ftype'=>'input','name'=>"Codigo",'id'=>"code",'placeholder'=>"Coloque o Codigo",'required'=>true])
+        @endif
+    </div>
+    </div>
+<div class="row">
+    <div class="col-lg-6">
+        @if(isset($coupon))
             @include('partials.select', ['class'=>"col-12",'name'=>"Type",'id'=>"type",'placeholder'=>"Select type",'data'=>['Fixed', 'Percentage'],'required'=>true, 'value'=>$coupon->type])
         @else
             @include('partials.select', ['class'=>"col-12",'name'=>"Type",'id'=>"type",'placeholder'=>"Select type",'data'=>['Fixed', 'Percentage'],'required'=>true])
