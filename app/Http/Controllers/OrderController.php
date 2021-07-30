@@ -12,6 +12,7 @@ use App\User;
 use App\WhatsappService as WhatsappService;
 use App\Models\Variants;
 use App\Models\Extras;
+use App\Models\FidelityProgram;
 use App\Models\RestorantHasDrivers;
 use App\Models\OrderHasItems;
 use App\Models\ClientRatings;
@@ -1053,7 +1054,9 @@ class OrderController extends Controller
         } 
 
         $ratings = ClientRatings::where("restaurant_id", $order->restorant_id)->count();
+        $fidelity = FidelityProgram::where("restaurant_id", $order->restorant_id)->count();
 //        dd($ratings);
+//        FidelityProgram
 ////       se possui fidelizacao
         if ($ratings > 0) {
             $my_ranting = auth()->user()->client_has_rating($order->restorant_id)->first();
@@ -1071,7 +1074,7 @@ class OrderController extends Controller
 //            dd($max);
             $date = date('Y-m-d', strtotime(date('Y-m-d'). ' - '.$max['max'].' month'));
 //            dd($date);
-            $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = '.auth()->user()->id.' and created_at >= "'.$date.'" group by client_id');
+            $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = '.auth()->user()->id.' and created_at >= "'.$date.'" and restorant_id = "'.$order->restorant_id.'" group by client_id');
             $res = json_decode(json_encode($res), true)[0];
             
 //            dd($res);
@@ -1088,6 +1091,10 @@ class OrderController extends Controller
             $my_ranting->save();
 //            dd(" have r ating ");
         }
+//        if ($fidelity > 0) {
+//         auth()->user   
+//        }
+        
         //If we have whatsapp send
         if($request->has('whatsapp')){
             $message=$order->getSocialMessageAttribute(true);

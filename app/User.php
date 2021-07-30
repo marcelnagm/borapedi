@@ -153,6 +153,20 @@ class User extends Authenticatable
     }
     
     
+    /**
+     * 
+     * @param type $restorant_id
+     * @return array com cont => quantos pedidos, total => valor total.
+     */
+    public function BuysByRestaurant($restorant_id)
+    {
+            $date = date('Y-m-d', strtotime(date('Y-m-d'). ' - 6 month'));
+//            dd($date);
+            $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = '.auth()->user()->id.' and created_at >= "'.$date.'" and restorant_id = "'.$restorant_id.'" group by client_id');
+            $res = json_decode(json_encode($res), true)[0];
+            
+            return $res;
+    }
     
     public function client_has_rating()
     {
