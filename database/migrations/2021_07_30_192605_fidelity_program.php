@@ -14,6 +14,7 @@ class FidelityProgram extends Migration
     public function up()
     {
         //
+        Schema::drop('fidelity_program');
         Schema::create('fidelity_program', function (Blueprint $table) {
             $table->id();                          
             $table->unsignedBigInteger('restaurant_id')->nullable(false);
