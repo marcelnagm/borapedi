@@ -22,6 +22,7 @@
                         <th>Meta </th>
                         <th>Prêmio</th>
                         <th>Tipo</th>
+                        <th>Período</th>                        
                         <th>Ativo</th>
                         <th>{{ __('crud.actions') }}</th>
                         
@@ -33,6 +34,7 @@
                             <td>{{ $item->target }}</td>
                             <td>{{ $item->reward }}</td>
                             <td>{{ $item->type }}</td>
+                            <td>{{ $item->active_from }} /{{ $item->active_to }}</td>
                             <td>{{ $item->active }}</td>
                             <td>
                                 <a href="fidelity/{{$item->id }}/edit" class="btn btn-primary btn-sm">{{ __('crud.edit') }}</a>

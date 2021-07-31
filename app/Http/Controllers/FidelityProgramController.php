@@ -96,6 +96,8 @@ class FidelityProgramController extends Controller
     {
 //        $this->adminOnly();
 
+//        dd($request->active_from);
+        
         $item = $this->provider::create([
             'restaurant_id' => $request->restaurant_id,
             'active' =>$request->active,
@@ -103,6 +105,9 @@ class FidelityProgramController extends Controller
             'description' => $request->description,           
             'target' => $request->target,
             'reward' => $request->reward,
+            'active_from' => $request->active_from,
+            'active_to' => $request->active_to,
+            
         ]);
 
 
@@ -154,7 +159,9 @@ class FidelityProgramController extends Controller
         $item->description= $request->description;
         $item->target= $request->target;
         $item->reward= $request->reward;
-            
+        $item->active_from= $request->active_from;
+        $item->active_to= $request->active_to;
+                
         
             $item->update();
 

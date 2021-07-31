@@ -34,6 +34,42 @@
      @endif
     </div>
 </div>        
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="input-daterange datepicker row align-items-center" style="margin-left: 15px;">
+           <div class="form-group">
+                <label class="form-control-label">{{ __('Active from') }}</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    @if(isset($banner))
+                        <input name="active_from" class="form-control" placeholder="{{ __('Active from') }}" value="{{ old('active_from', $coupon->active_from) }}" type="text">
+                    @else
+                        <input name="active_from" class="form-control" placeholder="{{ __('Active from') }}" type="text">
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="input-daterange datepicker row align-items-center" style="margin-left: 15px;">
+           <div class="form-group">
+                <label class="form-control-label">{{ __('Active to') }}</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    @if(isset($banner))
+                        <input name="active_to" class="form-control" placeholder="{{ __('Active to') }}" value="{{ old('active_to', $coupon->active_to) }}" type="text">
+                    @else
+                        <input name="active_to" class="form-control" placeholder="{{ __('Active to') }}" type="text">
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
 <div class="row">
     <div class="col-lg-12">
         @if(isset($banner))

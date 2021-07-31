@@ -18,10 +18,12 @@ class FidelityProgram extends Migration
             $table->id();                          
             $table->unsignedBigInteger('restaurant_id')->nullable(false);
             $table->boolean('active')->defaul(0)->nullable(false);            
-            $table->text('description')->defaul('Vazio')->nullable(false);            
-            $table->float('target')->defaul(0)->nullable(false);
-            $table->float('reward')->defaul(0)->nullable(false);
-            $table->boolean('type')->defaul(0)->nullable(false);            
+            $table->text('description')->defaul('Vazio');            
+            $table->float('target')->defaul(0);
+            $table->float('reward')->defaul(0);
+            $table->boolean('type')->defaul(0);            
+            $table->date('active_from')->nullable(false);            
+            $table->date('active_to')->nullable(false);            
             $table->timestamps();
             $table->foreign('restaurant_id')->references('id')->on('restorants');
         });
