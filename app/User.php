@@ -4,6 +4,7 @@ namespace App;
 
 use App\SmsVerification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,6 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Twilio\Rest\Client;
 use App\Traits\HasConfig;
 use App\Order;
+use App\Coupons;
 use App\Models\ClientHasRating;
 use Akaunting\Module\Facade as Module;
 
@@ -152,15 +154,15 @@ class User extends Authenticatable
         $client->messages->create($this->phone, ['from' => config('settings.twilio_from'), 'body' => $body]);
     }
     
-    
+       
     /**
-     * 
+     *  default 6 monts
      * @param type $restorant_id
      * @return array com cont => quantos pedidos, total => valor total.
      */
-    public function BuysByRestaurant($restorant_id)
+    public function BuysByRestaurant($restorant_id,$months = 6)
     {
-            $date = date('Y-m-d', strtotime(date('Y-m-d'). ' - 6 month'));
+            $date = date('Y-m-d', strtotime(date('Y-m-d'). ' -  '.$months.' month'));
 //            dd($date);
             $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = '.auth()->user()->id.' and created_at >= "'.$date.'" and restorant_id = "'.$restorant_id.'" group by client_id');
             $res = json_decode(json_encode($res), true)[0];
@@ -172,6 +174,12 @@ class User extends Authenticatable
     {
         return  ClientHasRating::
                 where('client_id', '=', $this->id)->get();
+           
+    }
+    public function coupons()
+    {
+        return  Coupons::
+                where('client_id', '=', $this->id);
            
     }
     

@@ -39,6 +39,7 @@
                             <td>
                                 <a href="fidelity/{{$item->id }}/edit" class="btn btn-primary btn-sm">{{ __('crud.edit') }}</a>
                                 <a href="fidelity/del/{{$item->id }}" class="btn btn-danger btn-sm">{{ __('crud.delete') }}</a>
+                                <a href="{{ route ('fidelity_program.show',['id' =>$item->id]) }}" class="btn btn-success btn-sm">Detalhes</a>
                             </td>
                         </tr>
                         @endforeach </table>

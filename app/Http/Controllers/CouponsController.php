@@ -81,6 +81,26 @@ class CouponsController extends Controller
             'parameter_name'=>$this->parameter_name,
         ]]);
     }
+    
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index_client()
+    {
+        return view($this->view_path.'index_client', ['setup' => [
+            'title'=>__('crud.item_managment', ['item'=>__($this->titlePlural)]),
+            'action_link'=>route($this->webroute_path.'create'),
+            'action_name'=>__('crud.add_new_item', ['item'=>__($this->title)]),
+            'items'=>auth()->user()->coupons()->paginate(config('settings.paginate')),
+            'item_names'=>$this->titlePlural,
+            'webroute_path'=>$this->webroute_path,
+            'fields'=>$this->getFields(),
+            'parameter_name'=>$this->parameter_name,
+        ]]);
+    }
 
     /**
      * Show the form for creating a new resource.

@@ -52,7 +52,7 @@
                         {{ $setup2['items']->links() }}
                     </nav>
                     @else
-                    <h4>{{__('crud.no_items',['items'=>$item_names])}}</h4>
+                    <h4>{{__('crud.no_items',['items'=>'Rankings de cliente'])}}</h4>
                     @endif
                 </div>
                 

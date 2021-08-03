@@ -14,4 +14,9 @@
             <i class="ni ni-diamond text-info"></i> Meus Rankings
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('coupons.index_client') }}">
+            <i class="ni ni-tag text-info"></i> Meus Cupons
+        </a>
+    </li>
 </ul>
