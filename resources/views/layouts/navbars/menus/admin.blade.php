@@ -60,7 +60,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.restaurant.banners.index') }}">
+            <a class="nav-link" href="{{ route('banners.index') }}">
                 <i class="ni ni-album-2 text-green"></i> {{ __('Banners') }}
             </a>
          </li>
