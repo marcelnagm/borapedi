@@ -82,10 +82,19 @@ class WebServiceOrderRepository extends BaseOrderRepository implements OrderType
     private function notify(){
         if (!config('app.order_approve_directly')) {
             //If we don't approve directly, we need to inform admin
-            $this->notifyAdmin();
+//            $this->notifyAdmin();
+            try{
+            $this->notifyOwner();
+            }catch (Exception $e ){
+                
+            }
         }else{
             //In Case we approve directly, we need to inform owner
+            try{
             $this->notifyOwner();
+             }catch (Exception $e ){
+                
+            }
         }
     }
 
