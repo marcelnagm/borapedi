@@ -41,6 +41,11 @@
                                 .text-icon-cart{                                        
                                     margin-left: 10px;
                                 }
+                                .btn-promotion{
+                                    margin-top:0.5em;
+                                    margin-right:0.5em;
+                                    border-radius: 0.3em;
+                                }
                                 @media only screen and (max-width:1023px) {
                                     .logo-img {
                                         width: 60px !important;
@@ -139,6 +144,12 @@
                                     @if(!$restorant->categories->isEmpty())
                                     <nav class="tabbable sticky" style="top: {{ config('app.isqrsaas') ? 64:88 }}px;">
                                         <ul class="nav nav-pills bg-white mb-2">                    
+                                            
+                                            @if(count($banners) > 0)
+                                            <li  class="btn-promotion" >
+                                                <a style="background-color: #ffa200 ;color:white;cursor:pointer;" class="nav-link  mb-sm-3 mb-md-0"  onclick="$('#modal-advertise').modal('show');">Promocões</a>
+                                            </li>
+                                            @endif
                                             @foreach ( $restorant->categories as $key => $category)
                                             @if(!$category->items->isEmpty())
                                             <li class="nav-item nav-item-category" id="{{ 'cat_'.clean(str_replace(' ', '', strtolower($category->name)).strval($key)) }}">

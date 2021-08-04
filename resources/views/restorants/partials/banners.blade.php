@@ -1,11 +1,11 @@
 <style>
-    .modal-content {
+    .modal-content-custom {
    background-color: #ffa200 ;
 }
-.modal-title{    
+.modal-title-custom{    
     color:white;
 }
-.modal-header{
+.modal-header-custom{
     border-bottom: none !important;
 }
 
@@ -13,9 +13,9 @@
     
 <div class="modal fade" id="modal-advertise" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
     <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document" >        
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modal-title-notification">Ofertas</h5>
+        <div class="modal-content modal-content-custom ">
+            <div class="modal-header modal-header-custom" >
+                <h5 class="modal-title modal-title-custom" id="modal-title-notification">Ofertas</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>

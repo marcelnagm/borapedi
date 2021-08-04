@@ -122,12 +122,12 @@ class FidelityProgramController extends Controller
      * @param  \App\Banners  $banners
      * @return \Illuminate\Http\Response
      */
-    public function show( $fidelity)
+    public function show($id)
     {
         //
                 $item = $this->provider::findOrFail($id);
 
-          return view('fidelity_program.show', ['restaurants' => $restaurantsData, 'pages' => $pagesData]);
+          return view('fidelity_program.show');
     }
 
     /**

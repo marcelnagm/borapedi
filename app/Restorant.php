@@ -180,7 +180,9 @@ class Restorant extends MyModel
 
     public function banners()
     {
-        return Banners::where('vendor_id',$this->id);
+        return Banners::where('vendor_id',$this->id)
+                ->where('active_from', '<=',new \DateTime())
+                ->where('active_to', '>=',new \DateTime());
     }
     
     public function categories()

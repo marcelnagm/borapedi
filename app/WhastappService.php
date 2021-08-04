@@ -125,7 +125,7 @@ class WhastappService {
                 if ($status == 'paid') {
 
 //                    $message = $message->message ;
-                    $message .= "\n " . "Confirmamos que recebemos o pagamento do seu pedido";
+                    $message .= "\n " . "Confirmamos que recebemos o pagamento do seu pedido e iremos iniciar o preparo dele";
                 }
 
                 $client_phone = User::find($order->client_id)->phone;
@@ -174,7 +174,7 @@ class WhastappService {
 
     public static function generateTextOrderFail($order) {
         $title = 'Pedido ' . $order->id . ' #' . "\n\n";
-        $price = 'Desculpa, ocorreu algum erro no seu pagamento' . "\n";
+        $price = 'Desculpe, ocorreu algum erro no seu pagamento' . "\n";
         $price .= 'Para tanto confira no link abaixo o que você pode fazer:' . "\n";
         $price .= 'borapedi.com/order/' . $order->id . '/fail:' . "\n";
         $final = $title . $price;
