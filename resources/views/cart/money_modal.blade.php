@@ -11,67 +11,66 @@
                 <div class="card bg-secondary shadow border-l-4">
                     <div class="card-content border-top">
                         <br />                            
-                            <div class="row">
-                            
+                        <div class="row">
+
                             <div class="col-6" style="padding-left: 30px;">
                                 <div id="form-group-money_change" class="form-group  ">
-             <label class="form-control-label" for="money_change">Troco para quanto?</label>
-             <select name="money_change" id="money_change" name="money_change" id="money_change" class="form-control form-control  noselecttwo   " >
-                 <option value="0" default>
-                     Tenho o valor integral
-                 </option>
-                 <option value="10">
-                     10
-                 </option>
-                 </option>
-                 <option value="20">
-                     20
-                 </option>
-                 <option value="50">
-                     50
-                 </option>
-                 <option value="100">
-                     100
-                 </option>
-             </select>
-        </div>
-                                                    </div>
+                                    <label class="form-control-label" for="money_change">Troco para quanto?</label>
+                                    <select name="money_change" id="money_change" name="money_change" id="money_change" class="form-control form-control  noselecttwo   " >
+                                        <option value="0" default>
+                                            Tenho o valor integral
+                                        </option>
+                                        <option value="10">
+                                            10
+                                        </option>
+                                        </option>
+                                        <option value="20">
+                                            20
+                                        </option>
+                                        <option value="50">
+                                            50
+                                        </option>
+                                        <option value="100">
+                                            100
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
                         </div>
-                        </div>
-                    </div>
-                </div>                
-                <div class="modal-footer ">
-                    <div class="text-center" id="totalSubmitCOD" style="display:block !important;">
-                        <button 
-
-                            v-if="totalPrice"
-                            type="submit"
-                            class="btn btn-lg btn-icon btn-success mt-4 "
-                            onclick="form.submit();"
-
-                            >
-
-                            <span class="btn-inner--icon lg"><i class="fa fa-whatsapp" aria-hidden="true"></i></span>
-                            <span class="btn-inner--text">Confirmar pedido</span>
                     </div>
                 </div>
+            </div>                
+            <div class="modal-footer ">
+                <div class="text-center" id="totalSubmitCOD" style="display:block !important;">
+                    <button 
 
+                        v-if="totalPrice"
+                        type="button"
+                        class="btn btn-lg btn-icon btn-success mt-4 paymentbutton"
+                        onclick="document.getElementById('order-form').submit()"
+                        >
+
+                        <span class="btn-inner--icon lg"><i class="fa fa-whatsapp" aria-hidden="true"></i></span>
+                        <span class="btn-inner--text">Confirmar pedido</span>
+                </div>
             </div>
+
         </div>
     </div>
+</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
 
 <script>
-                                $(document).ready(function ($) {
-                                    $("#phone").mask("(00) 00000-0000");
-                                    $("#phone").blur(function () {
+                            $(document).ready(function ($) {
+                                $("#phone").mask("(00) 00000-0000");
+                                $("#phone").blur(function () {
 //                  alert('mudou');
-                                        $("#phone_send").val($("#phone").val());
-                                    });
+                                    $("#phone_send").val($("#phone").val());
                                 });
+                            });
 
 
 </script>

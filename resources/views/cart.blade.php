@@ -89,6 +89,7 @@
                     </div>
 
                     <form id="order-form" role="form" method="post" action="{{route('order.store')}}" autocomplete="off" enctype="multipart/form-data">
+                        <input type="submit" value="Click me" style="display:none;" />
                         @csrf
                         @include('cart.restaurant')
                         <div class="tab-content" id="tabs">
@@ -173,6 +174,7 @@ var no_name=false;
     </div>
     @include('cart.money_modal')
     @include('clients.modals')
+    </form>
 </section>
 @endsection
 @section('js')
@@ -192,7 +194,7 @@ var num_addresses = {{count($addresses) }};
 
 var RESTORANT = <?php echo json_encode($restorant) ?>;
 var STRIPE_KEY = "{{ config('settings.stripe_key') }}";
-var ENABLE_STRIPE = "{{ config('settings.enable_stripe') }}";
+var ENABLE_STRIPE = false;
 var initialOrderType = 'delivery';
 if (RESTORANT.can_deliver == 1 && RESTORANT.can_pickup == 0) {
 initialOrderType = 'delivery';

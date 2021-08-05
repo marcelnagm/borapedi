@@ -41,10 +41,9 @@
                         <button 
 
                             v-if="totalPrice"
-                            type="submit"
+                            type="button"
                             class="btn btn-lg btn-icon btn-success mt-4 paymentbutton"
-                            onclick="this.disabled = true;this.form.submit();"
-
+                            onclick="document.getElementById('order-form').submit()"
                             >
 
                             <span class="btn-inner--icon lg"><i class="fa fa-whatsapp" aria-hidden="true"></i></span>
