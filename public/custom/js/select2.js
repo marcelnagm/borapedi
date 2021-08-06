@@ -55,6 +55,7 @@ $(document).ready(function() {
     $('.select2-selection').css('border','0');
     $('.select2-selection').css('margin-bottom','10px');
     $('.select2').css('margin-bottom','35px');
+    
     $('.select2-selection__arrow').css('top','10px');
     $('.select2-selection__rendered').css('color','#8898aa');
 });

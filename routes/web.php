@@ -282,11 +282,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('order/fail', 'OrderController@fail')->name('order.fail');
 
     Route::get('fidelity/', 'FidelityProgramController@index')->name('fidelity_program.index');
-    Route::get('fidelity/{banner}/edit', 'FidelityProgramController@edit')->name('fidelity_program.edit');
+    Route::get('fidelity/{id}/edit', 'FidelityProgramController@edit')->name('fidelity_program.edit');
     Route::get('fidelity/{id}/details', 'FidelityProgramController@show')->name('fidelity_program.show');
     Route::get('fidelity/create', 'FidelityProgramController@create')->name('fidelity_program.create');
     Route::post('fidelity', 'FidelityProgramController@store')->name('fidelity_program.store');
-    Route::put('fidelity/{banner}', 'FidelityProgramController@update')->name('fidelity_program.update');
+    Route::put('fidelity/{id}', 'FidelityProgramController@update')->name('fidelity_program.update');
     Route::get('fidelity/del/{banner}', 'FidelityProgramController@destroy')->name('fidelity_program.delete');
 });
 

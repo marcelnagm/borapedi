@@ -96,18 +96,16 @@ class FidelityProgramController extends Controller
     {
 //        $this->adminOnly();
 
-//        dd($request->active_from);
         
         $item = $this->provider::create([
             'restaurant_id' => $request->restaurant_id,
-            'active' =>$request->active,
-            'type' => $request->type,
-            'description' => $request->description,           
-            'target' => $request->target,
+            'active' =>$request->active ==true? 1 : 0,
+            'type_target' => $request->type_target,
+            'target_value' => $request->target_value,
+            'target_orders' => $request->target_orders,
+            'type_reward' => $request->type_reward,
             'reward' => $request->reward,
-            'active_from' => $request->active_from,
-            'active_to' => $request->active_to,
-            
+            'type_coupon' => $request->type_coupon,            
         ]);
 
 
@@ -154,16 +152,18 @@ class FidelityProgramController extends Controller
     public function update(Request $request, $id)
     {
 //        $this->adminOnly();
+        
+//        dd($request->active =="true"? 1 : 0);
 
         $item = $this->provider::findOrFail($id);
          
-        $item->active = $request->active;
-        $item->type= $request->type;
-        $item->description= $request->description;
-        $item->target= $request->target;
+        $item->active = $request->active =="true"? 1 : 0;
+        $item->type_target= $request->type_target;
+        $item->target_orders= $request->target_orders;
+        $item->target_value= $request->target_value;
+        $item->type_reward= $request->type_reward;
         $item->reward= $request->reward;
-        $item->active_from= $request->active_from;
-        $item->active_to= $request->active_to;
+        $item->type_coupon= $request->type_coupon;
                 
         
             $item->update();

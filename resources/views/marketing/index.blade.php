@@ -42,7 +42,7 @@ Campanha de Marketing
                     @include('banners.index') 
                 </div>
                 <div class="tab-pane fade show" id="fidelity" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">                      
-                    @include('fidelity_program.index') 
+                    @include('fidelity_program.create',['fidelity' => $setup4['fidelity']]) 
                 </div>
 
                 <!-- Tab Apps -->
@@ -64,5 +64,6 @@ Campanha de Marketing
 @endsection
 
 @section('js')
+$('.select2').css('width','50% !important');
 @endsection
 

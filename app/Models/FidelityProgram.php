@@ -10,7 +10,7 @@ class FidelityProgram extends Model
     use HasFactory;
     
     protected $table= 'fidelity_program';
-    protected $fillable = ['restaurant_id' ,'active','description','target','reward','type','active_from','active_to'];
+    protected $fillable = ['restaurant_id' ,'active','type_target','target_orders','target_value','type_reward','reward','type_coupon','active_from','active_to'];
     
     public function restorant()
     {

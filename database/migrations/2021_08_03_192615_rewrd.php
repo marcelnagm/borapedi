@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Reward extends Migration
+class Rewrd extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,9 @@ class Reward extends Migration
     public function up()
     {
         //
-//        Schema::drop('reward');
+//        Schema::drop('fidelity_program');
+        
+        Schema::dropIfExists('reward');
         Schema::create('reward', function (Blueprint $table) {
             $table->id();                          
             $table->unsignedBigInteger('program_id')->nullable(false);
@@ -23,7 +25,6 @@ class Reward extends Migration
             $table->foreign('program_id')->references('id')->on('fidelity_program');
             $table->foreign('client_id')->references('id')->on('users');
         });
-        
     }
 
     /**

@@ -778,6 +778,12 @@
     "Unpaid" : "Pagamento Pendente",
     "COD" : "Dinheiro (Verificar Troco) ",
     "CARD" : "Maquina de Cartão",
+    "type_target" : "Com base em que?",
+    "target_orders" : "Pedidos para ganhar o benefício",
+    "target_value" : "Valor por Pedido(caso base em pedidos) ou Gastos totais (Caso base em gastos)",
+    "type_reward" : "Vantagem",
+    "reward" : "Valor da Vantagem",
+    "type_coupon" : "Tipo de Cupom da Vantagem",
     "Add new shift" : "Adicionar novo turno"
     
 }

@@ -146,15 +146,8 @@ class MarketingController extends Controller {
                             'parameter_name' => 'client_ratings',
             ],
                         'setup4' => [
-                            'title' => __('crud.item_managment', ['item' => "Ofertas (Banners)"]),
-                            'action_link' => route('fidelity_program.create'),
-                            'action_name' => __('crud.add_new_item', ['item' => "Banner"]),
-                            'items' => $this->getRestaurant()->fidelity_program()->paginate(config('settings.paginate')),
-                            'item_names' => 'Programas de Fidelidade',
-                            'webroute_path' => 'fidelity_program.',
-                            'fields4' => $this->getFieldsFidelity(),
-                            'parameter_name' => 'fidelity_program',
-            ],
+                            'fidelity' => $this->getRestaurant()->fidelity_program()
+                            ],
                         'setup3' => [
                             'title' => __('crud.item_managment', ['item' => "Programa de Fidelidade"]),
                             'action_link' => route('banners.create'),

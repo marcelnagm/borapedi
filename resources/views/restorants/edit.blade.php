@@ -115,6 +115,7 @@
 </div>
 @endsection
 
+
 @section('js')
 <!-- Google Map -->
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=<?php echo config('settings.google_maps_api_key'); ?>"></script>
@@ -122,6 +123,8 @@
 
     <script type="text/javascript">
         "use strict";
+        $('.select2').css('width','50% !important');
+
         var defaultHourFrom = "09:00";
         var defaultHourTo = "17:00";
 

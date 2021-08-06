@@ -1024,49 +1024,65 @@ class OrderController extends Controller {
         }
 
         $ratings = ClientRatings::where("restaurant_id", $order->restorant_id)->count();
+
         $date = new \DateTime();
         $fidelity = FidelityProgram::where("restaurant_id", $order->restorant_id)
                         ->where('active_from', '<=', $date)
                         ->where('active_to', '>=', $date)->first();
 //        dd($fidelity);
         if ($fidelity != null) {
-            $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = ' . auth()->user()->id . ' '
-                            . 'and (created_at >= "' . $fidelity->active_from . '" '
-                            . 'and created_at <= "' . $fidelity->active_to . '" )'
-                            . 'and restorant_id = "' . $fidelity->restaurant_id . '" group by client_id');
 
-            $res = json_decode(json_encode($res), true)[0];
+            //valor total == 1
+            if ($fidelity->type_target == 1) {
+                $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = ' . auth()->user()->id . ' '
+                                . 'and restorant_id = "' . $fidelity->restaurant_id . '" group by client_id');
+            } else {
+                $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = ' . auth()->user()->id . ' '
+                                . 'and restorant_id = "' . $fidelity->restaurant_id . '"'
+                                . 'and  order_price >= ' . $fidelity->target_value
+                                . ' group by client_id');
+                
+            }
+            $res = json_decode(json_encode($res), true);
+//            dd($res);
+            if (count($res) > 0) {
+                $res = $res[0];
+                $reward = $fidelity->type_target == 1 ? $fidelity->target_value <= $res['total'] : ($fidelity->target_orders <= $res['cont'] && $fidelity->target_value <= $res['total'] );
 
+//                dd($reward);
 //                 dd($buys);
-            if ($fidelity->target <= $res['total']) {
-                if (Reward::where('program_id', $fidelity->id)->
-                                where('client_id', auth()->user()->id)->
-                                count() == 0
-                ) {
-                    $reward = new Reward();
-                    $reward->program_id = $fidelity->id;
-                    $reward->client_id = auth()->user()->id;
-                    $reward->save();
-                    
-                    $coupon = new Coupons();
-                    $coupon->client_id = auth()->user()->id;
-                    $coupon->name = '#REWARD - '.auth()->user()->id;
-                    $coupon->code = 'REWARD'.auth()->user()->id;
-                    $coupon->restaurant_id = $fidelity->restaurant_id;
-                    $coupon->type = $fidelity->type;
-                    $coupon->price = $fidelity->reward;
-                    $coupon->limit_to_num_uses= 1;
-                    $coupon->limit_to_num_uses= 1;
-                    $coupon->active_from= $date ;
-                    $coupon->active_to= date('Y-m-d', strtotime(date('Y-m-d'). ' +  3 month'));;
-                    $coupon->save(); 
-                    
+                if ($reward) {
+                    if (Reward::where('program_id', $fidelity->id)->
+                                    where('client_id', auth()->user()->id)->
+                                    count() == 0
+                    ) {
+                        $reward = new Reward();
+                        $reward->program_id = $fidelity->id;
+                        $reward->client_id = auth()->user()->id;
+                        $reward->save();
+
+                        $coupon = new Coupons();
+                        $coupon->client_id = auth()->user()->id;
+                        $coupon->name = '#REWARD - ' . auth()->user()->id;
+                        $coupon->code = 'RWD' . (auth()->user()->id) .''.($fidelity->restaurant_id);
+                        $coupon->restaurant_id = $fidelity->restaurant_id;
+                        $coupon->type = $fidelity->type_coupon;
+                        $coupon->price = $fidelity->reward;
+                        $coupon->limit_to_num_uses = 1;
+                        $coupon->limit_to_num_uses = 1;
+                        $coupon->active_from = $date;
+                        $coupon->active_to = date('Y-m-d', strtotime(date('Y-m-d') . ' +  3 month'));
+                        ;
+                        $coupon->save();
+
 //                    dd("maior");
-                } else {
+                    } else {
 //                    dd('Ja recebeuy');
+                    }
                 }
             }
         }
+
 //        FidelityProgram
 ////       se possui fidelizacao
         if ($ratings > 0) {
@@ -1086,13 +1102,16 @@ class OrderController extends Controller {
             $date = date('Y-m-d', strtotime(date('Y-m-d') . ' - ' . $max['max'] . ' month'));
 //            dd($date);
             $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = ' . auth()->user()->id . ' and created_at >= "' . $date . '" and restorant_id = "' . $order->restorant_id . '" group by client_id');
-            $res = json_decode(json_encode($res), true)[0];
-
+            $res = json_decode(json_encode($res), true);
+            if (count($res) > 0) {
+                $res = $res[0];
 //            dd($res);
-            $my_ranting->orders = $res['cont'];
-            $my_ranting->spent = $res['total'];
-
-
+                $my_ranting->orders = $res['cont'];
+                $my_ranting->spent = $res['total'];
+            } else {
+                $my_ranting->orders = 0;
+                $my_ranting->spent = 0;
+            }
             $rating = ClientRatings::select("clients_ratings.*")->where("restaurant_id", $order->restorant_id)->
                             where("clients_ratings.val", "<=", $my_ranting->spent)
                             ->orderby("clients_ratings.val", "desc")->first();
@@ -1101,7 +1120,7 @@ class OrderController extends Controller {
             $my_ranting->rating_id = $rating->id;
             $my_ranting->save();
 //            dd(" have r ating ");
-        }        
+        }
         //If we have whatsapp send
         if ($request->has('whatsapp')) {
             $message = $order->getSocialMessageAttribute(true);
