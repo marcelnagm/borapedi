@@ -78,7 +78,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     @include('partials.fields',['fields'=>[            
-                                    ['ftype'=>'input','name'=>"complemento",'id'=>"complement",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>true]
+                                    ['ftype'=>'input','name'=>"Complemento",'id'=>"complement",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>true]
                                     ]])   </div>
                             </div>
                             <input type="hidden"  name="phone_send"  id="phone_send" value="" > 
