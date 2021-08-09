@@ -13,7 +13,7 @@
                     <div class="col-12">
                         <div id="form-group-cep" class="form-group  ">
                             <label class="form-control-label cep-label" for="cep" style="position: relative; top: -22px;">Cep:</label>
-                            <input step=".01" type="text" name="Cep" id="cep" class="form-control form-control cep-form  " placeholder="Coloque seu CEP aqui ..." value="" required="" autofocus="">
+                            <input step=".01" type="text" name="Cep" id="cep" class="form-control form-control cep-form  " placeholder="Coloque seu CEP aqui ..." value="" autofocus="">
                             <button type="button" style="float:left; " onclick="getAdd()">
                                 <span class="input-group-text cep-label"><i id="search_location" class="fa fa-map-pin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Get my current location"></i></span>
                             </button>                                    

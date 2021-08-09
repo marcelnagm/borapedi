@@ -1,7 +1,7 @@
 <div class="card card-profile shadow cart_adapt" >
     <div class="px-4">
         <div class="mt-5">
-            <h3>{{ __('Checkout') }}<span class="font-weight-light"></span></h3>
+            <h3>Resumo<span class="font-weight-light"></span></h3>
         </div>
         <div  class="border-top">
             <!-- Price overview -->
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <!-- End price overview -->
-
+            @include('cart.coupons')
             <!-- Payment  Methods -->
             <div class="cards">
                 <div class="card-body">
@@ -102,7 +102,7 @@
             @endif
             <!-- END Payment Actions -->
             @if (auth()->user()->phone != "")
-            <br/><br/>
+            <br/>
             <div class="text-center">
                 <div class="custom-control custom-checkbox mb-3">
                     <input class="custom-control-input" id="privacypolicy" type="checkbox">
@@ -114,8 +114,9 @@
             </div>
 
         </div>
-        <br />
-        <br />
+        <div class="text-center">
+            <a href="{{ url()->previous() }}" class="btn btn-danger">{{ __('Cancel Order') }}</a>
+        </div>
         @endif
     </div>
 </div>
@@ -131,7 +132,7 @@
                 $('.paymentbutton').attr("disabled", true);
                 $("#privacypolicy").prop("checked", false);
                 $("#cashOnDelivery").prop("checked", false);
-                
+
             } else {
                 if ($('#email').val().length < 5) {
                     alert('Preencha o email');

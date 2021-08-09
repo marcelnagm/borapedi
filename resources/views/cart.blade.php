@@ -159,7 +159,7 @@ var no_name=false;
                 @include('cart.payment')
 
                 <br/>
-                @include('cart.coupons')
+                
 
                 @else
                 <!-- Closed restaurant -->

@@ -23,21 +23,20 @@
                 <div class="table-responsive">
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
-                        <th>Nome</th>
-                        <th>Codigo do cupom</th>
+                        <th>Codigo do cupom</th>                        
+                        <th>Prazo para Utilizacao</th>
                         <th>Tipo</th>
-                        <th>Inicio</th>
-                        <th>Fim</th>
-
-
+                        <th>Quantidade</th>
+                        <th>Utilizados</th>
                         </thead>
                         @foreach ($setup['items'] as $item)
                         <tr>
-                            <td>{{ $item->name }}</td>
                             <td>{{ $item->code }}</td>
-                            <td>{{ $item->type == 0 ? $item->price." ".config('settings.cashier_currency') : $item->price." %"}}</td>
-                            <td>{{ $item->active_from }}</td>
-                            <td>{{ $item->active_to }}</td>
+                            <td>{{ $item->active_from }} - {{ $item->active_to }}</td>
+                             <td>{{ $item->type == 0 ? $item->price." ".config('settings.cashier_currency') : $item->price." %"}}</td>
+                            <td>{{ $item->limit_to_num_uses }}</td>
+                            <td>{{ $item->used_count }}</td>
+
                         </tr>
                         @endforeach
 

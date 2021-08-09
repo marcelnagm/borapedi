@@ -111,7 +111,7 @@ class FrontEndController extends Controller
             return redirect('/cart-checkout');
         }
 
-       if (session()->exists('visited') ) {
+       if (session()->exists('visited') && session('visited') != null) {
             $restorant = session('visited');
             
             return redirect('/restaurant/'.$restorant->subdomain);
