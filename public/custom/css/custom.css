@@ -1068,7 +1068,7 @@ a:hover {
 
  .buttons_cart{
      height: 10vh;
-     width:30%;
+     width:calc(100%/3);
      padding: 4px;
  }
  

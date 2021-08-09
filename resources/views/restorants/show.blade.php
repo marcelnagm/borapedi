@@ -23,19 +23,25 @@
 
 
                             <style>
+                                .section-profile-cover{
+                                    height: 250px !important;
+                                }
                                 .logo-img {
-                                    width: 60px!important;
-                                    height:  60px!important;
+                                    width:120px!important;
+                                    height:  120px!important;
                                     float:left;
                                 }
                                 .logo-text{
                                     float:left;
-                                    height:  20px!important;
+                                    height:  120px!important;
                                     padding: 4px;
+                                    padding-top: 30px;
+                                    padding-left: 30px;
                                     font-size: 24px;
-                                }
+                                }                                
                                 .sub-description{
-                                    margin-top: 120px; font-size: 20px;      
+                                    margin-top: 140px;
+                                    font-size: 20px;      
                                 }
 
                                 .text-icon-cart{                                        
@@ -99,7 +105,11 @@
                                             </br>
                                             <p class="display-4 sub-description" >{{ $restorant->description }}</p>
 
-                                            <p><i class="ni ni-watch-time"></i> @if(!empty($openingTime))<span class="closed_time">{{__('Opens')}} {{ $openingTime }}</span>@endif @if(!empty($closingTime))<span class="opened_time">{{__('Opened until')}} {{ $closingTime }}</span> @endif |   @if(!empty($restorant->address))<i class="ni ni-pin-3"></i></i> <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ urlencode($restorant->address) }}">{{ $restorant->address }}</a>  | @endif @if(!empty($restorant->phone)) <i class="ni ni-mobile-button"></i> <a href="tel:{{$restorant->phone}}">{{ $restorant->phone }} </a> @endif</p>
+                                            <p><i class="ni ni-watch-time"></i> @if(!empty($openingTime))<span class="closed_time">{{__('Opens')}} {{ $openingTime }}</span>@endif @if(!empty($closingTime))<span class="opened_time">{{__('Opened until')}} {{ $closingTime }}</span> @endif |   @if(!empty($restorant->address))<i class="ni ni-pin-3"></i></i> <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ urlencode($restorant->address) }}">{{ $restorant->address }}</a>  | @endif @if(!empty($restorant->phone)) <i class="ni ni-mobile-button"></i> <a href="tel:{{$restorant->phone}}">{{ $restorant->phone }} </a> @endif @if(!empty($restorant->whatsapp_phone))  | <i class="fa fa-whatsapp "></i>Whatsapp
+                                                <a  target="_blank" href="https://wa.me/{{ $restorant->whatsapp_phone }}">{{ $restorant->whatsapp_phone }}</a>
+                                                @endif
+                                            </p>
+
                                         </div>
                                     </div>
                                     <div class="row">
@@ -128,7 +138,18 @@
                                                         <div class="logo-text">  {{ $restorant->name }}</div>
                                                 </h1>
                                                 <p class="display-4 text sub-description" >{{ $restorant->description }}</p>
-                                                <p><i class="ni ni-watch-time"></i> @if(!empty($openingTime))<span class="closed_time">{{__('Opens')}} {{ $openingTime }}</span>@endif @if(!empty($closingTime))<span class="opened_time">{{__('Opened until')}} {{ $closingTime }}</span> @endif   @if(!empty($restorant->address))<i class="ni ni-pin-3"></i></i> <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ urlencode($restorant->address) }}">{{ $restorant->address }}</a>  | @endif @if(!empty($restorant->phone)) <i class="ni ni-mobile-button"></i> <a href="tel:{{$restorant->phone}}">{{ $restorant->phone }} </a> @endif</p>
+                                                <p>
+                                                    <i class="ni ni-watch-time"></i> @if(!empty($openingTime))<span class="closed_time">{{__('Opens')}} {{ $openingTime }}</span>@endif @if(!empty($closingTime))<span class="opened_time">{{__('Opened until')}} {{ $closingTime }}</span> @endif   
+                                                    @if(!empty($restorant->address))<i class="ni ni-pin-3"></i></i> 
+                                                    <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ urlencode($restorant->address) }}">{{ $restorant->address }}</a>  |
+                                                    @endif 
+                                                    @if(!empty($restorant->phone)) 
+                                                    <i class="ni ni-mobile-button"></i> <a href="tel:{{$restorant->phone}}">{{ $restorant->phone }} </a> 
+                                                    @endif
+                                                    @if(!empty($restorant->whatsapp_phone))  | <i class="fa fa-whatsapp "></i>Whatsapp
+                                                    <a target="_blank" href="https://wa.me/{{ $restorant->whatsapp_phone }}">{{ $restorant->whatsapp_phone }}</a>
+                                                    @endif
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -144,7 +165,7 @@
                                     @if(!$restorant->categories->isEmpty())
                                     <nav class="tabbable sticky" style="top: {{ config('app.isqrsaas') ? 64:88 }}px;">
                                         <ul class="nav nav-pills bg-white mb-2">                    
-                                            
+
                                             @if(count($banners) > 0)
                                             <li  class="btn-promotion" >
                                                 <a style="background-color: #ffa200 ;color:white;cursor:pointer;" class="nav-link  mb-sm-3 mb-md-0"  onclick="$('#modal-advertise').modal('show');">Promocões</a>
@@ -327,7 +348,7 @@
                                 var CASHIER_CURRENCY = "<?php echo config('settings.cashier_currency') ?>";
                                 var LOCALE = "<?php echo App::getLocale() ?>";
                                 var IS_POS = false;
-                                @if (!$restorant ->categories->isEmpty())
+                                @if (!$restorant->categories->isEmpty())
 
                                         $("#{{$aberto}}_titulo").show();
                                 $("#{{$aberto}}_box").show();
@@ -347,11 +368,11 @@
                                         }
 
 
-                              @if(count($banners) > 0)
-                                $(document).ready(function ($) {
+                                @if (count($banners) > 0)
+                                        $(document).ready(function ($) {
                                 $('#modal-advertise').modal('show');
                                 });
-                            @endif
+                                @endif
                             </script>
                             <script src="{{ asset('custom') }}/js/order.js"></script>
                             @include('restorants.phporderinterface') 

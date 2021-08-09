@@ -784,6 +784,8 @@
     "type_reward" : "Vantagem",
     "reward" : "Valor da Vantagem",
     "type_coupon" : "Tipo de Cupom da Vantagem",
+    "Opened until" : "Aberto até",
+    "Opens" : "Abre as",
     "Add new shift" : "Adicionar novo turno"
     
 }
