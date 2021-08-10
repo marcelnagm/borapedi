@@ -114,7 +114,8 @@ class FrontEndController extends Controller
        if (session()->exists('visited') && session('visited') != null) {
             $restorant = session('visited');
             
-            return redirect('/restaurant/'.$restorant->subdomain);
+            
+            return redirect()->route('vendor',['alias'=>$restorant->alias]);
         }
         
         $hasQuery = \Request::has('q') && strlen(\Request::input('q')) > 1;

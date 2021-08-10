@@ -154,7 +154,13 @@ class User extends Authenticatable
         $client->messages->create($this->phone, ['from' => config('settings.twilio_from'), 'body' => $body]);
     }
     
-       
+    public function getFormmatedPhone(){
+        $client_phone = $this->phone;
+        $client_phone = str_replace('-', '', str_replace(')', '', str_replace('(', '', $client_phone)));
+        $client_phone = preg_replace('/\s+/', '', '55' . $client_phone);
+        
+return $client_phone;        
+    }   
     /**
      *  default 6 monts
      * @param type $restorant_id

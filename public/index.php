@@ -4,7 +4,8 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
-
+setlocale(LC_TIME, 'pt_BR'); 
+//echo strftime('%A, %d de %B de %Y', strtotime('today'));
 /*
 |--------------------------------------------------------------------------
 | Check If Application Is Under Maintenance

@@ -1025,10 +1025,8 @@ class OrderController extends Controller {
 
         $ratings = ClientRatings::where("restaurant_id", $order->restorant_id)->count();
 
-        $date = new \DateTime();
         $fidelity = FidelityProgram::where("restaurant_id", $order->restorant_id)
-                        ->where('active_from', '<=', $date)
-                        ->where('active_to', '>=', $date)->first();
+                        ->where('active', 1)->first();
 //        dd($fidelity);
         if ($fidelity != null) {
 
@@ -1061,6 +1059,7 @@ class OrderController extends Controller {
                         $reward->client_id = auth()->user()->id;
                         $reward->save();
 
+                        $date = new \DateTime();
                         $coupon = new Coupons();
                         $coupon->client_id = auth()->user()->id;
                         $coupon->name = '#REWARD - ' . auth()->user()->id;
@@ -1071,10 +1070,12 @@ class OrderController extends Controller {
                         $coupon->limit_to_num_uses = 1;
                         $coupon->limit_to_num_uses = 1;
                         $coupon->active_from = $date;
-                        $coupon->active_to = date('Y-m-d', strtotime(date('Y-m-d') . ' +  3 month'));
-                        ;
+                        $coupon->active_to = date('Y-m-d', strtotime(date('Y-m-d') . ' +  3 month'));                        
                         $coupon->save();
-
+                        
+//                        dd (WhastappService::generateTextReward($coupon));
+                        WhastappService::sendMessageReward($order, $coupon);
+        
 //                    dd("maior");
                     } else {
 //                    dd('Ja recebeuy');

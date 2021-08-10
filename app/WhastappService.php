@@ -98,6 +98,13 @@ class WhastappService {
         }
     }
 
+    public static function sendMessageReward($order, $cupom) {
+        $name = $order->restorant->phone;
+        $client_phone = User::find($order->client_id)->getFormmatedPhone();
+          $message .= "\n " . WhastappService::generateTextReward($cupom);
+        WhastappService::sender($name, $client_phone, $message);
+    }
+    
     public static function sendMessage($order, $status) {
         $name = $order->restorant->phone;
 
@@ -108,10 +115,11 @@ class WhastappService {
                         where('restorant_id', $order->restorant->id)->
                         where('parameter', $status)->
                         first();
-
-            if (isset($message) || $status == 'fail' ||$status == 'paid') {
+                
+            if (isset($message) || $status == 'fail' ||$status == 'paid' || $status ==14) {
 //                dd('enviada');
                 $message = $message->message;
+                
                 if ($status == 1) {
 
 //                    $message = $message->message ;
@@ -128,10 +136,20 @@ class WhastappService {
                     $message .= "\n " . "Confirmamos que recebemos o pagamento do seu pedido e iremos iniciar o preparo dele";
                 }
 
-                $client_phone = User::find($order->client_id)->phone;
-                $client_phone = str_replace('-', '', str_replace(')', '', str_replace('(', '', $client_phone)));
-                $client_phone = preg_replace('/\s+/', '', '55' . $client_phone);
-                $ch = curl_init('https://api.borapedi.com:3333/send');
+                $client_phone = User::find($order->client_id)->getFormmatedPhone();
+                
+                WhastappService::sender($name, $client_phone, $message);
+            }
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    
+    
+    public static function sender($name,$client_phone,$message) {
+          $ch = curl_init('https://api.borapedi.com:3333/send');
 # Setup request to send json via POST.
 //                dd($client_phone);
 //                dd($result) ;
@@ -165,13 +183,21 @@ class WhastappService {
                 curl_close($ch);
 //# Print response.
                 return true;
-            }
-            return false;
-        } else {
-            return false;
-        }
     }
+    
+    public static function generateTextReward($cupom) {
+        
+        $value = $cupom->type ==0 ? "R$".$cupom->price : $cupom->price."%";
+        $title = 'PARABÉNS '.$cupom->client()->name . "\n\n";
+        $price = 'Você acabou de ganhar um cupom de '.$value . "\n";
+        $price .= 'Ao completar o programa de fidelidade do restaurante '.$cupom->restorant()->name . "\n";
+        $price .= 'Utilize o código - ' . $cupom->code . ' em qualquer compra no restaurante '
+                . 'para aproveitar o benefício' . "\n";
+        $price .= 'Você tem 90 dias para aproveitar, depois desse periodo ele expira :(' . "\n";
+        $final = $title . $price;
 
+        return $final;
+    }
     public static function generateTextOrderFail($order) {
         $title = 'Pedido ' . $order->id . ' #' . "\n\n";
         $price = 'Desculpe, ocorreu algum erro no seu pagamento' . "\n";
