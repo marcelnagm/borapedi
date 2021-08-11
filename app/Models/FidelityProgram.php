@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Restorant;
 
 class FidelityProgram extends Model
 {
@@ -12,9 +13,9 @@ class FidelityProgram extends Model
     protected $table= 'fidelity_program';
     protected $fillable = ['restaurant_id' ,'active','type_target','target_orders','target_value','type_reward','reward','type_coupon','active_from','active_to'];
     
-    public function restorant()
+      public function restorant()
     {
-        return $this->belongsTo(\App\Restorant::class);
+        return Restorant::find($this->restaurant_id);
     }
     
     public function getDateActive(){

@@ -37,7 +37,10 @@
     @endif
     @if(auth()->user()->hasRole('client'))
         <a href="/orders" class="dropdown-item">{{ __('My Orders') }}</a>
-        <a href="/addresses" class="dropdown-item">{{ __('My Addresses') }}</a>
+        <a href="/addresses" class="dropdown-item">{{ __('My Addresses') }}</a>        
+        <a href="{{ route('client_ratings.index_client') }}" class="dropdown-item">Meus Rankings</a>
+        <a href="{{ route('coupons.index_client') }}" class="dropdown-item">Meus Cupons</a>
+        <a href="{{ route('fidelity_program.index') }}" class="dropdown-item">Meus Programas de Fidelidade</a>
     @endif
     @if(auth()->user()->hasRole('driver'))
         <a href="/home" class="dropdown-item">{{ __('Dashboard') }}</a>

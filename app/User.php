@@ -16,6 +16,8 @@ use App\Traits\HasConfig;
 use App\Order;
 use App\Coupons;
 use App\Models\ClientHasRating;
+use App\Models\FidelityProgram;
+use App\Models\Reward;
 use Akaunting\Module\Facade as Module;
 
 class User extends Authenticatable
@@ -166,14 +168,21 @@ return $client_phone;
      * @param type $restorant_id
      * @return array com cont => quantos pedidos, total => valor total.
      */
-    public function BuysByRestaurant($restorant_id,$months = 6)
+    public function BuysByRestaurant($restorant_id,$months = 6,$value_min = 0)
     {
             $date = date('Y-m-d', strtotime(date('Y-m-d'). ' -  '.$months.' month'));
 //            dd($date);
-            $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = '.auth()->user()->id.' and created_at >= "'.$date.'" and restorant_id = "'.$restorant_id.'" group by client_id');
+            $res = DB::select('SELECT count(client_id) as cont,sum(`order_price`) as total FROM `orders` WHERE `client_id` = '.auth()->user()->id.' and created_at >= "'.$date.'" and restorant_id = "'.$restorant_id.'" and order_price >= '.$value_min.' group by client_id');            
+            
+            if (count($res) >0){
             $res = json_decode(json_encode($res), true)[0];
             
             return $res;
+            }else{
+//                dd($res);
+                return array('cont' => 0, 'total' => 0);
+            }
+                
     }
     
     public function client_has_rating()
@@ -205,6 +214,18 @@ return $client_phone;
                 ->where('orders.restorant_id', '=', auth()->user()->restorant->id)
                 ->where('users.id', '=', $this->id)->get();
            
+    }
+    
+    public function fidelity_program(){
+        
+       return  FidelityProgram::where('active',1)
+                ->whereRaw('restaurant_id in(select DISTINCT restorant_id from orders where client_id = '.$this->id.')');
+    }
+    public function fidelity_program_reward($id){
+        
+       return  Reward::where('program_id', $id)->
+                                    where('client_id', auth()->user()->id)->
+                                    count() == 1;
     }
     
 }

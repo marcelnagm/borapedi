@@ -22,7 +22,7 @@ class FidelityProgramController extends Controller
     /**
      * View path.
      */
-    private $view_path = 'fidelity.';
+    private $view_path = 'fidelity_program.';
 
     /**
      * Parameter name.
@@ -55,11 +55,20 @@ class FidelityProgramController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Banners $banners)
+    public function index()
     {
 //        $this->adminOnly();
-
-        return $this->redirect()->route("marketing.index");
+        
+        
+        
+  return view($this->view_path.'index', ['setup' => [
+            'title'=>__('crud.item_managment', ['item'=>__($this->titlePlural)]),
+            'items'=> auth()->user()->fidelity_program()->paginate(config('settings.paginate')),
+            'item_names'=>$this->titlePlural,
+            'webroute_path'=>$this->webroute_path,
+            'fields'=>$this->getFields(),
+            'parameter_name'=>$this->parameter_name,
+        ]]);
     }
 
     /**

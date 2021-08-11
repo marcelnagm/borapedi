@@ -1045,14 +1045,12 @@ class OrderController extends Controller {
 //            dd($res);
             if (count($res) > 0) {
                 $res = $res[0];
-                $reward = $fidelity->type_target == 1 ? $fidelity->target_value <= $res['total'] : ($fidelity->target_orders <= $res['cont'] && $fidelity->target_value <= $res['total'] );
+                $reward = $fidelity->type_target == 1 ? $fidelity->target_value <= $res['total'] : ($fidelity->target_orders <= $res['cont'] );
 
 //                dd($reward);
 //                 dd($buys);
                 if ($reward) {
-                    if (Reward::where('program_id', $fidelity->id)->
-                                    where('client_id', auth()->user()->id)->
-                                    count() == 0
+                    if (auth()->user()->fidelity_program_reward($fidelity->id)
                     ) {
                         $reward = new Reward();
                         $reward->program_id = $fidelity->id;

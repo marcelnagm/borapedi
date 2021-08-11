@@ -128,6 +128,11 @@ $(document).ready(function() {
     interval: 3500
   });
 
+
+$('#fidelity').carousel({
+  interval: false
+}); 
+
   // Datepicker
   $('.datepicker')[0] && $('.datepicker').each(function() {
     $('.datepicker').datepicker({
