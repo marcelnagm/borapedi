@@ -16,27 +16,43 @@ var checkPrivacyPolicy = function () {
     }
 };
 
-$("#privacypolicy").change(function () {
-    if (this.checked  ) {
-        if (validateOrderFormSubmit()){
-        if (no_name === true) {
-            if ($('#name').val().length < 5) {
-                alert('Preencha o nome');
-                $('.paymentbutton').attr("disabled", true);
-                $("#privacypolicy").prop("checked", false);
-            } else {
-                if ($('#email').val().length < 5) {
-                    alert('Preencha o email');
-                    $('.paymentbutton').attr("disabled", true);
-                    $("#privacypolicy").prop("checked", false);
+function notify(text, type) {
+    $.notify.addStyle('custom', {
+        html: "<div><strong><span data-notify-text /></strong></div>",
+        classes: {
+            base: {
+                "position": "relative",
+                "margin-bottom": "1rem",
+                "padding": "1rem 1.5rem",
+                "border": "1px solid transparent",
+                "border-radius": ".375rem",
 
-                } else {
-                    $('.paymentbutton').attr("disabled", false);
-                    console.log("Hab botao");
-                }
+                "color": "#fff",
+                "border-color": type == "success" ? "#4fd69c" : "#fc7c5f",
+                "background-color": type == "success" ? "#4fd69c" : "#fc7c5f",
+            },
+            success: {
+                "color": "#fff",
+                "border-color": type == "success" ? "#4fd69c" : "#fc7c5f",
+                "background-color": type == "success" ? "#4fd69c" : "#fc7c5f",
             }
+        }
+    });
 
-        } else {
+    $.notify(text, {
+        position: "bottom right",
+        style: 'custom',
+        className: 'success',
+        autoHideDelay: 5000,
+    }
+    );
+}
+
+
+$("#privacypolicy").change(function () {
+    if (this.checked) {
+        if (validateOrderFormSubmit()) {
+
 
             if (no_phone == false) {
                 if ($('#phone').val().length >= 14) {
@@ -46,20 +62,18 @@ $("#privacypolicy").change(function () {
                     $('.paymentbutton').attr("disabled", true);
                     $("#privacypolicy").prop("checked", false);
                     if ($('#phone').val().length < 14) {
-                        alert('Preencha o Telefone');
+                        notify('Preencha o Telefone', 'error');
                     }
                 }
             }
             if (no_phone == true) {
                 $('.paymentbutton').attr("disabled", false);
             }
+        } else {
+            $("#privacypolicy").prop("checked", false);
+            $('.paymentbutton').attr("disabled", true);
         }
-    }else{
-           $('.paymentbutton').attr("disabled", true);
-             $("#privacypolicy").prop("checked", false);
-    }
-    } else {
-        $('.paymentbutton').attr("disabled", true);
+
     }
 });
 
@@ -93,25 +107,34 @@ var validateAddressInArea = function (positions, area) {
 //JS FORM Validate functions
 var validateOrderFormSubmit = function () {
     var deliveryMethod = $('input[name="deliveryType"]:checked').val();
-    var paymentMethod = $('input[name="paymentType"]:checked').val();
+    var paymentMethod = $('#paymentType').find(":selected").val();
+    ;
+//
+//    console.log(paymentMethod);
+//    console.log(paymentMethod === 'cod');
 
-console.log(paymentMethod);
-    
     //If deliverty, we need to have selected address
     if (deliveryMethod == "delivery") {
         //console.log($("#addressID").val())
         if ($("#addressID").val()) {
-            if (paymentMethod === 'card' || paymentMethod === 'cod' && paymentMethod=== 'mercadopago' ){
+            if (paymentMethod === 'card' || paymentMethod === 'cod' || paymentMethod === 'mercadopago') {
                 return true;
-            }else {
-                alert("Selecione um método de pagamento");
-                return false;            
+            } else {
+                notify('Selecione um método de pagamento', 'error');
+                return false;
             }
         } else {
-            alert("Please select address");
+            notify('Selecione seu endereço', 'error');
+
             return false;
         }
     } else {
+        if (paymentMethod === 'card' || paymentMethod === 'cod' && paymentMethod === 'mercadopago') {
+            return true;
+        } else {
+            notify('Selecione um método de pagamento', 'error');
+            return false;
+        }
         return true;
     }
 };
@@ -247,7 +270,7 @@ var initAddress = function () {
         }
 
         if (!doSubmit) {
-            alert(message);
+            notify(message, 'error');
             return false;
         } else {
 

@@ -3,7 +3,7 @@
     <script>
         var no_phone = false;        
     </script>    
-    <button type="button" data-toggle="modal" data-target="#modal-new-phone"  class="btn btn-success text-right">
+    <button type="button" data-toggle="modal" data-target="#modal-new-phone"  class="btn btn btn-danger my-4text-right">
         Enviar Pedido</button>
     <br>
     <br>
@@ -16,7 +16,7 @@
 
             v-if="totalPrice"
             type="button"
-            class="btn btn-lg btn-icon btn-success mt-4 paymentbutton"
+            class="btn btn-lg btn-icon btn-danger my-4 paymentbutton"
             onclick="document.getElementById('order-form').submit()"
             >
 

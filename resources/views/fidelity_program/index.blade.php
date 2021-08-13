@@ -35,7 +35,7 @@ ol.carousel-indicators li.active {
     border: 1px solid black;
 }
 </style>
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">        
 </div>
 
 <div class="container-fluid mt--7">
@@ -44,7 +44,7 @@ ol.carousel-indicators li.active {
             <div class="card-header border-0">
                 <div class="row align-items-center">
                     <div class="col-12">
-                        <h3 class="mb-0">Programas de Fidelidade</h3>
+                        <h3 class="mb-0">Programas de Fidelidade</h3>                        
                     </div>
                 </div>
             </div>

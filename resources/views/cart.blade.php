@@ -1,5 +1,9 @@
 @extends('layouts.front', ['class' => ''])
 @section('content')
+
+<script src="{{ asset('social') }}/js/core/jquery.min.js" type="text/javascript"></script>
+<script src="{{ asset('custom') }}/js/notify.min.js"></script>
+
 <section class="section-profile-cover section-shaped my--1 d-none d-md-none d-lg-block d-lx-block">
     <!-- Circles background -->
     <img class="bg-image " src="{{ config('global.restorant_details_cover_image') }}" style="width: 100%;">
@@ -71,11 +75,28 @@
 <section class="section bg-secondary">
 
     <div class="container">       
+
         <div class="row">
 
             <!-- Left part -->
             <div class="col-7 col-12-ml">                
                 <div class="card card-profile shadow cart_adapt">
+                    <div class="row">
+                    <div class="col">
+                        <a 
+                            href="{{route('vendor',['alias'=>$restorant->alias])}}"">
+                            <i class="fa fa-chevron-left fa-2x left" aria-hidden="true"></i>
+
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a 
+                            href="{{ url()->previous() }}"">
+                            <i class="fa   fa-times fa-2x right" aria-hidden="true"></i>
+
+                        </a>
+                    </div>
+                </div>
                     <div class="nav-wrapper">
                         <ul class="nav nav-tabs nav-fill" id="res_menagment" role="tablist">
 
@@ -91,18 +112,10 @@
                     <form id="order-form" role="form" method="post" action="{{route('order.store')}}" autocomplete="off" enctype="multipart/form-data">
                         <input type="submit" value="Click me" style="display:none;" />
                         @csrf
-                        @include('cart.restaurant')
+
                         <div class="tab-content" id="tabs">
 
 
-                            <!-- Tab Managment -->
-                            <?php if (auth()->user()->name == "") { ?>
-                                @include('cart.client')
-                            <?php }else{ ?>
-                                <script>
-var no_name=false;
-</script>
-                            <?php } ?>
                             @if($restorant->can_deliver == 1 )
 
                             <div class="tab-pane fade show active" id="delivery" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
@@ -134,6 +147,7 @@ var no_name=false;
 
                         <!--@include('cart.restaurant')-->
                         <!-- List of items -->
+                        @include('cart.restaurant')
                         @include('cart.items')
 
 
@@ -159,7 +173,7 @@ var no_name=false;
                 @include('cart.payment')
 
                 <br/>
-                
+
 
                 @else
                 <!-- Closed restaurant -->
@@ -174,7 +188,7 @@ var no_name=false;
     </div>
     @include('cart.money_modal')
     @include('clients.modals')
-    </form>
+</form>
 </section>
 @endsection
 @section('js')
@@ -205,19 +219,19 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 var target = $(e.target).attr("href") // activated tab
 //        alert(target);
         if (target == "#delivery")
-        {
-        $("input[value='delivery']").attr('checked', true);
-        $("#addressBox").show(1);
-        $("input[value='pickup']").attr('checked', false);
-        $("input[value='dinein']").attr('checked', false);
-        }
+{
+$("input[value='delivery']").attr('checked', true);
+$("#addressBox").show(1);
+$("input[value='pickup']").attr('checked', false);
+$("input[value='dinein']").attr('checked', false);
+}
 if (target == "#pickup")
-        {
+{
 
-        $("input[value='delivery']").attr('checked', false);
-        $("input[value='pickup']").attr('checked', true);
-        $("input[value='dinein']").attr('checked', false);
-        }
+$("input[value='delivery']").attr('checked', false);
+$("input[value='pickup']").attr('checked', true);
+$("input[value='dinein']").attr('checked', false);
+}
 });</script>
 <script src="{{ asset('custom') }}/js/checkout.js"></script>
 @endsection

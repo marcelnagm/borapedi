@@ -1,5 +1,5 @@
 <div class="" style="padding: 0 16px 0 16px">
-    <h3>Itens<span class="font-weight-light"></span></h3>
+    <h3>Resumo do pedido<span class="font-weight-light"></span></h3>
 <!-- List of items -->
 <div  id="cartList" class="">
     <br />
@@ -27,8 +27,5 @@
 
         </br>      
     </div>
-</div>
-<div class="text-center" id="totalSubmitCOD">
-    <a href="{{route('vendor',['alias'=>$restorant->alias])}}" class="btn btn-primary text-white" >Continuar Comprando</a>
 </div>
 </div>

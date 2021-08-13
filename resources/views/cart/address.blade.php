@@ -1,42 +1,4 @@
-<style>
-    #addressID option{
-        height: 24vh;
-    }
-    .select2-container .select2-selection--single .select2-selection__rendered{
-        overflow: visible !important;
-             text-overflow: visible !important; 
-     white-space: normal !important; 
-    border: 1px solid #cad1d7;
-    }
-    .select2-container{
-         border: 0px !important;
-    }
-    
-    .map_icon{
-        width: 36px; 
-        height: 41px;         
-    }
-    .select2-selection__clear{
-        display: none;
-        width: 36px; 
-        height: 41px; 
-        color: white !important;
-        background-image: url('images/icons/address.png'); 
-        display:block;
-        left: 12px;
-        cursor: none !important;
-        position: relative !important;  
-    }
-    .select2-container--default .select2-selection--single .select2-selection__arrow{
-    display: none;
-    }        
-    
-    .select2-selection__arrow   {
-    -moz-appearance:none !important; /* Firefox */
-    -webkit-appearance:none !important; /* Safari and Chrome */
-    appearance:none !important`;
-}
-</style>
+
 </br>
 <div style="padding: 16px 16px 0 16px;">
 
@@ -79,7 +41,7 @@
 </div>
 </div>
 <div class=" text-center" style="margin-top:30px">
-        <button type="button" data-toggle="modal" data-target="#modal-order-new-address"  class="btn btn-success">Novo Endereço</button>    
+        <button type="button" data-toggle="modal" data-target="#modal-order-new-address"  class="btn btn-danger my-4">Novo Endereço</button>    
         </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- BS JavaScript -->

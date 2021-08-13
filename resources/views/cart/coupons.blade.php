@@ -7,12 +7,9 @@
     </div>
 <div class="col-md-2">    
     <button type="button" id="promo_code_btn" class="btn btn-primary btn-sm">{{ __('Apply') }}</button>        
+    
 </div>
-<div class="row">
-<div class="col-12">
-             <p>Apenas um cupom por pedido</p>            
-</div>
-</div>
+    <span>Apenas um cupom por pedido</span>                     
 </div>
 <div class="text-center">
     <span><i id="promo_code_succ" class="ni ni-check-bold text-success"></i></span>
