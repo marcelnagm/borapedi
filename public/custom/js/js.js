@@ -67,6 +67,7 @@ var js = {
               className: 'success',
               autoHideDelay: autoHideDelay,
               autoHide:autoHide,
+              z_index: 200051
           }
       );
     },   

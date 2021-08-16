@@ -44,6 +44,8 @@ function notify(text, type) {
         style: 'custom',
         className: 'success',
         autoHideDelay: 5000,
+        z_index: 200051
+        
     }
     );
 }
@@ -297,6 +299,78 @@ var initAddress = function () {
                     floor: floor
                 },
                 success: function (response) {
+                    if (response.status) {
+                        //location.replace(response.success_url);
+                        window.location.reload();
+                    }
+                }, error: function (response) {
+                    //return callback(false, response.responseJSON.errMsg);
+                }
+            })
+        }
+
+    });
+    $("#submitNewAddress2").on("click", function () {
+
+        var address_name = $("#adds2").val();
+        var email = $("#nome").val();
+        var nome = $("#email").val();
+        var address_neigh = $("#address_neigh2").val();
+        var address_city = $("#address_city2").val();
+        var nick = $("#nick2").val();
+        var address_number = $("#numbero2").val();
+        var number_apartment = $("complement2").val();
+        var number_intercom = '';
+        var entry = '';
+        var floor = '';
+
+        var lat = $("#lat").val();
+        var lng = $("#lng").val();
+
+        var doSubmit = true;
+        var message = "";
+        if (nome.length < 1) {
+            doSubmit = false;
+            message += "\nPreencha o campo nome";
+        }
+        if (address_number.length < 1) {
+            doSubmit = false;
+            message += "\nPreencha o campo numero";
+        }
+        if (nick.length < 1) {
+            doSubmit = false;
+            message += "\nPreencha o campo apelido para o endereco";
+        }
+
+        if (!doSubmit) {
+            notify(message, 'error');
+            return false;
+        } else {
+
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '/addresses',
+                data: {
+                    new_address: address_number.length != 0 ? address_name + ", " + address_number + ", " + address_neigh + "- " + address_city : address_name + ", " + address_neigh + "- " + address_city,
+                    lat: lat,
+                    lng: lng,
+                    apartment: number_apartment,
+                    intercom: number_intercom,
+                    nick: nick,
+                    name: nome,
+                    email: email,
+                    entry: entry,
+                    floor: floor
+                },
+                success: function (response) {
+                    notify('Salvo com sucesso', 'success');
                     if (response.status) {
                         //location.replace(response.success_url);
                         window.location.reload();

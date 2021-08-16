@@ -1018,10 +1018,10 @@ a:hover {
     float: left;
 }
 .modal{
-    z-index: 100001;
+    z-index: 501;
 }
 .modal-backdrop{
-    z-index: 100000;
+    z-index: 500;
 }
 
 .sticky {

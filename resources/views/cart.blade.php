@@ -194,6 +194,10 @@
     @include('cart.money_modal')
     @include('clients.modals')
 </form>
+                    
+    <?php if (auth()->user()->name == "") { ?>
+        @include('cart.complete_all_modal')
+        <?php } ?>
 </section>
 @endsection
 @section('js')
@@ -204,13 +208,14 @@
 <script>
 "use strict";
 var num_addresses = {{count($addresses) }};
+$(document).ready(function ($) {
 <?php if (count($addresses) == 0) { ?>
-
-    $(document).ready(function ($) {
-    $('#modal-order-new-address').modal('show');    
-    });
+    $('#modal-order-new-address').modal('show');
 <?php } ?>
-
+    <?php if (auth()->user()->name == "") { ?>
+        $('#modal-order-complete').modal('show');
+        <?php } ?>
+});
 var RESTORANT = <?php echo json_encode($restorant) ?>;
 var STRIPE_KEY = "{{ config('settings.stripe_key') }}";
 var ENABLE_STRIPE = false;
@@ -224,19 +229,19 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 var target = $(e.target).attr("href") // activated tab
 //        alert(target);
         if (target == "#delivery")
-{
-$("input[value='delivery']").attr('checked', true);
-$("#addressBox").show(1);
-$("input[value='pickup']").attr('checked', false);
-$("input[value='dinein']").attr('checked', false);
-}
+        {
+        $("input[value='delivery']").attr('checked', true);
+        $("#addressBox").show(1);
+        $("input[value='pickup']").attr('checked', false);
+        $("input[value='dinein']").attr('checked', false);
+        }
 if (target == "#pickup")
-{
+        {
 
-$("input[value='delivery']").attr('checked', false);
-$("input[value='pickup']").attr('checked', true);
-$("input[value='dinein']").attr('checked', false);
-}
+        $("input[value='delivery']").attr('checked', false);
+        $("input[value='pickup']").attr('checked', true);
+        $("input[value='dinein']").attr('checked', false);
+        }
 });</script>
 <script src="{{ asset('custom') }}/js/checkout.js"></script>
 @endsection

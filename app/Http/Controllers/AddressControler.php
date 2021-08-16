@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Address;
+use App\User;
 use App\Restorant;
 use Illuminate\Http\Request;
 use Spatie\Geocoder\Geocoder;
@@ -53,6 +54,14 @@ class AddressControler extends Controller
 //        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
         $me = $geocoder->getCoordinatesForAddress($request->new_address);
         
+        
+        if ($request->name != ""){
+            $usr = User::find(auth()->user()->id);
+            $usr->name = $request->name;
+            $usr->email= $request->email;
+            $usr->save();
+            
+        }
         
         $address = new Address;
         $address->nick= $request->nick;
