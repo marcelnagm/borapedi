@@ -15,8 +15,8 @@
                                 <span v-if="totalPrice"><strong>{{ __('Subtotal') }}:</strong></span>
                                 <span v-if="totalPrice" class="ammount"><strong>@{{ totalPriceFormat }}</strong></span>
                                 @if(config('app.isft'))
-                                <span v-if="totalPrice&&delivery"><br /><strong>{{ __('Delivery') }}:</strong></span>
-                                <span v-if="totalPrice&&delivery" class="ammount" id="deliveryTax"><strong>@{{ deliveryPriceFormated }}</strong></span><br />
+                                <span v-if="totalPrice&&delivery"><br />{{ __('Delivery') }}:</span>
+                                <span v-if="totalPrice&&delivery" class="ammount" id="deliveryTax">@{{ deliveryPriceFormated }}</span><br />
                                 @endif
                                 <br />
                                 <span v-if="totalPrice"><strong>{{ __('TOTAL') }}:</strong></span>
@@ -36,7 +36,7 @@
                 <!-- COD -->
                 @if (!config('settings.hide_cod'))
                 <h5>Forma de Pagamento</h5>
-                <select id="paymentType" name="paymentType">
+                <select id="paymentType" name="paymentType" class="">
                     <option value='' >Selecione uma forma de pagamento</option>
                     <option  class="custom-control-input" id="cashOnDelivery" value='cod' >Pagamento em Dinheiro - Entrega</option>
                     <option class="custom-control-input" id="cardOnDelivery" value='card'>Pagamento no Cartão- Entrega</option>
@@ -84,19 +84,19 @@
 
         </div>
     </div>   
+
     @if (auth()->user()->phone != "")
     <br/>
-    <div class="text-center " style="padding:4px;">
+    <div class="text-center " style="padding:15px 30px 0 30px; background-color: #d9d9d9">
         <div class="custom-control custom-checkbox">
             <input class="custom-control-input" id="privacypolicy" type="checkbox">
             <label class="custom-control-label" for="privacypolicy" style="text-align:  justify;">
                 <b > Concordar em receber mensagens do Whatsapp</b>
                 <p>Você receberá notificações do estabelecimento por WhatsApp sobre o seu pedido.</p>
-            </label>
+            </label>        
         </div>
     </div>
     @endif
-    @include('cart.payments.whatsapp')
 </div>
 
 @if(config('settings.is_demo') && config('settings.enable_stripe'))

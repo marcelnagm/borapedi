@@ -1,12 +1,7 @@
 
 </br>
-<div style="padding: 16px 16px 0 16px;">
-
-    <div class="card-content" >
-    <div class="form-group{{ $errors->has('addressID') ? ' has-danger' : '' }}">
-        <!--<img src="images/icons/map.png" class="map_icon">-->    
         @if(count($addresses))
-        <select name="addressID" id="addressID" class="form-control{{ $errors->has('addressID') ? ' is-invalid' : '' }}  noselecttwo" required>
+        <select name="addressID" id="addressID" class="noselecttwo {{ $errors->has('addressID') ? ' is-invalid' : '' }}" required>
             <option  disabled value> {{__('-- select an option -- ')}}</option>
             @foreach ($addresses as $key => $address)
             @if(config('settings.enable_cost_per_distance'))
@@ -33,16 +28,10 @@
         @else
         <h6 id="address-complete-order">{{ __('You don`t have any address. Please add new one') }}.</h6>
         @endif
-        
-    </div>
-    <div class="form-group">
-    </div>
-    <input type="hidden" name="deliveryCost" id="deliveryCost" value="0" />
-</div>
-</div>
-<div class=" text-center" style="margin-top:30px">
+        <div class=" text-center" style="s">
         <button type="button" data-toggle="modal" data-target="#modal-order-new-address"  class="btn btn-danger my-4">Novo Endereço</button>    
-        </div>
+        </div>        
+    <input type="hidden" name="deliveryCost" id="deliveryCost" value="0" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- BS JavaScript -->
 

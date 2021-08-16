@@ -31,11 +31,9 @@
     }
 
     .nav-delivery{
-        background-color: #ffa200 !important;
         border: black solid 1px;
     }
     .nav-pickup{
-        background-color: #ffa200 !important;   
         border-right:  black solid 1px;
         border-top:  black solid 1px;
         border-bottom:   black solid 1px;
@@ -82,28 +80,30 @@
             <div class="col-7 col-12-ml">                
                 <div class="card card-profile shadow cart_adapt">
                     <div class="row">
-                    <div class="col">
-                        <a 
-                            href="{{route('vendor',['alias'=>$restorant->alias])}}"">
-                            <i class="fa fa-chevron-left fa-2x left" aria-hidden="true"></i>
+                        <div class="col">
+                            <a 
+                                href="{{route('vendor',['alias'=>$restorant->alias])}}"">
+                                <i class="fa fa-chevron-left fa-2x left" aria-hidden="true"></i>
 
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a 
-                            href="{{ url()->previous() }}"">
-                            <i class="fa   fa-times fa-2x right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="col ">
+                            <div class="right">
+                                <a 
+                                    href="{{ route('cart.clear') }}"">
+                                    Limpar
 
-                        </a>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
                     <div class="nav-wrapper">
                         <ul class="nav nav-tabs nav-fill" id="res_menagment" role="tablist">
 
-                            <li class="nav-item nav-delivery text-white">
-                                <a class="nav-link mb-sm-3 mb-md-0 active " id="tabs-menagment-main" data-toggle="tab" href="#delivery" role="tab" aria-controls="tabs-menagment" aria-selected="true"><i class="ni ni-badge mr-2"></i>Entregar</a>
+                            <li class="nav-item nav-delivery text-white btn-neutral">
+                                <a class="nav-link mb-sm-3 mb-md-0  active " id="tabs-menagment-main" data-toggle="tab" href="#delivery" role="tab" aria-controls="tabs-menagment" aria-selected="true"><i class="ni ni-badge mr-2"></i>Entregar</a>
                             </li>
-                            <li class="nav-item nav-pickup text-white">
+                            <li class="nav-item nav-pickup text-white btn-neutral">
                                 <a class="nav-link mb-sm-3 mb-md-0 " id="tabs-menagment-main" data-toggle="tab" href="#pickup" role="tab" aria-controls="tabs-menagment" aria-selected="true"><i class="ni ni-square-pin mr-2"></i>Buscar</a>
                             </li>                            
                         </ul>
@@ -183,9 +183,14 @@
 
             </div>
         </div>
+    </div>
+    <div class="callOutShoppingButtonBottom footerShow " style="background-color: revert !important
+         " >
 
+        @include('cart.payments.whatsapp')
 
     </div>
+
     @include('cart.money_modal')
     @include('clients.modals')
 </form>
@@ -202,7 +207,7 @@ var num_addresses = {{count($addresses) }};
 <?php if (count($addresses) == 0) { ?>
 
     $(document).ready(function ($) {
-    $('#modal-order-new-address').modal('show');
+    $('#modal-order-new-address').modal('show');    
     });
 <?php } ?>
 

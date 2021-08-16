@@ -249,6 +249,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     if (config('app.isft')) {
         Route::get('/cart-checkout', 'CartController@cart')->name('cart.checkout');
+        Route::get('/cart-clear', 'CartController@empty')->name('cart.clear');
     }
 
     Route::resource('plans', 'PlansController');

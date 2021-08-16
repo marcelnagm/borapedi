@@ -1,5 +1,5 @@
 <div class="" style="padding: 0 16px 0 16px">
-    <h3>Resumo do pedido<span class="font-weight-light"></span></h3>
+    <h6>Resumo do pedido<span class="font-weight-light"></span></h6>
 <!-- List of items -->
 <div  id="cartList" class="">
     <br />

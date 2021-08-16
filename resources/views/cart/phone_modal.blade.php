@@ -33,21 +33,19 @@
                         </div>
                     </div>
                 </div>                
-                <div class="modal-footer">
-                    <Div style="display:none;">
-                        MM
-                    </Div>
+                <div class="modal-footer">                    
                     <div class="text-center" id="totalSubmitCOD" style="display:block !important;">
-                        <button 
+                    <button 
+            style=""
+            v-if="totalPrice"
+            type="button"
+            class="btn btn-icon btn-danger my-4 paymentbutton"
+            onclick="document.getElementById('order-form').submit()"
+            >
 
-                            v-if="totalPrice"
-                            type="button"
-                            class="btn btn-lg btn-icon btn-success mt-4 paymentbutton"
-                            onclick="document.getElementById('order-form').submit()"
-                            >
+            <span class="btn-inner--icon lg"><i class="fa fa-whatsapp" aria-hidden="true"></i></span>
+            <span class="btn-inner--text">Realizar Pedido</span>
 
-                            <span class="btn-inner--icon lg"><i class="fa fa-whatsapp" aria-hidden="true"></i></span>
-                            <span class="btn-inner--text">{{ __('Send Whatsapp Order') }}</span>
                     </div>
                 </div>
 

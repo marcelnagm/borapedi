@@ -356,6 +356,11 @@ class CartController extends Controller
         //return back()->with('success',"The shopping cart has successfully beed added to the shopping cart!");;
     }
 
+    public function empty() {
+                Cart::clear();
+              return redirect()->route('front')->withStatus(__('Cart clear.'));   
+    }
+    
     /**
      * Create a new controller instance.
 

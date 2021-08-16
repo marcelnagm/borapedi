@@ -121,6 +121,7 @@ var validateOrderFormSubmit = function () {
                 return true;
             } else {
                 notify('Selecione um método de pagamento', 'error');
+                $('#modal-new-phone').modal('hide');
                 return false;
             }
         } else {
@@ -133,6 +134,7 @@ var validateOrderFormSubmit = function () {
             return true;
         } else {
             notify('Selecione um método de pagamento', 'error');
+            $('#modal-new-phone').modal('hide');
             return false;
         }
         return true;

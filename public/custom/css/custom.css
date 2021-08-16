@@ -1066,6 +1066,11 @@ a:hover {
      background-color: #5e72e4;
  }
 
+ .button_finalizar_pedido{
+     width: 100%;
+    line-height: 50px;
+ }
+ 
  .buttons_cart{
      height: 10vh;
      width:calc(100%/3);
