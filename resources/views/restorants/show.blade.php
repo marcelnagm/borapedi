@@ -156,7 +156,7 @@
                                 </div>
                             </section>
                             @include('restorants.partials.banners')
-                            <section class="section pt-lg-0" id="restaurant-content" style="padding-top: 0px;z-index:-1000;">
+                            <section class="section pt-lg-0" id="restaurant-content" style="padding-top: 0px;z-index:100;">
                                 <input type="hidden" id="rid" value="{{ $restorant->id }}"/>
                                 <div class="container container-restorant">
 
