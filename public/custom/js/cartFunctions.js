@@ -87,8 +87,7 @@ $("#promo_code_btn").click(function() {
 
             $("#promo_code_war").hide();
             $("#promo_code_succ").show();            
-            updateSubTotalPrice(response.data.total,true);
-            getCartContentAndTotalPrice();
+            updateSubTotalPrice(response.data.total,true);            
             js.notify(response.data.msg,"success");
         }else{
             $("#promo_code_succ").hide();
