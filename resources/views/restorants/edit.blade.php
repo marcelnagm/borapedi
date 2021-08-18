@@ -68,8 +68,10 @@
                                     <a target="_blank" href="{{ $restorant->getLinkAttribute() }}"
                                         class="btn btn-sm btn-success">{{ __('View it') }}</a>
                                     @else
+                                    @if ($restorant->subdomain != "")
                                     <a target="_blank" href="{{ route('vendor',$restorant->subdomain) }}"
                                         class="btn btn-sm btn-success">{{ __('View it') }}</a>
+                                    @endif
                                     @endif
 
                                 </div>
