@@ -120,6 +120,13 @@ var validateOrderFormSubmit = function () {
         //console.log($("#addressID").val())
         if ($("#addressID").val()) {
             if (paymentMethod === 'card' || paymentMethod === 'cod' || paymentMethod === 'mercadopago') {
+            if ( paymentMethod === 'cod' ) {
+                if ($('#money_change').val().length === 0){
+                 notify('Preencha o campo de troco', 'error');
+                 $('#money_change').focus();
+                        return false;
+                }
+            }
                 return true;
             } else {
                 notify('Selecione um método de pagamento', 'error');

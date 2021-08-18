@@ -191,10 +191,20 @@ return $client_phone;
                 where('client_id', '=', $this->id)->get();
            
     }
-    public function coupons()
+    public function coupons($restaurant_id = null)
     {
+        
+        if ($restaurant_id == null){
         return  Coupons::
                 where('client_id', '=', $this->id);
+        }else{
+            return  Coupons::
+                where('active_to','>=' ,new \DateTime('now'))->
+                where('restaurant_id' ,$restaurant_id )
+                ->OrWhere('client_id',$this->id)->
+                    where('active_to','>=' ,new \DateTime('now'))
+                    ->get();
+        }
            
     }
     

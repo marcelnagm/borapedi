@@ -224,7 +224,7 @@ class CouponsController extends Controller
         } elseif ((new Carbon($coupon->active_from))->eq(new Carbon($coupon->active_to)) && (new Carbon(Carbon::now()->toDateString()))->eq(new Carbon($coupon->active_from)) && (new Carbon(Carbon::now()->toDateString()))->eq(new Carbon($coupon->active_to))) {
             $dateActive = true;
         }
-
+        session(['coupon_applyed' => $request->code]);
         if ($coupon->type == 0 && $coupon->limit_to_num_uses > 0 && $dateActive) {
             $total = Cart::getSubTotal() - $coupon->price;
             $coupon->decrement('limit_to_num_uses');

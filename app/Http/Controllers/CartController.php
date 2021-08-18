@@ -213,12 +213,12 @@ class CartController extends Controller
             $formatter = new \IntlDateFormatter(config('app.locale'), \IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT);
             $formatter->setPattern(config('settings.datetime_workinghours_display_format_new'));
         
-
             $params = [
                 'enablePayments'=>$enablePayments,
                 'title' => 'Shopping Cart Checkout',
                 'tables' =>  ['ftype'=>'select', 'name'=>'', 'id'=>'table_id', 'placeholder'=>'Select table', 'data'=>$tablesData, 'required'=>true],
                 'restorant' => $restaurant,
+                'cupons' => auth()->user()->coupons($restaurant->id),
                 'timeToPrepare' => $restaurant->getConfig('time_to_prepare_order_in_minutes',config('settings.time_to_prepare_order_in_minutes')),
                 'timeSlots' => $timeSlots,
                 'openingTime' => $businessHours->isClosed()?$formatter->format($businessHours->nextOpen($now)):null,
