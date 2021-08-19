@@ -204,14 +204,10 @@
 
 <script async defer src= "https://maps.googleapis.com/maps/api/js?key=<?php echo config('settings.google_maps_api_key'); ?>&callback=initAddressMap"></script>
 <!-- Stripe -->
-<script src="https://js.stripe.com/v3/"></script>
 <script>
 "use strict";
 var num_addresses = {{count($addresses) }};
 $(document).ready(function ($) {
-<?php if (count($addresses) == 0) { ?>
-    $('#modal-order-new-address').modal('show');
-<?php } ?>
     <?php if (auth()->user()->name == "") { ?>
         $('#modal-order-complete').modal('show');
         <?php } ?>

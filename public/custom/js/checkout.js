@@ -192,7 +192,7 @@ var initAddress = function () {
     console.log("num_address = " + num_addresses);
 
     if (num_addresses == 0) {
-        $('#modal-order-new-address').modal('show');
+//        $('#modal-order-new-address').modal('show');
     } else if (num_addresses >= 1) {
         $("select[name='AddressID'] option:eq(2)").attr("selected", "selected");
         var deliveryCost = $("#addressID").find(':selected').data('cost');
@@ -320,8 +320,8 @@ var initAddress = function () {
     $("#submitNewAddress2").on("click", function () {
 
         var address_name = $("#adds2").val();
-        var email = $("#nome").val();
-        var nome = $("#email").val();
+        var nome = $("#nome").val();
+        var email = $("#email").val();
         var address_neigh = $("#address_neigh2").val();
         var address_city = $("#address_city2").val();
         var nick = $("#nick2").val();

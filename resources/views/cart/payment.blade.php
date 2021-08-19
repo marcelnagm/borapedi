@@ -28,7 +28,7 @@
                 </div>
             </div>
             <!-- End price overview -->
-            @include('cart.coupons')
+            <!--@include('cart.coupons')-->
             <!-- Payment  Methods -->
             <div class="cards">
                 <!-- Errors on Stripe -->                            
