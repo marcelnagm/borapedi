@@ -24,6 +24,7 @@
                 </div>
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'input','name'=>"Restaurant Address",'id'=>"address",'placeholder'=>"Restaurant address",'required'=>true,'value'=>$restorant->address],
+                ['ftype'=>'input','name'=>"Whatsapp do Restaurante",'id'=>"whatsapp_phone",'placeholder'=>"Restaurant phone",'required'=>true,'value'=>$restorant->whatsapp_phone],
                 ['ftype'=>'input','name'=>"Restaurant Phone",'id'=>"phone",'placeholder'=>"Restaurant phone",'required'=>true,'value'=>$restorant->phone],
                 ]])
                 

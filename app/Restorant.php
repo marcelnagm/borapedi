@@ -305,5 +305,20 @@ class Restorant extends MyModel {
             }
         });
     }
+    
+    public function getFormmatedPhone(){
+        $client_phone = $this->phone;
+        $client_phone = str_replace('-', '', str_replace(')', '', str_replace('(', '', $client_phone)));
+        $client_phone = preg_replace('/\s+/', '', '55' . $client_phone);
+        
+return $client_phone;        
+    }   
+    public function getFormmatedWhatsapp(){
+        $client_phone = $this->whatsapp_phone;
+        $client_phone = str_replace('-', '', str_replace(')', '', str_replace('(', '', $client_phone)));
+        $client_phone = preg_replace('/\s+/', '', '55' . $client_phone);
+        
+return $client_phone;        
+    }   
 
 }

@@ -10,6 +10,13 @@
         'title' => "",
     ])
 
+<style>
+    
+.hidden_field{
+    display:none !important;
+}
+</style>
+
 
     <div class="container-fluid mt--7">
         <div class="row">
@@ -80,7 +87,53 @@
                                         </span>
                                     @endif
                                 </div>
+                                <hr class="my-4" />
+                                <h6 class="heading-small text-muted mb-4">Endereço do Estabelicmento</h6>
+                            <div class="pl-lg-4">
+                                    <div class="row" style="margin-bottom:10px;">
+                                        <div class="col-10">
+                                                  @include('partials.fields',['fields'=>[
+                                            ['ftype'=>'input','name'=>"Cep",'id'=>"cep2",'placeholder'=>"Cep",'required'=>true]
+                                            ]])                                          
+                                        </div>
+                                    </div>
 
+                                    <div class="row hidden_field" >
+                                        <div class="col-12">                           
+                                            @include('partials.fields',['fields'=>[
+                                            ['ftype'=>'input','name'=>"Logradouro",'id'=>"adds2",'placeholder'=>"",'required'=>true,'readonly' => true]
+                                            ]])                         
+                                        </div>
+                                    </div>
+                                    <div class="row hidden_field">
+                                        <div class="col-12">
+                                            @include('partials.fields',['fields'=>[
+                                            ['ftype'=>'input','name'=>"Bairro",'id'=>"address_neigh2",'placeholder'=>"",'required'=>true,'readonly' => true]
+                                            ]])
+                                        </div>
+                                    </div>
+
+                                    <div class="row hidden_field">
+                                        <div class="col-12">
+                                            @include('partials.fields',['fields'=>[
+                                            ['ftype'=>'input','name'=>"Cidade/Estado",'id'=>"address_city2",'placeholder'=>"",'required'=>true,'readonly' => true]
+                                            ]])
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            @include('partials.fields',['fields'=>[            
+                                            ['ftype'=>'input','name'=>"Número",'id'=>"numbero2",'placeholder'=>"Numero",'required'=>true],
+                                            ]])
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            @include('partials.fields',['fields'=>[            
+                                            ['ftype'=>'input','name'=>"Complemento",'id'=>"complement2",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>false]
+                                            ]])   </div>
+                                    </div>
+                                    </div>
                                 <div class="text-center">
                                     @if (strlen(config('settings.recaptcha_site_key'))>2)
                                         @if ($errors->has('g-recaptcha-response'))
@@ -91,7 +144,7 @@
 
                                         {!! htmlFormButton(__('Save'), ['id'=>'thesubmitbtn','class' => 'btn btn-success mt-4']) !!}
                                     @else
-                                        <button type="submit" id="thesubmitbtn" class="btn btn-success mt-4">{{__('Save')}}</button>
+                                        <button type="submit" id="thesubmitbtn" class="btn btn-success mt-4">Cadastrar</button>
                                     @endif
 
 
@@ -104,8 +157,65 @@
         </div>
         <br/>
     </div>
-@endsection
+    
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
 
+<script>
+ $("#phone_owner").mask("(00) 00000-0000");
+    $("#cep2").mask("00000-000");
+
+$(document).ready(function ($) {
+        //Quando o campo cep perde o foco.
+        $("#cep2").blur(function () {
+//Nova variável "cep" somente com dígitos.
+            var cep = $(this).val().replace(/\D/g, '');
+            cep = cep.replace('-', '');
+            $("#numbero2").val('');
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+
+//Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
+
+//Preenche os campos com "..." enquanto consulta webservice.
+
+//Consulta o webservice viacep.com.br/
+                    $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+
+                        if (!("erro" in dados)) {
+//Atualiza os campos com os valores da consulta.
+                            console.log(dados.logradouro);
+                            $("#adds2").val(dados.logradouro);
+                            $("#address_neigh2").val(dados.bairro);
+                            $("#address_city2").val(dados.localidade + ' - ' + dados.uf);
+                            $("#submitNewAddress").show();
+                        } //end if.
+                        else {
+//CEP pesquisado não foi encontrado.                              
+                            alert("CEP não encontrado.");
+                        }
+                    });
+                } //end if.
+                else {
+//cep é inválido.                      
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+//cep sem valor, limpa formulário.
+
+            }
+        });
+    });
+      
+</script>
+@endsection
 @section('js')
 @if (isset($_GET['name'])&&$errors->isEmpty())
 <script>

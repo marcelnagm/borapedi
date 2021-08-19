@@ -12,7 +12,7 @@
         </a>
         @endif
       @auth  
-@if(auth()->user()->hasRole('owner'))
+@if(auth()->user()->hasRole('client'))
         <div class="only_mobile ">
             <a href="{{route("orders.active")}}" class="btn btn-neutral " >
             Acompanhar Pedido
@@ -67,8 +67,7 @@
                 <li class="nav-item dropdown">
                     @auth()
                     @include('layouts.menu.partials.auth')
-                    @endauth
-                    @guest()
+                    @else
                     @include('layouts.menu.partials.guest')
                     @endguest
                 </li>

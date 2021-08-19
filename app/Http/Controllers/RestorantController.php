@@ -121,7 +121,6 @@ class RestorantController extends Controller
 
         //Assign role
         $owner->assignRole('owner');
-
         //Create Restorant
         $restaurant = new Restorant;
         $restaurant->name = strip_tags($request->name);
@@ -360,6 +359,9 @@ class RestorantController extends Controller
             $restaurant->setConfig('disable_callwaiter',$request->disable_callwaiter == 'true' ? 1 : 0);
         }
 
+        if($request->has('whatsapp_phone')){
+            $restaurant->payment_info = $request->whatsapp_phone;
+        }
         if($request->has('payment_info')){
             $restaurant->payment_info = $request->payment_info;
         }
@@ -595,10 +597,14 @@ class RestorantController extends Controller
 
     public function storeRegisterRestaurant(Request $request)
     {
+        
+//        dd ($request);
         //Validate first
         $theRules = [
             'name' => ['required', 'string', 'unique:restorants,name', 'max:255'],
             'name_owner' => ['required', 'string', 'max:255'],
+            'cep2' => ['required', 'string', 'max:255'],
+            'numbero2' => ['required', 'string', 'max:255'],
             'email_owner' => ['required', 'string', 'email', 'unique:users,email', 'max:255'],
             'phone_owner' => ['required', 'string', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
         ];
@@ -624,6 +630,7 @@ class RestorantController extends Controller
         //Assign role
         $owner->assignRole('owner');
 
+        Auth::loginUsingId($owner->id);
         //Send welcome email
 
         //welcome notification
@@ -633,9 +640,16 @@ class RestorantController extends Controller
         $restaurant->user_id = $owner->id;
         $restaurant->description = strip_tags($request->description.'');
         $restaurant->minimum = $request->minimum | 0;
-        $restaurant->lat = 0;
-        $restaurant->lng = 0;
-        $restaurant->address = '';
+        
+        $restaurant->address = $request->adds2 . ' '. $request->numbero2.' ,'.$request->address_neigh2.', '.$request->address_city2;
+        $client = new \GuzzleHttp\Client();
+        $geocoder = new Geocoder($client);
+        $geocoder->setApiKey(config('settings.google_maps_api_key'));
+//        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
+        $me = $geocoder->getCoordinatesForAddress($restaurant->address);
+      $restaurant->address = $restaurant->address.' / '.$request->complement2;
+        $restaurant->lat = $me['lat'];
+        $restaurant->lng = $me['lng'];
         $restaurant->phone = $owner->phone;
         //$restaurant->subdomain=strtolower(preg_replace('/[^A-Za-z0-9]/', '', strip_tags($request->name)));
         $restaurant->active = 0;
@@ -666,12 +680,9 @@ class RestorantController extends Controller
         
         $hours->save();
 
-        Auth::loginUsingId($owner->id);
         $restaurant->setConfig('disable_callwaiter', 0);
 
-        if (config('app.isqrsaas') || config('settings.directly_approve_resstaurant')) {
-            //QR SaaS - or directly approve
-            $this->makeRestaurantActive($restaurant);
+        $this->makeRestaurantActive($restaurant);
 
             //We can have a usecase when lading id disabled
             if(config('settings.disable_landing')){
@@ -681,11 +692,7 @@ class RestorantController extends Controller
                 return redirect()->route('admin.restaurants.edit',  auth()->user()->restorant->id)->withStatus('Preencha o restante dos dados do restaurante');
             }
 
-            
-        } else {
-            //Foodtiger
-            return redirect()->route('newrestaurant.register')->withStatus(__('notifications_thanks_and_review'));
-        }
+                    
     }
 
     private function makeRestaurantActive(Restorant $restaurant)
