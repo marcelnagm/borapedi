@@ -100,19 +100,6 @@
                     </div>
                     @endforeach
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
             <div class="col-md-6">
                 @include('restorants.partials.ordering')

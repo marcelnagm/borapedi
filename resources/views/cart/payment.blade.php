@@ -38,8 +38,14 @@
                 <h5>Forma de Pagamento</h5>
                 <select id="paymentType" name="paymentType" class="" onchange="payment(this)">
                     <option value='' >Selecione uma forma de pagamento</option>
+                    @if ($restorant->getConfig('restorant_hide_ondelivery') ==1)
+                    @if ($restorant->getConfig('restaurant_hide_cod') == 1 )
                     <option  class="custom-control-input" id="cashOnDelivery" value='cod' >Pagamento em Dinheiro - Entrega</option>
+                    @endif
+                    @if ($restorant->getConfig('restaurant_hide_card') == 1 )
                     <option class="custom-control-input" id="cardOnDelivery" value='card'>Pagamento no Cartão- Entrega</option>
+                    @endif
+                    @endif
                     <!-- Extra Payments ( Via module ) -->
 
                     @if($enablePayments)

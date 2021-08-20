@@ -336,6 +336,8 @@ class RestorantController extends Controller
      */
     public function update(Request $request, Restorant $restaurant)
     {
+//        dd ($request);
+        
         $restaurant->name = strip_tags($request->name);
         $restaurant->address = strip_tags($request->address);
         $restaurant->phone = strip_tags($request->phone);
@@ -362,6 +364,19 @@ class RestorantController extends Controller
         if($request->has('whatsapp_phone')){
             $restaurant->payment_info = $request->whatsapp_phone;
         }
+        
+        if($request->has('restorant_hide_ondelivery')){
+            $restaurant->setConfig('restorant_hide_ondelivery', $request->restaurant_hide_ondelivery == 'true' ? 0:1);
+        }
+        
+        if($request->has('restaurant_hide_cod')){
+            $restaurant->setConfig('restaurant_hide_cod', $request->restaurant_hide_cod == 'true' ? 1:0);
+        }
+        
+        if($request->has('restaurant_hide_card')){
+            $restaurant->setConfig('restaurant_hide_card', $request->restaurant_hide_card == 'true' ? 1:0);
+        }
+        
         if($request->has('payment_info')){
             $restaurant->payment_info = $request->payment_info;
         }
@@ -681,6 +696,7 @@ class RestorantController extends Controller
         $hours->save();
 
         $restaurant->setConfig('disable_callwaiter', 0);
+        $restaurant->setConfig('restaurant_hide_ondelivery', 0);
 
         $this->makeRestaurantActive($restaurant);
 
