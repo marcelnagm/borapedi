@@ -1,4 +1,4 @@
-@extends('layouts.front', ['class' => ''])
+@extends('layouts.front_nofooter', ['class' => ''])
 @section('content')
 
 <script src="{{ asset('social') }}/js/core/jquery.min.js" type="text/javascript"></script>
@@ -30,16 +30,8 @@
         font-size: 18px;
     }
 
-    .nav-delivery{
-        border: black solid 1px;
-    }
-    .nav-pickup{
-        border-right:  black solid 1px;
-        border-top:  black solid 1px;
-        border-bottom:   black solid 1px;
-    }
     .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-        background: #ffe7bd;
+        background: #ffefee;
     }
 
     @media only screen and (max-width:1023px) {
@@ -79,6 +71,8 @@
             <!-- Left part -->
             <div class="col-7 col-12-ml">                
                 <div class="card card-profile shadow cart_adapt">
+                    <br/>
+                    <br/>
                     <div class="row">
                         <div class="col">
                             <a 

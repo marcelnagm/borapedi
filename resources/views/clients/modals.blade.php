@@ -28,15 +28,16 @@
                             <div class="row" style="margin-bottom:10px;">
                                 <div class="col-12">
                                     <div id="form-group-cep" class="form-group  ">
-                                        <label class="form-control-label cep-label" for="cep" style="position: relative; top: -22px;">Cep:</label>
-                                        <input step=".01" type="text" name="Cep" id="cep" class="form-control form-control cep-form  " placeholder="Coloque seu CEP aqui ..." value="" required="" autofocus="">
-                                        <button type="button" style="float:left; " onclick="getAdd()">
-                                        <span class="input-group-text cep-label"><i id="search_location" class="fa fa-map-pin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Get my current location"></i></span>
-                                    </button>                                    
-                                        <a  alt="Não sei Meu Cef"  target="_blank"  href="https://buscacepinter.correios.com.br/app/endereco/index.php?t" class="btn-primary" style="float: left; " ><img src="/images/icons/naosei.png"></a>
+                                        <label class="form-control-label cep-label" for="cep" >Cep: <a  alt="Não sei Meu Cef"  target="_blank"  href="https://buscacepinter.correios.com.br/app/endereco/index.php?t" style="font-style: italic;" >Não sei <i class="fas fa-question-circle"></i></a></label>
+                                        </br>
+                                        </br>
+                                        <input  type="text" name="Cep" id="cep" class="form-control form-control cep-form  " placeholder="Coloque seu CEP aqui ..." required="" autofocus="" style="width:95% !important;"> 
+                                        <button type="button" style="float:left; width: 5%;height:40px;" onclick="getAdd()">
+                                        <span class="input-group-text cep-label" style="float:left; width: 10%;height:40px"><i id="search_location" class="fa fa-map-pin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pegar minha localização"></i></span>
+                                        </button>   
+                                    </div> 
+                                        
                                     </div>                                                                 
-                                </div>                               
-                                    
                             </div>
                             <div class="row">
                                 <div class="col-12">

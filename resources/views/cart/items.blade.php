@@ -1,8 +1,7 @@
 <div class="" style="padding: 0 16px 0 16px">
-    <h6>Resumo do pedido<span class="font-weight-light"></span></h6>
+    <h4>Resumo do pedido<span class="font-weight-light"></span></h4>
 <!-- List of items -->
 <div  id="cartList" class="">
-    <br />
     <div  v-for="item in items" class="items col-xs-12 col-sm-12 col-md-12 col-lg-12 clearfix">
         <div class="info-block block-info clearfix" v-cloak>
             <div class="square-box pull-left">
@@ -24,8 +23,7 @@
                 </button>
             </div>
         </div>
-
-        </br>      
+      
     </div>
 </div>
 </div>

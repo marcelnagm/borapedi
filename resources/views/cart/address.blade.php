@@ -1,6 +1,5 @@
-
-</br>
-        @if(count($addresses))
+<div style="padding: 0 20px 0 20px;">
+@if(count($addresses))
         <select name="addressID" id="addressID" class="noselecttwo {{ $errors->has('addressID') ? ' is-invalid' : '' }}" required>
             <option  disabled value> {{__('-- select an option -- ')}}</option>
             @foreach ($addresses as $key => $address)
@@ -20,11 +19,6 @@
             @endif
             @endforeach
         </select>
-        @if ($errors->has('addressID'))
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $errors->first('addressID') }}</strong>
-        </span>
-        @endif
         @else
         <h6 id="address-complete-order">{{ __('You don`t have any address. Please add new one') }}.</h6>
         @endif
@@ -34,5 +28,5 @@
     <input type="hidden" name="deliveryCost" id="deliveryCost" value="0" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- BS JavaScript -->
-
+</div>
 <!-- Have fun using Bootstrap JS -->

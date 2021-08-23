@@ -13,6 +13,7 @@ var checkPrivacyPolicy = function () {
     if (!$('#privacypolicy').is(':checked')) {
 
         $('.paymentbutton').attr("disabled", true);
+        $('.paymentbutton').attr("class", 'button_finalizar_pedido btn-icon btn my-4 paymentbutton');
     }
 };
 
@@ -59,9 +60,11 @@ $("#privacypolicy").change(function () {
             if (no_phone == false) {
                 if ($('#phone').val().length >= 14) {
                     $('.paymentbutton').attr("disabled", false);
+                    $('.paymentbutton').attr("class", 'button_finalizar_pedido btn-icon btn-danger my-4 paymentbutton');
                     console.log("Hab botao");
                 } else {
-                    $('.paymentbutton').attr("disabled", true);
+                    $('.paymentbutton').attr("disabled", true);                    
+                    $('.paymentbutton').attr("class", 'button_finalizar_pedido btn-icon btn my-4 paymentbutton');
                     $("#privacypolicy").prop("checked", false);
                     if ($('#phone').val().length < 14) {
                         notify('Preencha o Telefone', 'error');
@@ -70,10 +73,12 @@ $("#privacypolicy").change(function () {
             }
             if (no_phone == true) {
                 $('.paymentbutton').attr("disabled", false);
+                $('.paymentbutton').attr("class", 'button_finalizar_pedido btn-icon btn-danger my-4 paymentbutton');
             }
         } else {
             $("#privacypolicy").prop("checked", false);
             $('.paymentbutton').attr("disabled", true);
+            $('.paymentbutton').attr("class", 'button_finalizar_pedido btn-icon btn my-4 paymentbutton');
         }
 
     }
@@ -335,19 +340,7 @@ var initAddress = function () {
         var lng = $("#lng").val();
 
         var doSubmit = true;
-        var message = "";
-        if (nome.length < 1) {
-            doSubmit = false;
-            message += "\nPreencha o campo nome";
-        }
-        if (address_number.length < 1) {
-            doSubmit = false;
-            message += "\nPreencha o campo numero";
-        }
-        if (nick.length < 1) {
-            doSubmit = false;
-            message += "\nPreencha o campo apelido para o endereco";
-        }
+       
 
         if (!doSubmit) {
             notify(message, 'error');

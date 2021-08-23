@@ -1,12 +1,13 @@
-<div class="card card-profile shadow cart_adapt" >
-    <div class="px-4">
+<div class="card shadow cart_adapt" style="padding: 0 16px 0 16px">
+    <div class="">
         <div class="mt-5">
-            <h3>Resumo<span class="font-weight-light"></span></h3>
+            <h4>Resumo<span class="font-weight-light"></span></h4>
         </div>
         <div  class="border-top">
+            </br>
             <!-- Price overview -->
             <div id="totalPrices" v-cloak>
-                <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card card-stats ">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
@@ -31,8 +32,7 @@
             <!--@include('cart.coupons')-->
             <!-- Payment  Methods -->
             <div class="cards">
-                <!-- Errors on Stripe -->                            
-                </br>
+                <!-- 
                 <!-- COD -->
                 @if (!config('settings.hide_cod'))
                 <h5>Forma de Pagamento</h5>
@@ -98,7 +98,7 @@
 
         @if (auth()->user()->phone != "")
         <br/>
-        <div class="text-center " style="padding:15px 30px 0 30px; background-color: #d9d9d9">
+        <div class="text-center " style="font-size: 12px;padding:4px;background-color: #d9d9d9">
             <div class="custom-control custom-checkbox">
                 <input class="custom-control-input" id="privacypolicy" type="checkbox">
                 <label class="custom-control-label" for="privacypolicy" style="text-align:  justify;">

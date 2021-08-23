@@ -294,7 +294,7 @@ a:hover {
     background: rgba(255, 255, 255, 0.95);
     -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-    z-index: 9999;
+    z-index: 500;
 }
 
 .sidenav-cart {
@@ -1018,10 +1018,10 @@ a:hover {
     float: left;
 }
 .modal{
-    z-index: 501;
+    z-index: 531;
 }
 .modal-backdrop{
-    z-index: 500;
+    z-index: 530;
 }
 
 .sticky {
@@ -1057,6 +1057,9 @@ a:hover {
     bottom: 0px;
     right: 20px;
     z-index: 1000;  
+ }
+ .fixed-top{
+     z-index:500 !important;
  }
 
  .footerShow{
