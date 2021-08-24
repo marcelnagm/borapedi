@@ -1,6 +1,12 @@
 <div class="form-group{{ $errors->has($id) ? ' has-danger' : '' }}">
     <br />
     <label class="form-control-label">{{ __($name) }}</label>
+    @isset($help)
+        <span type="button" class="" data-toggle="tooltip" data-html="true" title="{{$help}}">
+             &nbsp;
+            <i class="ni ni-chat-round"></i>
+        </span >
+        @endisset
     <div class="row">
         
         @foreach ($data as  $select)

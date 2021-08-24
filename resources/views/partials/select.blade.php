@@ -7,7 +7,12 @@
 @endisset
 
     <label class="form-control-label">{{ __($name) }}</label><br />
-
+@isset($help)
+        <span type="button" class="" data-toggle="tooltip" data-html="true" title="{{$help}}">
+             &nbsp;
+            <i class="ni ni-chat-round"></i>
+        </span >
+        @endisset
     <select class="form-control form-control-alternative   @isset($classselect) {{$classselect}} @endisset"  name="{{ $id }}" id="{{  $id }}">
         @if($edit ?? '' ==true)
         <option disabled value> {{ __('Select')." ".__($name)}} </option>

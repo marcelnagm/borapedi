@@ -166,7 +166,19 @@ Coded by www.creative-tim.com
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function(){
+    $(function () {
+      $('[data-toggle="popover"]').popover();
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  });
+</script>
     @yield('js')
+    
 
     @notifyJs
 

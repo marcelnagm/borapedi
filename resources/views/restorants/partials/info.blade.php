@@ -7,7 +7,8 @@
                 <input type="hidden" id="rid" value="{{ $restorant->id }}"/>
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'input','name'=>"Restaurant Name",'id'=>"name",'placeholder'=>"Restaurant Name",'required'=>true,'value'=>$restorant->name],
-                ['ftype'=>'input','name'=>"Restaurant Description",'id'=>"description",'placeholder'=>"Restaurant description",'required'=>true,'value'=>$restorant->description],
+                ['ftype'=>'input','help' => 'Descrição que aparecerá para o cliente conhecer o seu restaurante, uma boa prática é colocar uma descrição do tipo de cozinha que é servido
+                ','name'=>"Restaurant Description",'id'=>"description",'placeholder'=>"Restaurant description",'required'=>true,'value'=>$restorant->description],
                 ]])
                 <div class="row" style="margin-bottom:10px;">
                     <div class="col-12">
@@ -24,10 +25,10 @@
                 </div>
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'input','name'=>"Restaurant Address",'id'=>"address",'placeholder'=>"Restaurant address",'required'=>true,'value'=>$restorant->address],
-                ['ftype'=>'input','name'=>"Whatsapp do Restaurante",'id'=>"whatsapp_phone",'placeholder'=>"Restaurant phone",'required'=>true,'value'=>$restorant->whatsapp_phone],
-                ['ftype'=>'input','name'=>"Restaurant Phone",'id'=>"phone",'placeholder'=>"Restaurant phone",'required'=>true,'value'=>$restorant->phone],
+                ['ftype'=>'input','help' => 'Número do whatsapp do restaurante, não necessáriamente é o mesmo do contato, este número será utilizado para entrar em contato com os clientes e aparecerá na tela de contato do restaurante','name'=>"Whatsapp do Restaurante",'id'=>"whatsapp_phone",'placeholder'=>"Restaurant phone",'required'=>true,'value'=>$restorant->whatsapp_phone],
+                ['ftype'=>'input','help' => 'Telefone de contato do restaurante','name'=>"Restaurant Phone",'id'=>"phone",'placeholder'=>"Restaurant phone",'required'=>true,'value'=>$restorant->phone],
                 ]])
-                
+
                 @if(config('settings.multi_city'))
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'select','name'=>"Restaurant city",'id'=>"city_id",'data'=>$cities,'required'=>true,'value'=>$restorant->city_id],
@@ -63,21 +64,30 @@
                 <div class="form-group">
                     <label class="form-control-label" for="item_price">{{ __('Is Featured') }}</label>
                     <label class="custom-toggle" style="float: right">
-                        <input type="checkbox" name="is_featured" <?php if ($restorant->is_featured == 1) {
-    echo "checked";
-} ?>>
+                        <input type="checkbox" name="is_featured" <?php
+                        if ($restorant->is_featured == 1) {
+                            echo "checked";
+                        }
+                        ?>>
                         <span class="custom-toggle-slider rounded-circle"></span>
                     </label>
                 </div>
                 <br/>
                 @endif
-                <br/>
+                <br/>                
                 @if(config('app.isft'))
+                                
                 @include('partials.fields',['fields'=>[
-                ['ftype'=>'bool','name'=>"Pickup",'id'=>"can_pickup",'value'=>$restorant->can_pickup == 1 ? "true" : "false"],
-                ['ftype'=>'bool','name'=>"Delivery",'id'=>"can_deliver",'value'=>$restorant->can_deliver == 1 ? "true" : "false"],
-                ['ftype'=>'bool','name'=>"Self Delivery",'id'=>"self_deliver",'value'=>$restorant->self_deliver == 1 ? "true" : "false"],
-                ['ftype'=>'bool','name'=>"Free Delivery",'id'=>"free_deliver",'value'=>$restorant->free_deliver == 1 ? "true" : "false"],
+                ['ftype'=>'bool','help'=>'Habilita a opção de retirada no local','name'=>"Pickup",'id'=>"can_pickup",'value'=>$restorant->can_pickup == 1 ? "true" : "false"],
+                ]])
+                @include('partials.fields',['fields'=>[               
+                ['ftype'=>'bool','help'=>'Habilita o sistema de entrega em domicílio','name'=>"Delivery",'id'=>"can_deliver",'value'=>$restorant->can_deliver == 1 ? "true" : "false"],
+                ]])
+                @include('partials.fields',['fields'=>[
+                ['ftype'=>'bool','help'=>'Habilita a opção de consumo no local por mesa e atendimento por garçom','name'=>"Self Delivery",'id'=>"self_deliver",'value'=>$restorant->self_deliver == 1 ? "true" : "false"],
+                ]])
+                @include('partials.fields',['fields'=>[
+                ['ftype'=>'bool','help'=> 'Torna gratuíta a taxa de entrega','name'=>"Free Delivery",'id'=>"free_deliver",'value'=>$restorant->free_deliver == 1 ? "true" : "false"],
                 ]])
                 @elseif(config('app.isqrsaas') && !config('settings.is_whatsapp_ordering_mode'))
                 @include('partials.fields',['fields'=>[
@@ -140,83 +150,83 @@
 crossorigin="anonymous"></script>
 <script>
 
-                                        function getAdd() {
-                                            if (navigator.geolocation) {
-                                                navigator.geolocation.getCurrentPosition(function (position) {
-                                                    var pos = {lat: position.coords.latitude, lng: position.coords.longitude};
-                                                    $.ajaxSetup({
-                                                        headers: {
-                                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                                        }
-                                                    });
-                                                    $.ajax({
-                                                        type: 'POST',
-                                                        url: '/search/location',
-                                                        dataType: 'json',
-                                                        data: {
-                                                            lat: position.coords.latitude,
-                                                            lng: position.coords.longitude
-                                                        },
-                                                        success: function (response) {
-                                                            if (response.status) {
-                                                                console.log(response.data);                            
-                                                                $("#address").val(response.data.address_components[1]['long_name']+" "+response.data.address_components[0]['long_name']+", "+response.data.address_components[2]['long_name']+ " -"+response.data.address_components[3]['long_name'] + ' - ' + response.data.address_components[4]['long_name']);                                                                
-                                                            }
-                                                        }, error: function (response) {
-                                                        }
-                                                    });
-                                                });
-                                            } else {
+                                function getAdd() {
+                                    if (navigator.geolocation) {
+                                        navigator.geolocation.getCurrentPosition(function (position) {
+                                            var pos = {lat: position.coords.latitude, lng: position.coords.longitude};
+                                            $.ajaxSetup({
+                                                headers: {
+                                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                }
+                                            });
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: '/search/location',
+                                                dataType: 'json',
+                                                data: {
+                                                    lat: position.coords.latitude,
+                                                    lng: position.coords.longitude
+                                                },
+                                                success: function (response) {
+                                                    if (response.status) {
+                                                        console.log(response.data);
+                                                        $("#address").val(response.data.address_components[1]['long_name'] + " " + response.data.address_components[0]['long_name'] + ", " + response.data.address_components[2]['long_name'] + " -" + response.data.address_components[3]['long_name'] + ' - ' + response.data.address_components[4]['long_name']);
+                                                    }
+                                                }, error: function (response) {
+                                                }
+                                            });
+                                        });
+                                    } else {
 //                                                 Browser doesn't support Geolocation
 //                                                handleLocationError(false, infoWindow, map.getCenter());
-                                            }
-                                        }
+                                    }
+                                }
 
 
-                                        $(document).ready(function ($) {
+                                $(document).ready(function ($) {
 
-                                            //Quando o campo cep perde o foco.
-                                            $("#cep").blur(function () {
+                                    //Quando o campo cep perde o foco.
+                                    $("#cep").blur(function () {
 //Nova variável "cep" somente com dígitos.
-                                                var cep = $(this).val().replace(/\D/g, '');
-                                                cep = cep.replace('-', '');
-                                                $("#numbero").val('');
-                                                //Verifica se campo cep possui valor informado.
-                                                if (cep != "") {
+                                        var cep = $(this).val().replace(/\D/g, '');
+                                        cep = cep.replace('-', '');
+                                        $("#numbero").val('');
+                                        //Verifica se campo cep possui valor informado.
+                                        if (cep != "") {
 
 //Expressão regular para validar o CEP.
-                                                    var validacep = /^[0-9]{8}$/;
-                                                    //Valida o formato do CEP.
-                                                    if (validacep.test(cep)) {
+                                            var validacep = /^[0-9]{8}$/;
+                                            //Valida o formato do CEP.
+                                            if (validacep.test(cep)) {
 
 //Preenche os campos com "..." enquanto consulta webservice.
 
 //Consulta o webservice viacep.com.br/
-                                                        $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+                                                $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
 
-                                                            if (!("erro" in dados)) {
+                                                    if (!("erro" in dados)) {
 //Atualiza os campos com os valores da consulta.                
-                            console.log(dados);
-                                                                $("#address").val(dados.logradouro+" ,"+dados.bairro+" -"+dados.localidade);
-                                                                
-                                                            } //end if.
-                                                            else {
-//CEP pesquisado não foi encontrado.                              
-                                                                alert("CEP não encontrado.");
-                                                            }
-                                                        });
+                                                        console.log(dados);
+                                                        $("#address").val(dados.logradouro + " ," + dados.bairro + " -" + dados.localidade);
+
                                                     } //end if.
                                                     else {
-//cep é inválido.                      
-                                                        alert("Formato de CEP inválido.");
+//CEP pesquisado não foi encontrado.                              
+                                                        alert("CEP não encontrado.");
                                                     }
-                                                } //end if.
-                                                else {
+                                                });
+                                            } //end if.
+                                            else {
+//cep é inválido.                      
+                                                alert("Formato de CEP inválido.");
+                                            }
+                                        } //end if.
+                                        else {
 //cep sem valor, limpa formulário.
 
-                                                }
-                                            });
                                         }
-                                        );
+                                    });
+                                }
+                                );
 
 </script>

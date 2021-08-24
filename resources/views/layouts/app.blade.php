@@ -19,7 +19,7 @@
 
         <!-- Fonts -->
         <link href="{{ asset('css') }}/gfonts.css" rel="stylesheet">
-        
+
         <!-- Icons -->
         <link href="{{ asset('argon') }}/vendor/nucleo/css/nucleo.css" rel="stylesheet">
         <link href="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
@@ -35,7 +35,7 @@
         <!-- Flatpickr datepicker -->
         <link rel="stylesheet" href="{{ asset('vendor') }}/flatpickr/flatpickr.min.css">
 
-         <!-- Font Awesome Icons -->
+        <!-- Font Awesome Icons -->
         <link href="{{ asset('argonfront') }}/css/font-awesome.css" rel="stylesheet" />
 
         <!-- Range datepicker -->
@@ -53,12 +53,12 @@
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-            @if(\Request::route()->getName() != "order.success")
-                @include('layouts.navbars.sidebar')
-            @endif
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+        @if(\Request::route()->getName() != "order.success")
+        @include('layouts.navbars.sidebar')
+        @endif
         @endauth
 
         <div class="main-content">
@@ -67,7 +67,7 @@
         </div>
 
         @guest()
-            @include('layouts.footers.guest')
+        @include('layouts.footers.guest')
         @endguest
 
         <!-- Commented because navtabs includes same script -->
@@ -94,7 +94,7 @@
         <script src="{{ asset('vendor') }}/jasny/js/jasny-bootstrap.min.js"></script>
         <!-- Custom js -->
         <script src="{{ asset('custom') }}/js/orders.js"></script>
-         <!-- Custom js -->
+        <!-- Custom js -->
         <script src="{{ asset('custom') }}/js/mresto.js"></script>
         <!-- AJAX -->
 
@@ -112,7 +112,7 @@
 
 
 
-         <!-- Import Vue -->
+        <!-- Import Vue -->
         <script src="{{ asset('vendor') }}/vue/vue.js"></script>
 
         <!-- Import AXIOS --->
@@ -124,21 +124,21 @@
         <!-- Notify JS -->
         <script src="{{ asset('custom') }}/js/notify.min.js"></script>
 
-         <!-- Cart custom sidemenu -->
+        <!-- Cart custom sidemenu -->
         <script src="{{ asset('custom') }}/js/cartSideMenu.js"></script>
 
 
         <script>
-            var ONESIGNAL_APP_ID = "{{ config('settings.onesignal_app_id') }}";
-            var USER_ID = '{{  auth()->user()&&auth()->user()?auth()->user()->id:"" }}';
-            var PUSHER_APP_KEY = "{{ config('broadcasting.connections.pusher.key') }}";
-            var PUSHER_APP_CLUSTER = "{{ config('broadcasting.connections.pusher.options.cluster') }}";
+var ONESIGNAL_APP_ID = "{{ config('settings.onesignal_app_id') }}";
+var USER_ID = '{{  auth()->user()&&auth()->user()?auth()->user()->id:"" }}';
+var PUSHER_APP_KEY = "{{ config('broadcasting.connections.pusher.key') }}";
+var PUSHER_APP_CLUSTER = "{{ config('broadcasting.connections.pusher.options.cluster') }}";
         </script>
 
         <!-- OneSignal -->
         @if(strlen( config('settings.onesignal_app_id'))>4)
-            <script src="{{ asset('vendor') }}/OneSignalSDK/OneSignalSDK.js" async=""></script>
-            <script src="{{ asset('custom') }}/js/onesignal.js"></script>
+        <script src="{{ asset('vendor') }}/OneSignalSDK/OneSignalSDK.js" async=""></script>
+        <script src="{{ asset('custom') }}/js/onesignal.js"></script>
         @endif
 
         @stack('js')
@@ -146,12 +146,22 @@
 
         <script src="{{ asset('custom') }}/js/rmap.js"></script>
 
-         <!-- Pusher -->
-         @if(strlen( config('broadcasting.connections.pusher.app_id'))>2)
-            <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-            <script src="{{ asset('custom') }}/js/pusher.js"></script>
+        <!-- Pusher -->
+        @if(strlen( config('broadcasting.connections.pusher.app_id'))>2)
+        <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+        <script src="{{ asset('custom') }}/js/pusher.js"></script>
         @endif
-
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script>
+$(document).ready(function () {
+    $(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+});
+        </script>
         <!-- Custom JS defined by admin -->
         <?php echo file_get_contents(base_path('public/byadmin/back.js')) ?>
     </body>
