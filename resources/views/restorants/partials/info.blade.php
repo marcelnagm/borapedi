@@ -7,6 +7,8 @@
                 <input type="hidden" id="rid" value="{{ $restorant->id }}"/>
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'input','name'=>"Restaurant Name",'id'=>"name",'placeholder'=>"Restaurant Name",'required'=>true,'value'=>$restorant->name],
+                    ['ftype'=>'input','name'=>"Subdomĩnio",'id'=>"subdomain",'placeholder'=>"Um nome curto para identificar o restaurante",'help' => 'Este campo se refere ao um nome para identificar unicamente o seu restaurante da mesma forma que o exemplo, Ex: [blend-pizza].borapedi.com .Este link que você deverá compartilhar entre seus clientes',
+                'required'=>true,'value'=>$restorant->subdomain],
                 ['ftype'=>'input','help' => 'Descrição que aparecerá para o cliente conhecer o seu restaurante, uma boa prática é colocar uma descrição do tipo de cozinha que é servido
                 ','name'=>"Restaurant Description",'id'=>"description",'placeholder'=>"Restaurant description",'required'=>true,'value'=>$restorant->description],
                 ]])

@@ -384,6 +384,10 @@ class RestorantController extends Controller
         if($request->has('whatsapp_phone')){
             $restaurant->whatsapp_phone = $request->whatsapp_phone;
         }
+        
+        if($request->has('subdomain')){
+            $restaurant->subdomain = $request->subdomain;
+        }
 
         if (isset($request->city_id)) {
             $restaurant->city_id = $request->city_id;
