@@ -87,8 +87,6 @@
                             <h6 class="heading-small text-muted mb-4">{{ __('Restaurant information') }}</h6>
 
                             @include('restorants.partials.info')
-                            <hr />
-                            @include('restorants.partials.owner')
                         </div>
                     </div>
                 </div>
@@ -104,7 +102,7 @@
                 </div>
 
                 <!-- Tab Hours -->
-                <div class="tab-pane fade show" id="hours" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
+                <div class="tab-pane fade show" id="hours" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">                    
                     @include('restorants.partials.hours')
                 </div>
 
@@ -114,7 +112,7 @@
                     @include('restorants.partials.plan')
                 </div>
                 @endif
-
+                @include('restorants.partials.new_restaurant')
             </div>
         </div>
     </div>
@@ -125,7 +123,12 @@
 
 <script>
 $("#phone").mask("(00) 00000-0000");
-$("#whatsapp_phone").mask("(00) 00000-0000");</script>
+$("#whatsapp_phone").mask("(00) 00000-0000");
+        $(document).ready(function ($) {
+                                $('#modal-advertise').modal('show');
+                                });
+</script>
+
 @endsection
 
 

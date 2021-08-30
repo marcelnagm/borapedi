@@ -11,12 +11,12 @@ function notify(text, type){
 
                     "color": "#fff",
                     "border-color": type == "success" ? "#4fd69c" : "#fc7c5f",
-                    "background-color": type == "success" ? "#4fd69c" : "#fc7c5f",
+                    "background-color": type == "success" ? "#4fd69c" : "#f5365c",
                 },
                 success: {
                     "color": "#fff",
                     "border-color": type == "success" ? "#4fd69c" : "#fc7c5f",
-                    "background-color": type == "success" ? "#4fd69c" : "#fc7c5f",
+                    "background-color": type == "success" ? "#4fd69c" : "#f5365c",
                 }
             }
             });

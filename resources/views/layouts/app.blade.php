@@ -72,10 +72,12 @@
 
         <!-- Commented because navtabs includes same script -->
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
-
+        
         <script src="{{ asset('argonfront') }}/js/core/popper.min.js" type="text/javascript"></script>
         <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
+        
+        <script type="text/javascript" src="js/bootstrap.js"></script>
+<!-- Have fun using Bootstrap JS --
         @yield('topjs')
 
         <!-- Navtabs -->

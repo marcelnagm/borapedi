@@ -59,7 +59,7 @@
 
                 <div id="form-group-money_change" class="form-group  " style="display: none;">
                     <label class="form-control-label" for="money_change">Troco para quanto?</label>
-                    <input type="number" name="money_change" id="money_change" class="form-control form-control " >
+                    <input type="number" name="money_change" id="money_change" class="form-control form-control" value='0' >
 
                     <div/>
                     @endif
@@ -98,12 +98,12 @@
 
         @if (auth()->user()->phone != "")
         <br/>
-        <div class="text-center " style="font-size: 12px;padding:4px;background-color: #d9d9d9">
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input" id="privacypolicy" type="checkbox">
-                <label class="custom-control-label" for="privacypolicy" style="text-align:  justify;">
-                    <b > Concordar em receber mensagens do Whatsapp</b>
-                    <p>Você receberá notificações do estabelecimento por WhatsApp sobre o seu pedido.</p>
+        <div class="text-center " style="font-size: 12px;padding-right:20px;background-color: #d9d9d9">
+            <div class="custom-control custom-checkbox" style="margin-left: 10px;">
+                <input class="custom-control-input" id="privacypolicy" type="checkbox" style="color:margin-left:10px;">
+                <label class="custom-control-label" for="privacypolicy" style="text-align:  justify;font-size: 2.2vh;">
+                    <b style="text-align:  justify;font-size: 2.0vh;margin:0 !important; "> Concordar em receber mensagens do Whatsapp</b>
+                    <p style="text-align:  justify;font-size: 2.2vh;margin:0 !important;">Você receberá notificações do estabelecimento por WhatsApp sobre o seu pedido.</p>
                 </label>        
             </div>
         </div>

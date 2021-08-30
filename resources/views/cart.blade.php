@@ -13,6 +13,16 @@
     </div>
 </section>
 <style>
+    .btn-danger:hover{
+        background-color: #f5365c;
+    border-color: #f5365c;
+    }
+    
+    .button_disabled_custom{
+        background-color: #9e9e9e;
+        color:black;
+    }
+    
     .cart_adapt {
         margin-top: -450px!important;
     }
@@ -31,7 +41,8 @@
     }
 
     .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-        background: #ffefee;
+        border: none;
+        border-bottom: #ffa200 solid 4px;
     }
 
     @media only screen and (max-width:1023px) {
@@ -73,18 +84,17 @@
                 <div class="card card-profile shadow cart_adapt">
                     <br/>
                     <br/>
-                    <div class="row">
-                        <div class="col">
-                            <a 
+                    <div class="row" style="margin-top:10px; color: red;">
+                        <div class="col" style="padding-left:30px;">
+                            <a style="color:red !important;"
                                 href="{{route('vendor',['alias'=>$restorant->alias])}}"">
                                 <i class="fa fa-chevron-left fa-2x left" aria-hidden="true"></i>
 
                             </a>
                         </div>
-                        <div class="col ">
+                        <div class="col " style="padding-right:35px;">
                             <div class="right">
-                                <a 
-                                    href="{{ route('cart.clear') }}"">
+                                <a style="color:red !important;font-size: 14px;"     href="{{ route('cart.clear') }}"">
                                     Limpar
 
                                 </a>

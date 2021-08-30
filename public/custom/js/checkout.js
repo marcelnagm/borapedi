@@ -13,7 +13,7 @@ var checkPrivacyPolicy = function () {
     if (!$('#privacypolicy').is(':checked')) {
 
         $('.paymentbutton').attr("disabled", true);
-        $('.paymentbutton').attr("class", 'button_finalizar_pedido btn-icon btn my-4 paymentbutton');
+        $('.paymentbutton').attr("class", 'button_disabled_custom button_finalizar_pedido btn-icon btn my-4 paymentbutton');
     }
 };
 
@@ -30,12 +30,12 @@ function notify(text, type) {
 
                 "color": "#fff",
                 "border-color": type == "success" ? "#4fd69c" : "#fc7c5f",
-                "background-color": type == "success" ? "#4fd69c" : "#fc7c5f",
+                "background-color": type == "success" ? "#4fd69c" : "#f5365c",
             },
             success: {
                 "color": "#fff",
                 "border-color": type == "success" ? "#4fd69c" : "#fc7c5f",
-                "background-color": type == "success" ? "#4fd69c" : "#fc7c5f",
+                "background-color": type == "success" ? "#4fd69c" : "#f5365c",
             }
         }
     });
@@ -64,7 +64,7 @@ $("#privacypolicy").change(function () {
                     console.log("Hab botao");
                 } else {
                     $('.paymentbutton').attr("disabled", true);                    
-                    $('.paymentbutton').attr("class", 'button_finalizar_pedido btn-icon btn my-4 paymentbutton');
+                    $('.paymentbutton').attr("class", 'button_disabled_custom button_finalizar_pedido btn-icon btn my-4 paymentbutton');
                     $("#privacypolicy").prop("checked", false);
                     if ($('#phone').val().length < 14) {
                         notify('Preencha o Telefone', 'error');
@@ -78,10 +78,15 @@ $("#privacypolicy").change(function () {
         } else {
             $("#privacypolicy").prop("checked", false);
             $('.paymentbutton').attr("disabled", true);
-            $('.paymentbutton').attr("class", 'button_finalizar_pedido btn-icon btn my-4 paymentbutton');
+            $('.paymentbutton').attr("class", 'button_disabled_custom button_disabled_custom button_finalizar_pedido btn-icon btn my-4 paymentbutton');
         }
 
-    }
+    }else{
+       $("#privacypolicy").prop("checked", false);
+            $('.paymentbutton').attr("disabled", true);
+            $('.paymentbutton').attr("class", 'button_disabled_custom button_finalizar_pedido btn-icon btn my-4 paymentbutton');
+        }   
+    
 });
 
 var validateAddressInArea = function (positions, area) {
@@ -115,13 +120,12 @@ var validateAddressInArea = function (positions, area) {
 var validateOrderFormSubmit = function () {
     var deliveryMethod = $('input[name="deliveryType"]:checked').val();
     var paymentMethod = $('#paymentType').find(":selected").val();
-    ;
 //
 //    console.log(paymentMethod);
 //    console.log(paymentMethod === 'cod');
 
     //If deliverty, we need to have selected address
-    if (deliveryMethod == "delivery") {
+    if (deliveryMethod === "delivery") {
         //console.log($("#addressID").val())
         if ($("#addressID").val()) {
             if (paymentMethod === 'card' || paymentMethod === 'cod' || paymentMethod === 'mercadopago') {
@@ -266,7 +270,7 @@ var initAddress = function () {
         var address_city = $("#address_city").val();
         var nick = $("#nick").val();
         var address_number = $("#numbero").val();
-        var number_apartment = $("complement").val();
+        var number_apartment = $("complement").val();       
         var number_intercom = '';
         var entry = '';
         var floor = '';
@@ -327,6 +331,7 @@ var initAddress = function () {
         var address_name = $("#adds2").val();
         var nome = $("#nome").val();
         var email = $("#email").val();
+        var phone = $("#phone").val();
         var address_neigh = $("#address_neigh2").val();
         var address_city = $("#address_city2").val();
         var nick = $("#nick2").val();
@@ -365,16 +370,22 @@ var initAddress = function () {
                     intercom: number_intercom,
                     nick: nick,
                     name: nome,
+                    phone: phone,
                     email: email,
                     entry: entry,
                     floor: floor
                 },
                 success: function (response) {
-                    notify('Salvo com sucesso', 'success');
+                    
                     if (response.status) {
+                        notify('Salvo com sucesso', 'success');
                         //location.replace(response.success_url);
                         window.location.reload();
+                    }else{
+                        notify(response.msg, 'error');
+                        passo1();
                     }
+                        
                 }, error: function (response) {
                     //return callback(false, response.responseJSON.errMsg);
                 }

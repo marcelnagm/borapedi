@@ -53,10 +53,24 @@ class AddressControler extends Controller
         $geocoder->setApiKey(config('settings.google_maps_api_key'));
 //        dd(config('geocoder.key'));AIzaSyD-GiCHD5S8naqNDsutKK2UXtAeb_bXBVA
         $me = $geocoder->getCoordinatesForAddress($request->new_address);
-        
-        
+         $usr = User::find(auth()->user()->id);
+         
+          if (User::where('email',$request->email)->count() >0){
+              return response()->json([
+            'status' => false,            
+            'msg' => 'Já existe este email registrado, Utilize outro!',
+        ]);
+          }
+          if (User::where('phone',$request->phone)->where('id','!=',$usr->id)                  
+                  ->count() >0){
+              return response()->json([
+            'status' => false,            
+            'msg' => 'Já existe este telefone registrado, Utilize outro!',
+        ]);
+          }
+         
         if ($request->name != ""){
-            $usr = User::find(auth()->user()->id);
+            $usr->phone = $request->phone;
             $usr->name = $request->name;
             $usr->email= $request->email;
             $usr->save();

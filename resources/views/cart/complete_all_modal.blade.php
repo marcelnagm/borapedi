@@ -9,7 +9,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered modal-large" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="modal-title-notification">Cadastro</h3>                
+                <h3 class="modal-title" id="modal-title-complete">Cadastro | Dados</h3>                
             </div>
             <div class="modal-body p-0">
                 <div class="card bg-secondary shadow border-0">
@@ -27,7 +27,13 @@
                                         ]])    
                                     </div>
                                 </div>
-
+                                                        <div class="row">
+                            <div class="col-12" >
+                                @include('partials.fields',['fields'=>[
+                                ['ftype'=>'input','name'=>"Whatsapp",'id'=>"phone",'placeholder'=>"Coloque seu Whatsapp aqui ...",'required'=>true,'value'=> auth()->user()->phone],
+                                ]])
+                            </div>
+                            </div>
                                 <div class="row">
                                     <div class="col-12">                           
                                         @include('partials.fields',['fields'=>[
@@ -60,8 +66,8 @@
                                         </br>
                                         </br>
                                         <input  type="text" name="Cep" id="cep2" class="form-control form-control cep-form  " placeholder="Coloque seu CEP aqui ..." required="" autofocus="" style="width:95% !important;"> 
-                                        <button type="button" style="float:left; width: 5%;height:40px;" onclick="getAdd2()">
-                                        <span class="input-group-text cep-label" style="float:left; width: 10%;height:40px"><i id="search_location" class="fa fa-map-pin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pegar minha localização"></i></span>
+                                        <button type="button" style="float:left; width: 5%;height:40px;    vertical-align: -webkit-baseline-middle;    " onclick="getAdd2()">
+                                        <span class="input-group-text cep-label" style="float:left; width: 10%;height:40px ;padding-right: 18px;   vertical-align: -webkit-baseline-middle;"><i id="search_location" class="fa fa-map-pin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pegar minha localização"></i></span>
                                         </button>   
                                     </div> 
                                         
@@ -108,9 +114,12 @@
                                     </div>
                                     <input type="hidden"  name="phone_send"  id="phone_send" value="" > 
                                     <div class="row">
-                                        <div class="col-12"> 
-                                            <button class="btn btn-danger left" value="Proximo" onclick="passo1()" style="width: 45%">Voltar</button>                                 
-                                            <button class="btn btn-danger left" value="Proximo" onclick="passo3()" style="width: 45%">Proximo</button>
+                                        <div class="col-6"> 
+                                            <button class="btn btn-danger left" value="Proximo" onclick="passo1()" style="width: 100%">Voltar</button>                                 
+                                            </div>
+                                        <div class="col-6"> 
+                                            
+                                            <button class="btn btn-danger left" value="Proximo" onclick="passo3()" style="width: 100%">Proximo</button>
                                         </div>
                                     </div>
 
@@ -121,17 +130,40 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <p class="text-justify">
-                                            Confira os seus dados
+                                    Favor verifique seus dados e click no botão <font style="font-weight: bold;">Concluir</font>
                                         </p>
                                     </div>
                                     <div class="col-12">
                                         <p class="text-justify">
-                                        <div id="result-nome">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                
+                                                <div id="result-nome" style="float:left;">
 
                                         </div>
-                                        <div id="result-email">
+                                         &nbsp<i class="fas fa-edit" onclick="passo1 ();"></i>
+                                            </div>
+                                        </div>    
+                                        <div class="row">
+                                            <div class="col-12">
+                                                
+                                                <div id="result-telefone" style="float:left">
 
                                         </div>
+                                               &nbsp  <i class="fas fa-edit" onclick="passo1 ();"></i>
+                                        
+                                            </div>
+                                        </div>    
+                                        <div class="row">
+                                            <div class="col-12">
+                                                
+                                                <div id="result-email" style="float:left;">
+
+                                        </div>
+                                                &nbsp <i class="fas fa-edit" onclick="passo1 ();"></i>
+                                        
+                                            </div>
+                                        </div>                                            
                                         <div id="result-endereco">
 
                                         </div>
@@ -154,8 +186,10 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
 <script>
-
+$("#phone").mask("(00) 00000-0000");
+passo1();
                                     function getAdd2() {
                                         if (navigator.geolocation) {
                                             navigator.geolocation.getCurrentPosition(function (position) {
@@ -200,10 +234,16 @@ crossorigin="anonymous"></script>
                                     }
 
                                     function passo2() {
+                                        
                                         var nome = $("#nome").val();
+                                        var phone = $("#phone").val();
                                         var email = $("#email").val();
+                                         if (phone.length == 0) {
+                                                notify("\nPreencha o campo telefone", 'error');
+                                                return false;
+                                         }
                                         if (nome.length > 1) {
-                                            var letters = /^[A-Za-z]+$/;
+                                            var letters = /^[a-zA-Zà-úÀ-Ú ]+$/;
                                             if (nome.match(letters)) {
                                                 if (email.length > 0) {
                                                     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -211,6 +251,7 @@ crossorigin="anonymous"></script>
                                                         $('#passo1').hide();
                                                         $('#passo3').hide();
                                                         $('#passo2').show();
+                                                        $('#modal-title-complete').html('Cadastro | Endereço');
                                                     } else {
                                                         notify("\nPreencha o campo email corretamente", 'error');
                                                     }
@@ -218,6 +259,7 @@ crossorigin="anonymous"></script>
                                                     $('#passo1').hide();
                                                     $('#passo3').hide();
                                                     $('#passo2').show();
+                                                    $('#modal-title-complete').html('Cadastro | Endereço');
                                                     }
                                                 
                                             } else {
@@ -230,8 +272,10 @@ crossorigin="anonymous"></script>
                                     }
 
                                     function passo3() {
+                                    
                                         var nick = $("#nick2").val();
                                         var nome = $("#nome").val();
+                                        var phone = $("#phone").val();
                                         var email = $("#email").val();
                                         var end = $("#adds2").val() + ' ' + $("#numbero2").val() + ' -' + $("#address_neigh2").val() + ' ' + $("#address_city2").val() + ' / ' + $("#cep2").val();
                                         var address_number = $("#numbero2").val();
@@ -251,7 +295,9 @@ crossorigin="anonymous"></script>
                                             $('#passo1').hide();
                                             $('#passo2').hide();
                                             $('#passo3').show();
+                                            $('#modal-title-complete').text('Cadastro | Resumo');
                                             $("#result-nome").html("<b>Nome:</b> \n" + nome);
+                                            $("#result-telefone").html(" \n<b>Telefone:</b>  " + phone);
                                             $("#result-email").html(" \n<b>Email:</b>  " + email);
                                             $("#result-endereco").html("<b>Endereço:</b> \n" + end);
                                             $("#submitNewAddress2").show();
@@ -260,6 +306,7 @@ crossorigin="anonymous"></script>
                                     }
 
                                     function passo1() {
+                                        $('#modal-title-complete').text('Cadastro | Dados');
                                         $('#passo1').show();
                                         $('#passo2').hide();
                                         $('#passo3').hide();
