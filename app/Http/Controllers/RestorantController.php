@@ -13,6 +13,7 @@ use App\Models\LocalMenu;
 use App\Models\DeliveryTax;
 use App\Models\Options;
 use App\Notifications\RestaurantCreated;
+use App\Notifications\RestaurantResend;
 use App\Notifications\WelcomeNotification;
 use App\Plans;
 use App\Restorant;
@@ -744,6 +745,14 @@ class RestorantController extends Controller
 
         return redirect()->route('admin.restaurants.index')->withStatus(__('Restaurant successfully activated.'));
     }
+    
+    public function resendNotificationActive(Restorant $restaurant)
+    {
+        $owner = $restaurant->user()->first();
+        $owner->notify(new RestaurantResend($restaurant, $owner));
+        return redirect()->route('admin.restaurants.index')->withStatus(__('Restaurant successfully notified.'));
+    }
+    
 
     public function restaurantslocations()
     {

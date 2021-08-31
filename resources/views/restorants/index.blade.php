@@ -66,11 +66,12 @@
                                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                                     <a class="dropdown-item" href="{{ route('admin.restaurants.edit', $restorant) }}">{{ __('Edit') }}</a>
                                                     <a class="dropdown-item" href="{{ route('admin.restaurants.loginas', $restorant) }}">{{ __('Login as') }}</a>
+                                                    <a class="dropdown-item" href="{{ route('restaurant.resend', $restorant) }}">Reenviar Email - Notificação</a>
                                                     <form action="{{ route('admin.restaurants.destroy', $restorant) }}" method="post">
                                                         @csrf
                                                         @method('delete')
                                                         @if($restorant->active == 0)
-                                                            <a class="dropdown-item" href="{{ route('restaurant.activate', $restorant) }}">{{ __('Activate') }}</a>
+                                                            <a class="dropdown-item" href="{{ route('restaurant.activate', $restorant) }}">{{ __('Activate') }}</a>                                                            
                                                         @else
                                                             <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to deactivate this restaurant?") }}') ? this.parentElement.submit() : ''">
                                                                 {{ __('Deactivate') }}

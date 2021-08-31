@@ -938,6 +938,28 @@
     "PayPal client id - Subscribe" : "ID do cliente PayPal - Assinatura",
     "PayPal Subscribe configuration" : "Configuração de assinatura do PayPal",
     "Pay with Mercadopago" : "Pagar com MercadoPago",
-    "Add new shift" : "Adicionar novo turno"
-    
+    "Add new shift" : "Adicionar novo turno",
+     "notifications_email": "Email",
+    "notifications_thanks": "Obrigado por se registrar em :app_name",
+    "notifications_hello": "Olá :username",
+    "notifications_visit": "Visite :app_name",
+    "notifications_regdone": "Estamos felizes em ter você a bordo.",
+    "notifications_adminapprove": "Assim que o administrador aprovar sua conta, nós o avisaremos.",
+    "notifications_acc_create": "Conta criada em  :app_name",
+    "notifications_rest_acc_created": "Criamos uma conta para o proprietário do restaurante :restoname",
+    "notifications_driver_acc_created": "Criamos uma conta de motorista para :app_name",
+    "notifications_login": "Login",
+    "notifications_username": "Nome do usuário: :email",
+    "notifications_password": "senha: :password",
+    "notifications_reset_pass": "Você pode redefinir sua senha inicial",
+    "notifications_thanks_for_using_us": "Obrigado por usar o nosso serviço!",
+    "notifications_thanks_andcheckemail": "Obrigado por se registrar. Por favor, verifique seu e-mail para informações de login!",
+    "notifications_thanks_and_review": "Obrigado por enviar seu restaurante. Faremos uma avaliação do seu restaurante e entraremos em contato com você em breve!",
+    "notifications_acc_closed": "Conta encerrada em :app_name",
+    "notifications_acc_closed_sub": "Sua conta foi deletada. Obrigado por ser um cliente do: app_name. Agradecemos sinceramente sua preferência e esperamos que você volte em breve!",
+    "notifications_acc_closed_attachment": "Encontre em anexo a este e-mail uma cópia dos dados associados a esta conta.",
+    "notifications_acc_closed_msg": "A conta foi excluída com sucesso. Por favor verifique seu email!",
+    "notifications_notification_callwaiter": "Você tem um novo cliente",
+    "notifications_notification_neworder": "Você tem um novo pedido com ID"
+   
 }

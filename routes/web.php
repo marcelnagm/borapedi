@@ -129,6 +129,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/updateres/delivery/{restaurant}', 'RestorantController@updateDeliveryArea');
     Route::post('/import/restaurants', 'RestorantController@import')->name('import.restaurants');
     Route::get('/restaurant/{restaurant}/activate', 'RestorantController@activateRestaurant')->name('restaurant.activate');
+    Route::get('/restaurant/{restaurant}/resend', 'RestorantController@resendNotificationActive')->name('restaurant.resend');
     Route::post('/restaurant/workinghours', 'RestorantController@workingHours')->name('restaurant.workinghours');
     Route::post('/restaurant/address', 'RestorantController@getCoordinatesForAddress')->name('restaurant.coordinatesForAddress');
 
