@@ -14,6 +14,10 @@ class Coupons extends Model
         'name', 'code', 'restaurant_id', 'type', 'price', 'active_from', 'active_to', 'limit_to_num_uses','client_id'
     ];
     
+    public function __toString() {
+        return $this->type  == 0 ? "R$".$this->price : $this->price.'%';
+    }
+    
     public function client(){
         
         return $this->client_id != null ?  User::find($this->client_id) : null;

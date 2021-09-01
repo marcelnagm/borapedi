@@ -10,5 +10,6 @@
 @include('partials.fields',['fields'=>[
 ['ftype'=>'bool','help'=> 'Habilita a opção de pagar em dinheiro na entrega','name'=>"Pagamento Dinheiro na Entrega",'id'=>"restaurant_hide_cod",'value'=>($restorant->getConfig('restaurant_hide_cod') == 1 ? "true" : "false")],
 ['ftype'=>'bool','help'=> 'Habilita a opção de pagar na máquina de cartão na entrega','name'=>"Pagamento Máquina de Cartão na Entrega?",'id'=>"restaurant_hide_card",'value'=>($restorant->getConfig('restaurant_hide_card') == 1 ? "true" : "false")],
+['ftype'=>'bool','help'=> 'Habilita a opção de coupons em seu restaurante. ATENÇÃO- Lembre-se de ativar esta opção em caso de habilitar o programa de fidelidade','name'=>"Habilitar coupons?",'id'=>"restaurant_no_coupom",'value'=>($restorant->getConfig('restaurant_no_coupom') == 1 ? "true" : "false")],
 ]])
 

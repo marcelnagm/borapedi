@@ -374,6 +374,10 @@ class RestorantController extends Controller
             $restaurant->setConfig('restaurant_hide_cod', $request->restaurant_hide_cod == 'true' ? 1:0);
         }
         
+        if($request->has('restaurant_no_coupom')){
+            $restaurant->setConfig('restaurant_no_coupom', $request->restaurant_no_coupom == 'true' ? 1:0);
+        }
+        
         if($request->has('restaurant_hide_card')){
             $restaurant->setConfig('restaurant_hide_card', $request->restaurant_hide_card == 'true' ? 1:0);
         }

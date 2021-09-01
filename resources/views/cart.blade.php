@@ -177,7 +177,9 @@
                 @include('cart.payment')
 
                 <br/>
-
+                 @if ($restorant->getConfig('restaurant_no_coupom') == 1 )
+                @include('cart.coupons')
+                @endif
 
                 @else
                 <!-- Closed restaurant -->

@@ -210,8 +210,12 @@ class WhastappService {
 
     public static function generateTextOrder($order) {
         $title = '\nNovo Pedido' . $order->id . ' #' . "\n\n";
+        
 
-        $price = '*Preço: R$' . $order->order_price . "\n\n";
+        $price = '*Preço: R$' . $order->getOrderPrice() . "\n\n";
+        if ($order->coupom_id != null){
+        $price .= '*Cupom Aplicado:' . $order->coupom()->first()."\n\n";            
+        }        
         $price .= '*Taxa de Entrega: R$' . $order->delivery_price . ' ' . config('settings.cashier_currency') . "\n\n";
 
         $items = '*Detalhes:' . "\n";

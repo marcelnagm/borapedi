@@ -123,19 +123,35 @@
      <br/>
      @endif
      @hasrole('admin|driver|owner')
-     <h5>{{ __("NET") }}: @money( $order->order_price-$order->vatvalue, $currency ,true)</h5>
-     <h5>{{ __("VAT") }}: @money( $order->vatvalue, $currency,$convert)</h5>
+     <!--<h5>{{ __("NET") }}: @money( $order->order_price-$order->vatvalue, $currency ,true)</h5>-->
+     <!--<h5>{{ __("VAT") }}: @money( $order->vatvalue, $currency,$convert)</h5>-->
  
      @endif
-     <h4>{{ __("Sub Total") }}: @money( $order->order_price, $currency,$convert)</h4>
+     
+     @if(!empty($order->coupom_id))
+     <h4>{{ 'Coupom Aplicado'}}: {{ $order->coupom()->first() }}</h4>
+                 <h4>{{ "Sub Total - CUPOM APLICADO" }}: @money( $order->getOrderPrice(), $currency,$convert)</h4>
      @if(config('app.isft')  || (config('app.iswp')&&$order->delivery_method==1) )
      <h4>{{ __("Delivery") }}: @money( $order->delivery_price, $currency,$convert)</h4>
      @endif
-     <hr />
+     <hr />     
+     @if($order->payment_method == "cod")
+     <h4> Troco para: @money( $order->money_change , $currency,true)</h4>
+     <h4> Troco: @money( $order->money_change - ($order->delivery_price+$order->getOrderPrice()), $currency,true)</h4>
+     @endif
+     <h3>{{ __("TOTAL") }}: @money( $order->delivery_price+$order->getOrderPrice(), $currency,true)</h3>   
+     @else
+     <h4>{{ __("Sub Total") }}: @money( $order->order_price, $currency,$convert)</h4>
+     
+     @if(config('app.isft')  || (config('app.iswp')&&$order->delivery_method==1) )
+     <h4>{{ __("Delivery") }}: @money( $order->delivery_price, $currency,$convert)</h4>
+     @endif
+     <hr />     
      <h3>{{ __("TOTAL") }}: @money( $order->delivery_price+$order->order_price, $currency,true)</h3>
      @if($order->payment_method == "cod")
      <h4> Troco para: @money( $order->money_change , $currency,true)</h4>
      <h4> Troco: @money( $order->money_change - ($order->delivery_price+$order->order_price), $currency,true)</h4>
+     @endif
      @endif
      <hr />
      <h4>{{ __("Payment method") }}: {{ __(strtoupper($order->payment_method)) }}</h4>

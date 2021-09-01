@@ -826,14 +826,29 @@ class OrderController extends Controller {
 
         if (config('app.isft')) {
             if ($status_id_to_attach . '' == '3' || $status_id_to_attach . '' == '5' || $status_id_to_attach . '' == '9') {
+                try{
                 $order->client->notify(new OrderNotification($order, $status_id_to_attach));
+                }catch (\Swift_TransportException $ex){
+                    
+                }
             }
 
             if ($status_id_to_attach . '' == '4') {
+                try{
                 $order->driver->notify(new OrderNotification($order, $status_id_to_attach));
+                }catch (\Swift_TransportException $ex){
+                    
+                }
             }
         }
+        //decremet coupon id
+        if ($status_id_to_attach . '' == '3') {
+            $coupon =  $order->coupom()->first();
+              $coupon->decrement('limit_to_num_uses');
+            $coupon->increment('used_count');
+            $coupon->save();
 
+        }
         //Picked up - start tracing
         if ($status_id_to_attach . '' == '6') {
             $order->lat = $order->restorant->lat;
@@ -874,7 +889,11 @@ class OrderController extends Controller {
         if ($alias == "accepted_by_admin") {
             //IN FT send email
             if (config('app.isft')) {
+                try{
                 $order->restorant->user->notify((new OrderNotification($order))->locale(strtolower(config('settings.app_locale'))));
+                }catch (\Swift_TransportException $ex){
+                    
+                }
             }
 
             OrderAcceptedByAdmin::dispatch($order);
@@ -1017,6 +1036,9 @@ class OrderController extends Controller {
     public function success(Request $request) {
         $order = Order::findOrFail($request->order);
         WhastappService::sendMessage($order, 1);
+        $order->coupom_id = session('coupon_applyed')->id;
+        $order->save();
+        session(['coupon_applyed' => null]);
         //If order is not paid - redirect to payment
         if ($request->redirectToPayment . "" == "1" && $order->payment_status != 'paid' && strlen($order->payment_link) > 5) {
             //Redirect to payment

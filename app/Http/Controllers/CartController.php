@@ -108,7 +108,34 @@ class CartController extends Controller
         if(isset($_GET['session_id'])){
             $this->setSessionID($_GET['session_id']);
         }
+        
+       if (session()->exists('coupon_applyed') && session('coupon_applyed') != null) {
+         $coupon = session('coupon_applyed');
+         if ($coupon->type == 0 && $coupon->limit_to_num_uses > 0 ) {
+            $total = Cart::getSubTotal() - $coupon->price;
+         
+        } elseif ($coupon->type == 1 && $coupon->limit_to_num_uses > 0) {
+            $myNumber = Cart::getSubTotal();
 
+            //I want to get 25% of 928.
+            $percentToGet = $coupon->price;
+
+            //Convert our percentage value into a decimal.
+            $percentInDecimal = $percentToGet / 100;
+
+            //Get the result.
+            $percent = $percentInDecimal * $myNumber;
+
+            $total = number_format((float) Cart::getSubTotal() - $percent, 2, '.', '');
+          
+        }
+        return response()->json([
+            'data' => Cart::getContent(),
+            'total' => $total,
+            'status' => true,
+            'errMsg' => '',
+        ]);
+       }
         //Cart::clear();
         return response()->json([
             'data' => Cart::getContent(),

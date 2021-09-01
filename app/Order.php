@@ -4,6 +4,7 @@ namespace App;
 
 use App\Scopes\RestorantScope;
 use App\User;
+use App\Coupons;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasConfig;
@@ -24,7 +25,7 @@ class Order extends Model
 
     protected $appends = ['time_created','time_formated','last_status','is_prepared','actions','configs','tableassigned'];
 
-    protected $fillable = ['fee', 'fee_value', 'static_fee', 'vatvalue','money_change','payment_info','mollie_payment_key','whatsapp_phone'];
+    protected $fillable = ['coupom_id','fee', 'fee_value', 'static_fee', 'vatvalue','money_change','payment_info','mollie_payment_key','whatsapp_phone'];
 
     public function restorant()
     {
@@ -44,6 +45,36 @@ class Order extends Model
     public function address()
     {
         return $this->hasOne(\App\Address::class, 'id', 'address_id');
+    }
+    
+    public function coupom()
+    {
+        return $this->hasOne(\App\Coupons::class, 'id', 'coupom_id');
+    }
+    
+    public function getOrderPrice (){
+        if($this->coupom_id == null){
+            return $this->order_price;
+        }
+        $coupon = $this->coupom()->first();
+         if ($coupon->type == 0 && $coupon->limit_to_num_uses > 0 ) {
+            $total = $this->order_price - $coupon->price;
+         
+        } elseif ($coupon->type == 1 && $coupon->limit_to_num_uses > 0) {
+            $myNumber = $this->order_price;
+
+            //I want to get 25% of 928.
+            $percentToGet = $coupon->price;
+
+            //Convert our percentage value into a decimal.
+            $percentInDecimal = $percentToGet / 100;
+
+            //Get the result.
+            $percent = $percentInDecimal * $myNumber;
+
+            $total = number_format((float) $myNumber- $percent, 2, '.', '');          
+        }
+        return $total;
     }
 
     public function client()

@@ -84,7 +84,7 @@
         </td>
     @endif
     <td class="table-web">
-        @money( $order->order_price, config('settings.cashier_currency'),config('settings.do_convertion'))
+        @money( $order->getOrderPrice(), config('settings.cashier_currency'),config('settings.do_convertion'))
             -
         @money( $order->delivery_price, config('settings.cashier_currency'),config('settings.do_convertion'))
     </td>
