@@ -4,7 +4,7 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
-setlocale(LC_TIME, 'pt_BR'); 
+setlocale( LC_ALL, 'pt_BR', 'pt_BR.iso-8859-1', 'pt_BR.utf-8', 'portuguese' );
 //echo strftime('%A, %d de %B de %Y', strtotime('today'));
 /*
 |--------------------------------------------------------------------------
