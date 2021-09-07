@@ -85,10 +85,11 @@ class Controller extends BaseController {
         $addresses = [];        
         $numItems = $restaurant->radius ? count($restaurant->radius) : 0;
         $max = DeliveryTax::where('restaurant_id', $restaurant->id)->max('distance');
-        $client = new \GuzzleHttp\Client();
-        $geocoder = new Geocoder($client);
-        $geocoder->setApiKey(config('settings.google_maps_api_key'));
-        $rid = $geocoder->getCoordinatesForAddress($restaurant->address);
+//        $client = new \GuzzleHttp\Client();
+//        $geocoder = new Geocoder($client);
+//        $geocoder->setApiKey(config('settings.google_maps_api_key'));
+//        $rid = $geocoder->getCoordinatesForAddress($restaurant->address);
+        $rid = $restaurant->address;
         
         if ($addressesRaw) {
             foreach ($addressesRaw as $address) {
@@ -101,7 +102,7 @@ class Controller extends BaseController {
                     $new_obj->address = $address->address;
                     $new_obj->nick= $address->nick;
 
-                    $data2 = $this->getDrivingDistance($address->lat, $rid['lat'], $address->lng, $rid['lng']);
+                    $data2 = $this->getDrivingDistancePlain($address->address, $rid);
                    
                     if ($data2['distance'] > $max) {
                         $new_obj->inRadius = false;
@@ -129,17 +130,38 @@ class Controller extends BaseController {
         return $addresses;
     }
 
-    private function getDrivingDistance($lat1, $lat2, $long1, $long2) {
+    private function getDrivingDistancePlain($add1, $add2) {
+       $api = config('settings.google_maps_api_key');
+        $url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=`" .urlencode ($add1). "`&destinations=`" . urlencode ($add2) . "`&mode=driving&language=pl-PL&key=" . $api;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//        curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $response = curl_exec($ch);
+//        dd ($url,$response);
+        curl_close($ch);
+        $response_a = json_decode($response, true);
+//        dd($response_a0 );
+        $dist = $response_a['rows'][0]['elements'][0]['distance']['value'];
+        $time = $response_a['rows'][0]['elements'][0]['duration']['text'];
 
+        return array('distance' => $dist/1000, 'time' => $time);   
+    }
+    
+    private function getDrivingDistance($lat1, $lat2, $long1, $long2) {
+//        dd ($lat1, $lat2, $long1, $long2);
         $api = config('settings.google_maps_api_key');
         $url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" . $lat1 . "," . $long1 . "&destinations=" . $lat2 . "," . $long2 . "&mode=driving&language=pl-PL&key=" . $api;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
+//        curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         $response = curl_exec($ch);
+//        dd ($url,$response);
         curl_close($ch);
         $response_a = json_decode($response, true);
 //        dd($response_a0 );

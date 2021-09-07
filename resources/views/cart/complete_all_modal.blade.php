@@ -26,21 +26,21 @@
                                         ['ftype'=>'input','name'=>"Nome",'id'=>"nome",'placeholder'=>"Coloque aqui seu email",'required'=>true]
                                         ]])    
                                     </div>
-                                </div>
-                                                        <div class="row">
-                            <div class="col-12" >
-                                @include('partials.fields',['fields'=>[
-                                ['ftype'=>'input','name'=>"Whatsapp",'id'=>"phone",'placeholder'=>"Coloque seu Whatsapp aqui ...",'required'=>true,'value'=> auth()->user()->phone],
-                                ]])
-                            </div>
-                            </div>
+                                </div>                                  
                                 <div class="row">
                                     <div class="col-12">                           
                                         @include('partials.fields',['fields'=>[
                                         ['ftype'=>'input','name'=>"Email",'id'=>"email",'placeholder'=>"Coloque aqui seu email",'required'=>false]
                                         ]])                         
                                     </div>
-                                </div>                                       
+                                </div>
+                                                      <div class="row">
+                            <div class="col-12" >
+                                @include('partials.fields',['fields'=>[
+                                ['ftype'=>'input','name'=>"Whatsapp",'id'=>"phone",'placeholder'=>"Coloque seu Whatsapp aqui ...",'required'=>true,'value'=> auth()->user()->phone],
+                                ]])
+                            </div>
+                            </div>
                                 <div class="row">
                                     <div class="col-12">                           
 
@@ -243,7 +243,7 @@ passo1();
                                                 return false;
                                          }
                                         if (nome.length > 1) {
-                                            var letters = /^[a-zA-Zà-úÀ-Ú ]+$/;
+                                            var letters = /^[a-zA-Záàâãéèêíïóôõöúçñ ]+$/;
                                             if (nome.match(letters)) {
                                                 if (email.length > 0) {
                                                     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

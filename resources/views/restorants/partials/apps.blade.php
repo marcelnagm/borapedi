@@ -10,12 +10,18 @@
     </div>
     <div class="card-body">
         <form id="restorant-apps-form" method="post" autocomplete="off" enctype="multipart/form-data" action="{{ route('admin.restaurant.updateApps',$restorant) }}">
+            
             @csrf
             @method('put')
             @include('partials.fields',['fields'=>$appFields])
+          @if (config('settings.is_whatsapp_ordering_mode'))
+                @include('restorants.partials.social_info',['restorant'=>$restorant])  
+         @endif
+
             <div class="text-center">
                 <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
             </div>
         </form>
+          
     </div>
 </div>

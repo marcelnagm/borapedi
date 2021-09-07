@@ -19,7 +19,7 @@
             @include('partials.input',['name'=>'Stripe Pricing Plan ID','id'=>"stripe_id",'placeholder'=>"Product price plan id from Stripe starting with price_xxxxxx",'required'=>false,'value'=>(isset($plan)?$plan->stripe_id:null)])
         </div>
     @else
-        @if(config('settings.subscription_processor')!='Local')
+        @if(!config('settings.subscription_processor')=='Local')
             @include($theSelectedProcessor."-subscribe::planid")
         @endif
     @endif
@@ -52,13 +52,16 @@
         <input name="ordering" class="custom-control-input" id="disabled" value="disabled" @if (isset($plan) && $plan->enable_ordering == 2) checked @endif type="radio">
         <label class="custom-control-label" for="disabled">{{ __('Disabled') }}</label>
     </div>
+    <label class="form-control-label">Modulos Adicionais</label>
+    <div class="-3">
+        <input name="driver_own" class="" type="checkbox" @if (isset($plan))  @if ($plan->driver_own == 1) checked @endif  @endif  >
+        <label class="" for="driver_own">Motorista Próprio</label>
+    </div>
+    <div class="mb-3">
+        <input name="local_table" class="" type="checkbox" @if (isset($plan))  @if ($plan->local_table == 1) checked @endif   @endif  >
+        <label class="" for="local_table">Consumo no Local</label>
+    </div>
 </div>
-
-
-<div class="col-md-6 mt-3">
-    @include('partials.input',['type'=>"number", 'name'=>'Orders limit per plan period','id'=>"limit_orders",'placeholder'=>"Number of orders per period",'required'=>false,'additionalInfo'=>"0 is unlimited numbers of orders per period",'value'=>(isset($plan)?$plan->limit_orders:null)])
-</div>
-
 </div>
 <br/>
 

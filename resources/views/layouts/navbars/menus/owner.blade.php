@@ -49,14 +49,14 @@
 
 @if(auth()->user()->plan()->count() !=  0)
 
-@if(auth()->user()->plan()->first()->driver_own)
+@if(auth()->user()->restorant()->first()->getPlanAttribute()['driver_own'])
 <li class="nav-item">
     <a class="nav-link" href="{{ route('drivers.index') }}">
         <i class="ni ni-delivery-fast text-pink"></i> {{ __('Drivers') }}
     </a>
 </li>
 @endif
-@if(auth()->user()->plan()->first()->local_table)
+@if(auth()->user()->restorant()->first()->getPlanAttribute()['local_table'])
 <li class="nav-item">
     <a class="nav-link" href="{{ route('admin.restaurant.tables.index') }}">
         <i class="ni ni-ungroup text-red"></i> {{ __('Tables') }}
@@ -64,11 +64,11 @@
 </li>
 @endif
 @endif
-<li class="nav-item">
+<!--<li class="nav-item">
     <a class="nav-link" href="{{ route('qr') }}">
         <i class="ni ni-mobile-button text-red"></i> {{ __('QR Builder') }}
     </a>
-</li>
+</li>-->
 <li class="nav-item">
     <a class="nav-link" href="{{ route('marketing.index') }}">
         <i class="ni ni ni-notification-70 text-info"></i> Campanha de Marketing

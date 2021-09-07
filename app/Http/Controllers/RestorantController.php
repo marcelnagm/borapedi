@@ -325,6 +325,23 @@ class RestorantController extends Controller
          if($request->has('custom')){
             $restaurant->setMultipleConfig($request->custom);
         }
+         
+        if($request->has('restorant_hide_ondelivery')){
+            $restaurant->setConfig('restorant_hide_ondelivery', $request->restaurant_hide_ondelivery == 'true' ? 0:1);
+        }
+        
+        if($request->has('restaurant_hide_cod')){
+            $restaurant->setConfig('restaurant_hide_cod', $request->restaurant_hide_cod == 'true' ? 1:0);
+        }
+        
+        if($request->has('restaurant_no_coupom')){
+            $restaurant->setConfig('restaurant_no_coupom', $request->restaurant_no_coupom == 'true' ? 1:0);
+        }
+        
+        if($request->has('restaurant_hide_card')){
+            $restaurant->setConfig('restaurant_hide_card', $request->restaurant_hide_card == 'true' ? 1:0);
+        }
+        
         return redirect()->route('admin.restaurants.edit', ['restaurant' => $restaurant->id])->withStatus(__('Restaurant successfully updated.'));
     }
 
@@ -365,22 +382,7 @@ class RestorantController extends Controller
         if($request->has('whatsapp_phone')){
             $restaurant->payment_info = $request->whatsapp_phone;
         }
-        
-        if($request->has('restorant_hide_ondelivery')){
-            $restaurant->setConfig('restorant_hide_ondelivery', $request->restaurant_hide_ondelivery == 'true' ? 0:1);
-        }
-        
-        if($request->has('restaurant_hide_cod')){
-            $restaurant->setConfig('restaurant_hide_cod', $request->restaurant_hide_cod == 'true' ? 1:0);
-        }
-        
-        if($request->has('restaurant_no_coupom')){
-            $restaurant->setConfig('restaurant_no_coupom', $request->restaurant_no_coupom == 'true' ? 1:0);
-        }
-        
-        if($request->has('restaurant_hide_card')){
-            $restaurant->setConfig('restaurant_hide_card', $request->restaurant_hide_card == 'true' ? 1:0);
-        }
+       
         
         if($request->has('payment_info')){
             $restaurant->payment_info = $request->payment_info;
@@ -619,6 +621,53 @@ class RestorantController extends Controller
         return view('restorants.register');
     }
 
+    public function validadeForm (Request $request){
+         //Validate first
+        $input = file_get_contents('php://input');
+        
+        $data= json_decode($input, true);
+//        dd($data);
+        $theRules= array();
+        $messages= array();
+        if(array_key_exists('name',$data)){            
+        $theRules = [
+            'name' => ['required', 'string', 'unique:restorants,name', 'max:255'],
+        ];
+        }
+        if(array_key_exists('subdomain',$data)){                    
+        $theRules = [            
+            'subdomain' => ['required', 'string', 'unique:restorants,subdomain', 'max:255'],            
+        ];
+              $messages = [
+    'subdomain.required' => 'Já existe um restaurante com este subdmonínio!',
+];
+        }
+        if(array_key_exists('email_owner',$data)){                    
+        $theRules = [
+            'email_owner' => ['required', 'string', 'email', 'unique:users,email', 'max:255'],
+        ];
+        }
+        if(array_key_exists('phone_owner',$data)){                    
+         $theRules = [
+            'phone_owner' => ['required', 'string', 'regex:/^([0-9\s\-\+\(\)]*)$/','unique:users,phone'],
+        ];
+               $messages = [
+    'phone_owner.required' => 'Já existe um restaurante com este telefone!',
+];
+        }
+        
+
+  
+
+
+//        $request->validate($theRules);
+         $validator = Validator::make($data, $theRules,$messages);
+if ($validator->fails()) {
+            return  false;
+        }
+        return true;
+    }
+    
     public function storeRegisterRestaurant(Request $request)
     {
         
@@ -626,19 +675,30 @@ class RestorantController extends Controller
         //Validate first
         $theRules = [
             'name' => ['required', 'string', 'unique:restorants,name', 'max:255'],
+            'subdomain' => ['required', 'string', 'unique:restorants,subdomain', 'max:255'],
             'name_owner' => ['required', 'string', 'max:255'],
             'cep2' => ['required', 'string', 'max:255'],
             'numbero2' => ['required', 'string', 'max:255'],
             'email_owner' => ['required', 'string', 'email', 'unique:users,email', 'max:255'],
-            'phone_owner' => ['required', 'string', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
+            'phone_owner' => ['required', 'string', 'regex:/^([0-9\s\-\+\(\)]*)$/','unique:users,phone'],
         ];
 
         if (strlen(config('settings.recaptcha_site_key')) > 2) {
             $theRules['g-recaptcha-response'] = 'recaptcha';
         }
+        $messages = [
+    'subdomain.required' => 'Já existe um restaurante com este subdmonínio!',
+    'phone_owner.required' => 'Já existe um restaurante com este telefone!',
+];
 
-        $request->validate($theRules);
 
+//        $request->validate($theRules);
+         $validator = Validator::make($request->all(), $theRules,$messages);
+if ($validator->fails()) {
+            return redirect('/new/restaurant/register/')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
         //Create the user
         //$generatedPassword = Str::random(10);
         $owner = new User;
@@ -649,7 +709,7 @@ class RestorantController extends Controller
         $owner->api_token = Str::random(80);
 
         $owner->password = null;
-        $owner->save();
+//        $owner->save();
 
         //Assign role
         $owner->assignRole('owner');
@@ -661,6 +721,7 @@ class RestorantController extends Controller
         //Create Restorant
         $restaurant = new Restorant;
         $restaurant->name = strip_tags($request->name);
+        $restaurant->subdomain= subdomain;
         $restaurant->user_id = $owner->id;
         $restaurant->description = strip_tags($request->description.'');
         $restaurant->minimum = $request->minimum | 0;
@@ -679,7 +740,7 @@ class RestorantController extends Controller
         $restaurant->active = 0;
         $restaurant->subdomain = null;
         //$restaurant->logo = "";
-        $restaurant->save();
+//        $restaurant->save();
 
         //default hours
         $hours = new Hours();
@@ -702,7 +763,7 @@ class RestorantController extends Controller
         $hours->{'6_from'} = config('settings.time_format') == "AM/PM" ? "9:00 AM" : "09:00";
         $hours->{'6_to'} = config('settings.time_format') == "AM/PM" ? "5:00 AM" : "17:00";
         
-        $hours->save();
+//        $hours->save();
 
         $restaurant->setConfig('disable_callwaiter', 0);
         $restaurant->setConfig('restaurant_hide_ondelivery', 0);

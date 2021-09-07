@@ -42,7 +42,7 @@
 
     .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
         border: none;
-        border-bottom: #ffa200 solid 4px;
+        border-bottom: #f5365c solid 4px;
     }
 
     @media only screen and (max-width:1023px) {
@@ -130,7 +130,7 @@
                                 </div>                                 
                             </div>
                             @endif                       
-                            @if(($restorant->can_pickup == 1) || ($restorant->can_deliver == 1))
+                            @if(($restorant->can_pickup == 1) || auth()->user()->restorant()->first()->getPlanAttribute()['local_table'])
                             <div class="tab-pane fade show" id="pickup" role="tabpanel" aria-labelledby="tabs-icons-text-1-tab">
                                 @include('cart.pickup')
 

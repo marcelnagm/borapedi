@@ -85,7 +85,8 @@ class Restorant extends MyModel {
             $planInfo['itemsMessage'] = __('You can add unlimited number of items');
             $planInfo['canAddNewItems'] = true;
         }
-
+         $planInfo['local_table'] = $currentPlan->local_table == 1? true: false;
+         $planInfo['driver_own'] = $currentPlan->driver_own == 1? true: false;
         //Count orders
         //Period
         if ($currentPlan->period == 1) {

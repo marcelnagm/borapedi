@@ -5,7 +5,7 @@
 @endisset
 <div id="form-group-{{ $id }}" class="form-group{{ $errors->has($id) ? ' has-danger' : '' }}  @isset($class) {{$class}} @endisset">
      @if(!(isset($type)&&$type=="hidden"))
-        <label class="form-control-label" for="{{ $id }}">{{ __($name) }}@isset($link)<a target="_blank" href="{{$link}}">{{$linkName}}</a>@endisset</label>
+        <label class="form-control-label @isset($aditionalClassLabel) {{  $aditionalClassLabel }} @endisset" for="{{ $id }}">{{ __($name) }}@isset($link)<a target="_blank" href="{{$link}}">{{$linkName}}</a>@endisset</label>
     @endif
     @isset($help)
         <span type="button" class="" data-toggle="tooltip" data-html="true" title="{{$help}}">

@@ -31,6 +31,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 // ROUTES FOR RETURN OF MERCADO PAGO
+Route::post('/restorant/validate', 'RestorantController@validadeForm')->name('restorant.validate');
 Route::post('/order/return', 'OrderReturnController@index')->name('orders.return');
 Route::get('/order/process', 'OrderReturnController@process')->name('orders.process');
 

@@ -12,18 +12,26 @@
                 ['ftype'=>'input','help' => 'Descrição que aparecerá para o cliente conhecer o seu restaurante, uma boa prática é colocar uma descrição do tipo de cozinha que é servido
                 ','name'=>"Restaurant Description",'id'=>"description",'placeholder'=>"Restaurant description",'required'=>true,'value'=>$restorant->description],
                 ]])
+                <h6 class="heading-small text-muted mb-4">{{ __('Restaurant Address') }}</h6>
                 <div class="row" style="margin-bottom:10px;">
                     <div class="col-12">
                         <div id="form-group-cep" class="form-group  ">
                             <label class="form-control-label cep-label" for="cep" >Cep: <a  alt="Não sei Meu Cef"  target="_blank"  href="https://buscacepinter.correios.com.br/app/endereco/index.php?t" style="font-style: italic;" >Não sei <i class="fas fa-question-circle"></i></a></label>
-                            <input step=".01" type="text" name="Cep" id="cep" class="form-control form-control cep-form left " placeholder="Coloque seu CEP aqui ..." value="" autofocus="" style="widht: 88%;">
+                            <input step=".01" type="text" name="Cep" id="cep" class="form-control form-control cep-form left " placeholder="Coloque seu CEP aqui ..." value="" autofocus="" style="width: 88%;">
                             <span class="input-group-text cep-label" style="float:left; width: 10%;height:40px ;padding-right: 18px;   vertical-align: -webkit-baseline-middle;"><i id="search_location" class="fa fa-map-pin" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pegar minha localização"></i></span>
                         </div>                                                                 
                     </div>                               
                     <p>Este campo não fica preenchido sendo apenas uma ferramentar para selecionar o endereço corretamente</p>
                 </div>
                 @include('partials.fields',['fields'=>[
-                ['ftype'=>'input','name'=>"Restaurant Address",'id'=>"address",'placeholder'=>"Restaurant address",'required'=>true,'value'=>$restorant->address],
+                ['ftype'=>'input','name'=>"Numero",'id'=>"number",'placeholder'=>"Coloque o número do endereço",'required'=>true, ],
+                ['ftype'=>'input','name'=>"Complemento",'id'=>"complement",'placeholder'=>"Complemento do endereço",'required'=>true, ],]])
+                
+                @include('partials.fields',['fields'=>[
+                ['ftype'=>'input','name'=>"Restaurant Address",'id'=>"address",'placeholder'=>"Restaurant address",'required'=>true,'value'=>$restorant->address, 'readonly' => 'readonly'],
+                ]])
+                <h6 class="heading-small text-muted mb-4">Contatos do Restaurante</h6>
+                @include('partials.fields',['fields'=>[
                 ['ftype'=>'input','help' => 'Número do whatsapp do restaurante, não necessáriamente é o mesmo do contato, este número será utilizado para entrar em contato com os clientes e aparecerá na tela de contato do restaurante','name'=>"Whatsapp do Restaurante",'id'=>"whatsapp_phone",'placeholder'=>"Restaurant phone",'required'=>true,'value'=>$restorant->whatsapp_phone],
                 ['ftype'=>'input','help' => 'Telefone de contato do restaurante','name'=>"Restaurant Phone",'id'=>"phone",'placeholder'=>"Restaurant phone",'required'=>true,'value'=>$restorant->phone],
                 ]])
@@ -75,16 +83,19 @@
                 @endif
                 <br/>                
                 @if(config('app.isft'))
-                                
+                     <h6 class="heading-small text-muted mb-4">Opções de Consumo</h6>               
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'bool','help'=>'Habilita a opção de retirada no local','name'=>"Pickup",'id'=>"can_pickup",'value'=>$restorant->can_pickup == 1 ? "true" : "false"],
                 ]])
                 @include('partials.fields',['fields'=>[               
                 ['ftype'=>'bool','help'=>'Habilita o sistema de entrega em domicílio','name'=>"Delivery",'id'=>"can_deliver",'value'=>$restorant->can_deliver == 1 ? "true" : "false"],
                 ]])
+                
+                @if(auth()->user()->restorant()->first()->getPlanAttribute()['local_table'])
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'bool','help'=>'Habilita a opção de consumo no local por mesa e atendimento por garçom','name'=>"Self Delivery",'id'=>"self_deliver",'value'=>$restorant->self_deliver == 1 ? "true" : "false"],
                 ]])
+                @endif
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'bool','help'=> 'Torna gratuíta a taxa de entrega','name'=>"Free Delivery",'id'=>"free_deliver",'value'=>$restorant->free_deliver == 1 ? "true" : "false"],
                 ]])
@@ -115,10 +126,7 @@
                 @include('restorants.partials.localisation')
 
                 <!-- WHATS APP MODE -->
-                @if (config('settings.is_whatsapp_ordering_mode'))
-                @include('restorants.partials.social_info')  
-                @endif
-
+              
                 @if (config('settings.whatsapp_ordering'))
                 <!-- We have WP ordering -->
                 @if (config('app.isft'))
@@ -184,6 +192,18 @@ crossorigin="anonymous"></script>
 
                                 $(document).ready(function ($) {
 
+                                    //Quando o campo cep perde o foco.
+                                    $("#complement").blur(function () {
+                                        var end = $("#address").val();
+                                        $("#address").val(end+' - '+$("#complement").val());
+                                        
+                                    });
+                                    $("#number").blur(function () {
+                                        var end = $("#address").val();
+                                        var parts = end.split(',');
+                                        $("#address").val(parts[0]+' '+$("#number").val()+','+parts[1]);
+                                        console.log(parts);
+                                    });
                                     //Quando o campo cep perde o foco.
                                     $("#cep").blur(function () {
 //Nova variável "cep" somente com dígitos.
