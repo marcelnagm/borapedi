@@ -25,7 +25,7 @@
                 </div>
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'input','name'=>"Numero",'id'=>"number",'placeholder'=>"Coloque o número do endereço",'required'=>true, ],
-                ['ftype'=>'input','name'=>"Complemento",'id'=>"complement",'placeholder'=>"Complemento do endereço",'required'=>true, ],]])
+                ['ftype'=>'input','name'=>"Complemento",'id'=>"complement",'placeholder'=>"Complemento do endereço",'required'=>false, ],]])
                 
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'input','name'=>"Restaurant Address",'id'=>"address",'placeholder'=>"Restaurant address",'required'=>true,'value'=>$restorant->address, 'readonly' => 'readonly'],

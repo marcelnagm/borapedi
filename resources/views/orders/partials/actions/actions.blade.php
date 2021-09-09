@@ -13,6 +13,6 @@
     <p><small class="text-muted">{{ $order->actions['message'] }}</small><p>
 @endif
 
-@if($lastStatusAlisas == "prepared"&&$order->driver==null && @if(auth()->user()->restorant()->first()->getPlanAttribute()['driver_own'])))
+@if($lastStatusAlisas == "prepared"&&$order->driver==null && (auth()->user()->restorant()->first()->getPlanAttribute()['driver_own'])))
     <button type="button" class="btn btn-primary btn-sm order-action" onClick=(setSelectedOrderId({{ $order->id }}))  data-toggle="modal" data-target="#modal-asign-driver">{{ __('Assign to driver') }}</a>
 @endif        

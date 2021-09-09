@@ -6,10 +6,12 @@
 
 
 
+@if(auth()->user()->restorant()->first() != null)
 @if(auth()->user()->restorant()->first()->getPlanAttribute()['local_table'])
     <div class="custom-control custom-radio mb-3 col-4">
         <input name="deliveryType" class="custom-control-input" id="deliveryTypeDinein" type="radio" value="dinein" >
         <label class="custom-control-label" for="deliveryTypeDinein">Consumo no Local</label>
     </div>
+    @endif
     @endif
 </div>

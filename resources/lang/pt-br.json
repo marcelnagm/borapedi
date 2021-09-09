@@ -723,7 +723,7 @@
     "PNG 650x120 recomended" : "Imagem PNG 650x120 recomendada",
     "JPEG 590 x 400 recomended" : "Imagem JPEG 590 x 400 recomendada",
     "JPEG 2000 x 1000 recomended" : "Imagem JPEG 2000 x 1000 recomendada",
-    "Mercadopago configuration" : "Configuração Modulo MercadoPago",
+    "Mercadopago configuration" : "MercadoPago",
     "Enable Mercadopago for payments when ordering" : "Habilitar Pagamento com MercadoPago para pedidos feitos",
     "Mercadopago access token" : "Token de Acesso do Mercado Pago",
     "Monday" : "Segunda-Feira",
