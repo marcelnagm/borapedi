@@ -105,9 +105,17 @@
                                             </br>
                                             <p class="display-4 sub-description" >{{ $restorant->description }}</p>
 
-                                            <p><i class="ni ni-watch-time"></i> @if(!empty($openingTime))<span class="closed_time">{{__('Opens')}} {{ $openingTime }}</span>@endif @if(!empty($closingTime))<span class="opened_time">{{__('Opened until')}} {{ $closingTime }}</span> @endif |   @if(!empty($restorant->address))<i class="ni ni-pin-3"></i></i> <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ urlencode($restorant->address) }}">{{ $restorant->address }}</a>  | @endif @if(!empty($restorant->phone)) <i class="ni ni-mobile-button"></i> <a href="tel:{{$restorant->phone}}">{{ $restorant->phone }} </a> @endif @if(!empty($restorant->whatsapp_phone))  | <i class="fa fa-whatsapp "></i>Whatsapp
+                                            <p><i class="ni ni-watch-time"></i> @if(!empty($openingTime))<span class="closed_time">{{__('Opens')}} {{ $openingTime }}</span>@endif @if(!empty($closingTime))<span class="opened_time">{{__('Opened until')}} {{ $closingTime }}</span> @endif |   @if(!empty($restorant->address))<i class="ni ni-pin-3"></i></i> <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ urlencode($restorant->address) }}">{{ $restorant->address }}</a>  | @endif @if(!empty($restorant->phone)) <i class="ni ni-mobile-button"></i> <a href="tel:{{$restorant->phone}}">{{ $restorant->phone }} </a> @endif 
+                                            @if(!empty($restorant->whatsapp_phone))  | <i class="fa fa-whatsapp "></i>Whatsapp
                                             <a  target="_blank" href="https://wa.me/{{ $restorant->getFormmatedWhatsapp() }}">{{ $restorant->whatsapp_phone }}</a>
                                                 @endif
+                                                
+                                                    @if($restorant->fidelity_program() != null) 
+                                                    |<a data-toggle="modal" data-target="#modal-restaurant-info" style="cursor: pointer;" >
+                                                        <i style="color:gold;"  class="ni ni-trophy"></i>
+                                                        Programa de Fidelidade
+                                                    </a>
+                                                    @endif
                                             </p>
 
                                         </div>
@@ -148,6 +156,9 @@
                                                     @endif
                                                     @if(!empty($restorant->whatsapp_phone))  | <i class="fa fa-whatsapp "></i>Whatsapp
                                                     <a target="_blank" href="https://wa.me/{{ $restorant->whatsapp_phone }}">{{ $restorant->whatsapp_phone }}</a>
+                                                    @endif
+                                                    @if($restorant->fidelity_program() != null) 
+                                                    <a target="_blank" href="https://wa.me/">Programa de Fidelidade</a>
                                                     @endif
                                                 </p>
                                             </div>

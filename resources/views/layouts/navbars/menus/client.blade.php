@@ -21,7 +21,7 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('fidelity_program.index') }}">
-            <i class="ni ni-tag text-info"></i> Meus Programas de Fidelidade
+             <i style="color:gold;"  class="ni ni-trophy"></i> Meus Programas de Fidelidade
         </a>
     </li>
 </ul>

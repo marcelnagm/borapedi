@@ -120,6 +120,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab" href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false">{{ __('Reviews') }}</a>
                                 </li>
+                                @if($restorant->fidelity_program()!= null)
+                                <li class="nav-item">
+                                    <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-3-tab" data-toggle="tab" href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3" aria-selected="false">Programa de Fidelidade</a>
+                                </li>
+                                @endif
                             </ul>
                         </div>
                         <div class="tab-content" id="myTabContent">
@@ -160,7 +165,92 @@
                                 <p>{{ __('There are no reviews yet.') }}<p>
                                     @endif
                             </div>
+                            @if($restorant->fidelity_program()!= null)
+                            <?php $item = $restorant->fidelity_program()?>
+                            <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel" aria-labelledby="tabs-icons-text-3-tab">
+                                <div class="table-responsive">
+
+                                            <table class="table align-items-center table-flush">
+                                                <tr>
+                                                    <td>Programa de Fidelidade - {{ $item->restorant()->name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Regras
+                                                        <p>
+                                                            @if($item->type_target == 0 )
+                                                            Ao fazer {{ $item->target_orders }} pedidos de pelo menos R${{ $item->target_value }}  você tem direito ao benefício.
+                                                            @else
+                                                            Ao fazer R${{ $item->target_value }} em compras no restaurante  você tem direito ao benefício. 
+                                                            @endif       
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <td>Beneficio:
+
+                                                    <p>
+                                                        @if ($item->type_reward == 0)
+                                                        Cupom de {{ $item->type_coupon == 0 ? $item->reward." ".config('settings.cashier_currency') : $item->reward." %"}}
+                                                        @else
+                                                        Nao Disponivel
+                                                        @endif
+                                                    </p>
+                                                </td>
+                                                @auth
+                                                <tr>
+                                                    <td>
+                                                        <?php
+                                                        $buys = auth()->user()->BuysByRestaurant($item->restorant()->id, 1);
+
+                                                        ?>
+                                                        <div class="progress-wrapper">
+                                                            <div class="progress-info">
+                                                                <div class="progress-label">
+                                                                    <span>Progresso:</span>
+                                                                    @if($item->type_target == 0 )
+                                                                     <?php
+                                                        $buys = auth()->user()->BuysByRestaurant($item->restorant()->id, 1);
+                                                        ?>
+                                                                    {{$buys['cont']}} Feitos / {{$item->target_orders }} Necessãrios 
+                                                                    <?php $per = $item->target_orders > $buys['cont'] ? ($buys['cont'] / $item->target_orders) * 100 : 100; ?>
+                                                                    @else
+                                                                     <?php
+                                                        $buys = auth()->user()->BuysByRestaurant($item->restorant()->id, 1,$item->target_value);
+
+                                                        ?>
+                                                                    <?php $per = $item->target_value > $buys['total'] ? ($buys['total'] / $item->target_value) * 100 : 100; ?>
+                                                                    R${{ $buys['total']}} Comprados / R${{$item->target_value}} Necessãrios 
+                                                                    @endif       
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="progress"  style="width: 300px">
+                                                                <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{$per}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$per}}%;"></div>
+
+                                                            </div>
+                                                            <span>{{number_format($per,2)}}%</span>    
+                                                        </div>                                
+
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>                       
+                                                    <td>
+                                                        Recompensa disponivel: 
+                                                        @if(auth()->user()->fidelity_program_reward($item->id))
+                                                        Se não houve utilizado ele estará disponivel ao finalizar o pedido
+                                                        @else
+                                                        Não
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                @endauth
+
+                                            </table>
+                                        </div>
                         </div>
+                            @endif
+                    </div>
                     </div>
                 </div>
             </div>

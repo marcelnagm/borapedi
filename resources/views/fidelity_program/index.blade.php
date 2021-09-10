@@ -48,12 +48,9 @@ ol.carousel-indicators li.active {
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12">
-                <div id="blogCarousel" class="carousel slide" data-ride="carousel">                         
-                    <div class="carousel-inner">
                         @for($i = 0; $i < count($setup['items'] ); $i++) 
                         <?php $item = $setup['items'][$i];  ?>
-                        <div class="carousel-item @if($i==0) {{'active'}} @endif">
+                        <div class="carousel-item  @if($i==0) {{'active'}} @endif" id="item-{{$i}}">
                             <div class="row">                                          
                                 <div class="col-12">
                                     <div class="card mb-4 mb-xl-0 bg-secondary">
@@ -145,27 +142,25 @@ ol.carousel-indicators li.active {
                                     </div>
                                 </div>                                    </div>
                         </div>
-                        @endfor
-                    </div>
-                    <a class="carousel-control-prev" href="#blogCarousel" role="button" data-slide="prev">
+                        @endfor                    
+                        <a class="carousel-control-prev" onclick="show (-1)" >
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only bg-primary">Anterior</span>
+                        <span class="sr-only bg-primary" >Anterior</span>
                     </a>
-                    <a class="carousel-control-next" href="#blogCarousel" role="button" data-slide="next">
+                    <a class="carousel-control-next" onclick="show (+1)" >
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Proximo</span>
                     </a>
                     <ol class="carousel-indicators">
-
-                        <li data-target="#blogCarousel" data-slide-to="0" class="active"></li>
+                        <?php $i=0;?>
+                        <li id="indicator-{{$i}}"  class="active"></li>
                         @for($i = 1; $i < count($setup['items'] ); $i++) 
 
-                        <li data-target="#blogCarousel" data-slide-to="{{$i}}"></li>
+                        <li id="indicator-{{$i}}" ></li>
 
                         @endfor 
                     </ol>
 
-                </div>
             </div>
 
 
@@ -177,5 +172,24 @@ ol.carousel-indicators li.active {
         @include('layouts.footers.auth')
 
     </div>
-</div>
+<script>    
+    var active = 0;
+    var max = {{count($setup['items'])}};
+    
+    
+    function show( flow){
+        
+        $('#item-'+active).hide(100);
+        $('#indicator-'+active).removeClass('active');
+        if(flow == 1){
+            active = active +1 % max;
+        }else{
+            active = active -1 % max;
+        }
+        $('#item-'+active).show(100);
+        $('#indicator-'+active).addClass('active');
+    }
+    
+</script>    
+    
 @endsection

@@ -32,7 +32,7 @@ Coded by www.creative-tim.com
 
     <!-- Font Awesome Icons -->
     <link href="{{ asset('argonfront') }}/css/font-awesome.css" rel="stylesheet" />
-        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link href="{{ asset('argonfront') }}/css/nucleo-svg.css" rel="stylesheet" />
     <link href="{{ asset('argonfront') }}/css/nucleo-icons.css" rel="stylesheet">
 
