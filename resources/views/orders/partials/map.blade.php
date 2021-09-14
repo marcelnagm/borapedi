@@ -6,15 +6,13 @@
   var driver="https://cdn1.iconfinder.com/data/icons/Map-Markers-Icons-Demo-PNG/48/Map-Marker-Marker-Inside-Azure.png"
 
 //Not in use - can be if you use direction API
-function calculateRoute(from, to) {
+function calculateRoute() {
         // Center initialized to Naples, Italy
-        var myOptions = {
-          zoom: 10,
-          center: new google.maps.LatLng(41.84, 23.65),
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
+        
         // Draw the map
-        var mapObject = new google.maps.Map(document.getElementById("tracking_map"), myOptions);
+        var from = new google.maps.LatLng({{ $order->restorant->lat }}, {{ $order->restorant->lng }}) ;
+        var to = new google.maps.LatLng({{ $order->address->lat}}, {{ $order->address->lng }});
+//        var mapObject = new google.maps.Map(document.getElementById("tracking_map"), myOptions);
 
         var directionsService = new google.maps.DirectionsService();
         var directionsRequest = {
@@ -30,7 +28,7 @@ function calculateRoute(from, to) {
             if (status == google.maps.DirectionsStatus.OK)
             {
               new google.maps.DirectionsRenderer({
-                map: mapObject,
+                map: map,
                 directions: response
               });
             }
@@ -62,7 +60,7 @@ function initTheTrackingMap(currentPosiotion,){
 
   //Marker end - Client address
   var marker = new google.maps.Marker({
-    position: new google.maps.LatLng({{  $order->address?$order->address->lat:$order->restorant->lat }}, {{  $order->address?$order->address->lng:$order->restorant->lng }}),
+                    position: new google.maps.LatLng({{  $order->address()->first()->lat }}, {{  $order->address()->first()->lng }}),
     map: map,
     icon: end,
     title: '{{ $order->client->name }}'
@@ -71,6 +69,8 @@ function initTheTrackingMap(currentPosiotion,){
   return map;
 
 }
+
+
 
 function getOrderLocation(){
   axios.get('/ordertracingapi/{{ $order->id }}').then(function (response) {
@@ -105,6 +105,7 @@ var driverMarker=null;
 
 window.onload = function () {
     map = initTheTrackingMap();
+    calculateRoute();
     setInterval(getOrderLocation,5000)
  }
 </script>
