@@ -44,8 +44,18 @@ ol.carousel-indicators li.active {
             <div class="card-header border-0">
                 <div class="row align-items-center">
                     <div class="col-12">
-                        <h3 class="mb-0">Programas de Fidelidade</h3>                        
+                        
+                             <a class="carousel-control-prev" onclick="show (-1)" >
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only bg-primary" >Anterior</span>
+                        </a>
+                        <h3 class="mb-0 text-center">Programas de Fidelidade</h3>                        
+                        <a class="carousel-control-next" onclick="show (+1)" >
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Proximo</span>
+                        </a>
                     </div>
+                    
                 </div>
             </div>
                         @for($i = 0; $i < count($setup['items'] ); $i++) 
@@ -53,12 +63,11 @@ ol.carousel-indicators li.active {
                         <div class="carousel-item  @if($i==0) {{'active'}} @endif" id="item-{{$i}}">
                             <div class="row">                                          
                                 <div class="col-12">
-                                    <div class="card mb-4 mb-xl-0 bg-secondary">
+                                    <div class="card bg-secondary">
 
 
-                                        <div class="table-responsive">
-
-                                            <table class="table align-items-center table-flush">
+                                        <div class="table-responsive" style="width: 100%">
+                                            <table class="align-items-center table-flush">
                                                 <tr>
                                                     <td>Programa de Fidelidade - {{ $item->restorant()->name }}</td>
                                                 </tr>
@@ -142,15 +151,7 @@ ol.carousel-indicators li.active {
                                     </div>
                                 </div>                                    </div>
                         </div>
-                        @endfor                    
-                        <a class="carousel-control-prev" onclick="show (-1)" >
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only bg-primary" >Anterior</span>
-                    </a>
-                    <a class="carousel-control-next" onclick="show (+1)" >
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Proximo</span>
-                    </a>
+                        @endfor                                       
                     <ol class="carousel-indicators">
                         <?php $i=0;?>
                         <li id="indicator-{{$i}}"  class="active"></li>
@@ -162,11 +163,6 @@ ol.carousel-indicators li.active {
                     </ol>
 
             </div>
-
-
-
-
-
         </div>
 
         @include('layouts.footers.auth')
@@ -178,16 +174,18 @@ ol.carousel-indicators li.active {
     
     
     function show( flow){
-        
-        $('#item-'+active).hide(100);
-        $('#indicator-'+active).removeClass('active');
+        console.log(active);
+        console.log(max);
+        $('#item-'+Math.abs(active)).hide(100);
+        $('#indicator-'+Math.abs(active)).removeClass('active');
         if(flow == 1){
-            active = active +1 % max;
+            active = (active +1) % max;
         }else{
-            active = active -1 % max;
+            active = (active -1)% max;
+            
         }
-        $('#item-'+active).show(100);
-        $('#indicator-'+active).addClass('active');
+        $('#item-'+Math.abs(active)).show(100);
+        $('#indicator-'+Math.abs(active)).addClass('active');
     }
     
 </script>    

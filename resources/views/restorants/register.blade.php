@@ -22,6 +22,7 @@
     }
     .check_field i{
         display: none;
+        margin-left: 10px;
     }
     .form-control-label-cep{
         width:10% !important;
@@ -208,11 +209,17 @@ function checkField(field) {
         success: function (response) {
 //                alert('sucess');
             $('#'+id+'_loading').hide();
+            $('#'+id+'_ok').hide();
+            $('#'+id+'_error').hide();
+        
             console.log(response);
-            if (response=='1'){
+            if (response.status===true){
                $('#'+id+'_ok').show();
+               $('#'+id+'_ok').attr("data-original-title",response.msg);
             }else{                 
                $('#'+id+'_error').show();
+//               $('#'+id+'_error').attr("title","");
+               $('#'+id+'_error').attr("data-original-title",response.msg);
             }
                 
         }, error: function (response) {

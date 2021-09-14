@@ -14,7 +14,13 @@
                                 <h3 class="mb-0">{{ "#".$order->id." - ".$order->created_at->format(config('settings.datetime_display_format')) }}</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('orders.index') }}" class="btn btn-sm btn-primary"><i class="fas fa-chevron-left"></i> {{ __('Back') }}</a>
+                                
+                                <?php $lastStatusAlisas = $order->getLastStatusAttribute()->first()->alias; ?>
+                                @if($lastStatusAlisas == "delivered" || $lastStatusAlisas == "picked_up" || $lastStatusAlisas == "closed")
+                                <a href="{{'updatestatus/rebuy/'.$order->id }}" class="btn btn-success btn-sm order-action left" style="margin-bottom:10px">Refazer<i class="fas fa-chevron-right"></i></a>            
+                                <br>
+                                @endif
+                                <a href="{{ route('orders.index') }}" class="btn btn-sm btn-primary left"><i class="fas fa-chevron-left"></i> {{ __('Back') }}</a>
                                 @if ($pdFInvoice)
                                 <a target="_blank" href="/pdfinvoice/{{$order->id}}" class="btn btn-sm btn-success"><i class="fas fa-print"></i> {{ __('Print bill') }}</a>
                                 @endif
