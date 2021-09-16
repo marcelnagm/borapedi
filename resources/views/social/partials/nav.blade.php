@@ -134,7 +134,7 @@
                 @guest()
                 <!--<li class="nav-item d-none d-lg-block ml-lg-2">-->
                 <li class="nav-item d-lg-block ml-lg-2">
-                    <a type="button" class="btn btn-neutral btn-icon" href="/new/restaurant/register/">
+                    <a type="button" class="btn btn-neutral btn-icon" href="{{route('newrestaurant.register')}}">
                         <span class="btn-inner--icon">
                             <i class="fas fa-paper-plane mr-2"></i>
                         </span>

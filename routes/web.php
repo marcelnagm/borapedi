@@ -322,7 +322,7 @@ Route::get('/login/google/redirect', 'Auth\LoginController@googleHandleProviderC
 Route::get('/login/facebook', 'Auth\LoginController@facebookRedirectToProvider')->name('facebook.login');
 Route::get('/login/facebook/redirect', 'Auth\LoginController@facebookHandleProviderCallback');
 
-Route::get('/new/' . config('settings.url_route') . '/register', 'RestorantController@showRegisterRestaurant')->name('newrestaurant.register');
+Route::get('/register-restaurant', 'RestorantController@showRegisterRestaurant')->name('newrestaurant.register');
 Route::post('/new/restaurant/register/store', 'RestorantController@storeRegisterRestaurant')->name('newrestaurant.store');
 
 Route::get('phone/verify', 'PhoneVerificationController@show')->name('phoneverification.notice');

@@ -5,8 +5,11 @@
 
 <div class="container mt--6 pb-5">
     <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-7">
-
+        <div class="col-7">
+            Imagem Lateral
+            <img src="/social/img/wpordering.svg">
+        </div>
+        <div class="col-5">
             @if (session('status'))
             <div class="card bg-secondary shadow border-0">
                 <div class="card-body">
@@ -21,74 +24,51 @@
             @endif
 
 
-            @if(config('settings.is_demo'))
-            <div class="card bg-secondary shadow border-0">
-                <div class="card-body">
-                    <div class="text-center text-muted mb-4">
-                        <h3>{{ __('DEMO credentials:') }}</h3>
-
-                        <small>
-                            <b>{{ __('ADMIN') }}</b><br/>
-                            {{ __('Username') }} <strong>admin@example.com</strong><br />
-                            {{ __('Password') }} <strong>secret</strong>
-                        </small>
-                        <small>
-                            <br /><br /><b>{{ __('OWNER') }}</b><br/>
-                            {{ __('Username') }} <strong>owner@example.com</strong><br />
-                            {{ __('Password') }} <strong>secret</strong>
-                        </small>
-                        @if (config('app.isft'))
-                        <small>
-                            <br /><br /><b>{{ __('DRIVER') }}</b><br/>
-                            {{ __('Username') }} <strong>driver@example.com</strong><br />
-                            {{ __('Password') }} <strong>secret</strong>
-                        </small>
-                        <small>
-                            <br /><br /><b>{{ __('CLIENT') }}</b><br/>
-                            {{ __('Username') }} <strong>client@example.com</strong><br />
-                            {{ __('Password') }} <strong>secret</strong>
-                        </small>
-                        @endif
-                        @if (config('settings.is_pos_cloud_mode'))
-                        <small>
-                            <br /><br /><b>{{ __('STAFF') }}</b><br/>
-                            {{ __('Username') }} <strong>staff@example.com</strong><br />
-                            {{ __('Password') }} <strong>secret</strong>
-                        </small>
-                        @endif
-
-                    </div>
-                </div>
-            </div>
-            @endif
-            <br/>
+          
 
             <div class="card bg-secondary shadow border-0">
                 <div class="card-body px-lg-5 py-lg-5">
-
+                    
                     @if(config('app.isft')&&(strlen(config('settings.google_client_id'))>3||strlen(config('settings.facebook_client_id'))>3))
                     <div class="card-header bg-transparent pb-5">
-                        <div class="text-muted text-center mt-2 mb-3"><small>{{ __('Sign in with') }}</small></div>
                         <div class="btn-wrapper text-center">
-
+                        <p>É novo por aqui? Cadastre-se</p>                            
+                            <a href="{{ route('register') }}" class="btn btn-neutral btn-icon" onclick="$('#login-form').show('1000')">
+                                <span class="btn-inner--icon"><i class="fas fa-user-plus"></i></span>
+                                <span class="btn-inner--text">Email / Whatsappp</span>
+                            </a>
+                            <hr/>
+                        </div>
+                        <div class="text-muted text-center mt-2 mb-3"><small>Como deseja entrar?</small></div>
+                        <div class="btn-wrapper text-center">
+                            
                             @if (strlen(config('settings.google_client_id'))>3)
                             <a href="{{ route('google.login') }}" class="btn btn-neutral btn-icon">
                                 <span class="btn-inner--icon"><img src="{{ asset('argonfront/img/google.svg') }}"></span>
-                                <span class="btn-inner--text">Google</span>
+                                <span class="btn-inner--text">Logar com Google</span>
                             </a>
                             @endif
-
+                            <br>
+                            <br>
                             @if (strlen(config('settings.facebook_client_id'))>3)
                             <a href="{{ route('facebook.login') }}" class="btn btn-neutral btn-icon">
                                 <span class="btn-inner--icon"><img src="{{ asset('custom/img/facebook.png') }}"></span>
-                                <span class="btn-inner--text">Facebook</span>
+                                <span class="btn-inner--text">Logar com Facebook</span>
                             </a>
                             @endif
-
+                            <br>
+                            <br>
+                            <a href="#" class="btn btn-neutral btn-icon" onclick="$('#login-form').show('1000')">
+                                <span class="btn-inner--icon"><i styl="color:gold;"  class="fas fa-envelope"></i>></span>
+                                <span class="btn-inner--text">Logar com Email / Whatsappp</span>
+                            </a>
+                            <br>
+                            <br>
+                          
                         </div>
                     </div>
                     @endif
-
+                    <div  id="login-form"  style="display:none;">
                     <div class="nav-wrapper">
                         <ul class="nav nav-tabs nav-fill" id="res_menagment" role="tablist">
 
@@ -96,7 +76,7 @@
                                 <a class="nav-link mb-sm-3 mb-md-0 active " id="tabs-menagment-main" data-toggle="tab" href="#client" role="tab" aria-controls="tabs-menagment" aria-selected="true"><i class="ni ni-basket mr-2"></i>Cliente</a>
                             </li>
                             <li class="nav-item text-white">
-                                <a class="nav-link mb-sm-3 mb-md-0 " id="tabs-menagment-main" data-toggle="tab" href="#admin" role="tab" aria-controls="tabs-menagment" aria-selected="true"><i class="ni ni ni-briefcase-24 mr-2"></i>Admistrativo</a>
+                                <a class="nav-link mb-sm-3 mb-md-0 " id="tabs-menagment-main" data-toggle="tab" href="#admin" role="tab" aria-controls="tabs-menagment" aria-selected="true"><i class="ni ni ni-briefcase-24 mr-2"></i>Restaurante</a>
                             </li>                            
                         </ul>
                     </div>
@@ -168,30 +148,23 @@
                                     <label class="custom-control-label" for="customCheckLogin">
                                         <span class="text-muted">{{ __('Remember me') }}</span>
                                     </label>
+                                      
+                        <a href="{{ route('password.request') }}" class="text-blue right">
+                            {{ __('Forgot password?') }}</small>
+                        </a>
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-danger my-4">{{ __('Sign in') }}</button>
-                                </div>
+                                </div>                              
                             </form>
                         </div>
 
                     </div>
                 </div>
+                </div>
                 <div class="row mt-3">
                     <div class="col-6">
-                        @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-light">
-                            <small>{{ __('Forgot password?') }}</small>
-                        </a>
-                        @endif
                     </div>
-                    @if(config('app.isft'))
-                    <div class="col-6 text-right">
-                        <a href="{{ route('register') }}" class="text-light">
-                            <small>{{ __('Create new account') }}</small>
-                        </a>
-                    </div>
-                    @endif
                 </div>
             </div>
         </div>
