@@ -1,15 +1,14 @@
-@extends('layouts.app', ['class' => 'bg'])
+@extends('layouts.front_nofooter_noheader', ['class' => 'bg'])
 
 @section('content')
-@include('layouts.headers.guest')
+<style>
+    .divider{
+        border-right: #000 double 2px;
+    }
+</style>
 
-<div class="container mt--6 pb-5">
-    <div class="row justify-content-center">
-        <div class="col-7">
-            Imagem Lateral
-            <img src="/social/img/wpordering.svg">
-        </div>
-        <div class="col-5">
+<div class="container">        
+    <!--@include('layouts.headers.guest')-->
             @if (session('status'))
             <div class="card bg-secondary shadow border-0">
                 <div class="card-body">
@@ -24,49 +23,36 @@
             @endif
 
 
-          
-
-            <div class="card bg-secondary shadow border-0">
-                <div class="card-body px-lg-5 py-lg-5">
+                     <div class="card bg-secondary shadow ">
+                <div class="card-body row">
                     
                     @if(config('app.isft')&&(strlen(config('settings.google_client_id'))>3||strlen(config('settings.facebook_client_id'))>3))
-                    <div class="card-header bg-transparent pb-5">
-                        <div class="btn-wrapper text-center">
-                        <p>É novo por aqui? Cadastre-se</p>                            
-                            <a href="{{ route('register') }}" class="btn btn-neutral btn-icon" onclick="$('#login-form').show('1000')">
-                                <span class="btn-inner--icon"><i class="fas fa-user-plus"></i></span>
-                                <span class="btn-inner--text">Email / Whatsappp</span>
-                            </a>
-                            <hr/>
-                        </div>
-                        <div class="text-muted text-center mt-2 mb-3"><small>Como deseja entrar?</small></div>
-                        <div class="btn-wrapper text-center">
-                            
+                       
+                        
+                        <div class="col-12 text-center">
+                            <img src="/social/img/wpordering.svg" class="img-fluid rounded" style="    margin-left: 3em;" alt="Responsive image" width="80%">
+                        <div class="text-muted text-center ">Como deseja entrar?</div>
+                        <div class="btn-wrapper ">
+                            </hr>    
                             @if (strlen(config('settings.google_client_id'))>3)
-                            <a href="{{ route('google.login') }}" class="btn btn-neutral btn-icon">
-                                <span class="btn-inner--icon"><img src="{{ asset('argonfront/img/google.svg') }}"></span>
-                                <span class="btn-inner--text">Logar com Google</span>
+                            <a style="width:100%;margin-bottom:10px;" href="{{ route('google.login') }}" class="btn btn-neutral btn-icon">
+                                <span class="btn-inner--icon"><img class="fas" src="{{ asset('argonfront/img/google.svg') }}"></span>
+                                <span class="btn-inner--text"> Logar com Google</span>
                             </a>
                             @endif
-                            <br>
                             <br>
                             @if (strlen(config('settings.facebook_client_id'))>3)
-                            <a href="{{ route('facebook.login') }}" class="btn btn-neutral btn-icon">
-                                <span class="btn-inner--icon"><img src="{{ asset('custom/img/facebook.png') }}"></span>
+                            <a style="width:100%" href="{{ route('facebook.login') }}" class="btn btn-neutral btn-icon btn-lg">                                
+                                <span class="btn-inner--icon"><img class="fas" src="{{ asset('custom/img/facebook.png') }}"></span>
                                 <span class="btn-inner--text">Logar com Facebook</span>
-                            </a>
-                            @endif
+                            </a>                           
                             <br>
-                            <br>
-                            <a href="#" class="btn btn-neutral btn-icon" onclick="$('#login-form').show('1000')">
-                                <span class="btn-inner--icon"><i styl="color:gold;"  class="fas fa-envelope"></i>></span>
+                            @endif                          <br>
+                            <a style="width:100%" href="#" class="btn btn-neutral btn-icon" onclick="$('#login-form').show('1000')">
+                                <span  class="btn-inner--icon"><i styl="color:gold;"  class="fas fa-envelope"></i>></span>
                                 <span class="btn-inner--text">Logar com Email / Whatsappp</span>
                             </a>
-                            <br>
-                            <br>
-                          
-                        </div>
-                    </div>
+                        </div>                    
                     @endif
                     <div  id="login-form"  style="display:none;">
                     <div class="nav-wrapper">
@@ -149,7 +135,7 @@
                                         <span class="text-muted">{{ __('Remember me') }}</span>
                                     </label>
                                       
-                        <a href="{{ route('password.request') }}" class="text-blue right">
+                        <a href="{{ route('password.request') }}" class="text-blue right                         <a href="{{ route('password.request') }}" class="text-blue right custom-control-label ">
                             {{ __('Forgot password?') }}</small>
                         </a>
                                 </div>
@@ -161,11 +147,9 @@
 
                     </div>
                 </div>
+                
                 </div>
-                <div class="row mt-3">
-                    <div class="col-6">
-                    </div>
-                </div>
+               
             </div>
         </div>
     </div>
