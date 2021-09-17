@@ -1,4 +1,4 @@
-@extends('layouts.front', ['title' => __('User Profile')])
+@extends('layouts.front_nofooter_noheader', ['title' => 'Resgistre-se'])
 @if (strlen(config('settings.recaptcha_site_key'))>2)
 @section('head')
 {!! htmlScriptTagJsApi([]) !!}
@@ -44,7 +44,7 @@
             <div class="card-body">
                 <form  id="registerform" method="post" action="{{ route('newrestaurant.store') }}" autocomplete="off">
                     @csrf
-
+                    <div id="sec1">
                     <h6 class="heading-small text-muted mb-4">{{ __('Restaurant information') }}</h6>
 
                     @if (session('status'))
@@ -55,6 +55,7 @@
                         </button>
                     </div>
                     @endif
+                    
                     <div class="pl-lg-4">
                         <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                             <label class="form-control-label" for="name">{{ __('Restaurant Name') }}</label>
@@ -86,7 +87,13 @@
                             </span>
                             @endif
                         </div>
+                        <br>
+                        <br>
+                        <button class="btn btn-danger right" href="#" onclick="showSec(2,1);" style="width: 100%;">Proximo</button>
                     </div>
+                    </div>
+                    
+                    <div id="sec2" style="display:none;">
                     <hr class="my-4" />
                     <h6 class="heading-small text-muted mb-4">{{ __('Owner information') }}</h6>
                     <div class="pl-lg-4">
@@ -128,7 +135,19 @@
                             </span>
                             @endif
                         </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                        <div class="col-6">
+                        <button class="btn btn-danger right" href="#" style="width:110%" onclick="showSec(1,2);" >Anterior</button>
                         </div>
+                        <div class="col-6">
+                        <button class="btn btn-danger right" href="#" style="width:110%" onclick="showSec(3,2);" >Proximo</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div id="sec3" style="display:none;">
                         <hr class="my-4" />
                         <h6 class="heading-small text-muted mb-4">Endereço do Estabelicmento</h6>
                         <div class="pl-lg-4">
@@ -154,22 +173,18 @@
                                     ]])
                                     @include('partials.fields',['fields'=>[            
                                     ['ftype'=>'input','name'=>"Complemento",'id'=>"complement2",'placeholder'=>"Apartamento, Casa, e etc..'",'required'=>false]
-                                    ]])   </div>
-                        <div class="text-center">
-                            @if (strlen(config('settings.recaptcha_site_key'))>2)
-                            @if ($errors->has('g-recaptcha-response'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-                            </span>
-                            @endif
-
-                            {!! htmlFormButton(__('Save'), ['id'=>'thesubmitbtn','class' => 'btn btn-success mt-4']) !!}
-                            @else
-                            <button type="submit" id="thesubmitbtn" class="btn btn-success mt-4">Cadastrar</button>
-                            @endif
-
-
+                                    ]])   </div>                        
+                        <br> 
+                        <br> 
+                        <div class="row">
+                        <div class="col-6">
+                        <button class="btn btn-danger right" href="#" style="width:110%" onclick="showSec(2,3);" >Anterior</button>
                         </div>
+                        <div class="col-6">
+                        <button type="submit" id="thesubmitbtn" class="btn btn-success" style="width:110%">Cadastrar</button>
+                        </div>
+                        </div>
+                    </div>
                     </div>
                 </form>
             </div>
@@ -188,6 +203,14 @@ $("#cep2").mask("00000-000");
 $(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
+
+
+function showSec(show,hide){
+//    alert('pega');
+    $('#sec'+show).show();
+    $('#sec'+hide).hide();
+    
+}
 
 function checkField(field) {
     var id =field.getAttribute('id');
