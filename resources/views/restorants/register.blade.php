@@ -11,7 +11,12 @@
 ])
 
 <style>
-
+    
+   .btn-danger:hover{
+        background-color: #f5365c;
+    border-color: #f5365c;
+    }
+    
     .hidden_field{
         display:none !important;
     }
@@ -139,10 +144,10 @@
                         <br>
                         <div class="row">
                         <div class="col-6">
-                        <button class="btn btn-danger right" href="#" style="width:110%" onclick="showSec(1,2);" >Anterior</button>
+                        <button class="btn btn-danger right" href="#" style="width:100%" onclick="showSec(1,2);" >Anterior</button>
                         </div>
                         <div class="col-6">
-                        <button class="btn btn-danger right" href="#" style="width:110%" onclick="showSec(3,2);" >Proximo</button>
+                        <button class="btn btn-danger right" href="#" style="width:100%" onclick="showSec(3,2);" >Proximo</button>
                         </div>
                         </div>
                     </div>
