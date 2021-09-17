@@ -2,13 +2,27 @@
 
 @section('content')
 <style>
-    .divider{
-        border-right: #000 double 2px;
-    }
+    
+    .cart_adapt{
+                width: 100vw;
+    height: 47vh;
+    margin-right: 200px;
+        }
+        
+     @media only screen and (max-width:1023px) {
+        .cart_adapt{
+                width: 100vw;
+    height: 44vh;
+    margin-right: 200px;
+        }
+        
+        .cart_adapt_left {
+            /*width: 200%;*/
+        }
+     }
 </style>
 
 <div class="container">        
-    <!--@include('layouts.headers.guest')-->
             @if (session('status'))
             <div class="card bg-secondary shadow border-0">
                 <div class="card-body">
@@ -29,9 +43,11 @@
                     @if(config('app.isft')&&(strlen(config('settings.google_client_id'))>3||strlen(config('settings.facebook_client_id'))>3))
                        
                         
-                        <div class="col-12 text-center">
-                            <img src="/social/img/wpordering.svg" class="img-fluid rounded" style="    margin-left: 3em;" alt="Responsive image" width="80%">
-                        <div class="text-muted text-center ">Como deseja entrar?</div>
+                        <div class="col text-center  left">
+                            <img src="/social/img/wpordering.svg" class="cart_adapt rounded" style="    margin-left: 3em;" alt="Responsive image" width="80%">
+                        </div>
+                        <div class="col text-center cart_adapt_left left">
+                            <div class="text-muted text-center ">Como deseja entrar?</div>
                         <div class="btn-wrapper ">
                             </hr>    
                             @if (strlen(config('settings.google_client_id'))>3)
