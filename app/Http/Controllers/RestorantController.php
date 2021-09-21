@@ -689,15 +689,15 @@ class RestorantController extends Controller {
         ];
 
 
-//        $request->validate($theRules);
+        $request->validate($theRules);
         $validator = Validator::make($request->all(), $theRules, $messages);
         if ($validator->fails()) {
-            return redirect('/new/restaurant/register/')
+            return redirect()->route('newrestaurant.register')
                             ->withErrors($validator)
                             ->withInput();
         }
         //Create the user
-        //$generatedPassword = Str::random(10);
+        $generatedPassword = Str::random(15);
         $owner = new User;
         $owner->name = strip_tags($request->name_owner);
         $owner->email = strip_tags($request->email_owner);
@@ -705,18 +705,18 @@ class RestorantController extends Controller {
         $owner->active = 0;
         $owner->api_token = Str::random(80);
 
-        $owner->password = null;
+        $owner->password = $generatedPassword;
 //        $owner->save();
         //Assign role
         $owner->assignRole('owner');
 
-        Auth::loginUsingId($owner->id);
+//        Auth::loginUsingId($owner->id);
         //Send welcome email
         //welcome notification
         //Create Restorant
         $restaurant = new Restorant;
         $restaurant->name = strip_tags($request->name);
-        $restaurant->subdomain = subdomain;
+        $restaurant->subdomain = $request->subdomain;
         $restaurant->user_id = $owner->id;
         $restaurant->description = strip_tags($request->description . '');
         $restaurant->minimum = $request->minimum | 0;
@@ -733,10 +733,36 @@ class RestorantController extends Controller {
         $restaurant->phone = $owner->phone;
         //$restaurant->subdomain=strtolower(preg_replace('/[^A-Za-z0-9]/', '', strip_tags($request->name)));
         $restaurant->active = 0;
-        $restaurant->subdomain = null;
         //$restaurant->logo = "";
-//        $restaurant->save();
+        $restaurant->save();
+
+        $ch = curl_init();
+
+        $post_data = array (
+            'NAME' => strip_tags($request->name_owner),
+            'EMAIL' => strip_tags($request->email_owner),
+            'TELEFONE'=>strip_tags($request->phone_owner) | '',
+            'USUARIO' => strip_tags($request->email_owner),
+            'SENHA ' => $generatedPassword            
+        );
+//        dd($post_data);
+        curl_setopt($ch, CURLOPT_URL, "https://member.mailingboss.com/integration/webhook/35623:72dfba34154173a1406ddbbdbc2a0bc9/inscreverrestaurante");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        
+
+
+// receive server response ...
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $server_output = curl_exec($ch);
+        
+        curl_close($ch);
         //default hours
+        
+//        dd ($server_output,http_build_query($post_data));
+//        dd ('Teste de registro');
         $hours = new Hours();
         $hours->restorant_id = $restaurant->id;
 
@@ -757,7 +783,7 @@ class RestorantController extends Controller {
         $hours->{'6_from'} = config('settings.time_format') == "AM/PM" ? "9:00 AM" : "09:00";
         $hours->{'6_to'} = config('settings.time_format') == "AM/PM" ? "5:00 AM" : "17:00";
 
-//        $hours->save();
+        $hours->save();
 
         $restaurant->setConfig('disable_callwaiter', 0);
         $restaurant->setConfig('restaurant_hide_ondelivery', 0);

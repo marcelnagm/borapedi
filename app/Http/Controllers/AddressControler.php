@@ -75,6 +75,31 @@ class AddressControler extends Controller
             $usr->email= $request->email;
             $usr->save();
             
+//            aqui faz a inscricao em lista de clientes
+            $ch = curl_init();
+
+        $post_data = array (
+            'NAME' => strip_tags($request->name),
+            'EMAIL' => strip_tags($request->email),
+            'TELEFONE'=>strip_tags($request->phone) | '',
+            'USUARIO' => strip_tags($request->email)    
+        );
+//        dd($post_data);
+        curl_setopt($ch, CURLOPT_URL, "https://member.mailingboss.com/integration/webhook/35623:72dfba34154173a1406ddbbdbc2a0bc9/inscrevercliente");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        
+
+
+// receive server response ...
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $server_output = curl_exec($ch);
+        
+        curl_close($ch);
+        //default hours
+        
         }
         
         $address = new Address;

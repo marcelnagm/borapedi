@@ -212,8 +212,8 @@ $(function () {
 
 function showSec(show,hide){
 //    alert('pega');
-    $('#sec'+show).show();
-    $('#sec'+hide).hide();
+    $('#sec'+show).show(1);
+    $('#sec'+hide).hide(1);
     
 }
 
@@ -221,8 +221,8 @@ function checkField(field) {
     var id =field.getAttribute('id');
         console.log($('#'+id).val());
         
-        $('#'+id+'_ok').hide();
-        $('#'+id+'_error').hide();
+        $('#'+id+'_ok').hide(1);
+        $('#'+id+'_error').hide(1);
         var json = '{"'+id+'" :"'+$('#'+id).val()+'"}';
         $.ajaxSetup({
     headers: {
@@ -236,25 +236,25 @@ function checkField(field) {
         data: json,
         success: function (response) {
 //                alert('sucess');
-            $('#'+id+'_loading').hide();
-            $('#'+id+'_ok').hide();
-            $('#'+id+'_error').hide();
+            $('#'+id+'_loading').hide(1);
+            $('#'+id+'_ok').hide(1);
+            $('#'+id+'_error').hide(1);
         
             console.log(response);
             if (response.status===true){
-               $('#'+id+'_ok').show();
+               $('#'+id+'_ok').show(1);
                $('#'+id+'_ok').attr("data-original-title",response.msg);
             }else{                 
-               $('#'+id+'_error').show();
+               $('#'+id+'_error').show(1);
 //               $('#'+id+'_error').attr("title","");
                $('#'+id+'_error').attr("data-original-title",response.msg);
             }
                 
         }, error: function (response) {
             //alert(response.responseJSON.errMsg);
-            $('#'+id+'_loading').hide();
+            $('#'+id+'_loading').hide(1);
            
-               $('#'+id+'_error').show();
+               $('#'+id+'_error').show(1);
         }
     });
     }
