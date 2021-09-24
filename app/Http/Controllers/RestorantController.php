@@ -155,6 +155,7 @@ class RestorantController extends Controller {
         $hours->save();
 
         $restaurant->setConfig('disable_callwaiter', 0);
+        $restaurant->setConfig('restaurant_hide_ondelivery', 0);
 
         //Send email to the user/owner
         $owner->notify(new RestaurantCreated($generatedPassword, $restaurant, $owner));
@@ -684,17 +685,25 @@ class RestorantController extends Controller {
             $theRules['g-recaptcha-response'] = 'recaptcha';
         }
         $messages = [
+            'name.required' => 'O campo nome do restaurante deve esta preenchido!',
+            'name_owner.required' => 'O campo nome do  dono restaurante deve esta preenchido!',
+            'cep2.required' => 'O campo Cep deve esta preenchido!',
+            'numbero2.required' => 'O campo Número deve esta preenchido!',
+            'email_owner.required' => 'O campo email deve esta preenchido!',
             'subdomain.required' => 'Já existe um restaurante com este subdmonínio!',
             'phone_owner.required' => 'Já existe um restaurante com este telefone!',
         ];
 
 
-        $request->validate($theRules);
+//        $request->validate($theRules);
         $validator = Validator::make($request->all(), $theRules, $messages);
         if ($validator->fails()) {
-            return redirect()->route('newrestaurant.register')
-                            ->withErrors($validator)
-                            ->withInput();
+            
+        return json_encode([
+                'status' => false,
+                'errors' => $validator->messages()->get('*')
+            ]);
+                            
         }
         //Create the user
         $generatedPassword = Str::random(15);
@@ -734,7 +743,7 @@ class RestorantController extends Controller {
         //$restaurant->subdomain=strtolower(preg_replace('/[^A-Za-z0-9]/', '', strip_tags($request->name)));
         $restaurant->active = 0;
         //$restaurant->logo = "";
-//        $restaurant->save();
+        $restaurant->save();
 
         $ch = curl_init();
 

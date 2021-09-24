@@ -10,13 +10,13 @@ function notify(text, type){
                     "border-radius": ".375rem",
 
                     "color": "#fff",
-                    "border-color": type == "success" ? "#4fd69c" : "#fc7c5f",
-                    "background-color": type == "success" ? "#4fd69c" : "#f5365c",
+                    "border-color": type == "success" ? "#fc7c5f" : "#fc7c5f",
+                    "background-color": type == "success" ? "#fc7c5f" : "#fc7c5f",
                 },
                 success: {
                     "color": "#fff",
-                    "border-color": type == "success" ? "#4fd69c" : "#fc7c5f",
-                    "background-color": type == "success" ? "#4fd69c" : "#f5365c",
+                    "border-color": type == "success" ? "#fc7c5f" : "#fc7c5f",
+                    "background-color": type == "success" ? "#fc7c5f" : "#fc7c5f",
                 }
             }
             });

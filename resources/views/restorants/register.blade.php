@@ -35,6 +35,7 @@
 
 </style>
 
+
 <div class="container-fluid mt--7"  id="body-forn">
     <div class="row">
 
@@ -81,10 +82,10 @@
                         <div class="form-group{{ $errors->has('subdomain') ? ' has-danger' : '' }}">
                             <label class="form-control-label" for="name">Subdomínio</label>
                             <div class="check_field">
-                            <input type="text" name="subdomain" id="subdomain" class="form-control form-control-alternative{{ $errors->has('subdomain') ? ' is-invalid' : '' }}" placeholder="{{ __('Restaurant subdomain here') }} ..." value="{{ isset($_GET["subdomain"])?$_GET['subdomain']:""}}" required autofocus onkeyup="checkField(this);">
+                            <input type="text" name="subdomain" id="subdomain" class="form-control form-control-alternative{{ $errors->has('subdomain') ? ' is-invalid' : '' }}" placeholder="Este campo se refere como ficará o link para o seu restaunte:[ESTE_CAMPO].borapedi.com" value="{{ isset($_GET["subdomain"])?$_GET['subdomain']:""}}" required autofocus onkeyup="checkField(this);">                            
                             <i id="subdomain_loading" class="fas fa-spinner fa-spin"></i>
                             <i id="subdomain_error" style="color:red;" class="fas fa-times-circle" data-toggle="tooltip" data-placement="top" title="Não disponivel"></i>
-                            <i id="subdomain_ok" style="color:green;" class="fas fa-check" data-toggle="tooltip" data-placement="top" title="Disponivel"></i>
+                            <i id="subdomain_ok" style="color:green;" class="fas fa-check" data-toggle="tooltip" data-placement="top" title="Disponivel"></i>                            
                             </div>
                             @if ($errors->has('subdomain'))
                             <span class="invalid-feedback" role="alert">
@@ -197,11 +198,12 @@
         </div>
     </div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-crossorigin="anonymous"></script>
+<script src="{{ asset('social') }}/js/core/jquery.min.js" type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+
+<script src="{{ asset('custom') }}/js/notify.min.js"></script>
+<script src="{{ asset('custom') }}/js/custom_notify.js"></script>
 
 <script>
 $("#phone_owner").mask("(00) 00000-0000");
@@ -275,12 +277,22 @@ $(document).ready(function ($) {
                 url: '{{ route('newrestaurant.store') }}',
                 data: $('form').serialize()
                 ,
-                success:function(response){
-//                    if(response.status){
-                       $('#body-forn').replaceWith('\n\           <div class="alert alert-primary" role="alert">  Cadastrado Com sucesso, confira no email informado!</div>'); 
-//                    }
+                success:function(response){      
+                    response = JSON.parse(response);
+                    if (response.status){
+                       $('#body-forn').replaceWith('\n\           <div class="alert alert-primary" role="alert">  Cadastrado Com sucesso, confira no email informado!</div>');                     
+                   }else{
+                     var errors =response.errors;
+//                    console.log(errors);
+                    $.map(errors, function(value, index) {
+//                        console.log (index+' - '+value);
+                        notify(''+value, 'error');
+                     });
+                   }
                 }, error: function (response) {
                     //return callback(false, response.responseJSON.errMsg);
+                  
+                      
                 }
             });
     });
