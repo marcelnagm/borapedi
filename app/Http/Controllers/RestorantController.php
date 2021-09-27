@@ -706,7 +706,7 @@ class RestorantController extends Controller {
         $owner->api_token = Str::random(80);
 
         $owner->password = $generatedPassword;
-//        $owner->save();
+        $owner->save();
         //Assign role
         $owner->assignRole('owner');
 
@@ -734,7 +734,7 @@ class RestorantController extends Controller {
         //$restaurant->subdomain=strtolower(preg_replace('/[^A-Za-z0-9]/', '', strip_tags($request->name)));
         $restaurant->active = 0;
         //$restaurant->logo = "";
-        $restaurant->save();
+//        $restaurant->save();
 
         $ch = curl_init();
 
@@ -756,7 +756,7 @@ class RestorantController extends Controller {
 // receive server response ...
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        $server_output = curl_exec($ch);
+        curl_exec($ch);
         
         curl_close($ch);
         //default hours
@@ -789,14 +789,19 @@ class RestorantController extends Controller {
         $restaurant->setConfig('restaurant_hide_ondelivery', 0);
 
         $this->makeRestaurantActive($restaurant);
-
+        
+         return json_encode([
+                'status' => true,
+                'msg' => 'sucess',
+            ]);
+        ;
         //We can have a usecase when lading id disabled
-        if (config('settings.disable_landing')) {
-            return redirect('/login')->withStatus(__('notifications_thanks_andcheckemail'));
-        } else {
-            //Normal, go to landing
-            return redirect()->route('admin.restaurants.edit', auth()->user()->restorant->id)->withStatus('Preencha o restante dos dados do restaurante');
-        }
+//        if (config('settings.disable_landing')) {
+//            return redirect('/login')->withStatus(__('notifications_thanks_andcheckemail'));
+//        } else {
+//            //Normal, go to landing
+//            return redirect()->route('admin.restaurants.edit', auth()->user()->restorant->id)->withStatus('Preencha o restante dos dados do restaurante');
+//        }
     }
 
     private function makeRestaurantActive(Restorant $restaurant) {

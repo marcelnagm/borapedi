@@ -58,17 +58,31 @@ Coded by www.creative-tim.com
     <link type="text/css" href="{{ asset('byadmin') }}/front.css" rel="stylesheet">
 
 </head>
+<style>
+    iframe {
+  overflow: no-display;
+  width:100%;
+      height: 100vh; 
+}
 
+</style>
 <body class="landing-page">
   
     <iframe 
-        width="100%" height="1800px"         width="100%" height="1800px" 
          scrolling="no"
-        src="//4sconnect-ag005br-restaurante-newfn-copy-copy.cheetah.builderall.com"
+       src="//4sconnect-ag005br-restaurante-newfn-copy-copy.cheetah.builderall.com"
             ></iframe>
     .
 
   
 </body>
-
+   <script>
+    // Selecting the iframe element
+    var iframe = document.getElementById("myIframe");
+    
+    // Adjusting the iframe height onload event
+    iframe.onload = function(){
+        iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+    }
+    </script>
 </html>

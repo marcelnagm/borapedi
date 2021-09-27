@@ -35,7 +35,7 @@
 
 </style>
 
-<div class="container-fluid mt--7">
+<div class="container-fluid mt--7"  id="body-forn">
     <div class="row">
 
     </div>
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form  id="registerform" method="post" action="{{ route('newrestaurant.store') }}" autocomplete="off">
+                <form  id="registerform" method="post" action="" autocomplete="off">
                     @csrf
                     <div id="sec1">
                     <h6 class="heading-small text-muted mb-4">{{ __('Restaurant information') }}</h6>
@@ -81,7 +81,7 @@
                         <div class="form-group{{ $errors->has('subdomain') ? ' has-danger' : '' }}">
                             <label class="form-control-label" for="name">Subdomínio</label>
                             <div class="check_field">
-                            <input type="text" name="name" id="subdomain" class="form-control form-control-alternative{{ $errors->has('subdomain') ? ' is-invalid' : '' }}" placeholder="{{ __('Restaurant subdomain here') }} ..." value="{{ isset($_GET["subdomain"])?$_GET['subdomain']:""}}" required autofocus onkeyup="checkField(this);">
+                            <input type="text" name="subdomain" id="subdomain" class="form-control form-control-alternative{{ $errors->has('subdomain') ? ' is-invalid' : '' }}" placeholder="{{ __('Restaurant subdomain here') }} ..." value="{{ isset($_GET["subdomain"])?$_GET['subdomain']:""}}" required autofocus onkeyup="checkField(this);">
                             <i id="subdomain_loading" class="fas fa-spinner fa-spin"></i>
                             <i id="subdomain_error" style="color:red;" class="fas fa-times-circle" data-toggle="tooltip" data-placement="top" title="Não disponivel"></i>
                             <i id="subdomain_ok" style="color:green;" class="fas fa-check" data-toggle="tooltip" data-placement="top" title="Disponivel"></i>
@@ -159,7 +159,8 @@
                                     @include('partials.fields',['fields'=>[
                                     ['ftype'=>'input','aditionalClassLabel' =>'form-control-label-cep','name'=>"Cep",'id'=>"cep2",'placeholder'=>"Cep",'required'=>true]
                                     ]])                                          
-                                
+                                    <br>
+                                    <br>
                             <p id='result_cep'>
                             </p>
                             <div class="hidden_field" >
@@ -186,7 +187,7 @@
                         <button class="btn btn-danger right" href="#" style="width:110%" onclick="showSec(2,3);" >Anterior</button>
                         </div>
                         <div class="col-6">
-                        <button type="submit" id="thesubmitbtn" class="btn btn-success" style="width:110%">Cadastrar</button>
+                        <button type="button" id="thesubmitbtn" class="btn btn-success" style="width:110%">Cadastrar</button>
                         </div>
                         </div>
                     </div>
@@ -262,6 +263,28 @@ function checkField(field) {
 
 $(document).ready(function ($) {
     //Quando o campo cep perde o foco.
+    $("#thesubmitbtn").click(function () {                       
+         $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('newrestaurant.store') }}',
+                data: $('form').serialize()
+                ,
+                success:function(response){
+//                    if(response.status){
+                       $('#body-forn').replaceWith('\n\           <div class="alert alert-primary" role="alert">  Cadastrado Com sucesso, confira no email informado!</div>'); 
+//                    }
+                }, error: function (response) {
+                    //return callback(false, response.responseJSON.errMsg);
+                }
+            });
+    });
+    
     
     $("#cep2").blur(function () {
 //Nova variável "cep" somente com dígitos.
@@ -309,6 +332,8 @@ $(document).ready(function ($) {
         }
     });
 });
+
+
 
 </script>
 @endsection
