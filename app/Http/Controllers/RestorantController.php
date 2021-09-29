@@ -752,7 +752,7 @@ class RestorantController extends Controller {
             'EMAIL' => strip_tags($request->email_owner),
             'TELEFONE'=>strip_tags($request->phone_owner) | '',
             'USUARIO' => strip_tags($request->email_owner),
-            'SENHA ' => $generatedPassword            
+            'SEN ' => strip_tags($generatedPassword)         
         );
 //        dd($post_data);
         curl_setopt($ch, CURLOPT_URL, "https://member.mailingboss.com/integration/webhook/35623:72dfba34154173a1406ddbbdbc2a0bc9/inscreverrestaurante");
