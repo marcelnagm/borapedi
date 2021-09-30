@@ -670,7 +670,7 @@ class RestorantController extends Controller {
     public function storeRegisterRestaurant(Request $request) {
 
 //        dd ($request);
-        //Validate first
+        Validate first
         $theRules = [
             'name' => ['required', 'string', 'unique:restorants,name', 'max:255'],
             'subdomain' => ['required', 'string', 'unique:restorants,subdomain', 'max:255'],
@@ -705,7 +705,7 @@ class RestorantController extends Controller {
             ]);
                             
         }
-        //Create the user
+//        //Create the user
         $generatedPassword = Str::random(15);
         $owner = new User;
         $owner->name = strip_tags($request->name_owner);
@@ -746,13 +746,13 @@ class RestorantController extends Controller {
         $restaurant->save();
 
         $ch = curl_init();
-
+            
         $post_data = array (
             'NAME' => strip_tags($request->name_owner),
             'EMAIL' => strip_tags($request->email_owner),
             'TELEFONE'=>strip_tags($request->phone_owner) | '',
             'USUARIO' => strip_tags($request->email_owner),
-            'SEN ' => strip_tags($generatedPassword)         
+            'PALAVRA' => strip_tags($generatedPassword)         
         );
 //        dd($post_data);
         curl_setopt($ch, CURLOPT_URL, "https://member.mailingboss.com/integration/webhook/35623:72dfba34154173a1406ddbbdbc2a0bc9/inscreverrestaurante");
@@ -798,7 +798,7 @@ class RestorantController extends Controller {
         $restaurant->setConfig('restaurant_hide_ondelivery', 0);
 
         $this->makeRestaurantActive($restaurant);
-        
+//        
          return json_encode([
                 'status' => true,
                 'msg' => 'sucess',
