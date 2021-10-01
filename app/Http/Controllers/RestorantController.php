@@ -670,7 +670,7 @@ class RestorantController extends Controller {
     public function storeRegisterRestaurant(Request $request) {
 
 //        dd ($request);
-        Validate first
+//        Validate first
         $theRules = [
             'name' => ['required', 'string', 'unique:restorants,name', 'max:255'],
             'subdomain' => ['required', 'string', 'unique:restorants,subdomain', 'max:255'],
