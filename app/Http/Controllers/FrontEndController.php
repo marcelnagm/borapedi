@@ -343,7 +343,7 @@ class FrontEndController extends Controller
             $processes = Process::where('post_type', 'process')->get();
 
             $response = new \Illuminate\Http\Response(view('social.home', [
-                'col' => $colCounter[count($plans)-1],
+//                'col' => $colCounter[count($plans)-1],
                 'plans' => $plans,
                 'availableLanguages' => $availableLanguages,
                 'locale' => $locale,
