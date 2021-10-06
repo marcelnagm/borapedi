@@ -4,6 +4,7 @@
 /public/storage
 /vendor
 /storage/*.key
+/wp
 /storage/installed
 /storage/
 /storage/multilanguagemigrated
