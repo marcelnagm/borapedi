@@ -5,7 +5,7 @@
 /vendor
 /storage/*.key
 /storage/installed
-storage/framework/views
+/storage/
 /storage/multilanguagemigrated
 /storage/auth0sync
 /storage/*

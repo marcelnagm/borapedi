@@ -58,228 +58,32 @@ Coded by www.creative-tim.com
     <link type="text/css" href="<?php echo e(asset('byadmin')); ?>/front.css" rel="stylesheet">
 
 </head>
+<style>
+    iframe {
+  overflow: no-display;
+  width:100%;
+      height: 100vh; 
+}
 
+</style>
 <body class="landing-page">
   
-  <!-- Navbar -->
-  <?php echo $__env->make('social.partials.nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
-  <!-- MAIN WRAPPER-->
-  <div class="wrapper">
-
-    <!-- HERO -->
-    <?php echo $__env->make('social.partials.hero', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
-    <!-- FEATURES -->
-    <?php echo $__env->make('social.partials.features', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
-    <!-- EXPLAIN -->
-    <?php echo $__env->make('social.partials.explain', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
-    <!-- PRICING -->
-    <?php echo $__env->make('social.partials.pricing', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    
-    <!-- DEMO -->
-    <?php echo $__env->make('social.partials.demo', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
-    <!-- Testimonials -->
-    <?php echo $__env->make('social.partials.testimonials', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    
-    <!-- FOOTER -->
-    <?php echo $__env->make('social.partials.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
-    <!-- MODALS -->
-    <?php echo $__env->make('social.partials.modals', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
-  </div>
-   <!-- END MAIN WRAPPER-->
-   
-
-  <!--   Core JS Files   -->
-  <script src="<?php echo e(asset('social')); ?>/js/core/jquery.min.js" type="text/javascript"></script>
-  <script src="<?php echo e(asset('social')); ?>/js/core/popper.min.js" type="text/javascript"></script>
-  <script src="<?php echo e(asset('social')); ?>/js/core/bootstrap.min.js" type="text/javascript"></script>
-  <script src="<?php echo e(asset('social')); ?>/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <script src="<?php echo e(asset('social')); ?>/js/argon-design-system.min.js?v=1.2.2" type="text/javascript"></script>
-
-   <!-- All in one -->
-   <script src="<?php echo e(asset('custom')); ?>/js/js.js?id=<?php echo e(config('config.version')); ?>s"></script>
-
-    <!-- Custom JS defined by admin -->
-    <?php echo file_get_contents(base_path('public/byadmin/front.js')) ?>
-
-  <!-- Notify JS -->
-  <script src="<?php echo e(asset('custom')); ?>/js/notify.min.js"></script>
-
-  <!-- CKEditor -->
-  <script src="<?php echo e(asset('ckeditor')); ?>/ckeditor.js"></script>
-  <script>
-      var USER_ID = '<?php echo e(auth()->user()&&auth()->user()?auth()->user()->id:""); ?>';
-  </script>
-
-  <script>
-    window.onload = function () {
-
-    $('#termsCheckBox').click(function () {
-        $('#submitRegister').prop("disabled", !$("#termsCheckBox").prop("checked")); 
-    })
-    var ifUser = <?php echo json_encode( auth()->user() && auth()->user()->hasRole('admin') ? true : false); ?>;
-
-    $('<i class="fas fa-edit mr-2 text-primary ckedit_btn" type="button" style="display: none;"></i>').insertBefore(".ckedit");
-    if(ifUser){
-        initializeCKEditor();
-
-        changeContentEditable(true);
-
-        showEditBtns();
-        //$(".ckedit_edit").show();
-
-    }else{
-        changeContentEditable(false);
-
-        //$(".ckedit_edit").hide();
-    }
-
-    CKEDITOR.on('instanceReady', function(event) {
-        var editor = event.editor;
-
-        editor.on('blur', function(e) {
-            //console.log(editor.getSnapshot());
-            var html=editor.getSnapshot()
-            var dom=document.createElement("DIV");
-            dom.innerHTML=html;
-            var plain_text=(dom.textContent || dom.innerText);
-
-            var APP_URL = <?php echo json_encode(url('/')); ?>
-
-
-            var locale = <?php echo json_encode(Config::get('app.locale')); ?>
-
-
-            changeContent(APP_URL, locale, editor.name, plain_text)
-        });
-    });
-
-    function showEditBtns(){
-        $('.ckedit_btn').each(function(i, obj) {
-            $(this).show();
-        });
-    }
-
-    function initializeCKEditor(){
-        var elements = CKEDITOR.document.find('.ckedit'),
-        i = 0,
-        element;
-
-        while ( ( element = elements.getItem( i++ ) ) ) {
-            //CKEDITOR.inline(element);
-            CKEDITOR.inline(element, {
-                removePlugins: 'link, image',
-                removeButtons: 'Bold,Italic,Underline,Strike,Subscript,Superscript,RemoveFormat,Scayt,SpecialChar,About,Styles,Cut,Copy,Undo,Redo,Outdent,Indent,Table,HorizontalRule,NumberedList,BulletedList,Blockquote,Format'
-            } );
-        }
-    }
-
-    $(".ckedit_btn").click(function() {
-        var next = $(this).next().attr('key');
-
-        var editor = CKEDITOR.instances[next];
-        editor.focus();
-    });
-
-    function changeContentEditable(bool){
-        $('.ckedit').each(function(i, obj) {
-            $(this).attr("contenteditable",bool);
-        });
-    }
-
-    function notify(text, type){
-        $.notify.addStyle('custom', {
-            html: "<div><strong><span data-notify-text /></strong></div>",
-            classes: {
-                base: {
-                    "pos ition": "relative",
-                    "margin-bottom": "1rem",
-                    "padding": "1rem 1.5rem",
-                    "border": "1px solid transparent",
-                    "border-radius": ".375rem",
-
-                    "color": "#fff",
-                    "border-color": type == "success" ? "#4fd69c" : "#fc7c5f",
-                    "background-color": type == "success" ? "#4fd69c" : "#fc7c5f",
-                },
-                success: {
-                    "color": "#fff",
-                    "border-color": type == "success" ? "#4fd69c" : "#fc7c5f",
-                    "background-color": type == "success" ? "#4fd69c" : "#fc7c5f",
-                }
-            }
-            });
-
-            $.notify(text,{
-                position: "bottom right",
-                style: 'custom',
-                className: 'success',
-                autoHideDelay: 5000,
-            }
-        );
-    }
-
-    function changeContent(APP_URL, locale, key, value){
-        var isDemo=<?php echo env('is_demo',false)|env('IS_DEMO',false); ?>;
-        if(!isDemo){
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                type:'POST',
-                url: APP_URL+'/admin/languages/'+locale,
-                dataType: 'json',
-                data: {
-                    group: "whatsapp",
-                    key: key,
-                    language: locale,
-                    value: value
-                },
-                success:function(response){
-                    if(response){
-                        var msg = <?php echo json_encode(__('whatsapp.success')); ?>
-
-
-                        notify(msg, "success");
-                    }
-                }, error: function (response) {
-                //alert(response.responseJSON.errMsg);
-            }
-        })
-
-        }else{
-          //ok
-          notify("Changing strings not allowed in demo mode.", "warning");
-        }
-    }
-    }
-  </script>
-
-  <?php if(strlen(config('settings.futy_key'))>2): ?>
-  <script>
-    var key='<?php echo e(config('settings.futy_key')); ?>';
-    window.Futy = { key: key };
-    (function (e, t) {
-        var n = e.createElement(t);
-        n.async = true;
-        n.src = 'https://v1.widget.futy.io/js/futy-widget.js';
-        var r = e.getElementsByTagName(t)[0];
-        r.parentNode.insertBefore(n, r);
-    })(document, 'script');
-    </script>
-  <?php endif; ?>
-
+    <iframe 
+         scrolling="no"
+       src="//4sconnect-ag005br-restaurante-newfn-copy-copy.cheetah.builderall.com"
+            ></iframe>
+    .
 
   
 </body>
-
-</html><?php /**PATH /home/borapedi/public_html/resources/views/social/home.blade.php ENDPATH**/ ?>
+   <script>
+    // Selecting the iframe element
+    var iframe = document.getElementById("myIframe");
+    
+    // Adjusting the iframe height onload event
+    iframe.onload = function(){
+        iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+    }
+    </script>
+</html>
+<?php /**PATH /home/borapedi/public_html/resources/views/social/home.blade.php ENDPATH**/ ?>
