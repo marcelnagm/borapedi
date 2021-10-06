@@ -20,6 +20,8 @@ Coded by www.creative-tim.com
     <link rel="apple-touch-icon" sizes="76x76" href="<?php echo e(asset('argonfront')); ?>/img/apple-icon.png">
     <link rel="icon" type="image/png" href="<?php echo e(asset('argonfront')); ?>/img/favicon.png">
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    
+    <?php echo $__env->yieldContent('extrameta'); ?>
     <meta property="og:image" content="<?php echo e(config('global.site_logo')); ?>">
     <title><?php echo e(config('global.site_name','FoodTiger')); ?></title>
 
@@ -30,6 +32,7 @@ Coded by www.creative-tim.com
 
     <!-- Font Awesome Icons -->
     <link href="<?php echo e(asset('argonfront')); ?>/css/font-awesome.css" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link href="<?php echo e(asset('argonfront')); ?>/css/nucleo-svg.css" rel="stylesheet" />
     <link href="<?php echo e(asset('argonfront')); ?>/css/nucleo-icons.css" rel="stylesheet">
 
@@ -164,7 +167,19 @@ Coded by www.creative-tim.com
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function(){
+    $(function () {
+      $('[data-toggle="popover"]').popover();
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  });
+</script>
     <?php echo $__env->yieldContent('js'); ?>
+    
 
     <?php echo notifyJs(); ?>
 

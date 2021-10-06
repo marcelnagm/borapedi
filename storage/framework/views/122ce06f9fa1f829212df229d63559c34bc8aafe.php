@@ -2,16 +2,24 @@
 
 
     <div class="container-fluid">
-        <?php if(!config('settings.hide_project_branding')): ?>
+        <?php if(!config('settings.hide_project_branding')||(!isset($restorant))): ?>
         <a class="navbar-brand mr-lg-5" href="/">
             <img src="<?php echo e(config('global.site_logo')); ?>">
         </a>
         <?php else: ?>
         <a class="navbar-brand mr-lg-5" href="/">
-
+            <img src="<?php echo e($restorant->logowide); ?>">
         </a>
         <?php endif; ?>
-
+      <?php if(auth()->guard()->check()): ?>  
+<?php if(auth()->user()->hasRole('client')): ?>
+        <div class="only_mobile ">
+            <a href="<?php echo e(route("orders.active")); ?>" class="btn btn-neutral " >
+            Acompanhar Pedido
+        </a>
+            </div>
+<?php endif; ?>
+<?php endif; ?>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -20,16 +28,16 @@
         <div class="navbar-collapse collapse" id="navbar_global">
             <div class="navbar-collapse-header">
                 <div class="row">
-                    <?php if(!config('settings.hide_project_branding')): ?>
+                    <?php if(!config('settings.hide_project_branding')||(!isset($restorant))): ?>
                     <div class="col-6 collapse-brand">
-                        <a href="#">
+                        <a href="/">
                             <img src="<?php echo e(config('global.site_logo')); ?>">
                         </a>
                     </div>
                     <?php else: ?>
                     <div class="col-6 collapse-brand">
                         <a href="#">
-
+                            <img src="<?php echo e($restorant->logowide); ?>">
                         </a>
                     </div>
                     <?php endif; ?>
@@ -44,13 +52,22 @@
 
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">
                 <?php if(isset($restorant)): ?>
+               <?php if(auth()->guard()->check()): ?>
+                <li class="nav-item">                    
+                    <a href="<?php echo e(route("orders.active")); ?>" class="btn btn-neutral">
+                        Acompanhar Pedido
+                    </a>
+                </li>
+                    <?php endif; ?>
+                
                 <?php echo $__env->yieldContent('addiitional_button_1'); ?>
-                <?php echo $__env->yieldContent('addiitional_button_2'); ?>
+                <?php echo $__env->yieldContent('addiitional_button_2'); ?>                                  
+
+
                 <li class="nav-item dropdown">
                     <?php if(auth()->guard()->check()): ?>
                     <?php echo $__env->make('layouts.menu.partials.auth', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                    <?php endif; ?>
-                    <?php if(auth()->guard()->guest()): ?>
+                    <?php else: ?>
                     <?php echo $__env->make('layouts.menu.partials.guest', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     <?php endif; ?>
                 </li>
@@ -64,6 +81,9 @@
                             <span class="nav-link-inner--text"><?php echo e(__('Call Waiter')); ?></span>
                         </button>
                     </li>
+                    <?php endif; ?>
+
+                    <?php if(config('settings.enable_guest_log')): ?>
                     <li class="web-menu mr-1">
                         <a  href="<?php echo e(route('register.visit',['restaurant_id'=>$restorant->id])); ?>" class="btn btn-neutral btn-icon btn-cart" style="cursor:pointer;">
                             <span class="btn-inner--icon">
@@ -91,7 +111,7 @@
                 <?php endif; ?>
 
 
-                <?php if(\Request::route()->getName() != "newrestaurant.register" && config('app.ordering')): ?>
+                <?php if(\Request::route()->getName() != "newrestaurant.register" && config('app.ordering')&&!config('settings.is_pos_cloud_mode')): ?>
                 <li class="web-menu">
 
                     <?php if(\Request::route()->getName() != "cart.checkout"): ?>
@@ -154,4 +174,15 @@
     </div>
 
 </nav>
-<?php /**PATH /home/borapedi/public_html/resources/views/layouts/menu/top_justlogo.blade.php ENDPATH**/ ?>
+<style>
+    
+  @media  only screen and (max-width:1023px) {                           
+    .only_mobile{
+        display: block !important;
+    }
+}
+
+.only_mobile{
+        display: none;
+    }
+</style><?php /**PATH /home/borapedi/public_html/resources/views/layouts/menu/top_justlogo.blade.php ENDPATH**/ ?>

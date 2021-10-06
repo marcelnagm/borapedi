@@ -7,9 +7,18 @@
 <?php endif; ?>
 
     <label class="form-control-label"><?php echo e(__($name)); ?></label><br />
-
+<?php if(isset($help)): ?>
+        <span type="button" class="" data-toggle="tooltip" data-html="true" title="<?php echo e($help); ?>">
+             &nbsp;
+            <i class="ni ni-chat-round"></i>
+        </span >
+        <?php endif; ?>
     <select class="form-control form-control-alternative   <?php if(isset($classselect)): ?> <?php echo e($classselect); ?> <?php endif; ?>"  name="<?php echo e($id); ?>" id="<?php echo e($id); ?>">
+        <?php if($edit ?? '' ==true): ?>
+        <option disabled value> <?php echo e(__('Select')." ".__($name)); ?> </option>
+         <?php else: ?>
         <option disabled selected value> <?php echo e(__('Select')." ".__($name)); ?> </option>
+        <?php endif; ?>
         <?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
             <?php if(is_array(__($item))): ?>
