@@ -1,1 +1,1 @@
-/home/marcel/borapedi/public/js
+public/js/
