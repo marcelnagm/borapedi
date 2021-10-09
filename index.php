@@ -17,8 +17,8 @@ setlocale( LC_ALL, 'pt_BR', 'pt_BR.iso-8859-1', 'pt_BR.utf-8', 'portuguese' );
 |
 */
 
-if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
-    require __DIR__.'/../storage/framework/maintenance.php';
+if (file_exists(__DIR__.'/storage/framework/maintenance.php')) {
+    require __DIR__.'/storage/framework/maintenance.php';
 }
 
 /*
@@ -32,7 +32,7 @@ if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
 |
 */
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +45,7 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__.'/bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
 
