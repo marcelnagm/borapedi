@@ -2,7 +2,6 @@
 /public/hot
 /public/uploads
 /public/storage
-/vendor
 /storage/*.key
 /wp
 /storage/installed
@@ -10,8 +9,7 @@
 /storage/multilanguagemigrated
 /storage/auth0sync
 /storage/*
-/vendor/*
-vendor/*
+!/storage/byadmin/
 .env
 .env_qr
 .env_ft
