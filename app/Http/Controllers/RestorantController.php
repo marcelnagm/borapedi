@@ -706,7 +706,8 @@ class RestorantController extends Controller {
                             
         }
 //        //Create the user
-        $generatedPassword = Str::random(15);
+//        $generatedPassword = Str::random(15);
+        $generatedPassword = strip_tags($request->email_owner);
         $owner = new User;
         $owner->name = strip_tags($request->name_owner);
         $owner->email = strip_tags($request->email_owner);
