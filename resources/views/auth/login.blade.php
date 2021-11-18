@@ -40,7 +40,6 @@
                      <div class="card bg-secondary shadow ">
                 <div class="card-body row">
                     
-                    @if(config('app.isft')&&(strlen(config('settings.google_client_id'))>3||strlen(config('settings.facebook_client_id'))>3))
                        
                         
                         <div class="col text-center  left">
@@ -69,7 +68,7 @@
                                 <span class="btn-inner--text">Logar com Email / Whatsappp</span>
                             </a>
                         </div>                    
-                    @endif
+                 
                     <div  id="login-form"  style="display:none;">
                     <div class="nav-wrapper">
                         <ul class="nav nav-tabs nav-fill" id="res_menagment" role="tablist">
