@@ -91,7 +91,7 @@
                 ['ftype'=>'bool','help'=>'Habilita o sistema de entrega em domicílio','name'=>"Delivery",'id'=>"can_deliver",'value'=>$restorant->can_deliver == 1 ? "true" : "false"],
                 ]])
                 
-                @if(auth()->user()->restorant()->first()->getPlanAttribute()!= null)
+                @if(auth()->user()->restorant()->first()!= null)
                 @if(auth()->user()->restorant()->first()->getPlanAttribute()['local_table'])
                 @include('partials.fields',['fields'=>[
                 ['ftype'=>'bool','help'=>'Habilita a opção de consumo no local por mesa e atendimento por garçom','name'=>"Self Delivery",'id'=>"self_deliver",'value'=>$restorant->self_deliver == 1 ? "true" : "false"],
