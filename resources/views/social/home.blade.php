@@ -70,7 +70,7 @@ Coded by www.creative-tim.com
   
     <iframe 
          scrolling="no"
-       src="//4sconnect-ag005br-restaurante-newfn-copy-copy.cheetah.builderall.com"
+       src="//parceiro.borapedi.com"
             ></iframe>
     .
 
