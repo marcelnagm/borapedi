@@ -706,16 +706,17 @@ class RestorantController extends Controller {
                             
         }
 //        //Create the user
-//        $generatedPassword = Str::random(15);
-        $generatedPassword = strip_tags($request->email_owner);
+        $generatedPassword = Str::random(15);
+//        $generatedPassword = strip_tags($request->email_owner);
         $owner = new User;
         $owner->name = strip_tags($request->name_owner);
         $owner->email = strip_tags($request->email_owner);
         $owner->phone = strip_tags($request->phone_owner) | '';
+        $owner->plan_id = 1;
         $owner->active = 0;
         $owner->api_token = Str::random(80);
 
-        $owner->password = $generatedPassword;
+        $owner->password = Hash::make($generatedPassword)
         $owner->save();
         //Assign role
         $owner->assignRole('owner');
@@ -743,6 +744,7 @@ class RestorantController extends Controller {
         $restaurant->phone = $owner->phone;
         //$restaurant->subdomain=strtolower(preg_replace('/[^A-Za-z0-9]/', '', strip_tags($request->name)));
         $restaurant->active = 0;
+        $restaurant->plan = 1;
         //$restaurant->logo = "";
         $restaurant->save();
 
