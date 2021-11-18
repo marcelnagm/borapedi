@@ -716,7 +716,7 @@ class RestorantController extends Controller {
         $owner->active = 0;
         $owner->api_token = Str::random(80);
 
-        $owner->password = Hash::make($generatedPassword)
+        $owner->password = Hash::make($generatedPassword);
         $owner->save();
         //Assign role
         $owner->assignRole('owner');
