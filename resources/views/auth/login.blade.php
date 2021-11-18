@@ -22,9 +22,9 @@
      }
 </style>
 
-<div class="container">        
+<div  class="row">        
             @if (session('status'))
-            <div class="card bg-secondary shadow border-0">
+            <div class="card bg-secondary shadow border-0 col-12">
                 <div class="card-body">
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('status') }}
@@ -37,19 +37,22 @@
             @endif
 
 
-                     <div class="card bg-secondary shadow ">
+                     <div class="card bg-secondary shadow col-12 ">
                 <div class="card-body row">
                     
-                    @if(config('app.isft')&&(strlen(config('settings.google_client_id'))>3||strlen(config('settings.facebook_client_id'))>3))
-                       
-                        
-                        <div class="col text-center  left">
-                            <img src="/social/img/wpordering.svg" class="cart_adapt rounded" style="    margin-left: 3em;" alt="Responsive image" width="80%">
+                    
+                         <div class="row">
+                        <div class="col-12 text-center  left ml-4">
+                            <img src="/social/img/wpordering.svg" class="cart_adapt rounded col-8" style="    margin-left: 3em;" alt="Responsive image" height="50%" width="50%">
                         </div>
-                        <div class="col text-center cart_adapt_left left">
+                        </div>
+                            <div class="row"> 
+                        <div class="col-12 text-center cart_adapt_left left">
                             <div class="text-muted text-center ">Como deseja entrar?</div>
-                        <div class="btn-wrapper ">
-                            </hr>    
+                            <div class="btn-wrapper " style="width: 120%">
+                            </hr>   
+                            @if(config('app.isft')&&(strlen(config('settings.google_client_id'))>3||strlen(config('settings.facebook_client_id'))>3))
+                       
                             @if (strlen(config('settings.google_client_id'))>3)
                             <a style="width:100%;margin-bottom:10px;" href="{{ route('google.login') }}" class="btn btn-neutral btn-icon">
                                 <span class="btn-inner--icon"><img class="fas" src="{{ asset('argonfront/img/google.svg') }}"></span>
@@ -63,13 +66,16 @@
                                 <span class="btn-inner--text">Logar com Facebook</span>
                             </a>                           
                             <br>
-                            @endif                          <br>
+                            @endif
+                            
+                            @endif
+                            <br>
                             <a style="width:100%" href="#" class="btn btn-neutral btn-icon" onclick="$('#login-form').show('1000')">
                                 <span  class="btn-inner--icon"><i styl="color:gold;"  class="fas fa-envelope"></i>></span>
                                 <span class="btn-inner--text">Logar com Email / Whatsappp</span>
                             </a>
                         </div>                    
-                    @endif
+                    
                     <div  id="login-form"  style="display:none;">
                     <div class="nav-wrapper">
                         <ul class="nav nav-tabs nav-fill" id="res_menagment" role="tablist">
@@ -167,6 +173,7 @@
                 </div>
                
             </div>
+            
         </div>
     </div>
 
