@@ -1036,7 +1036,9 @@ class OrderController extends Controller {
     public function success(Request $request) {
         $order = Order::findOrFail($request->order);
         WhastappService::sendMessage($order, 1);
+           if (session()->exists('coupon_applyed'){
         $order->coupom_id = session('coupon_applyed')->id;
+           }
         $order->save();
         session(['coupon_applyed' => null]);
         //If order is not paid - redirect to payment
