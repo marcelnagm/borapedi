@@ -844,9 +844,11 @@ class OrderController extends Controller {
         //decremet coupon id
         if ($status_id_to_attach . '' == '3') {
             $coupon =  $order->coupom()->first();
+            if($coupon != null){
               $coupon->decrement('limit_to_num_uses');
             $coupon->increment('used_count');
             $coupon->save();
+            }
 
         }
         //Picked up - start tracing
