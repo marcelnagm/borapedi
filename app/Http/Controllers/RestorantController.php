@@ -744,7 +744,7 @@ class RestorantController extends Controller {
         $restaurant->phone = $owner->phone;
         //$restaurant->subdomain=strtolower(preg_replace('/[^A-Za-z0-9]/', '', strip_tags($request->name)));
         $restaurant->active = 0;
-        $restaurant->plan = 1;
+        
         //$restaurant->logo = "";
         $restaurant->save();
 
