@@ -844,9 +844,11 @@ class OrderController extends Controller {
         //decremet coupon id
         if ($status_id_to_attach . '' == '3') {
             $coupon =  $order->coupom()->first();
+            if($coupon != null){
               $coupon->decrement('limit_to_num_uses');
             $coupon->increment('used_count');
             $coupon->save();
+            }
 
         }
         //Picked up - start tracing
@@ -1036,7 +1038,9 @@ class OrderController extends Controller {
     public function success(Request $request) {
         $order = Order::findOrFail($request->order);
         WhastappService::sendMessage($order, 1);
+           if (session()->exists('coupon_applyed')){
         $order->coupom_id = session('coupon_applyed')->id;
+           }
         $order->save();
         session(['coupon_applyed' => null]);
         //If order is not paid - redirect to payment
