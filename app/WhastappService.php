@@ -13,15 +13,22 @@ use App\Models\MyModel;
 
 class WhastappService {
 
+
+
+
     public static function getMobileInfo($name) {
+        $protocol = env("WHATSAPP_PROTOCOL", "somedefaultvalue");
+        $hostname = env("WHATSAPP_URL", "somedefaultvalue");
+        $port = env("WHATSAPP_PORT", "somedefaultvalue");
 
-//        https://api.borapedi.com:3333/getHostDevice
 
-        $ch = curl_init('https://api.borapedi.com:3333/getHostDevice');
+//        $protocol+'://'+$hostname+':'+$port+'/getHostDevice
+
+        $ch = curl_init($protocol.'://'.$hostname.':'.$port.'/getHostDevice');
 # Setup request to send json via POST.
         $payload = json_encode(array(
             "SessionName" => $name,
-//            "SessionName" => 'lalala',
+            "AuthorizationToken" => "podecolocarqualquercoisa"
                 )
         );
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
@@ -46,11 +53,16 @@ class WhastappService {
     }
 
     public static function isConnected($name, $status = false) {
-        $ch = curl_init('https://api.borapedi.com:3333/Start');
+        
+                $protocol = env("WHATSAPP_PROTOCOL", "somedefaultvalue");
+        $hostname = env("WHATSAPP_URL", "somedefaultvalue");
+        $port = env("WHATSAPP_PORT", "somedefaultvalue");
+
+        $ch = curl_init($protocol.'://'.$hostname.':'.$port.'/Start');
 # Setup request to send json via POST.
         $payload = json_encode(array(
             "SessionName" => $name,
-//            "SessionName" => 'lalala',
+            "AuthorizationToken" => "podecolocarqualquercoisa"
                 )
         );
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
@@ -63,11 +75,11 @@ class WhastappService {
         $result = json_decode($result, true);
         curl_close($ch);
 
-        $ch = curl_init('https://api.borapedi.com:3333/Status');
+        $ch = curl_init($protocol.'://'.$hostname.':'.$port.'/status');
 # Setup request to send json via POST.
         $payload = json_encode(array(
             "SessionName" => $name,
-//            "SessionName" => 'lalala',
+            "AuthorizationToken" => "podecolocarqualquercoisa"
                 )
         );
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
@@ -83,12 +95,13 @@ class WhastappService {
 //
 // Tratar erro quando node não estiver online
 //        dd($result);   
+//        dd($status);   
         if ($result == false) {
             return false;
         }
 
         if ($status == false) {
-            if ($result['result'] == 'success') {
+            if ($result['Status'] == 'success') {
                 return true;
             } else {
                 return false;
@@ -101,25 +114,26 @@ class WhastappService {
     public static function sendMessageReward($order, $cupom) {
         $name = $order->restorant->phone;
         $client_phone = User::find($order->client_id)->getFormmatedPhone();
-          $message .= "\n " . WhastappService::generateTextReward($cupom);
+        $message .= "\n " . WhastappService::generateTextReward($cupom);
         WhastappService::sender($name, $client_phone, $message);
     }
-    
+
     public static function sendMessage($order, $status) {
+        
         $name = $order->restorant->phone;
 
         if (WhastappService::isConnected($name)) {
 //          dd('enviada');
 
-                $message = WhatsappMessage::
-                        where('restorant_id', $order->restorant->id)->
-                        where('parameter', $status)->
-                        first();
-                
-            if (isset($message) || $status == 'fail' ||$status == 'paid' || $status ==14) {
+            $message = WhatsappMessage::
+                    where('restorant_id', $order->restorant->id)->
+                    where('parameter', $status)->
+                    first();
+
+            if (isset($message) || $status == 'fail' || $status == 'paid' || $status == 14) {
 //                dd('enviada');
                 $message = $message->message;
-                
+
                 if ($status == 1) {
 
 //                    $message = $message->message ;
@@ -137,7 +151,7 @@ class WhastappService {
                 }
 
                 $client_phone = User::find($order->client_id)->getFormmatedPhone();
-                
+
                 WhastappService::sender($name, $client_phone, $message);
             }
             return false;
@@ -146,51 +160,54 @@ class WhastappService {
         }
     }
 
-    
-    
-    public static function sender($name,$client_phone,$message) {
-          $ch = curl_init('https://api.borapedi.com:3333/send');
+    public static function sender($name, $client_phone, $message) {
+                $protocol = env("WHATSAPP_PROTOCOL", "somedefaultvalue");
+        $hostname = env("WHATSAPP_URL", "somedefaultvalue");
+        $port = env("WHATSAPP_PORT", "somedefaultvalue");
+
+        $ch = curl_init($protocol.'://'.$hostname.':'.$port.'/send');
 # Setup request to send json via POST.
 //                dd($client_phone);
 //                dd($result) ;
-                $payload = json_encode(array(
-                    'SessionName' => $name,
-                    'phone' => $client_phone, // NUMERO A SER ENVIADO EM FORMATO WHATSAPP
-                    'type' => 'text', // TIPO (TEXT, FILE, AUDIO, VIDEO, IMAGE)
-                    'message' => $message // MENSAGEM PARA SER ENVIADA   
-                        )
-                );
+        $payload = json_encode(array(
+            'SessionName' => $name,
+            "AuthorizationToken" => "podecolocarqualquercoisa",
+            'phone' => $client_phone, // NUMERO A SER ENVIADO EM FORMATO WHATSAPP
+            'type' => 'text', // TIPO (TEXT, FILE, AUDIO, VIDEO, IMAGE)
+            'message' => $message // MENSAGEM PARA SER ENVIADA   
+                )
+        );
 //dd($message);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_FAILONERROR, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    'Content-Type: application/json',
-                    'Content-Length: ' . strlen($payload))
-                );
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($payload))
+        );
 //# Return response instead of printing.
-                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
-                curl_setopt($ch, CURLOPT_TIMEOUT, 10); //timeout in seconds
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10); //timeout in seconds
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //# Send request.
 
-                $result = curl_exec($ch);
-                if (curl_errno($ch)) {
-                    $error_msg = curl_error($ch);
-                }
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            $error_msg = curl_error($ch);
+        }
 
-                curl_close($ch);
+        curl_close($ch);
 //# Print response.
-                return true;
+        return true;
     }
-    
+
     public static function generateTextReward($cupom) {
-        
-        $value = $cupom->type ==0 ? "R$".$cupom->price : $cupom->price."%";
-        $title = 'PARABÉNS '.$cupom->client()->name . "\n\n";
-        $price = 'Você acabou de ganhar um cupom de '.$value . "\n";
-        $price .= 'Ao completar o programa de fidelidade do restaurante '.$cupom->restorant()->name . "\n";
+
+        $value = $cupom->type == 0 ? "R$" . $cupom->price : $cupom->price . "%";
+        $title = 'PARABÉNS ' . $cupom->client()->name . "\n\n";
+        $price = 'Você acabou de ganhar um cupom de ' . $value . "\n";
+        $price .= 'Ao completar o programa de fidelidade do restaurante ' . $cupom->restorant()->name . "\n";
         $price .= 'Utilize o código - ' . $cupom->code . ' em qualquer compra no restaurante '
                 . 'para aproveitar o benefício' . "\n";
         $price .= 'Você tem 90 dias para aproveitar, depois desse periodo ele expira :(' . "\n";
@@ -198,6 +215,7 @@ class WhastappService {
 
         return $final;
     }
+
     public static function generateTextOrderFail($order) {
         $title = 'Pedido ' . $order->id . ' #' . "\n\n";
         $price = 'Desculpe, ocorreu algum erro no seu pagamento' . "\n";
@@ -210,12 +228,12 @@ class WhastappService {
 
     public static function generateTextOrder($order) {
         $title = '\nNovo Pedido' . $order->id . ' #' . "\n\n";
-        
+
 
         $price = '*Preço: R$' . $order->getOrderPrice() . "\n\n";
-        if ($order->coupom_id != null){
-        $price .= '*Cupom Aplicado:' . $order->coupom()->first()."\n\n";            
-        }        
+        if ($order->coupom_id != null) {
+            $price .= '*Cupom Aplicado:' . $order->coupom()->first() . "\n\n";
+        }
         $price .= '*Taxa de Entrega: R$' . $order->delivery_price . ' ' . config('settings.cashier_currency') . "\n\n";
 
         $items = '*Detalhes:' . "\n";

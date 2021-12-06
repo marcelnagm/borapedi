@@ -26,7 +26,11 @@
                     <p>Ao habilitar este recurso o sistema irá enviar notificações ao cliente
                         em relação ao pedido, mantenha este dispositivo ligado e conectado
                         para que este recurso funcione.</p>
-                    <img id="qr" src="">
+                    
+                    <div id="qr" >
+                        
+                    </div>
+                    
                 </div>
             </div>
 
@@ -37,16 +41,23 @@
     @endsection
 
     @section('js')
-
+    <?php 
+    
+    $protocol = env("WHATSAPP_PROTOCOL", "somedefaultvalue");
+    $hostname = env("WHATSAPP_URL", "somedefaultvalue");
+    $port = env("WHATSAPP_PORT", "somedefaultvalue");
+    
+    ?>
+    
     <script>
         $(document).ready(function ($) {
               $.ajax({
                         type: 'POST',
-                        url: 'https://api.borapedi.com:3333/Start',
+                        url: '{{$protocol}}://{{$hostname}}:{{$port}}/start',
 //                        dataType: 'json',
                         data: {
                             SessionName: session,
-//                        SessionName: "marcel",
+                            AuthorizationToken: 'podecolocarqualquercoisa'
                         },
                         success: function (response) {
                             console.log(response.result);
@@ -59,7 +70,7 @@
                     });
         });
 
-        var urlStatus = 'https://api.borapedi.com:3333/Status';
+        var urlStatus = '{{$protocol}}://{{$hostname}}:{{$port}}/status';
         var qrcod_lido = false;
         var session = "{{auth()->user()->restorant->phone}}";
 //        var session = "lelele";
@@ -67,7 +78,10 @@
         // Definindo intervalo que a função será chamada
 function atualizar_qrode() {
             if (!qrcod_lido) {
-                $.post(urlStatus, {SessionName: session}, function (data) {
+                $.post(urlStatus, {
+                    SessionName: session,
+                AuthorizationToken: 'podecolocarqualquercoisa'
+            }, function (data) {
                     if ('isLogged' == data.status) {
                         qrcod_lido = true
                         document.location.reload(true);
@@ -80,12 +94,20 @@ function atualizar_qrode() {
 
 
         function getQR() {
-            $("#qr").attr("src", '');
-            $.post('https://api.borapedi.com:3333/QRCode',
-                    {SessionName: session
-                        , View: false},
+//            $("#qr").attr("src", '');
+            $.post('{{$protocol}}://{{$hostname}}:{{$port}}/qrcode',
+                    {
+                        SessionName: session,
+                        AuthorizationToken: 'podecolocarqualquercoisa'
+                        , View: false
+                   
+        
+        },
                     function (data) {
-                        $("#qr").attr("src", data.qrcode);
+                        var image = new Image();
+                        console.log(data.qrcode);
+                        image.src = data.qrcode;
+                        $("#qr").html(image);
                     }, "json");
 
         }
