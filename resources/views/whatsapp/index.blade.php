@@ -18,7 +18,7 @@
             </div>
             <div class="card-body bg-white border-0 col-lg-12">
                  <table class="table align-items-center" >                           
-                        @include('whatsapp.list_session')                            
+                                                  
                     </table>
                 <br>
                 <div class="table-responsive">

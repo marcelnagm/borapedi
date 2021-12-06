@@ -82,7 +82,7 @@ function atualizar_qrode() {
                     SessionName: session,
                 AuthorizationToken: 'podecolocarqualquercoisa'
             }, function (data) {
-                    if ('isLogged' == data.status) {
+                    if ('isLogged' == data.Status.status) {
                         qrcod_lido = true
                         document.location.reload(true);
                     } else {

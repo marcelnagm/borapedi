@@ -55,7 +55,7 @@ class WhatsappController extends Controller {
                           
             return view('whatsapp.index', [
                 'items' => WhatsappMessage::where('restorant_id', auth()->user()->restorant->id)->orderBy('parameter', 'ASC')->get(),
-                'device' => WhatsappService::getMobileInfo(auth()->user()->restorant->phone)
+//                'device' => WhatsappService::getMobileInfo(auth()->user()->restorant->phone)
             ]);
             }else{
                 return view('whatsapp.index_no');

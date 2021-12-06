@@ -101,7 +101,7 @@ class WhastappService {
         }
 
         if ($status == false) {
-            if ($result['Status'] == 'success') {
+            if ($result['Status']['status'] == 'isLogged') {
                 return true;
             } else {
                 return false;
