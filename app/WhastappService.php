@@ -35,11 +35,16 @@ class WhastappService {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
 //# Return response instead of printing.
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0); 
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15); //timeout in seconds
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //# Send request.
         $result = curl_exec($ch);
+        dd($result);  
         $result = json_decode($result, true);
         curl_close($ch);
+        
+        
         $device = array(
             'session' => $result['wid']['user'],
             'hw' => $result['phone']['device_manufacturer'] . ' - ' . $result['platform'],
@@ -47,8 +52,7 @@ class WhastappService {
             'respond' => $result['isResponse'] ? 'Está Respondendo' : 'Não Responde',
         );
 
-//# Print response.
-//        dd($result);   
+//# Print response. 
         return $device;
     }
 
@@ -68,7 +72,10 @@ class WhastappService {
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-//# Return response instead of printing.
+//# Return response instead of printing
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0); 
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15); //timeout in seconds
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //# Send request.
         $result = curl_exec($ch);
@@ -84,7 +91,11 @@ class WhastappService {
         );
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0); 
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15); //timeout in seconds
+      
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        
 //# Return response instead of printing.
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //# Send request.
@@ -180,6 +191,9 @@ class WhastappService {
 //dd($message);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0); 
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15); //timeout in seconds
+      
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
