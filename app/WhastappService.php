@@ -123,7 +123,7 @@ class WhastappService {
     }
 
     public static function sendMessageReward($order, $cupom) {
-        $name = $order->restorant->phone;
+        $name = $order->restorant->getFormmatedWhatsapp();
         $client_phone = User::find($order->client_id)->getFormmatedPhone();
         $message .= "\n " . WhastappService::generateTextReward($cupom);
         WhastappService::sender($name, $client_phone, $message);
@@ -131,7 +131,7 @@ class WhastappService {
 
     public static function sendMessage($order, $status) {
         
-        $name = $order->restorant->phone;
+        $name = $order->restorant->getFormmatedWhatsapp();
 
         if (WhastappService::isConnected($name)) {
 //          dd('enviada');

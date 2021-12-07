@@ -72,7 +72,7 @@
 
         var urlStatus = '{{$protocol}}://{{$hostname}}:{{$port}}/status';
         var qrcod_lido = false;
-        var session = "{{auth()->user()->restorant->phone}}";
+        var session = "{{auth()->user()->restorant->getFormmatedWhatsapp()}}";
 //        var session = "lelele";
 
         // Definindo intervalo que a função será chamada
@@ -82,6 +82,7 @@ function atualizar_qrode() {
                     SessionName: session,
                 AuthorizationToken: 'podecolocarqualquercoisa'
             }, function (data) {
+                    console.log(data);
                     if ('isLogged' == data.Status.status) {
                         qrcod_lido = true
                         document.location.reload(true);

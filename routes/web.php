@@ -184,6 +184,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', 'WhatsappController@store')->name('store');
         Route::post('/update', 'WhatsappController@update')->name('update');
         Route::get('/{id}/edit', 'WhatsappController@edit')->name('edit');
+        Route::get('/{id}/send', 'WhatsappController@send')->name('send');
         Route::get('/{id}/delete', 'WhatsappController@delete')->name('delete');
     });
     Route::prefix('deliverytax')->name('deliverytax.')->group(function () {

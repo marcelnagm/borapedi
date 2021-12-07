@@ -51,7 +51,7 @@ class WhatsappController extends Controller {
         if (auth()->user()->hasRole('owner')) {
             
 //            dd($result);
-            if (WhatsappService::isConnected(auth()->user()->restorant->phone)) {
+            if (WhatsappService::isConnected(auth()->user()->restorant->getFormmatedWhatsapp())) {
                           
             return view('whatsapp.index', [
                 'items' => WhatsappMessage::where('restorant_id', auth()->user()->restorant->id)->orderBy('parameter', 'ASC')->get(),
@@ -140,5 +140,14 @@ class WhatsappController extends Controller {
             return redirect()->route('orders.index')->withStatus(__('No Access'));
         }
     }
+    
+    
+    public function send($id) {
+   if (WhatsappService::isConnected(auth()->user()->restorant->getFormmatedWhatsapp())) {
+       WhatsappService::sender(auth()->user()->restorant->getFormmatedWhatsapp(),$id,'Teste de ssitema');
+    }
+return redirect()->route('whatsapp.index')->withStatus(__('Mengem removida com sucesso'));
+    }
+    
+   }
 
-}

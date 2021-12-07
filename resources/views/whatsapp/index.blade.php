@@ -18,7 +18,7 @@
             </div>
             <div class="card-body bg-white border-0 col-lg-12">
                  <table class="table align-items-center" >                           
-                                                  
+                       @include('whatsapp.list_session')                                                  
                     </table>
                 <br>
                 <div class="table-responsive">
@@ -42,11 +42,18 @@
             //check if h
            
         });
-        var session = "{{auth()->user()->restorant->phone}}";
-        var urlRemove = "https://api.borapedi.com:3333/Close";
+        <?php 
+    
+    $protocol = env("WHATSAPP_PROTOCOL", "somedefaultvalue");
+    $hostname = env("WHATSAPP_URL", "somedefaultvalue");
+    $port = env("WHATSAPP_PORT", "somedefaultvalue");
+    
+    ?>
+        var session = "{{auth()->user()->restorant->getFormmatedWhatsapp()}}";
+        var urlRemove =  '{{$protocol}}://{{$hostname}}:{{$port}}/Close';;
         
         function remove_session(){
-            $.post(urlRemove, {SessionName: session}, function (data) {
+            $.post(urlRemove, {SessionName: session,  "AuthorizationToken" : "podecolocarqualquercoisa"}, function (data) {
                     
                         document.location.reload(true);
                 

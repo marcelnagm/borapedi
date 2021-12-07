@@ -11,16 +11,16 @@
 <tbody>    
     <tr>    
         <td class="" >
-            {{$device['session']}}
+            <!--{-{$device['session']}}-->
         </td>
         <td class="" >
-            {{$device['hw']}}
+            <!--{-{$device['hw']}}-->
         </td>
         <td class="" >
-            {{$device['batt']}}
+            <!--{-{$device['batt']}}-->
         </td>
         <td class="" >
-            {{$device['respond']}}
+            <!--{-{$device['respond']}}-->
         </td>
         <td class="table-web">
             <button type="button" class="btn btn-danger" value="x" onclick="remove_session()">X</button>            
